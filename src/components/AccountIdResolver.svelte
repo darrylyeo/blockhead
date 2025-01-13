@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Constants/types
-	import { type AccountId, AccountIdType, resolveAccountIdType } from '$/data/accountId'
+	import { type AccountId, AccountIdType } from '$/data/accountId'
 	import type { Ethereum } from '$/data/networks/types'
 	import type { ENS } from '$/api/ens'
 	import type { LensName } from '$/api/lens'
@@ -37,6 +37,10 @@
 		layout = 'default',
 		..._loaderViewOptions
 	} = loaderViewOptions ?? {})
+
+
+	// Functions
+	import { resolveAccountIdType } from '$/utils/accountId'
 
 
 	// Internal state
