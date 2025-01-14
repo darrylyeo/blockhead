@@ -1512,7 +1512,6 @@ export const networks = [
 			'https://rpc-mumbai.mainnet.eraswap.network',
 		],
 		infoURL: 'https://eraswap.info/',
-		icon: 'eraswap',
 	},
 	{
 		slug: 'etho',
@@ -1717,7 +1716,6 @@ export const networks = [
 		network: 'holesky',
 		networkId: 17000,
 		slip44: 1,
-		icon: 'ethereum',
 		nativeCurrency: {
 			name: 'Testnet ETH',
 			symbol: 'ETH',
@@ -1929,7 +1927,6 @@ export const networks = [
 			'https://etherlite.org/faucets',
 		],
 		infoURL: 'https://etherlite.org',
-		icon: 'etherlite',
 	},
 	// {
 	// 	slug: 'ethermint-testnet',
@@ -2159,7 +2156,6 @@ export const networks = [
 			},
 		],
 		infoURL: 'https://docs.fantom.foundation/quick-start/short-guide#fantom-testnet',
-		icon: 'fantom',
 	},
 	{
 		slug: 'filecoin',
@@ -2240,7 +2236,6 @@ export const networks = [
 		explorers: [
 			
 		],
-		icon: 'filecoin',
 	},
 	{
 		slug: 'filecoin-calibration',
@@ -2293,7 +2288,6 @@ export const networks = [
 				standard: 'none',
 			},
 		],
-		icon: 'filecoin',
 	},
 	{
 		slug: 'flare',
@@ -2391,7 +2385,6 @@ export const networks = [
 			'https://rpc.testnet.frax.com',
 		],
 		infoURL: 'https://testnet.frax.com',
-		icon: 'fraxtal',
 		explorers: [
 			{
 				name: 'fraxscan',
@@ -2663,7 +2656,6 @@ export const networks = [
 			},
 		],
 		infoURL: 'https://docs.gnosischain.com',
-		icon: 'gnosis',
 	},
 	{
 		slug: 'gochain',
@@ -3512,7 +3504,6 @@ export const networks = [
 			},
 		],
 		infoURL: 'https://pacific-info.manta.network',
-		icon: 'manta',
 	},
 	{
 		slug: 'mantle',
@@ -4079,7 +4070,6 @@ export const networks = [
 			'https://sepoliafaucet.com/',
 		],
 		infoURL: 'https://docs.mode.network/',
-		icon: 'modeTestnet',
 		explorers: [
 			{
 				name: 'modescout',
@@ -4347,7 +4337,6 @@ export const networks = [
 		shortName: 'neonevm-mainnet',
 		chain: 'Solana',
 		networkId: 245022934,
-		icon: 'neon',
 		nativeCurrency: {
 			name: 'Neon',
 			symbol: 'NEON',
@@ -4866,7 +4855,6 @@ export const networks = [
 			'https://faucet.polis.tech',
 		],
 		infoURL: 'https://polis.tech',
-		icon: 'polis',
 	},
 	{
 		slug: 'polis-sparta',
@@ -4888,7 +4876,6 @@ export const networks = [
 			'https://faucet.polis.tech',
 		],
 		infoURL: 'https://polis.tech',
-		icon: 'polis',
 	},
 	{
 		slug: 'polygon',
@@ -5090,7 +5077,6 @@ export const networks = [
 			'https://faucet.nervos.org/',
 		],
 		infoURL: 'https://github.com/nervosnetwork/godwoken',
-		icon: 'polyjuice',
 	},
 	{
 		slug: 'primuschain',
@@ -5812,7 +5798,6 @@ export const networks = [
 		slug: 'shardeum-liberty1',
 		name: 'Shardeum Liberty 1.X',
 		chain: 'Shardeum',
-		icon: 'shardeum',
 		rpc: [
 			'https://liberty10.shardeum.org',
 		],
@@ -5840,7 +5825,6 @@ export const networks = [
 		slug: 'shardeum-liberty2',
 		name: 'Shardeum Liberty 2.X',
 		chain: 'Shardeum',
-		icon: 'shardeum',
 		rpc: [
 			'https://liberty20.shardeum.org',
 		],
@@ -5868,7 +5852,6 @@ export const networks = [
 		slug: 'shardeum-sphinx',
 		name: 'Shardeum Sphinx 1.X',
 		chain: 'Shardeum',
-		icon: 'shardeum',
 		rpc: [
 			'https://sphinx.shardeum.org',
 		],
@@ -5925,7 +5908,6 @@ export const networks = [
 				standard: 'EIP3091',
 			},
 		],
-		icon: 'shiden',
 		infoURL: 'https://shiden.astar.network/',
 	},
 	{
@@ -5954,7 +5936,6 @@ export const networks = [
 				standard: 'EIP3091',
 			},
 		],
-		icon: 'shiden',
 		infoURL: 'https://shiden.astar.network/',
 	},
 	{
@@ -6739,7 +6720,6 @@ export const networks = [
 			'wss://zksync-sepolia.drpc.org',
 		],
 		infoURL: 'https://zksync.io',
-		icon: 'zksync-era',
 		explorers: [
 			{
 				name: 'zkSync Block Explorer',
@@ -6806,7 +6786,6 @@ export const networks = [
 			symbol: 'ETH',
 			decimals: 18,
 		},
-		icon: 'zora',
 		explorers: [
 			{
 				name: 'Zora Network Explorer',
