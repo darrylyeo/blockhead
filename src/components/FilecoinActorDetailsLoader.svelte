@@ -69,12 +69,18 @@
 				}],
 				queryFn: async ({
 					queryKey: [_, {
+						chainId,
 						address,
 					}],
 				}) => {
-					const { getAccountInfoByAddress } = await import('$/api/beryx/filecoin/index')
+					const { baseUrls, getAccountInfoByAddress } = await import('$/api/beryx/filecoin/index')
 
-					return await getAccountInfoByAddress(address)
+					return await getAccountInfoByAddress(
+						address,
+						{
+							baseUrl: baseUrls[chainId],
+						}
+					)
 				},
 				select: account => (
 					normalizeAccountBeryx(

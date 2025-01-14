@@ -70,12 +70,18 @@
 				}],
 				queryFn: async ({
 					queryKey: [_, {
+						chainId,
 						address,
 					}],
 				}) => {
-					const { getAccountBalanceByAddress } = await import('$/api/beryx/filecoin/index')
+					const { baseUrls, getAccountBalanceByAddress } = await import('$/api/beryx/filecoin/index')
 
-					return await getAccountBalanceByAddress(address)
+					return await getAccountBalanceByAddress(
+						address,
+						{
+							baseUrl: baseUrls[chainId],
+						}
+					)
 				},
 				select: result => (
 					result.balances

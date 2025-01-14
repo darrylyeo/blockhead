@@ -71,12 +71,18 @@
 				}],
 				queryFn: async ({
 					queryKey: [_, {
+						chainId,
 						blockCid,
 					}],
 				}) => {
-					const { getTipsetByBlockCid } = await import('$/api/beryx/filecoin/index')
+					const { baseUrls, getTipsetByBlockCid } = await import('$/api/beryx/filecoin/index')
 
-					return await getTipsetByBlockCid(blockCid)
+					return await getTipsetByBlockCid(
+						blockCid,
+						{
+							baseUrl: baseUrls[chainId],
+						}
+					)
 				},
 				select: tipset => (
 					normalizeBlockFromTipsetBeryx(

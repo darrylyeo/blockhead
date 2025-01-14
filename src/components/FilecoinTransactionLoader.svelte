@@ -74,15 +74,22 @@
 				},
 				queryFn: async ({
 					queryKey: [_, {
+						chainId,
 						transactionId,
 					}],
 					pageParam: {
 						cursor,
 					},
 				}) => {
-					const { getTransactionsByHash } = await import('$/api/beryx/filecoin/index')
+					const { baseUrls, getTransactionsByHash } = await import('$/api/beryx/filecoin/index')
 
-					return await getTransactionsByHash(transactionId, { cursor })
+					return await getTransactionsByHash(
+						transactionId,
+						{
+							baseUrl: baseUrls[chainId],
+							cursor
+						}
+					)
 				},
 				getNextPageParam: (lastPage, allPages) => ({
 					cursor: lastPage.next_cursor,

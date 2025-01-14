@@ -84,18 +84,25 @@
 						},
 						queryFn: async ({
 							queryKey: [_, {
+								chainId,
 								blockNumber: tipsetNumber,
 							}],
 							pageParam: {
 								cursor,
 							},
 						}) => {
-							const { getTransactionsByHeight } = await import('$/api/beryx/filecoin/index')
+							const { baseUrls, getTransactionsByHeight } = await import('$/api/beryx/filecoin/index')
 
-							return await getTransactionsByHeight(tipsetNumber, {
-								cursor,
-								limit: 100,
-							})
+							return await getTransactionsByHeight(
+								tipsetNumber,
+								{
+									cursor,
+									limit: 100,
+								},
+								{
+									baseUrl: baseUrls[chainId],
+								}
+							)
 						},
 						getNextPageParam: (lastPage, allPages) => ({
 							cursor: lastPage.next_cursor,
@@ -129,18 +136,25 @@
 						},
 						queryFn: async ({
 							queryKey: [_, {
+								chainId,
 								blockCid,
 							}],
 							pageParam: {
 								cursor,
 							},
 						}) => {
-							const { getTransactionsByBlock } = await import('$/api/beryx/filecoin/index')
+							const { baseUrls, getTransactionsByBlock } = await import('$/api/beryx/filecoin/index')
 
-							return await getTransactionsByBlock(blockCid, {
-								cursor,
-								limit: 100,
-							})
+							return await getTransactionsByBlock(
+								blockCid,
+								{
+									cursor,
+									limit: 100,
+								},
+								{
+									baseUrl: baseUrls[chainId],
+								}
+							)
 						},
 						getNextPageParam: (lastPage, allPages) => ({
 							cursor: lastPage.next_cursor,
@@ -174,18 +188,25 @@
 						},
 						queryFn: async ({
 							queryKey: [_, {
+								chainId,
 								transactionCid,
 							}],
 							pageParam: {
 								cursor,
 							},
 						}) => {
-							const { getTransactionsByHash } = await import('$/api/beryx/filecoin/index')
+							const { baseUrls, getTransactionsByHash } = await import('$/api/beryx/filecoin/index')
 
-							return await getTransactionsByHash(transactionCid, {
-								cursor,
-								limit: 100,
-							})
+							return await getTransactionsByHash(
+								transactionCid,
+								{
+									cursor,
+									limit: 100,
+								},
+								{
+									baseUrl: baseUrls[chainId],
+								}
+							)
 						},
 						getNextPageParam: (lastPage, allPages) => ({
 							cursor: lastPage.next_cursor,
@@ -220,6 +241,7 @@
 						},
 						queryFn: async ({
 							queryKey: [_, {
+								chainId,
 								address,
 								type,
 							}],
@@ -228,30 +250,48 @@
 							},
 						}) => {
 							if (type === 'receiver') {
-								const { getTransactionsByReceiverAddress } = await import('$/api/beryx/filecoin/index')
+								const { baseUrls, getTransactionsByReceiverAddress } = await import('$/api/beryx/filecoin/index')
 
-								return await getTransactionsByReceiverAddress(address, {
-									cursor,
-									limit: 100,
-								})
+								return await getTransactionsByReceiverAddress(
+									address,
+									{
+										cursor,
+										limit: 100,
+									},
+									{
+										baseUrl: baseUrls[chainId],
+									}
+								)
 							}
 							
 							else if (type === 'sender') {
-								const { getTransactionsBySenderAddress } = await import('$/api/beryx/filecoin/index')
+								const { baseUrls, getTransactionsBySenderAddress } = await import('$/api/beryx/filecoin/index')
 
-								return await getTransactionsBySenderAddress(address, {
-									cursor,
-									limit: 100,
-								})
+								return await getTransactionsBySenderAddress(
+									address,
+									{
+										cursor,
+										limit: 100,
+									},
+									{
+										baseUrl: baseUrls[chainId],
+									}
+								)
 							}
 
 							else {
-								const { getTransactionsAllAddress } = await import('$/api/beryx/filecoin/index')
+								const { baseUrls, getTransactionsAllAddress } = await import('$/api/beryx/filecoin/index')
 
-								return await getTransactionsAllAddress(address, {
-									cursor,
-									limit: 100,
-								})
+								return await getTransactionsAllAddress(
+									address,
+									{
+										cursor,
+										limit: 100,
+									},
+									{
+										baseUrl: baseUrls[chainId],
+									}
+								)
 							}
 						},
 						getNextPageParam: (lastPage, allPages) => ({
