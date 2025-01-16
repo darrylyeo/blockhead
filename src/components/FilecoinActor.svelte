@@ -45,10 +45,14 @@
 	>
 		<svelte:fragment slot="title">
 			<svelte:element this={`h${headingLevel}`}>
-				<Address
-					{network}
-					address={displayedAddress}
-				/>
+				<InlineTransition align="start"
+					key={displayedAddress}
+				>
+					<Address
+						{network}
+						address={displayedAddress}
+					/>
+				</InlineTransition>
 			</svelte:element>
 		</svelte:fragment>
 
