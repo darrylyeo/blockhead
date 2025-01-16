@@ -75,12 +75,19 @@
 				}) => {
 					const { baseUrls, getAccountInfoByAddress } = await import('$/api/beryx/filecoin/index')
 
-					return await getAccountInfoByAddress(
-						address,
-						{
-							baseUrl: baseUrls[chainId],
-						}
-					)
+					try {
+						return await getAccountInfoByAddress(
+							address,
+							{
+								baseUrl: baseUrls[chainId],
+							}
+						)
+					}catch(error){
+						if(error.status === 422)
+							throw `${error.data.status} ${error.data.error}`
+
+						throw error
+					}
 				},
 				select: account => (
 					normalizeAccountBeryx(
