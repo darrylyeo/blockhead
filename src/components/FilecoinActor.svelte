@@ -237,7 +237,7 @@
 					<header class="bar wrap">
 						<svelte:element this={`h${headingLevel + 1}`}>Balances</svelte:element>
 
-						<span class="card-annotation">{filecoinTokenBalancesProviders[tokenBalancesProvider].name}</span>
+						<span class="card-annotation">{filecoinTokenBalancesProviders[tokenBalancesProvider]?.name ?? tokenBalancesProvider}</span>
 					</header>
 				</svelte:fragment>
 
