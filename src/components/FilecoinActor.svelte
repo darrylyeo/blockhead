@@ -8,6 +8,7 @@
 
 	// Inputs
 	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
+	export let displayedAddress: Filecoin.Address
 	export let actor: Filecoin.Actor
 	// (View options)
 	export let headingLevel: 2 | 3 | 4 | 5 | 6 = 3
@@ -35,7 +36,7 @@
 			<svelte:element this={`h${headingLevel}`}>
 				<Address
 					{network}
-					address={actor.address}
+					address={displayedAddress}
 				/>
 			</svelte:element>
 		</svelte:fragment>
@@ -51,7 +52,7 @@
 		<section>
 			<FilecoinBalancesLoader
 				{network}
-				address={actor.address}
+				address={displayedAddress}
 				let:balances
 			>
 				<svelte:fragment slot="header"
@@ -77,7 +78,7 @@
 			<FilecoinTransactionsLoader
 				{network}
 				query={{
-					address: actor.address,
+					address: displayedAddress,
 					type: 'sender',
 				}}
 				let:transactions

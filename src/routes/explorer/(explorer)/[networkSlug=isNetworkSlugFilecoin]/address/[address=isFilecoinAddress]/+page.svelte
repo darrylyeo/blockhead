@@ -23,6 +23,7 @@
 	{#if actor}
 		<FilecoinActor
 			network={$explorerNetwork}
+			displayedAddress={$explorerParams.address}
 			{actor}
 			headingLevel={2}
 		/>
