@@ -35,7 +35,35 @@ export namespace Filecoin {
 		tipsetTimestamp: number,
 	}
 
-	export type Address = `${`f` | `t`}${`0${number}` | `1${string}` | `2${string}` | `3${string}` | `4${number}f${string}`}`
+	export enum AddressType {
+		ID = 0,
+		Secp256k1 = 1,
+		Actor = 2,
+		BLS = 3,
+		Extensible = 4,
+	}
+
+	export type Address<
+		T extends AddressType = AddressType
+	> = (
+		T extends AddressType.ID ?
+			`${`f` | `t`}0${number}`
+
+		: T extends AddressType.Secp256k1 ?
+			`${`f` | `t`}1${string}`
+
+		: T extends AddressType.Actor ?
+			`${`f` | `t`}2${string}`
+
+		: T extends AddressType.BLS ?
+			`${`f` | `t`}3${string}`
+
+		: T extends AddressType.Extensible ?
+			`${`f` | `t`}4${number}f${string}`
+
+		:
+			never
+	)
 
 	/** FIL */
 	export type NativeCurrencyAmount = bigint
