@@ -866,6 +866,12 @@ address {
 			translate: 0 calc((1lh - 100%) / 2);
 		}
 	}
+
+	&.flex-fill {
+		> * {
+			flex: 1 1 auto;
+		}
+	}
 }
 
 .bar {
