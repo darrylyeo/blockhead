@@ -43,6 +43,38 @@ export namespace Filecoin {
 		Extensible = 4,
 	}
 
+	export const addressTypes = {
+		[AddressType.ID]: {
+			name: 'ID Address',
+			link: 'https://docs.filecoin.io/basics/the-blockchain/addresses#actor-ids',
+			description: 'An ID address assigned by InitActor. Similar to auto-incrementing IDs in a database; can temporarily change during chain reorganization until finality.',
+		},
+		[AddressType.Secp256k1]: {
+			name: 'Public Key (secp256k1)',
+			link: 'https://docs.filecoin.io/basics/the-blockchain/addresses#public-keys',
+			description: 'A robust public key address derived from secp256k1. Independent of chain state, allowing offline address generation.',
+		},
+		[AddressType.Actor]: {
+			name: 'Actor Address',
+			link: 'https://docs.filecoin.io/basics/the-blockchain/addresses#actors',
+			description: 'A robust address for non-public-key actors, derived from sha256 hash of account creation. Independent of chain state.',
+		},
+		[AddressType.BLS]: {
+			name: 'Public Key (BLS)',
+			link: 'https://docs.filecoin.io/basics/the-blockchain/addresses#public-keys',
+			description: 'A robust public key address using BLS curve bls12-381. Independent of chain state, uses G1 for public keys and G2 for signatures.',
+		},
+		[AddressType.Extensible]: {
+			name: 'Extensible Address',
+			link: 'https://docs.filecoin.io/basics/the-blockchain/addresses#extensible-user-defined-actors',
+			description: 'Extensible addresses managed by address manager actors. Format: f4<manager-id>f<new-id>. Enables predictable addressing and custom address systems.',
+		},
+	} as const satisfies Record<AddressType, {
+		name: string,
+		link: string,
+		description: string,
+	}>
+
 	export type Address<
 		T extends AddressType = AddressType
 	> = (

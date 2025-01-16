@@ -27,6 +27,7 @@
 	import Collapsible from './Collapsible.svelte'
 	import DateComponent from './Date.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
+	import FilecoinAddressDetails from './FilecoinAddressDetails.svelte'
 	import FilecoinBalancesLoader from './FilecoinBalancesLoader.svelte'
 	import FilecoinTransactionsLoader from './FilecoinTransactionsLoader.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
@@ -214,6 +215,12 @@
 					{/if}
 				</dl>
 			</section>
+
+			<FilecoinAddressDetails
+				{network}
+				address={displayedAddress}
+				headingLevel={headingLevel + 2}
+			/>
 		</div>
 
 		<hr>
