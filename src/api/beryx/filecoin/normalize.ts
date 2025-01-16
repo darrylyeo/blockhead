@@ -1,8 +1,9 @@
 // Types
-import type { Filecoin } from '$/data/filecoin'
+import { Filecoin } from '$/data/filecoin'
 import type { Ethereum } from '$/data/networks/types'
 import type { TokenWithBalance } from '$/data/tokens'
-import type { TipsetInfo, BlockInfo, Transaction, AccountInfo, AccountBalance } from './api'
+import type { TipsetInfo, BlockInfo, Transaction, AccountBalance } from './api'
+import type { BeryxAccountInfo } from '.'
 
 type TransactionWithInternalTransactions = Transaction & { internalTransactions?: Transaction[] }
 
@@ -97,16 +98,48 @@ export const normalizeTransaction = (
 	tipsetTimestamp: transaction.tx_timestamp !== undefined ? new Date(transaction.tx_timestamp).valueOf() : undefined,
 })
 
-export const normalizeAccount = (
-	account: AccountInfo,
-	address: Filecoin.Address,
-): Filecoin.Actor => ({
-	address,
-	robustAddress: account.robust,
-	shortAddress: account.short,
+export const normalizeAccount = <
+	T extends Filecoin.ActorType = Filecoin.ActorType
+>(
+	account: BeryxAccountInfo<T>,
+): Filecoin.Actor<T> => ({
+	type: account.actor_type,
 
-	actorType: account.actor_type,
-	actorCid: account.actor_cid,
+	cid: account.actor_cid as Filecoin.ActorCid,
+	shortAddress: account.short! as Filecoin.Address,
+	robustAddress: account.robust as Filecoin.Address | undefined,
+	...'eth_address' in account && account.eth_address && {
+		evmAddress: account.eth_address as Ethereum.Address,
+	},
+
+	...'creator_address' in account && account.creator_address && {
+		creatorAddress: account.creator_address as Filecoin.Address,
+	},
+
+	...(
+		account.actor_type === Filecoin.ActorType.EvmContract && 'state' in account && account.state && 'contract_address' in account.state ?
+			{
+				erc20Token: {
+					address: account.state.contract_address,
+					symbol: account.state.ticker,
+					decimals: account.state.decimals,
+					name: account.state.description,
+
+					totalSupply: account.state.total_supply,
+					holdersCount: account.state.holders_count,
+
+					created: new Date(account.state.creation_date).valueOf(),
+				},
+			}
+
+		: account.actor_type === Filecoin.ActorType.Multisig && 'state' in account && account.state && 'last_tipset_processed' in account.state ?
+			{
+				lastProcessedTipsetNumber: BigInt(account.state.last_tipset_processed),
+			}
+
+		:
+			undefined
+	),
 
 	...(
 		('creation_tx_hash' in account && account.creation_tx_hash)

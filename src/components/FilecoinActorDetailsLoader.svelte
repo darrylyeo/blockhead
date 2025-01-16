@@ -92,7 +92,6 @@
 				select: account => (
 					normalizeAccountBeryx(
 						account,
-						address
 					)
 				),
 			}),
