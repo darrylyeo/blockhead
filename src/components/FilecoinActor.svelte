@@ -14,6 +14,13 @@
 	export let headingLevel: 2 | 3 | 4 | 5 | 6 = 3
 
 
+	// Internal state
+	$: actorType = Filecoin.actorTypes[actor.type]
+
+
+	// Functions
+	import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
+
 
 	// Components'
 	import Address from './Address.svelte'
@@ -43,7 +50,8 @@
 
 		<svelte:fragment slot="header-right">
 			<span class="card-annotation">
-				Filecoin {actor.actorType === Filecoin.ActorType.Unknown ? 'Unknown Account' : actor.actorType}
+				Filecoin Actor
+				({#if actorType?.links}<a href={actorType.links[0]} target="_blank">{actorType.name}</a>{:else}{actorType?.name ?? formatIdentifierToWords(actor.type, true)}{/if})
 			</span>
 		</svelte:fragment>
 
