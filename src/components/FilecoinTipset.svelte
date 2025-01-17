@@ -15,7 +15,7 @@
 
 	// Components'
 	import Collapsible from './Collapsible.svelte'
-	import Date from './Date.svelte'
+	import DateTime from './DateTime.svelte'
 	import BlockNumber from './BlockNumber.svelte'
 	import FilecoinBlocks from './FilecoinBlocks.svelte'
 	import FilecoinTransactionsLoader from './FilecoinTransactionsLoader.svelte'
@@ -154,7 +154,7 @@
 				<span />
 			{/if}
 
-			<Date date={tipset.timestamp} />
+			<DateTime date={tipset.timestamp} />
 		</footer>
 	</Collapsible>
 </article>

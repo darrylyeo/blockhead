@@ -362,7 +362,7 @@
 
 	// Components
 	import Collapsible from './Collapsible.svelte'
-	import Date from './Date.svelte'
+	import DateTime from './DateTime.svelte'
 	import Loading from './Loading.svelte'
 	import SizeContainer from './SizeContainer.svelte'
 
@@ -601,7 +601,7 @@
 					{#if $fromQuery.dataUpdatedAt}
 						<span>
 							Last updated
-							<Date
+							<DateTime
 								date={$fromQuery.dataUpdatedAt || $fromQuery.errorUpdatedAt}
 								format="relative"
 							/>
@@ -620,7 +620,7 @@
 					{#if $fromInfiniteQuery.dataUpdatedAt}
 						<span>
 							Last updated
-							<Date
+							<DateTime
 								date={$fromInfiniteQuery.dataUpdatedAt || $fromInfiniteQuery.errorUpdatedAt}
 								format="relative"
 							/>

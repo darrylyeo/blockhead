@@ -39,7 +39,7 @@
 	// Components
 	import Address from '$/components/Address.svelte'
 	import Collapsible from '$/components/Collapsible.svelte'
-	import DateComponent from '$/components/Date.svelte'
+	import DateTime from '$/components/DateTime.svelte'
 	import EthereumTransaction from '$/components/EthereumTransaction.svelte'
 	import EthereumTransactionLoader from '$/components/EthereumTransactionLoader.svelte'
 	import TokenBalance from '$/components/TokenBalance.svelte'
@@ -286,7 +286,7 @@
 
 					<svelte:fragment slot="header-right">
 						<span class="date">
-							<DateComponent
+							<DateTime
 								date={order.timestamp}
 								layout="horizontal"
 							/>
@@ -330,7 +330,7 @@
 
 						<!-- <svelte:fragment slot="header-right">
 							<span class="date">
-								<DateComponent
+								<DateTime
 									date={order.timestamp}
 									layout="horizontal"
 								/>
@@ -398,7 +398,7 @@
 
 	<footer>
 		<span class="date">
-			<DateComponent
+			<DateTime
 				date={order.timestamp}
 				layout="horizontal"
 			/>

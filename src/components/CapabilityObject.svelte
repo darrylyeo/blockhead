@@ -10,7 +10,7 @@
 	// Components 
 	import Address from './Address.svelte'
 	import Collapsible from './Collapsible.svelte'
-	import DateComponent from './Date.svelte'
+	import DateTime from './DateTime.svelte'
 </script>
 
 
@@ -93,20 +93,20 @@
 				
 				<div>
 					<dt>Issued</dt>
-					<dd><DateComponent date={cacao.p.iat} /></dd>
+					<dd><DateTime date={cacao.p.iat} /></dd>
 				</div>
 
 				{#if cacao.p.nbf}
 					<div>
 						<dt>Not Before</dt>
-						<dd><DateComponent date={cacao.p.nbf} /></dd>
+						<dd><DateTime date={cacao.p.nbf} /></dd>
 					</div>
 				{/if}
 
 				{#if cacao.p.exp}
 					<div>
 						<dt>Expiration</dt>
-						<dd><DateComponent date={cacao.p.exp} /></dd>
+						<dd><DateTime date={cacao.p.exp} /></dd>
 					</div>
 				{/if}
 

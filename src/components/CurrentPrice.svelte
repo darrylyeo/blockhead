@@ -33,7 +33,7 @@
 	// Components
 	import Address from './Address.svelte'
 	import CurrentPriceLoader from './CurrentPriceLoader.svelte'
-	import Date from './Date.svelte'
+	import DateTime from './DateTime.svelte'
 	import Loader from './Loader.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	// import TokenRate from './TokenRate.svelte'
@@ -180,7 +180,7 @@
 				{#if result.updatedAt}
 					<span class="card-annotation">
 						Updated
-						<Date
+						<DateTime
 							date={result.updatedAt}
 							format="relative"
 							layout="horizontal"

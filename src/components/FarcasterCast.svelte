@@ -32,7 +32,7 @@
 	// Components
 	import AnchorLink from './AnchorLink.svelte'
 	import Collapsible from './Collapsible.svelte'
-	import Date from './Date.svelte'
+	import DateTime from './DateTime.svelte'
 	import Dialog from './Dialog.svelte'
 	import EthereumAccountOrContract from './EthereumAccountOrContract.svelte'
 	import EthereumTransaction from './EthereumTransaction.svelte'
@@ -303,7 +303,7 @@
 							class="faded"
 							href={resolveRoute(`/apps/farcaster/cast/[farcasterCastId]`, { farcasterCastId: cast.id })}
 						>
-							<Date
+							<DateTime
 								date={cast.timestamp}
 								format="relative"
 							/>

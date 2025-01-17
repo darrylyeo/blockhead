@@ -35,7 +35,7 @@
 	// Components
 	import Address from '$/components/Address.svelte'
 	import Collapsible from '$/components/Collapsible.svelte'
-	import DateComponent from '$/components/Date.svelte'
+	import DateTime from '$/components/DateTime.svelte'
 	import EthereumTransaction from '$/components/EthereumTransaction.svelte'
 	import EthereumTransactionLoader from '$/components/EthereumTransactionLoader.svelte'
 	import FarcasterChannelComponent from '$/components/FarcasterChannel.svelte'
@@ -191,7 +191,7 @@
 					</span>
 					
 					<span>
-						<DateComponent
+						<DateTime
 							date={auction.auctionEndDate}
 							format="both"
 						/>
@@ -615,7 +615,7 @@
 
 					<svelte:fragment slot="header-right">
 						<span class="date">
-							<DateComponent
+							<DateTime
 								date={auction.startingTimeStamp}
 							/>
 						</span>
@@ -652,7 +652,7 @@
 
 					<svelte:fragment slot="header-right">
 						<span class="date">
-							<DateComponent
+							<DateTime
 								date={auction.auctionEndDate}
 							/>
 						</span>
@@ -675,7 +675,7 @@
 
 					<svelte:fragment slot="header-right">
 						<span class="date">
-							<DateComponent
+							<DateTime
 								date={auction.orderCancellationEndDate}
 							/>
 						</span>
@@ -690,12 +690,12 @@
 	<footer>
 		<span class="date">
 			from
-			<DateComponent
+			<DateTime
 				date={auction.startingTimeStamp}
 				format="absolute"
 			/>
 			to
-			<DateComponent
+			<DateTime
 				date={auction.auctionEndDate}
 				format="absolute"
 			/>

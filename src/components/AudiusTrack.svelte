@@ -11,7 +11,7 @@
 	import AudiusTrackLoader from './AudiusTrackLoader.svelte'
 	import AudiusTrackPlayer from './AudiusTrackPlayer.svelte'
 	import AudiusUserSummary from './AudiusUserSummary.svelte'
-	import Date from './Date.svelte'
+	import DateTime from './DateTime.svelte'
 	import HeightContainer from './HeightContainer.svelte'
 </script>
 
@@ -147,7 +147,7 @@
 							<span class="user row">by <AudiusUserSummary user={track.user} /></span>
 							{#if track.release_date}
 								<span class="released">
-									<Date
+									<DateTime
 										date={track.release_date}
 										showTime={false}
 									/>

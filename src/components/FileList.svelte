@@ -4,7 +4,7 @@
 
 
 	// Components
-	// import Date from './Date.svelte'
+	// import DateTime from './DateTime.svelte'
 	import FileDetails from './FileDetails.svelte'
 </script>
 
@@ -19,7 +19,7 @@
 				<span class="card-annotation">
 					{file.type || 'file'}
 					| {file.size} bytes
-					{#if file.lastModified}| last modified <Date date={file.lastModified} />{/if}
+					{#if file.lastModified}| last modified <DateTime date={file.lastModified} />{/if}
 				</span>
 			</header>
 		</article> -->

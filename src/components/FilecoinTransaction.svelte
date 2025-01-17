@@ -30,7 +30,7 @@
 	import Address from './Address.svelte'
 	import BlockNumber from './BlockNumber.svelte'
 	import Collapsible from './Collapsible.svelte'
-	import Date from './Date.svelte'
+	import DateTime from './DateTime.svelte'
 	import FilecoinBlockCid from './FilecoinBlockCid.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
@@ -157,7 +157,7 @@
 		{/if}
 
 		{#if isSummary && transaction.tipset?.timestamp}
-			<Date date={transaction.tipset.timestamp} />
+			<DateTime date={transaction.tipset.timestamp} />
 		{/if}
 	</div>
 
@@ -215,7 +215,7 @@
 			</span>
 
 			{#if transaction.tipset?.timestamp}
-				<Date date={transaction.tipset.timestamp} />
+				<DateTime date={transaction.tipset.timestamp} />
 			{/if}
 		</footer>
 	{/if}

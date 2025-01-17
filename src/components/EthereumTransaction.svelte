@@ -57,7 +57,7 @@
 	// Components
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import Collapsible from './Collapsible.svelte'
-	import Date from './Date.svelte'
+	import DateTime from './DateTime.svelte'
 	import EthereumErc20Transfer from './EthereumErc20Transfer.svelte'
 	import EthereumLogEvent from './EthereumLogEvent.svelte'
 	import EthereumParameters from './EthereumParameters.svelte'
@@ -343,7 +343,7 @@
 						{/if}
 
 						{#if isSummary && transaction.blockTimestamp}
-							<span class="date"><Date date={transaction.blockTimestamp} layout="vertical" format="relative" /></span>
+							<span class="date"><DateTime date={transaction.blockTimestamp} layout="vertical" format="relative" /></span>
 						{/if}
 					</div>
 				</Collapsible>
@@ -515,7 +515,7 @@
 				/>
 
 				{#if showDate && transaction.blockTimestamp}
-					<Date date={transaction.blockTimestamp} />
+					<DateTime date={transaction.blockTimestamp} />
 				{/if}
 			</div>
 		{/if}

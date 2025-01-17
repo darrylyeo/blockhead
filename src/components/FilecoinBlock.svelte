@@ -19,7 +19,7 @@
 	import Address from './Address.svelte'
 	import BlockNumber from './BlockNumber.svelte'
 	import Collapsible from './Collapsible.svelte'
-	import DateComponent from './Date.svelte'
+	import DateTime from './DateTime.svelte'
 	import FilecoinBlockCid from './FilecoinBlockCid.svelte'
 	import FilecoinTransactionsLoader from './FilecoinTransactionsLoader.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
@@ -167,7 +167,7 @@
 		</span>
 
 		{#if block.tipset?.timestamp}
-			<DateComponent
+			<DateTime
 				date={block.tipset.timestamp}
 				format="both"
 				layout="horizontal"

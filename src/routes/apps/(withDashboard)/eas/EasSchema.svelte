@@ -57,7 +57,7 @@
 	// Components
 	import Address from '$/components/Address.svelte'
 	import Collapsible from '$/components/Collapsible.svelte'
-	import DateComponent from '$/components/Date.svelte'
+	import DateTime from '$/components/DateTime.svelte'
 	import EthereumAccountOrContract from '$/components/EthereumAccountOrContract.svelte'
 	import EthereumTransactionLoader from '$/components/EthereumTransactionLoader.svelte'
 	import EthereumTransaction from '$/components/EthereumTransaction.svelte'
@@ -169,7 +169,7 @@
 				<dt>Created</dt>
 
 				<dd>
-					<DateComponent
+					<DateTime
 						date={schema.time * 1000}
 					/>
 				</dd>
@@ -304,7 +304,7 @@
 						</svelte:element>
 
 						<span class="date">
-							<DateComponent
+							<DateTime
 								date={schema.time * 1000}
 							/>
 						</span>
@@ -350,7 +350,7 @@
 
 							<svelte:fragment slot="header-right">
 								<span class="date">
-									<DateComponent
+									<DateTime
 										date={nameAttestation.time * 1000}
 									/>
 								</span>

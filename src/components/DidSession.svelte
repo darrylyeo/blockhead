@@ -23,7 +23,7 @@
 	import Address from './Address.svelte'
 	import CapabilityObject from './CapabilityObject.svelte'
 	import Collapsible from './Collapsible.svelte'
-	import DateComponent from './Date.svelte'
+	import DateTime from './DateTime.svelte'
 </script>
 
 
@@ -72,7 +72,7 @@
 
 			<div>
 				<dt>Expires</dt>
-				<dd><DateComponent date={Date.now() + 1000 * didSession.expireInSecs} /></dd>
+				<dd><DateTime date={Date.now() + 1000 * didSession.expireInSecs} /></dd>
 			</div>
 		</dl>
 	</section>

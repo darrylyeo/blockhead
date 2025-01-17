@@ -23,7 +23,7 @@
 
 	// Components 
 	import Collapsible from './Collapsible.svelte'
-	import DateComponent from './Date.svelte'
+	import DateTime from './DateTime.svelte'
 	import InlineTransition from './InlineTransition.svelte'
 	import JsonSchemaLoader from './JsonSchemaLoader.svelte'
 	import TweenedNumber from './TweenedNumber.svelte';
@@ -61,7 +61,7 @@
 
 			<div>
 				<dt>Issued</dt>
-				<dd><DateComponent date={credential.vc.issuanceDate} /></dd>
+				<dd><DateTime date={credential.vc.issuanceDate} /></dd>
 			</div>
 
 			{#if credential.vc.expirationDate}
@@ -71,7 +71,7 @@
 						{#if credential.vc.expirationDate === '9999-12-31T23:59:59.000Z'}
 							never
 						{:else}
-							<DateComponent date={credential.vc.expirationDate} />
+							<DateTime date={credential.vc.expirationDate} />
 						{/if}
 					</dd>
 				</div>
@@ -185,7 +185,7 @@
 
 							<div>
 								<dt>Created</dt>
-								<dd><DateComponent date={credential.vc.proof.created} /></dd>
+								<dd><DateTime date={credential.vc.proof.created} /></dd>
 							</div>
 						{/if}
 					{:else if 'jwt' in credential.vc.proof}
@@ -248,7 +248,7 @@
 							</dl>
 
 							<footer class="align-end">
-								<DateComponent date={parsedItem.updatedAt} />
+								<DateTime date={parsedItem.updatedAt} />
 							</footer>
 						</div>
 					{/each}

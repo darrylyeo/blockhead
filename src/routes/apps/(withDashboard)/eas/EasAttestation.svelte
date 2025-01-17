@@ -44,7 +44,7 @@
 	// Components
 	import Address from '$/components/Address.svelte'
 	import Collapsible from '$/components/Collapsible.svelte'
-	import DateComponent from '$/components/Date.svelte'
+	import DateTime from '$/components/DateTime.svelte'
 	import EthereumTransaction from '$/components/EthereumTransaction.svelte'
 	import EthereumTransactionLoader from '$/components/EthereumTransactionLoader.svelte'
 	import EasSchema from './EasSchema.svelte'
@@ -273,7 +273,7 @@
 
 				<dd>
 					{#if attestation.expirationTime}
-						<DateComponent
+						<DateTime
 							date={attestation.expirationTime * 1000}
 						/>
 					{:else}
@@ -483,7 +483,7 @@
 
 						<svelte:fragment slot="header-right">
 							<span class="date">
-								<DateComponent
+								<DateTime
 									date={attestation.timeCreated * 1000}
 								/>
 							</span>
@@ -537,7 +537,7 @@
 						</svelte:element>
 
 						<span class="date">
-							<DateComponent
+							<DateTime
 								date={attestation.revocationTime * 1000}
 							/>
 						</span>
@@ -552,7 +552,7 @@
 							{expirationTime < Date.now() ? 'Will expire' : 'Expired'}
 						</svelte:element>
 
-						<DateComponent
+						<DateTime
 							date={expirationTime}
 						/>
 					</section>
@@ -566,7 +566,7 @@
 	<footer class="row wrap">
 		<a href={link}>
 			<span class="date">
-				<DateComponent
+				<DateTime
 					date={attestation.timeCreated * 1000}
 					format="relative"
 				/>

@@ -39,7 +39,7 @@
 
 	// Components
 	import Collapsible from './Collapsible.svelte'
-	import Date from './Date.svelte'
+	import DateTime from './DateTime.svelte'
 	import NotificationsLoader from './NotificationsLoader.svelte'
 	import NetworkIcon from './NetworkIcon.svelte'
 	import SizeContainer from './SizeContainer.svelte'
@@ -167,7 +167,7 @@
 							</div>
 
 							{#if payload.data.epoch}
-								<Date date={Number(payload.data.epoch) * 1000} format="relative" />
+								<DateTime date={Number(payload.data.epoch) * 1000} format="relative" />
 							{/if}
 						</footer>
 					</article>
@@ -233,7 +233,7 @@
 					</div>
 
 					{#if payload.data.epoch}
-						<Date date={Number(payload.data.epoch) * 1000} format="relative" />
+						<DateTime date={Number(payload.data.epoch) * 1000} format="relative" />
 					{/if}
 				</footer>
 			</article>

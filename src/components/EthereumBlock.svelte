@@ -35,7 +35,7 @@
 	// Components
 	import Address from './Address.svelte'
 	import AnchorLink from './AnchorLink.svelte'
-	import Date from './Date.svelte'
+	import DateTime from './DateTime.svelte'
 	import BlockNumber from './BlockNumber.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import EthereumTransaction from './EthereumTransaction.svelte'
@@ -319,6 +319,6 @@
 	</span>
 
 	{#if block.timestamp}
-		<Date date={block.timestamp} />
+		<DateTime date={block.timestamp} />
 	{/if}
 </footer>

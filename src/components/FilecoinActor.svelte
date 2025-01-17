@@ -25,7 +25,7 @@
 	// Components
 	import Address from './Address.svelte'
 	import Collapsible from './Collapsible.svelte'
-	import DateComponent from './Date.svelte'
+	import DateTime from './DateTime.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import FilecoinAddressDetails from './FilecoinAddressDetails.svelte'
 	import FilecoinBalancesLoader from './FilecoinBalancesLoader.svelte'
@@ -126,7 +126,7 @@
 								<InlineTransition align="start"
 									key={actor.createdAt.tipset.timestamp}
 								>
-									<DateComponent
+									<DateTime
 										date={actor.createdAt.tipset.timestamp}
 									/>
 								</InlineTransition>
