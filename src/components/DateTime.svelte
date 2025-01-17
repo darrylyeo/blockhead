@@ -3,7 +3,7 @@
 	export let date: number | string | Date
 
 	// (View options)
-	export let format: 'absolute' | 'relative' | 'both' | 'absolute-relative' = 'both'
+	export let format: 'absolute' | 'relative' | 'relative-absolute' | 'absolute-relative' = 'relative-absolute'
 	export let layout: 'horizontal' | 'vertical' = 'horizontal'
 	export let showTime = true
 	export let updateInterval = 1000
@@ -25,7 +25,7 @@
 			{
 				'relative': ['relative'],
 				'absolute': ['absolute'],
-				'both': ['relative', 'absolute'],
+				'relative-absolute': ['relative', 'absolute'],
 				'absolute-relative': ['absolute', 'relative'],
 			} as const
 		)

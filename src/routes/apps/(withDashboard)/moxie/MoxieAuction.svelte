@@ -193,7 +193,6 @@
 					<span>
 						<DateTime
 							date={auction.auctionEndDate}
-							format="both"
 						/>
 					</span>
 				</p>

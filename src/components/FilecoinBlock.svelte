@@ -169,7 +169,6 @@
 		{#if block.tipset?.timestamp}
 			<DateTime
 				date={block.tipset.timestamp}
-				format="both"
 				layout="horizontal"
 			/>
 		{/if}
