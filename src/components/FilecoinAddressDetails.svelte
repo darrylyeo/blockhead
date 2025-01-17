@@ -62,14 +62,18 @@
 		</dt>
 		<dd>
 			{#if addressTypeConfig}
-				<a
-					href={addressTypeConfig.link}
-					title={addressTypeConfig.description}
-					target="_blank"
+				<InlineTransition align="start"
+					key={addressTypeConfig}
 				>
-					{addressTypeConfig.name}
-					{#if addressPrefix}<small>(<output>{addressPrefix}</output>)</small>{/if}
-				</a>
+					<a
+						href={addressTypeConfig.link}
+						title={addressTypeConfig.description}
+						target="_blank"
+					>
+						{addressTypeConfig.name}
+						{#if addressPrefix}<small>(<output>{addressPrefix}</output>)</small>{/if}
+					</a>
+				</InlineTransition>
 			{:else}
 				<output>{addressPrefix}</output>
 			{/if}
