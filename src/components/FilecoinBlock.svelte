@@ -70,6 +70,8 @@
 			query={{
 				blockCid: block.id,
 			}}
+			bind:transactions={block.transactions}
+			bind:transactionsCount={block.transactionsCount}
 			let:transactions
 			let:transactionsCount
 			let:pagination
