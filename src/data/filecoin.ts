@@ -128,13 +128,15 @@ export namespace Filecoin {
 
 		internalTransactions?: Transaction[],
 
-		// ---
+		block?: PartialExceptOneOf<Block,
+			'id'
+		>
 
-		blockId?: IpfsCid,
-
-		tipsetId?: TipsetCid,
-		tipsetNumber?: TipsetNumber,
-		tipsetTimestamp: number,
+		tipset?: PartialExceptOneOf<Tipset,
+			| 'id'
+			| 'number'
+			| 'timestamp'
+		>
 	}
 
 	export enum ActorType {

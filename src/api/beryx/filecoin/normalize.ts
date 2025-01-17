@@ -94,10 +94,23 @@ export const normalizeTransaction = (
 			undefined
 	),
 
-	blockId: transaction.block_cid,
-	tipsetId: transaction.tipset_cid,
-	tipsetNumber: transaction.height !== undefined ? BigInt(transaction.height) : undefined,
-	tipsetTimestamp: transaction.tx_timestamp !== undefined ? new Date(transaction.tx_timestamp).valueOf() : undefined,
+	...transaction.block_cid && {
+		block: {
+			id: transaction.block_cid,
+		},
+	},
+
+	...(
+		transaction.tipset_cid
+		|| transaction.height !== undefined
+		|| transaction.tx_timestamp !== undefined
+	) && {
+		tipset: {
+			id: transaction.tipset_cid,
+			number: transaction.height !== undefined ? BigInt(transaction.height) : undefined,
+			timestamp: transaction.tx_timestamp !== undefined ? new Date(transaction.tx_timestamp).valueOf() : undefined,
+		},
+	},
 })
 
 export const normalizeAccount = <

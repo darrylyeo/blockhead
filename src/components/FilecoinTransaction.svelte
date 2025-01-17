@@ -156,8 +156,8 @@
 			</span>
 		{/if}
 
-		{#if isSummary && transaction.tipsetTimestamp}
-			<Date date={transaction.tipsetTimestamp} />
+		{#if isSummary && transaction.tipset?.timestamp}
+			<Date date={transaction.tipset.timestamp} />
 		{/if}
 	</div>
 
@@ -192,30 +192,30 @@
 					</TransactionId>
 				</span>
 
-				{#if transaction.blockId !== undefined}
+				{#if transaction.block?.id !== undefined}
 					<span>
 						in block
 						<FilecoinBlockCid
 							{network}
-							blockCid={transaction.blockId}
+							blockCid={transaction.block.id}
 							format="middle-truncated"
 						/>
 					</span>
 				{/if}
 
-				{#if transaction.tipsetNumberd !== undefined}
+				{#if transaction.tipset?.number !== undefined}
 					<span>
 						in tipset
 						<BlockNumber
 							{network}
-							blockNumber={transaction.tipsetNumber}
+							blockNumber={transaction.tipset.number}
 						/>
 					</span>
 				{/if}
 			</span>
 
-			{#if transaction.tipsetTimestamp}
-				<Date date={transaction.tipsetTimestamp} />
+			{#if transaction.tipset?.timestamp}
+				<Date date={transaction.tipset.timestamp} />
 			{/if}
 		</footer>
 	{/if}
