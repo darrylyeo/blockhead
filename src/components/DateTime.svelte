@@ -67,6 +67,10 @@
 	<time
 		datetime={isoString}
 		title={isoString}
+		draggable={true}
+		on:dragstart={event => {
+			event.dataTransfer?.setData('text/plain', isoString)
+		}}
 		data-layout={layout}
 		class={layout === 'horizontal' ? 'row inline align-baseline' : 'column inline'}
 	>
