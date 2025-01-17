@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Inputs
-	export let date: number | string | Date
+	export let date: number | string | Date | undefined
 
 	// (View options)
 	export let format: 'absolute' | 'relative' | 'relative-absolute' | 'absolute-relative' = 'relative-absolute'
@@ -14,11 +14,14 @@
 
 
 	// Internal state
-	$: dateObject = date instanceof Date ? date : new Date(date)
-	$: isoString = dateObject.toISOString()
-	$: relativeTime = formatRelativeTime(dateObject.getTime())
-	$: absoluteDate = dateObject.toLocaleDateString(globalThis?.navigator.languages)
-	$: absoluteTime = dateObject.toLocaleTimeString(globalThis?.navigator.languages, { timeZoneName: 'short' })
+	$: dateObject = (
+		date instanceof Date ?
+			date
+		: date ?
+			new Date(date)
+		:
+			undefined
+	)
 
 	$: parts = (
 		(
@@ -55,7 +58,12 @@
 </script>
 
 
-{#if date}
+{#if dateObject}
+	{@const isoString = dateObject.toISOString()}
+	{@const relativeTime = formatRelativeTime(dateObject.getTime())}
+	{@const absoluteDate = dateObject.toLocaleDateString(globalThis?.navigator.languages)}
+	{@const absoluteTime = dateObject.toLocaleTimeString(globalThis?.navigator.languages, { timeZoneName: 'short' })}
+
 	<time
 		datetime={isoString}
 		title={isoString}
