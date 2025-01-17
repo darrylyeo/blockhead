@@ -101,13 +101,13 @@
 				tipset
 				<BlockNumber
 					{network}
-					blockNumber={block.tipsetNumber}
+					blockNumber={block.tipset.number}
 				/>
 			</span>
 		</span>
 
 		<DateComponent
-			date={block.tipsetTimestamp}
+			date={block.tipset.timestamp}
 			format="both"
 			layout="horizontal"
 		/>

@@ -24,16 +24,19 @@ export namespace Filecoin {
 	export type BlockCid = IpfsCid
 
 	export type Block = {
-		id: BlockCid,
-		minerAddress: Address,
+		id: BlockCid
 
-		// ---
+		miner: PartialExceptOneOf<Actor<ActorType.Miner>,
+			| 'shortAddress'
+		>
 
-		transactions?: Transaction[],
+		transactions?: Transaction[]
 
-		tipsetId?: TipsetCid,
-		tipsetNumber?: TipsetNumber,
-		tipsetTimestamp: number,
+		tipset: PartialExceptOneOf<Tipset,
+			| 'id'
+			| 'number'
+			| 'timestamp'
+		>
 	}
 
 	export enum AddressType {

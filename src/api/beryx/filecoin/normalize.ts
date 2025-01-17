@@ -41,12 +41,23 @@ export const normalizeBlock = (
 	block: BlockInfo,
 	tipset: TipsetInfo,
 ): Filecoin.Block => ({
-	id: block.BlockCid,
-	minerAddress: block.Miner,
+	id: block.BlockCid!,
 
-	tipsetId: tipset.tipset_cid,
-	tipsetNumber: tipset.height !== undefined ? BigInt(tipset.height) : undefined,
-	tipsetTimestamp: tipset.timestamp !== undefined ? new Date(tipset.timestamp).valueOf() : undefined
+	miner: {
+		shortAddress: block.Miner as Filecoin.Address<Filecoin.AddressType.ID>,
+	},
+
+	tipset: {
+		id: tipset.tipset_cid,
+
+		...tipset.height !== undefined && {
+			number: BigInt(tipset.height),
+		},
+
+		...tipset.timestamp !== undefined && {
+			timestamp: new Date(tipset.timestamp).valueOf(),
+		},
+	},
 })
 
 export const normalizeBlockFromTipset = (
