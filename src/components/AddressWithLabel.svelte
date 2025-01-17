@@ -9,57 +9,88 @@
 	export let address: NetworkAccountAddress | undefined
 	export let label: string | undefined
 
-	export let format: 'label' | 'address' | 'both' = 'label'
+	export let format: 'label' | 'address' | 'both' | 'address-label' = 'label'
 	export let addressFormat: 'full' | 'middle-truncated'
-	export let linked: boolean
+	export let linked = true
 
 
 	// Internal state
-	let computedFormat: 'label' | 'address' | 'both'
-	// (Computed)
-	$: computedFormat =
-		format === 'both' ?
-			(label && !address) ?
-				'label'
-			: (!label && address) ?
-				'address'
-			:
-				'both'
-		: format === 'label' ?
-			label ?
-				'label'
-			:
-				'address'
-		:
-			'address'
+	$: parts = (
+		(
+			{
+				'label': ['label'],
+				'address': ['address'], 
+				'both': ['label', 'address'],
+				'address-label': ['address', 'label']
+			} as const
+		)
+			[format]
+			.filter(part => (
+				part === 'label' ?
+					Boolean(label)
+				: part === 'address' ?
+					Boolean(address)
+				:
+					false
+			))
+	)
 
 
 	// Components
 	import Address from './Address.svelte'
-	import InlineContainer from './InlineContainer.svelte'
+
+
+	// Transitions/animations
+	import { flip } from 'svelte/animate'
+	import { expoOut } from 'svelte/easing'
 </script>
 
 
-<span class="address-with-label"
-	data-format={computedFormat}
+<span class="address-with-label row inline wrap"
+	data-format={format}
 >
-	<InlineContainer isOpen={computedFormat === 'label' || computedFormat === 'both'}>
-		<Address {network} {address} format={addressFormat} {linked}>
-			<span class="label">{label}</span>
-		</Address>
-	</InlineContainer>
-
-	<InlineContainer isOpen={computedFormat === 'address' || computedFormat === 'both'}>
-		<span class="address">
-			{#if label}({/if}<Address {network} {address} format={addressFormat} {linked} />{#if label}){/if}
+	{#each parts as part, i (part)}
+		<span
+			animate:flip={{ duration: 300, easing: expoOut }}
+		>
+			{#if i > 0}<span>(</span>{/if
+			}{#if part === 'label' && label
+				}<span class="label"><Address
+						{network}
+						{address}
+						format={addressFormat}
+						{linked}
+					>{label}</Address></span>{:else if address
+				}<span class="address"
+					><Address
+						{network}
+						{address}
+						format={addressFormat}
+						{linked}
+					/></span
+			>{/if
+			}{#if i > 0}<span>)</span>{/if}
 		</span>
-	</InlineContainer>
+	{/each}
 </span>
 
 
 <style>
-	.address-with-label[data-format=both] .address {
-		font-size: 0.75em;
-		font-weight: normal;
+	.address-with-label {
+		> span {
+			transition-property:
+				font-size,
+				font-weight
+			;
+
+			&:nth-of-type(2) {
+				font-size: 0.75em;
+				font-weight: normal;
+			}
+
+			> span {
+				display: inline-flex;
+			}
+		}
 	}
 </style>
