@@ -37,10 +37,27 @@
 
 
 	// Outputs
-	export let transactions: Filecoin.Transaction[]
+	export let transactions: Filecoin.Transaction[] | undefined
+	export let transactionsCount: number | undefined
+
+	let result: {
+		transactions?: Filecoin.Transaction[]
+		transactionsCount?: number
+	} | undefined = (
+			transactions !== undefined && transactionsCount !== undefined
+				? {
+					transactions,
+					transactionsCount,
+				}
+				: undefined
+	)
+
+	$: transactions = result?.transactions
+	$: transactionsCount = result?.transactionsCount
 
 	type SharedSlotProps = {
 		transactions: typeof transactions,
+		transactionsCount: typeof transactionsCount,
 		pagination: Loader['$$slot_def']['default']['pagination'],
 	}
 
@@ -107,8 +124,8 @@
 						getNextPageParam: (lastPage, allPages) => ({
 							cursor: lastPage.next_cursor,
 						}),
-						select: result => (
-							linkInternalTransactionsBeryx(
+						select: result => ({
+							transactions: linkInternalTransactionsBeryx(
 								result.pages
 									.flatMap(result => (
 										result.transactions
@@ -120,8 +137,9 @@
 										transaction,
 										network
 									)
-								))
-						),
+								)),
+							transactionsCount: result.pages[0]?.total_txs,
+						}),
 					})
 
 				: 'blockCid' in query ?
@@ -159,8 +177,8 @@
 						getNextPageParam: (lastPage, allPages) => ({
 							cursor: lastPage.next_cursor,
 						}),
-						select: result => (
-							linkInternalTransactionsBeryx(
+						select: result => ({
+							transactions: linkInternalTransactionsBeryx(
 								result.pages
 									.flatMap(result => (
 										result.transactions
@@ -172,8 +190,9 @@
 										transaction,
 										network
 									)
-								))
-						),
+								)),
+							transactionsCount: result.pages[0]?.total_txs,
+						}),
 					})
 
 				: 'hash' in query ?
@@ -211,8 +230,8 @@
 						getNextPageParam: (lastPage, allPages) => ({
 							cursor: lastPage.next_cursor,
 						}),
-						select: result => (
-							linkInternalTransactionsBeryx(
+						select: result => ({
+							transactions: linkInternalTransactionsBeryx(
 								result.pages
 									.flatMap(result => (
 										result.transactions
@@ -224,8 +243,9 @@
 										transaction,
 										network
 									)
-								))
-						),
+								)),
+							transactionsCount: result.pages[0]?.total_txs,
+						}),
 					})
 
 				: 'address' in query ?
@@ -297,8 +317,8 @@
 						getNextPageParam: (lastPage, allPages) => ({
 							cursor: lastPage.next_cursor,
 						}),
-						select: result => (
-							linkInternalTransactionsBeryx(
+						select: result => ({
+							transactions: linkInternalTransactionsBeryx(
 								result.pages
 									.flatMap(result => (
 										result.transactions
@@ -310,29 +330,32 @@
 										transaction,
 										network
 									)
-								))
-						),
+								)),
+							transactionsCount: result.pages[0]?.total_txs,
+						}),
 					})
 				:
 					undefined
 			),
 		}),
 	}[filecoinTransactionProvider]?.()}
-	bind:result={transactions}
-	let:result={transactions}
+	bind:result
+	let:result
 	let:pagination
 >
 	<svelte:fragment slot="header"
 		let:pagination
 	>
 		<slot name="header"
-			{transactions}
+			transactions={result?.transactions}
+			transactionsCount={result?.transactionsCount}
 			{pagination}
 		/>
 	</svelte:fragment>
 
 	<slot
-		{transactions}
+		transactions={result?.transactions}
+		transactionsCount={result?.transactionsCount}
 		{pagination}
 	/>
 </Loader>
