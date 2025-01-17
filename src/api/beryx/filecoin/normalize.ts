@@ -3,7 +3,7 @@ import { Filecoin } from '$/data/filecoin'
 import type { Ethereum } from '$/data/networks/types'
 import type { TokenWithBalance } from '$/data/tokens'
 import type { TipsetInfo, BlockInfo, Transaction, AccountBalance } from './api'
-import type { BeryxAccountInfo } from '.'
+import { type BeryxActorType, beryxActorTypes, type BeryxAccountInfo } from '.'
 
 type TransactionWithInternalTransactions = Transaction & { internalTransactions?: Transaction[] }
 
@@ -99,11 +99,11 @@ export const normalizeTransaction = (
 })
 
 export const normalizeAccount = <
-	T extends Filecoin.ActorType = Filecoin.ActorType
+	T extends BeryxActorType = BeryxActorType
 >(
 	account: BeryxAccountInfo<T>,
 ): Filecoin.Actor<T> => ({
-	type: account.actor_type,
+	type: beryxActorTypes[account.actor_type] as typeof beryxActorTypes[T],
 
 	cid: account.actor_cid as Filecoin.ActorCid,
 	shortAddress: account.short! as Filecoin.Address,

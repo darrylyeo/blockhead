@@ -21,17 +21,58 @@ defaults.headers = {
 export * from './api'
 
 
-// Types
-import type { Filecoin } from '$/data/filecoin'
+// Functions
+import { invertRecord } from '$/utils/invertRecord'
+
+
+// Types/constants
+import { Filecoin } from '$/data/filecoin'
 import type { AccountInfo } from './api'
 
+export const beryxActorTypes = invertRecord(
+	{
+		// Filecoin
+		[Filecoin.ActorType.System]: 'system',
+		[Filecoin.ActorType.Init]: 'init',
+		[Filecoin.ActorType.Reward]: 'reward',
+		[Filecoin.ActorType.Cron]: 'cron',
+		[Filecoin.ActorType.StoragePower]: 'storagepower',
+		[Filecoin.ActorType.StorageMarket]: 'storagemarket',
+		[Filecoin.ActorType.VerifiedRegistry]: 'verifiedregistry',
+		
+		// Filecoin Plus
+		[Filecoin.ActorType.DataCap]: 'datacap',
+		
+		// Miners
+		[Filecoin.ActorType.StorageMiner]: 'storageminer',
+		[Filecoin.ActorType.Miner]: 'miner',
+
+		// Accounts
+		[Filecoin.ActorType.Account]: 'account',
+		[Filecoin.ActorType.Multisig]: 'multisig',
+
+		// Payment channels
+		[Filecoin.ActorType.PaymentChannel]: 'paymentchannel',
+
+		// Smart contracts
+		[Filecoin.ActorType.User]: 'user',
+
+		// Filecoin EVM
+		[Filecoin.ActorType.EvmPlaceholder]: 'placeholder',
+		[Filecoin.ActorType.EvmAccount]: 'ethaccount',
+		[Filecoin.ActorType.EvmContract]: 'evm',
+	} as const satisfies Partial<Record<Filecoin.ActorType, string>>
+)
+
+export type BeryxActorType = keyof typeof beryxActorTypes
+
 export type BeryxAccountInfo<
-	T extends Filecoin.ActorType = Filecoin.ActorType
+	T extends BeryxActorType = BeryxActorType
 > = (
 	& Omit<AccountInfo, 'actor_type'>
 
 	& {
-		actor_type: T
+		actor_type: BeryxActorType
 	}
 
 	& (
