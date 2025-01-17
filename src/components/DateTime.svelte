@@ -58,36 +58,33 @@
 {#if date}
 	<time
 		datetime={isoString}
+		title={isoString}
+		data-layout={layout}
+		class={layout === 'horizontal' ? 'row inline align-baseline' : 'column inline'}
 	>
-		<abbr
-			data-layout={layout}
-			title={isoString}
-			class={layout === 'horizontal' ? 'row inline align-baseline' : 'column inline'}
-		>
-			{#each parts as part, i (part)}
-				<span
-					data-part={part}
-					animate:flip={{ duration: 300, easing: expoOut }}
-				>
-					{#if layout === 'horizontal' && i > 0}<span>(</span>{/if
-					}{#if part === 'relative'}
-						{relativeTime
-					}{:else}
-						<span class="date">{absoluteDate}</span
-						>{#if showTime}
-							{' '}<span class="time">{absoluteTime}</span
-						>{/if
-					}{/if
-					}{#if layout === 'horizontal' && i > 0}<span>)</span>{/if}
-				</span>
-			{/each}
-		</abbr>
+		{#each parts as part, i (part)}
+			<span
+				data-part={part}
+				animate:flip={{ duration: 300, easing: expoOut }}
+			>
+				{#if layout === 'horizontal' && i > 0}<span>(</span>{/if
+				}{#if part === 'relative'}
+					{relativeTime
+				}{:else}
+					<span class="date">{absoluteDate}</span
+					>{#if showTime}
+						{' '}<span class="time">{absoluteTime}</span
+					>{/if
+				}{/if
+				}{#if layout === 'horizontal' && i > 0}<span>)</span>{/if}
+			</span>
+		{/each}
 	</time>
 {/if}
 
 
 <style>
-	abbr {
+	time {
 		&[data-layout="vertical"] {
 			[data-part="absolute"]:only-child {
 				display: flex;
