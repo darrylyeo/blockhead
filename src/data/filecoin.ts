@@ -138,21 +138,27 @@ export namespace Filecoin {
 
 	export enum ActorType {
 		// Filecoin
-		Cron = 'cron',
-		Init = 'init',
-		Account = 'account',
-		Reward = 'reward',
-		StorageMarket = 'storagemarket',
-		StorageMiner = 'storageminer',
-		Multisig = 'multisig',
-		PaymentChannel = 'paymentchannel',
-		StoragePower = 'storagepower',
-		VerifiedRegistry = 'verifiedregistry',
 		System = 'system',
-		Miner = 'miner',
-
+		Init = 'init',
+		Reward = 'reward',
+		Cron = 'cron',
+		StoragePower = 'storagepower',
+		StorageMarket = 'storagemarket',
+		VerifiedRegistry = 'verifiedregistry',
+		
 		// Filecoin Plus
 		DataCap = 'datacap',
+		
+		// Miners
+		StorageMiner = 'storageminer',
+		Miner = 'miner',
+
+		// Accounts
+		Account = 'account',
+		Multisig = 'multisig',
+
+		// Payment
+		PaymentChannel = 'paymentchannel',
 
 		// Smart contracts
 		User = 'user',
@@ -164,11 +170,12 @@ export namespace Filecoin {
 	}
 
 	export const actorTypes = {
-		[ActorType.Cron]: {
-			name: 'Cron',
+		[ActorType.System]: {
+			name: 'System',
 			links: [
-				'https://docs.filecoin.io/basics/the-blockchain/actors#cronactor',
-				'https://docs.filecoin.io/reference/built-in-actors/overview/#cronactor',
+				'https://docs.filecoin.io/basics/the-blockchain/actors#systemactor',
+				'https://docs.filecoin.io/reference/built-in-actors#systemactor',
+				'https://docs.filecoin.io/reference/built-in-actors/overview/#systemactor',
 			],
 		},
 		[ActorType.Init]: {
@@ -178,19 +185,26 @@ export namespace Filecoin {
 				'https://docs.filecoin.io/reference/built-in-actors/overview/#initactor',
 			],
 		},
-		[ActorType.Account]: {
-			name: 'Account',
-			links: [
-				'https://docs.filecoin.io/basics/the-blockchain/actors#accountactor',
-				'https://docs.filecoin.io/reference/built-in-actors/overview/#accountactor',
-				'https://docs.filecoin.io/reference/built-in-actors/protocol-api/#account-actor',
-			],
-		},
 		[ActorType.Reward]: {
 			name: 'Reward',
 			links: [
 				'https://docs.filecoin.io/basics/the-blockchain/actors#rewardactor',
 				'https://docs.filecoin.io/reference/built-in-actors/overview/#rewardactor',
+			],
+		},
+		[ActorType.Cron]: {
+			name: 'Cron',
+			links: [
+				'https://docs.filecoin.io/basics/the-blockchain/actors#cronactor',
+				'https://docs.filecoin.io/reference/built-in-actors/overview/#cronactor',
+			],
+		},
+		[ActorType.StoragePower]: {
+			name: 'Storage Power',
+			links: [
+				'https://docs.filecoin.io/basics/the-blockchain/actors#storagepoweractor',
+				'https://docs.filecoin.io/reference/built-in-actors/protocol-api/#storage-power-actor',
+				'https://docs.filecoin.io/reference/built-in-actors/overview/#storagepoweractor',
 			],
 		},
 		[ActorType.StorageMarket]: {
@@ -201,11 +215,41 @@ export namespace Filecoin {
 				'https://docs.filecoin.io/reference/built-in-actors/overview/#storagemarketactor',
 			],
 		},
+		[ActorType.VerifiedRegistry]: {
+			name: 'Verified Registry',
+			links: [
+				'https://docs.filecoin.io/basics/the-blockchain/actors#verifiedregistryactor',
+				'https://docs.filecoin.io/reference/built-in-actors/protocol-api/#verified-registry-actor',
+				'https://docs.filecoin.io/reference/built-in-actors/overview/#verifiedregistryactor',
+			],
+		},
+		[ActorType.DataCap]: {
+			name: 'DataCap',
+			links: [
+				'https://docs.filecoin.io/basics/how-storage-works/filecoin-plus#datacap',
+				'https://docs.filecoin.io/reference/built-in-actors/protocol-api/#datacap',
+			],
+		},
 		[ActorType.StorageMiner]: {
 			name: 'Storage Miner',
 			links: [
 				'https://docs.filecoin.io/basics/the-blockchain/actors#storagemineractor',
 				'https://docs.filecoin.io/reference/built-in-actors/overview/#storagemineractor',
+			],
+		},
+		[ActorType.Miner]: {
+			name: 'Miner',
+			links: [
+				'https://docs.filecoin.io/basics/the-blockchain/actors#storagemineractor',
+				'https://docs.filecoin.io/reference/built-in-actors/protocol-api/#miner',
+			],
+		},
+		[ActorType.Account]: {
+			name: 'Account',
+			links: [
+				'https://docs.filecoin.io/basics/the-blockchain/actors#accountactor',
+				'https://docs.filecoin.io/reference/built-in-actors/overview/#accountactor',
+				'https://docs.filecoin.io/reference/built-in-actors/protocol-api/#account-actor',
 			],
 		},
 		[ActorType.Multisig]: {
@@ -221,44 +265,6 @@ export namespace Filecoin {
 			links: [
 				'https://docs.filecoin.io/basics/the-blockchain/actors#paymentchannelactor',
 				'https://docs.filecoin.io/reference/built-in-actors/overview/#paymentchannelactor',
-			],
-		},
-		[ActorType.StoragePower]: {
-			name: 'Storage Power',
-			links: [
-				'https://docs.filecoin.io/basics/the-blockchain/actors#storagepoweractor',
-				'https://docs.filecoin.io/reference/built-in-actors/protocol-api/#storage-power-actor',
-				'https://docs.filecoin.io/reference/built-in-actors/overview/#storagepoweractor',
-			],
-		},
-		[ActorType.VerifiedRegistry]: {
-			name: 'Verified Registry',
-			links: [
-				'https://docs.filecoin.io/basics/the-blockchain/actors#verifiedregistryactor',
-				'https://docs.filecoin.io/reference/built-in-actors/protocol-api/#verified-registry-actor',
-				'https://docs.filecoin.io/reference/built-in-actors/overview/#verifiedregistryactor',
-			],
-		},
-		[ActorType.System]: {
-			name: 'System',
-			links: [
-				'https://docs.filecoin.io/basics/the-blockchain/actors#systemactor',
-				'https://docs.filecoin.io/reference/built-in-actors#systemactor',
-				'https://docs.filecoin.io/reference/built-in-actors/overview/#systemactor',
-			],
-		},
-		[ActorType.Miner]: {
-			name: 'Miner',
-			links: [
-				'https://docs.filecoin.io/basics/the-blockchain/actors#storagemineractor',
-				'https://docs.filecoin.io/reference/built-in-actors/protocol-api/#miner',
-			],
-		},
-		[ActorType.DataCap]: {
-			name: 'DataCap',
-			links: [
-				'https://docs.filecoin.io/basics/how-storage-works/filecoin-plus#datacap',
-				'https://docs.filecoin.io/reference/built-in-actors/protocol-api/#datacap',
 			],
 		},
 		[ActorType.User]: {
@@ -297,86 +303,108 @@ export namespace Filecoin {
 	> = (
 		& {
 			type: T
-
-			shortAddress: Address
 		}
 
 		& (
-			T extends ActorType.Cron ?
+			T extends ActorType.System ?
 				{
 					cid: ActorCid
+					shortAddress: Address
 				}
 
 			: T extends ActorType.Init ?
 				{
 					cid: ActorCid
-				}
-
-			: T extends ActorType.Account ?
-				{
-					cid: ActorCid
-					robustAddress?: Address
+					shortAddress: Address
 				}
 
 			: T extends ActorType.Reward ?
 				{
 					cid: ActorCid
-					ethAddress: Address
+					shortAddress: Address
+					ethAddress: Ethereum.Address
 				}
 
-			: T extends ActorType.StorageMarket ?
+			: T extends ActorType.Cron ?
 				{
 					cid: ActorCid
-				}
-
-			: T extends ActorType.StorageMiner ?
-				{
-					cid: ActorCid
-				}
-
-			: T extends ActorType.Multisig ?
-				{
-					cid: ActorCid
-					robustAddress?: Address
-
-					signers?: Address[]
-				}
-
-			: T extends ActorType.PaymentChannel ?
-				{
-					cid: ActorCid
+					shortAddress: Address
 				}
 
 			: T extends ActorType.StoragePower ?
 				{
 					cid: ActorCid
+					shortAddress: Address
+				}
+
+			: T extends ActorType.StorageMarket ?
+				{
+					cid: ActorCid
+					shortAddress: Address
 				}
 
 			: T extends ActorType.VerifiedRegistry ?
 				{
 					cid: ActorCid
+					shortAddress: Address
 				}
 
-			: T extends ActorType.System ?
+			: T extends ActorType.DataCap ?
+				{
+					shortAddress: Address
+				}
+
+			: T extends ActorType.StorageMiner ?
 				{
 					cid: ActorCid
+					shortAddress: Address
 				}
 
 			: T extends ActorType.Miner ?
-				never
+				{
+					shortAddress: Address
+					robustAddress?: Address
+				}
 
-			: T extends ActorType.DataCap ?
-				never
+			: T extends ActorType.Account ?
+				{
+					cid: ActorCid
+					shortAddress: Address
+					robustAddress?: Address
+				}
+
+			: T extends ActorType.Multisig ?
+				{
+					cid: ActorCid
+					shortAddress: Address
+					robustAddress?: Address
+
+					signers?: Address[]
+
+					lastProcessedTipsetNumber?: bigint
+				}
+
+			: T extends ActorType.PaymentChannel ?
+				{
+					cid: ActorCid
+					shortAddress: Address
+				}
 
 			: T extends ActorType.User ?
-				never
+				{
+					shortAddress: Address
+				}
 
 			: T extends ActorType.EvmPlaceholder ?
-				never
+				{
+					shortAddress: Address
+					evmAddress: Ethereum.Address
+				}
 
 			: T extends ActorType.EvmAccount ?
 				{
 					cid: ActorCid
+					shortAddress: Address
 					robustAddress?: Address
 					evmAddress: Ethereum.Address
 				}
@@ -384,15 +412,11 @@ export namespace Filecoin {
 			: T extends ActorType.EvmContract ?
 				{
 					cid: ActorCid
+					shortAddress: Address
 					robustAddress?: Address
 					evmAddress: Ethereum.Address
 
-					creator: (
-						PartialExceptOneOf<
-							Actor<ActorType.Account | ActorType.Multisig | ActorType.EvmContract>,
-							'shortAddress' | 'robustAddress'
-						>
-					)
+					creatorAddress: Address
 
 					erc20Token?: Ethereum.Erc20Token
 				}
