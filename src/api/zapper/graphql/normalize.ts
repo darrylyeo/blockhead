@@ -32,7 +32,7 @@ export const normalizeTokenBalance = (
 ): TokenWithBalance => ({
 	token: normalizeToken(tokenBalance.token.baseToken),
 
-	balance: BigInt(tokenBalance.token.balance * 10 ** tokenBalance.token.baseToken.decimals),
+	balance: BigInt(Math.trunc(tokenBalance.token.balance * 10 ** tokenBalance.token.baseToken.decimals)),
 
 	conversion: {
 		currency: quoteCurrency,
@@ -95,7 +95,7 @@ export const normalizeAsset = (
 		decimals: asset.decimals,
 		name: asset.symbol,
 	},
-	balance: BigInt(asset.balance * 10 ** asset.decimals),
+	balance: asset.balance !== undefined && BigInt(Number(asset.balance) * 10 ** asset.decimals),
 	conversion: {
 		currency: 'USD',
 		value: asset.balanceUSD,
