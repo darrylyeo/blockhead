@@ -239,9 +239,6 @@ export namespace Filecoin {
 			type: T
 
 			shortAddress: Address
-
-			createdTipsetTimestamp?: number,
-			createdTransactionId?: TransactionCid,
 		}
 
 		& (
@@ -343,5 +340,13 @@ export namespace Filecoin {
 			:
 				never
 		)
+
+		& {
+			creation?: {
+				transactionId?: string
+
+				tipsetTimestamp?: string
+			}
+		}
 	)
 }

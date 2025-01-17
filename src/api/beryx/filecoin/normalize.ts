@@ -108,8 +108,20 @@ export const normalizeAccount = (
 	actorType: account.actor_type,
 	actorCid: account.actor_cid,
 
-	createdTipsetTimestamp: account.create_timestamp,
-	createdTransactionId: account.creation_tx_hash,
+	...(
+		('creation_tx_hash' in account && account.creation_tx_hash)
+		|| ('created_at' in account && account.created_at)
+	) && {
+		creation: {
+			...'creation_tx_hash' in account && account.creation_tx_hash && {
+				transactionId: account.creation_tx_hash,
+			},
+
+			...'created_at' in account && account.created_at && {
+				tipsetTimestamp: new Date(account.created_at).getTime(),
+			},
+		},
+	},
 })
 
 export const normalizeBalance = (
