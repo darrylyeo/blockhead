@@ -37,8 +37,7 @@
  * All responses are cached for 24 hours from the initial request for a given URL.
  */
 export const getUrlMetadata = async (url: string) => (
-	// await fetch(`https://og.metadata.vision/${encodeURIComponent(url)}`)
-	await fetch(`https://og.metadata.vision/${url.replaceAll(/^https:[/][/]x.com[/]/g, 'https://twitter.com/')}`)
+	await fetch(`https://og.metadata.vision/${url}`)
 		.then(async response => {
 			const result = await response.json() as (
 				| {
