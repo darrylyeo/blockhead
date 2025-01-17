@@ -98,8 +98,9 @@
 
 
 	// Outputs
-	let _result: LoaderResult
 	export let result: LoaderReturnResult
+
+	let _result: LoaderResult | undefined = result
 
 	let status = result ? LoadingStatus.Resolved : startImmediately ? LoadingStatus.Loading : LoadingStatus.Idle
 
@@ -328,7 +329,7 @@
 	$: if(status === LoadingStatus.Resolved){
 		// (Computed)
 		try {
-			result = then ? then(_result) : _result as LoaderReturnResult
+			result = then ? then(_result!) : _result! as LoaderReturnResult
 
 			whenLoaded?.(result)
 		}catch(_error){
