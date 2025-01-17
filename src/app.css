@@ -933,6 +933,10 @@ address {
 	grid-template-columns: 100%;
 	align-content: start;
 	gap: var(--padding-inner);
+
+	&.inline {
+		gap: calc(var(--padding-inner) * 0.25);
+	}
 }
 .column-block {
 	--gap: var(--padding-inner);
