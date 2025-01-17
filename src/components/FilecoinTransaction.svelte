@@ -192,18 +192,26 @@
 					</TransactionId>
 				</span>
 
-				<span>
-					in block
-					<FilecoinBlockCid {network} blockCid={transaction.blockId} format="middle-truncated" />
-				</span>
+				{#if transaction.blockId !== undefined}
+					<span>
+						in block
+						<FilecoinBlockCid
+							{network}
+							blockCid={transaction.blockId}
+							format="middle-truncated"
+						/>
+					</span>
+				{/if}
 
-				<span>
-					in tipset
-					<BlockNumber
-						{network}
-						blockNumber={transaction.tipsetNumber}
-					/>
-				</span>
+				{#if transaction.tipsetNumberd !== undefined}
+					<span>
+						in tipset
+						<BlockNumber
+							{network}
+							blockNumber={transaction.tipsetNumber}
+						/>
+					</span>
+				{/if}
 			</span>
 
 			{#if transaction.tipsetTimestamp}
