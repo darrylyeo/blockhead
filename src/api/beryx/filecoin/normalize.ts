@@ -154,16 +154,22 @@ export const normalizeAccount = <
 		|| ('creation_tx_cid' in account && account.creation_tx_cid)
 		|| ('created_at' in account && account.created_at)
 	) && {
-		creation: {
+		createdAt: {
 			...'creation_tx_hash' in account && account.creation_tx_hash && {
-				transactionId: account.creation_tx_hash,
+				transaction: {
+					id: account.creation_tx_hash,
+				},
 			},
 			...'creation_tx_cid' in account && account.creation_tx_cid && {
-				transactionId: account.creation_tx_cid,
+				transaction: {
+					id: account.creation_tx_cid,
+				},
 			},
 
 			...'created_at' in account && account.created_at && {
-				tipsetTimestamp: new Date(account.created_at).valueOf(),
+				tipset: {
+					timestamp: new Date(account.created_at).valueOf(),
+				},
 			},
 		},
 	},

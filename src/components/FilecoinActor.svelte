@@ -103,16 +103,16 @@
 						</dd>
 					{/if}
 
-					{#if actor.creation}
+					{#if actor.createdAt}
 						<dt>Created</dt>
 						<dd>
-							{#if 'transactionId' in actor.creation && actor.creation.transactionId}
+							{#if 'transaction' in actor.createdAt && actor.createdAt.transaction?.id}
 								<InlineTransition align="start"
-									key={actor.creation.transactionId}
+									key={actor.createdAt.transaction.id}
 								>
 									<TransactionId
 										{network}
-										transactionId={actor.creation.transactionId}
+										transactionId={actor.createdAt.transaction.id}
 										format="middle-truncated"
 										truncateOptions={{
 											startLength: 8,
@@ -122,12 +122,12 @@
 								</InlineTransition>
 							{/if}
 
-							{#if 'tipsetTimestamp' in actor.creation && actor.creation.tipsetTimestamp}
+							{#if 'tipset' in actor.createdAt && actor.createdAt.tipset?.timestamp}
 								<InlineTransition align="start"
-									key={actor.creation.tipsetTimestamp}
+									key={actor.createdAt.tipset.timestamp}
 								>
 									<DateComponent
-										date={actor.creation.tipsetTimestamp}
+										date={actor.createdAt.tipset.timestamp}
 									/>
 								</InlineTransition>
 							{/if}

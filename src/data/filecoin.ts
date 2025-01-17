@@ -1,5 +1,6 @@
 import type { Ethereum } from './networks/types'
 import type { IpfsCid } from '$/api/ipfs/contentId'
+import type { PartialExceptOneOf } from '$/utils/PartialExceptOneOf'
 
 export namespace Filecoin {
 	export type TipsetId =  TipsetNumber | TipsetCid
@@ -426,10 +427,14 @@ export namespace Filecoin {
 		)
 
 		& {
-			creation?: {
-				transactionId?: string
+			createdAt?: {
+				transaction?: PartialExceptOneOf<Transaction,
+					'id'
+				>
 
-				tipsetTimestamp?: string
+				tipset?: PartialExceptOneOf<Tipset,
+					'timestamp'
+				>
 			}
 		}
 	)
