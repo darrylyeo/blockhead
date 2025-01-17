@@ -69,17 +69,13 @@
 					chainId: network.chainId,
 					transactionId: transactionCid,
 				}],
-				initialPageParam: {
-					cursor: undefined
-				},
+				initialPageParam: '',
 				queryFn: async ({
 					queryKey: [_, {
 						chainId,
 						transactionId,
 					}],
-					pageParam: {
-						cursor,
-					},
+					pageParam: cursor,
 				}) => {
 					const { baseUrls, getTransactionsByHash } = await import('$/api/beryx/filecoin/index')
 
@@ -91,9 +87,9 @@
 						}
 					)
 				},
-				getNextPageParam: (lastPage, allPages) => ({
-					cursor: lastPage.next_cursor,
-				}),
+				getNextPageParam: (lastPage, allPages) => (
+					lastPage.next_cursor || undefined
+				),
 				select: result => (
 					linkInternalTransactionsBeryx(
 						result.pages

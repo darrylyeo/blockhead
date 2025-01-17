@@ -96,17 +96,13 @@
 							chainId: network.chainId,
 							blockNumber: Number(query.tipsetNumber),
 						}],
-						initialPageParam: {
-							cursor: undefined
-						},
+						initialPageParam: '',
 						queryFn: async ({
 							queryKey: [_, {
 								chainId,
 								blockNumber: tipsetNumber,
 							}],
-							pageParam: {
-								cursor,
-							},
+							pageParam: cursor,
 						}) => {
 							const { baseUrls, getTransactionsByHeight } = await import('$/api/beryx/filecoin/index')
 
@@ -121,9 +117,9 @@
 								}
 							)
 						},
-						getNextPageParam: (lastPage, allPages) => ({
-							cursor: lastPage.next_cursor,
-						}),
+						getNextPageParam: (lastPage, allPages) => (
+							lastPage.next_cursor || undefined
+						),
 						select: result => ({
 							transactions: linkInternalTransactionsBeryx(
 								result.pages
@@ -149,17 +145,13 @@
 							chainId: network.chainId,
 							blockCid: query.blockCid,
 						}],
-						initialPageParam: {
-							cursor: undefined
-						},
+						initialPageParam: '',
 						queryFn: async ({
 							queryKey: [_, {
 								chainId,
 								blockCid,
 							}],
-							pageParam: {
-								cursor,
-							},
+							pageParam: cursor,
 						}) => {
 							const { baseUrls, getTransactionsByBlock } = await import('$/api/beryx/filecoin/index')
 
@@ -174,9 +166,9 @@
 								}
 							)
 						},
-						getNextPageParam: (lastPage, allPages) => ({
-							cursor: lastPage.next_cursor,
-						}),
+						getNextPageParam: (lastPage, allPages) => (
+							lastPage.next_cursor || undefined
+						),
 						select: result => ({
 							transactions: linkInternalTransactionsBeryx(
 								result.pages
@@ -202,17 +194,13 @@
 							chainId: network.chainId,
 							transactionCid: query.transactionCid,
 						}],
-						initialPageParam: {
-							cursor: undefined
-						},
+						initialPageParam: '',
 						queryFn: async ({
 							queryKey: [_, {
 								chainId,
 								transactionCid,
 							}],
-							pageParam: {
-								cursor,
-							},
+							pageParam: cursor,
 						}) => {
 							const { baseUrls, getTransactionsByHash } = await import('$/api/beryx/filecoin/index')
 
@@ -227,9 +215,9 @@
 								}
 							)
 						},
-						getNextPageParam: (lastPage, allPages) => ({
-							cursor: lastPage.next_cursor,
-						}),
+						getNextPageParam: (lastPage, allPages) => (
+							lastPage.next_cursor || undefined
+						),
 						select: result => ({
 							transactions: linkInternalTransactionsBeryx(
 								result.pages
@@ -256,18 +244,14 @@
 							address: query.address,
 							type: query.type,
 						}],
-						initialPageParam: {
-							cursor: undefined
-						},
+						initialPageParam: '',
 						queryFn: async ({
 							queryKey: [_, {
 								chainId,
 								address,
 								type,
 							}],
-							pageParam: {
-								cursor,
-							},
+							pageParam: cursor,
 						}) => {
 							if (type === 'receiver') {
 								const { baseUrls, getTransactionsByReceiverAddress } = await import('$/api/beryx/filecoin/index')
@@ -314,9 +298,9 @@
 								)
 							}
 						},
-						getNextPageParam: (lastPage, allPages) => ({
-							cursor: lastPage.next_cursor,
-						}),
+						getNextPageParam: (lastPage, allPages) => (
+							lastPage.next_cursor || undefined
+						),
 						select: result => ({
 							transactions: linkInternalTransactionsBeryx(
 								result.pages
