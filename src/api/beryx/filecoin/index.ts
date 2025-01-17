@@ -69,41 +69,74 @@ export type BeryxActorType = keyof typeof beryxActorTypes
 export type BeryxAccountInfo<
 	T extends BeryxActorType = BeryxActorType
 > = (
-	& Omit<AccountInfo, 'actor_type'>
+	& AccountInfo
 
 	& {
 		actor_type: BeryxActorType
 	}
 
 	& (
-		T extends Filecoin.ActorType.Multisig ?
+		T extends Filecoin.ActorType.System ?
 			{
-				state: {
-					last_tipset_processed: number
-				}
-			}
-
-		: T extends Filecoin.ActorType.EvmAccount ?
-			{
+				actor_cid: string
 				robust: string
 				short: string
+			}
+
+		: T extends Filecoin.ActorType.Init ?
+			{
 				actor_cid: string
+				robust: string
+				short: string
+			}
+
+		: T extends Filecoin.ActorType.Reward ?
+			{
+				actor_cid: string
+				robust: string
+				short: string
 				eth_address: string
 			}
 
-		: T extends Filecoin.ActorType.EvmContract ?
+		: T extends Filecoin.ActorType.Cron ?
 			{
-				creation_tx_cid: string
+				actor_cid: string
+				robust: string
+				short: string
+			}
 
-				state?: {
-					ticker: string
-					contract_address: string
-					description: string
-					decimals: number
-					total_supply: string
-					creation_date: string
-					holders_count: number
-				}
+		: T extends Filecoin.ActorType.StoragePower ?
+			{
+				actor_cid: string
+				robust: string
+				short: string
+			}
+
+		: T extends Filecoin.ActorType.StorageMarket ?
+			{
+				actor_cid: string
+				robust: string
+				short: string
+			}
+
+		: T extends Filecoin.ActorType.VerifiedRegistry ?
+			{
+				actor_cid: string
+				robust: string
+				short: string
+			}
+
+		: T extends Filecoin.ActorType.DataCap ?
+			{
+				robust: string
+				short: string
+			}
+
+		: T extends Filecoin.ActorType.StorageMiner ?
+			{
+				actor_cid: string
+				robust: string
+				short: string
 			}
 
 		: T extends Filecoin.ActorType.Miner ?
@@ -111,6 +144,78 @@ export type BeryxAccountInfo<
 				robust: string
 				short: string
 				creation_tx_cid: string
+			}
+
+		: T extends Filecoin.ActorType.Account ?
+			{
+				actor_cid: string
+				robust: string
+				short: string
+			}
+
+		: T extends Filecoin.ActorType.Multisig ?
+			{
+				actor_cid: string
+				robust: string
+				short: string
+				state: {
+					last_tipset_processed: number
+				}
+			}
+
+		: T extends Filecoin.ActorType.PaymentChannel ?
+			{
+				actor_cid: string
+				robust: string
+				short: string
+			}
+
+		: T extends Filecoin.ActorType.User ?
+			{
+				robust: string
+				short: string
+			}
+
+		: T extends Filecoin.ActorType.EvmPlaceholder ?
+			Record<string, never>
+
+		: T extends Filecoin.ActorType.EvmAccount ?
+			{
+				actor_cid: string
+				robust: string
+				short: string
+				eth_address: string
+			}
+
+		: T extends Filecoin.ActorType.EvmContract ?
+			{
+				actor_cid: string
+				robust: string
+				short: string
+				creation_tx_cid: string
+				creator_address: string
+				created_at: string
+
+				state: (
+					| {
+						ticker: string
+						contract_address: string
+						description: string
+						decimals: number
+						total_supply: string
+						creation_date: string
+						holders_count: number
+					}
+					| {
+						ticker: ''
+						contract_address: ''
+						description: ''
+						decimals: 0
+						total_supply: ''
+						creation_date: ''
+						holders_count: 0
+					}
+				)
 			}
 
 		:

@@ -9,6 +9,8 @@ type TransactionWithInternalTransactions = Transaction & { internalTransactions?
 
 
 // Functions
+import { isTruthy } from '$/utils/isTruthy'
+
 export const normalizeTipset = (
 	tipset: TipsetInfo,
 ): Filecoin.Tipset => ({
@@ -102,12 +104,18 @@ export const normalizeAccount = <
 	T extends BeryxActorType = BeryxActorType
 >(
 	account: BeryxAccountInfo<T>,
-): Filecoin.Actor<T> => ({
+) => ({
 	type: beryxActorTypes[account.actor_type] as typeof beryxActorTypes[T],
 
-	cid: account.actor_cid as Filecoin.ActorCid,
-	shortAddress: account.short! as Filecoin.Address,
-	robustAddress: account.robust as Filecoin.Address | undefined,
+	...'actor_cid' in account && account.actor_cid && {
+		cid: account.actor_cid as Filecoin.ActorCid,
+	},
+	...'short' in account && account.short && {
+		shortAddress: account.short as Filecoin.Address,
+	},
+	...'robust' in account && account.robust && {
+		robustAddress: account.robust as Filecoin.Address,
+	},
 	...'eth_address' in account && account.eth_address && {
 		evmAddress: account.eth_address as Ethereum.Address,
 	},
@@ -117,10 +125,15 @@ export const normalizeAccount = <
 	},
 
 	...(
-		account.actor_type === Filecoin.ActorType.EvmContract && 'state' in account && account.state && 'contract_address' in account.state ?
+		account.actor_type === Filecoin.ActorType.Multisig && 'state' in account && account.state && 'last_tipset_processed' in account.state ?
+			{
+				lastProcessedTipsetNumber: BigInt(account.state.last_tipset_processed), 
+			}
+
+		: account.actor_type === Filecoin.ActorType.EvmContract && 'state' in account && account.state && 'contract_address' in account.state && Object.values(account.state).some(isTruthy) ?
 			{
 				erc20Token: {
-					address: account.state.contract_address,
+					address: account.state.contract_address as Ethereum.Address,
 					symbol: account.state.ticker,
 					decimals: account.state.decimals,
 					name: account.state.description,
@@ -132,30 +145,29 @@ export const normalizeAccount = <
 				},
 			}
 
-		: account.actor_type === Filecoin.ActorType.Multisig && 'state' in account && account.state && 'last_tipset_processed' in account.state ?
-			{
-				lastProcessedTipsetNumber: BigInt(account.state.last_tipset_processed),
-			}
-
 		:
 			undefined
 	),
 
 	...(
 		('creation_tx_hash' in account && account.creation_tx_hash)
+		|| ('creation_tx_cid' in account && account.creation_tx_cid)
 		|| ('created_at' in account && account.created_at)
 	) && {
 		creation: {
 			...'creation_tx_hash' in account && account.creation_tx_hash && {
 				transactionId: account.creation_tx_hash,
 			},
+			...'creation_tx_cid' in account && account.creation_tx_cid && {
+				transactionId: account.creation_tx_cid,
+			},
 
 			...'created_at' in account && account.created_at && {
-				tipsetTimestamp: new Date(account.created_at).getTime(),
+				tipsetTimestamp: new Date(account.created_at).valueOf(),
 			},
 		},
 	},
-})
+}) as Filecoin.Actor<typeof beryxActorTypes[T]>
 
 export const normalizeBalance = (
 	balance: AccountBalance,
