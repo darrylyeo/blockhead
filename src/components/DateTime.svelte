@@ -3,7 +3,7 @@
 	export let date: number | string | Date
 
 	// (View options)
-	export let format: 'absolute' | 'relative' | 'both' = 'both'
+	export let format: 'absolute' | 'relative' | 'both' | 'absolute-relative' = 'both'
 	export let layout: 'horizontal' | 'vertical' = 'horizontal'
 	export let showTime = true
 	export let updateInterval = 1000
@@ -15,62 +15,100 @@
 
 	// Internal state
 	$: dateObject = date instanceof Date ? date : new Date(date)
+	$: isoString = dateObject.toISOString()
 	$: relativeTime = formatRelativeTime(dateObject.getTime())
+	$: absoluteDate = dateObject.toLocaleDateString(globalThis?.navigator.languages)
+	$: absoluteTime = dateObject.toLocaleTimeString(globalThis?.navigator.languages, { timeZoneName: 'short' })
+
+	$: parts = (
+		(
+			{
+				'relative': ['relative'],
+				'absolute': ['absolute'],
+				'both': ['relative', 'absolute'],
+				'absolute-relative': ['absolute', 'relative'],
+			} as const
+		)
+		[format]
+	)
 
 
 	// Actions
-	import { onDestroy } from 'svelte'
+	import { onMount } from 'svelte'
 
-	let isMounted = true
-	onDestroy(() => isMounted = false)
+	onMount(() => {
+		if (format === 'absolute') return
 
-	if(format !== 'absolute') (async () => {
-		while(isMounted){
+		const interval = setInterval(() => {
 			dateObject = dateObject
-			await new Promise(resolve => setTimeout(resolve, updateInterval))
+		}, updateInterval)
+
+		return () => {
+			clearInterval(interval)
 		}
-	})()
+	})
+
+
+	// Transitions/animations
+	import { flip } from 'svelte/animate'
+	import { expoOut } from 'svelte/easing'
 </script>
 
 
 {#if date}
 	<time
-		class="date"
-		datetime={dateObject.toISOString()}
+		datetime={isoString}
 	>
 		<abbr
 			data-layout={layout}
-			title="{dateObject.toISOString()}"
+			title={isoString}
+			class={layout === 'horizontal' ? 'row inline align-baseline' : 'column inline'}
 		>
-			{#if format === 'relative' || format === 'both'}
-				<span class="relative">{relativeTime}</span>
-			{/if}
-
-			{#if format === 'absolute' || format === 'both'}
-				<span class="absolute">
-					{#if format === 'both' && layout === 'horizontal'}({/if}<span class="day">{dateObject.toLocaleDateString()}</span>
-					{#if showTime}<span class="time">{dateObject.toLocaleTimeString()}</span>{/if}{#if format === 'both' && layout === 'horizontal'}){/if}
+			{#each parts as part, i (part)}
+				<span
+					data-part={part}
+					animate:flip={{ duration: 300, easing: expoOut }}
+				>
+					{#if layout === 'horizontal' && i > 0}<span>(</span>{/if
+					}{#if part === 'relative'}
+						{relativeTime
+					}{:else}
+						<span class="date">{absoluteDate}</span
+						>{#if showTime}
+							{' '}<span class="time">{absoluteTime}</span
+						>{/if
+					}{/if
+					}{#if layout === 'horizontal' && i > 0}<span>)</span>{/if}
 				</span>
-			{/if}
+			{/each}
 		</abbr>
 	</time>
 {/if}
 
 
 <style>
-	[data-layout="vertical"] {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25em;
+	abbr {
+		&[data-layout="vertical"] {
+			[data-part="absolute"]:only-child {
+				display: flex;
+				flex-direction: column;
+			}
 
-		.absolute:only-child {
-			display: flex;
-			flex-direction: column;
-			gap: 0.25em;
+			.time {
+				font-size: 0.8em;
+			}
 		}
 
-		.time {
-			font-size: 0.8em;
+		> span {
+			transition-property:
+				font-size,
+				opacity
+			;
+
+			&:nth-of-type(2) {
+				font-size: 0.8em;
+				opacity: 0.8;
+			}
 		}
 	}
 </style>
