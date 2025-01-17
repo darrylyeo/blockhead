@@ -317,75 +317,75 @@ export namespace Filecoin {
 			T extends ActorType.System ?
 				{
 					cid: ActorCid
-					shortAddress: Address
+					shortAddress: Address<AddressType.ID>
 				}
 
 			: T extends ActorType.Init ?
 				{
 					cid: ActorCid
-					shortAddress: Address
+					shortAddress: Address<AddressType.ID>
 				}
 
 			: T extends ActorType.Reward ?
 				{
 					cid: ActorCid
-					shortAddress: Address
+					shortAddress: Address<AddressType.ID>
 					ethAddress: Ethereum.Address
 				}
 
 			: T extends ActorType.Cron ?
 				{
 					cid: ActorCid
-					shortAddress: Address
+					shortAddress: Address<AddressType.ID>
 				}
 
 			: T extends ActorType.StoragePower ?
 				{
 					cid: ActorCid
-					shortAddress: Address
+					shortAddress: Address<AddressType.ID>
 				}
 
 			: T extends ActorType.StorageMarket ?
 				{
 					cid: ActorCid
-					shortAddress: Address
+					shortAddress: Address<AddressType.ID>
 				}
 
 			: T extends ActorType.VerifiedRegistry ?
 				{
 					cid: ActorCid
-					shortAddress: Address
+					shortAddress: Address<AddressType.ID>
 				}
 
 			: T extends ActorType.DataCap ?
 				{
-					shortAddress: Address
+					shortAddress: Address<AddressType.ID>
 				}
 
 			: T extends ActorType.StorageMiner ?
 				{
 					cid: ActorCid
-					shortAddress: Address
+					shortAddress: Address<AddressType.ID>
 				}
 
 			: T extends ActorType.Miner ?
 				{
-					shortAddress: Address
+					shortAddress: Address<Filecoin.AddressType.ID>
 					robustAddress?: Address
 				}
 
 			: T extends ActorType.Account ?
 				{
 					cid: ActorCid
-					shortAddress: Address
-					robustAddress?: Address
+					shortAddress: Address<AddressType.ID>
+					robustAddress?: Address<AddressType.Secp256k1 | AddressType.BLS>
 				}
 
 			: T extends ActorType.Multisig ?
 				{
 					cid: ActorCid
-					shortAddress: Address
-					robustAddress?: Address
+					shortAddress: Address<AddressType.ID>
+					robustAddress?: Address<AddressType.Actor | AddressType.BLS>
 
 					signers?: (
 						PartialExceptOneOf<Actor<ActorType.Account | ActorType.Multisig>,
@@ -402,33 +402,33 @@ export namespace Filecoin {
 			: T extends ActorType.PaymentChannel ?
 				{
 					cid: ActorCid
-					shortAddress: Address
+					shortAddress: Address<AddressType.ID>
 				}
 
 			: T extends ActorType.User ?
 				{
-					shortAddress: Address
+					shortAddress: Address<AddressType.ID>
 				}
 
 			: T extends ActorType.EvmPlaceholder ?
 				{
-					shortAddress: Address
+					shortAddress: Address<AddressType.ID>
 					evmAddress: Ethereum.Address
 				}
 
 			: T extends ActorType.EvmAccount ?
 				{
 					cid: ActorCid
-					shortAddress: Address
-					robustAddress?: Address
+					shortAddress: Address<AddressType.ID>
+					robustAddress?: Address<AddressType.Extensible>
 					evmAddress: Ethereum.Address
 				}
 
 			: T extends ActorType.EvmContract ?
 				{
 					cid: ActorCid
-					shortAddress: Address
-					robustAddress?: Address
+					shortAddress: Address<AddressType.ID>
+					robustAddress?: Address<AddressType.Extensible>
 					evmAddress: Ethereum.Address
 
 					creator?: PartialExceptOneOf<Actor<ActorType.Account | ActorType.Multisig | ActorType.EvmContract>,
