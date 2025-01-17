@@ -382,9 +382,16 @@ export namespace Filecoin {
 					shortAddress: Address
 					robustAddress?: Address
 
-					signers?: Address[]
+					signers?: (
+						PartialExceptOneOf<Actor<ActorType.Account | ActorType.Multisig>,
+							| 'shortAddress'
+							| 'robustAddress'
+						>[]
+					)
 
-					lastProcessedTipsetNumber?: bigint
+					lastProcessedTipset?: PartialExceptOneOf<Tipset,
+						| 'number'
+					>
 				}
 
 			: T extends ActorType.PaymentChannel ?

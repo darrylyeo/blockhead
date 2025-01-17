@@ -140,7 +140,9 @@ export const normalizeAccount = <
 	...(
 		account.actor_type === Filecoin.ActorType.Multisig && 'state' in account && account.state && 'last_tipset_processed' in account.state ?
 			{
-				lastProcessedTipsetNumber: BigInt(account.state.last_tipset_processed), 
+				lastProcessedTipset: {
+					number: BigInt(account.state.last_tipset_processed),
+				},
 			}
 
 		: account.actor_type === Filecoin.ActorType.EvmContract && 'state' in account && account.state && 'contract_address' in account.state && Object.values(account.state).some(isTruthy) ?
