@@ -10,6 +10,7 @@
 	// Inputs
 	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
 	export let transactions: Filecoin.Transaction[] = []
+	export let transactionsCount: number | undefined
 	export let filecoinTransactionProvider: FilecoinTransactionProvider = FilecoinTransactionProvider.Beryx
 	export let isInternal = false
 

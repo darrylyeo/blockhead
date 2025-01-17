@@ -258,11 +258,13 @@
 					type: 'sender',
 				}}
 				let:transactions
+				let:transactionsCount
 				let:pagination
 			>
 				<FilecoinTransactions
 					{network}
 					{transactions}
+					{transactionsCount}
 					headingLevel={headingLevel + 1}
 					{pagination}
 				/>

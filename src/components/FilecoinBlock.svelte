@@ -71,11 +71,13 @@
 				blockCid: block.id,
 			}}
 			let:transactions
+			let:transactionsCount
 			let:pagination
 		>
 			<FilecoinTransactions
 				{network}
 				{transactions}
+				{transactionsCount}
 				{pagination}
 				isOpen
 			/>

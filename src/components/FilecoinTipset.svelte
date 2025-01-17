@@ -120,12 +120,15 @@
 					tipsetNumber: tipset.number
 				}}
 				transactions={tipset.transactions}
+				transactionsCount={tipset.transactionsCount}
 				let:transactions
+				let:transactionsCount
 				let:pagination
 			>
 				<FilecoinTransactions
 					bind:isOpen={showTransactions}
 					{transactions}
+					{transactionsCount}
 					layout="inline"
 					headingLevel={headingLevel + 1}
 					{pagination}
