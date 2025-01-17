@@ -99,7 +99,6 @@
 	}[filecoinTransactionProvider]?.()}
 	bind:result={actor}
 	let:result={actor}
-	debug
 >
 	<svelte:fragment slot="header">
 		<slot name="header"
