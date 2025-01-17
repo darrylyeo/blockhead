@@ -617,7 +617,8 @@ mark, .mark {
 }
 
 
-abbr {
+abbr[title],
+time[title] {
 	text-decoration: underline dotted 1px rgba(var(--text-decoration-color), var(--text-decoration-opacity));
 }
 
