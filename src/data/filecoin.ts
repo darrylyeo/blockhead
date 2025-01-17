@@ -14,10 +14,12 @@ export namespace Filecoin {
 		isCanonical: boolean,
 		baseGasFee?: GasRate
 
-		// ---
+		previousTipset?: PartialExceptOneOf<Tipset,
+			| 'id'
+		>
 
-		previousId?: TipsetCid,
 		blocks?: Block[],
+
 		transactions?: Transaction[],
 	}
 

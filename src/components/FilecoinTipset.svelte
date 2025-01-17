@@ -86,10 +86,10 @@
 						</span>
 					{/if}
 
-					{#if tipset.number > 0n}
+					{#if tipset.previousTipset}
 						<span>
 							{#if tipset.blocks?.length || tipset.transactions?.length}and{/if}
-							<abbr title="Block {Number(tipset.number) - 1} hash: {tipset.previousId}">hash</abbr>
+							<abbr title="Block {Number(tipset.number) - 1} hash: {tipset.previousTipset.id ?? ''}">hash</abbr>
 							of previous tipset
 							<BlockNumber
 								{network}

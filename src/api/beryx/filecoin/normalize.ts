@@ -15,7 +15,6 @@ export const normalizeTipset = (
 	tipset: TipsetInfo,
 ): Filecoin.Tipset => ({
 	id: tipset.tipset_cid,
-	previousId: tipset.parent_tipset_cid,
 
 	number: tipset.height !== undefined ? BigInt(tipset.height) : undefined,
 	timestamp: tipset.timestamp !== undefined ? new Date(tipset.timestamp).valueOf() : undefined,
@@ -35,6 +34,12 @@ export const normalizeTipset = (
 	),
 
 	transactions: tipset.transactions,
+
+	...tipset.parent_tipset_cid && {
+		previousTipset: {
+			id: tipset.parent_tipset_cid,
+		},
+	},
 })
 
 export const normalizeBlock = (
