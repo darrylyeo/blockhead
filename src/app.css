@@ -197,7 +197,8 @@ body {
 
 
 :any-link {
-	color: var(--text-color);
+	/* color: var(--text-color); */
+	color: inherit;
 	/* text-shadow: 0 1px 1px; */
 	transition-duration: 0.2s;
 	transition-property:
