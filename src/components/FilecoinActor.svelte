@@ -134,15 +134,15 @@
 						</dd>
 					{/if}
 
-					{#if 'creatorAddress' in actor && actor.creatorAddress}
+					{#if 'creator' in actor && actor.creator}
 						<dt>Creator</dt>
 						<dd>
 							<InlineTransition align="start"
-								key={actor.creatorAddress}
+								key={actor.creator.robustAddress ?? actor.creator.shortAddress}
 							>
 								<Address
 									{network}
-									address={actor.creatorAddress}
+									address={actor.creator.robustAddress ?? actor.creator.shortAddress}
 									format="middle-truncated"
 								/>
 							</InlineTransition>

@@ -150,7 +150,9 @@ export const normalizeAccount = <
 	},
 
 	...'creator_address' in account && account.creator_address && {
-		creatorAddress: account.creator_address as Filecoin.Address,
+		creator: {
+			address: account.creator_address as Filecoin.Address,
+		},
 	},
 
 	...(

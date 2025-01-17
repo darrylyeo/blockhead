@@ -431,7 +431,10 @@ export namespace Filecoin {
 					robustAddress?: Address
 					evmAddress: Ethereum.Address
 
-					creatorAddress: Address
+					creator?: PartialExceptOneOf<Actor<ActorType.Account | ActorType.Multisig | ActorType.EvmContract>,
+						| 'shortAddress'
+						| 'robustAddress'
+					>
 
 					erc20Token?: Ethereum.Erc20Token
 				}
