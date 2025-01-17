@@ -95,21 +95,25 @@
 				/>
 			</span>
 
-			in
+			{#if block.tipset?.number !== undefined}
+				in
 
-			<span>
-				tipset
-				<BlockNumber
-					{network}
-					blockNumber={block.tipset.number}
-				/>
-			</span>
+				<span>
+					tipset
+					<BlockNumber
+						{network}
+						blockNumber={block.tipset.number}
+					/>
+				</span>
+			{/if}
 		</span>
 
-		<DateComponent
-			date={block.tipset.timestamp}
-			format="both"
-			layout="horizontal"
-		/>
+		{#if block.tipset?.timestamp}
+			<DateComponent
+				date={block.tipset.timestamp}
+				format="both"
+				layout="horizontal"
+			/>
+		{/if}
 	</footer>
 </Collapsible>
