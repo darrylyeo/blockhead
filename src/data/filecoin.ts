@@ -172,6 +172,7 @@ export namespace Filecoin {
 		User = 'user',
 
 		// Filecoin EVM
+		EthereumAddressManager = 'eam',
 		EvmPlaceholder = 'placeholder',
 		EvmAccount = 'ethaccount',
 		EvmContract = 'evm',
@@ -279,6 +280,12 @@ export namespace Filecoin {
 			name: 'FVM contract',
 			links: [
 				'https://docs.filecoin.io/basics/the-blockchain/actors#user-actors-smart-contracts',
+			],
+		},
+		[ActorType.EthereumAddressManager]: {
+			name: 'Ethereum Address Manager',
+			links: [
+				'https://docs.filecoin.io/smart-contracts/filecoin-evm-runtime/address-types#ethereum-address-manager',
 			],
 		},
 		[ActorType.EvmPlaceholder]: {
