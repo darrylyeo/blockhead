@@ -323,44 +323,44 @@ export namespace Filecoin {
 		& (
 			T extends ActorType.System ?
 				{
-					cid: ActorCid
+					cid?: ActorCid
 					shortAddress: Address<AddressType.ID>
 				}
 
 			: T extends ActorType.Init ?
 				{
-					cid: ActorCid
+					cid?: ActorCid
 					shortAddress: Address<AddressType.ID>
 				}
 
 			: T extends ActorType.Reward ?
 				{
-					cid: ActorCid
+					cid?: ActorCid
 					shortAddress: Address<AddressType.ID>
 					ethAddress: Ethereum.Address
 				}
 
 			: T extends ActorType.Cron ?
 				{
-					cid: ActorCid
+					cid?: ActorCid
 					shortAddress: Address<AddressType.ID>
 				}
 
 			: T extends ActorType.StoragePower ?
 				{
-					cid: ActorCid
+					cid?: ActorCid
 					shortAddress: Address<AddressType.ID>
 				}
 
 			: T extends ActorType.StorageMarket ?
 				{
-					cid: ActorCid
+					cid?: ActorCid
 					shortAddress: Address<AddressType.ID>
 				}
 
 			: T extends ActorType.VerifiedRegistry ?
 				{
-					cid: ActorCid
+					cid?: ActorCid
 					shortAddress: Address<AddressType.ID>
 				}
 
@@ -371,7 +371,7 @@ export namespace Filecoin {
 
 			: T extends ActorType.StorageMiner ?
 				{
-					cid: ActorCid
+					cid?: ActorCid
 					shortAddress: Address<AddressType.ID>
 				}
 
@@ -383,14 +383,14 @@ export namespace Filecoin {
 
 			: T extends ActorType.Account ?
 				{
-					cid: ActorCid
+					cid?: ActorCid
 					shortAddress: Address<AddressType.ID>
 					robustAddress?: Address<AddressType.Secp256k1 | AddressType.BLS>
 				}
 
 			: T extends ActorType.Multisig ?
 				{
-					cid: ActorCid
+					cid?: ActorCid
 					shortAddress: Address<AddressType.ID>
 					robustAddress?: Address<AddressType.Actor | AddressType.BLS>
 
@@ -408,7 +408,7 @@ export namespace Filecoin {
 
 			: T extends ActorType.PaymentChannel ?
 				{
-					cid: ActorCid
+					cid?: ActorCid
 					shortAddress: Address<AddressType.ID>
 				}
 
@@ -425,7 +425,7 @@ export namespace Filecoin {
 
 			: T extends ActorType.EvmAccount ?
 				{
-					cid: ActorCid
+					cid?: ActorCid
 					shortAddress: Address<AddressType.ID>
 					robustAddress?: Address<AddressType.Extensible>
 					evmAddress: Ethereum.Address
@@ -433,7 +433,7 @@ export namespace Filecoin {
 
 			: T extends ActorType.EvmContract ?
 				{
-					cid: ActorCid
+					cid?: ActorCid
 					shortAddress: Address<AddressType.ID>
 					robustAddress?: Address<AddressType.Extensible>
 					evmAddress: Ethereum.Address
