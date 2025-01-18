@@ -36,6 +36,10 @@
 	}}
 	class="block-cid"
 	title={blockCid}
+	draggable={true}
+	on:dragstart={event => {
+		event.dataTransfer?.setData('text/plain', blockCid)
+	}}
 >
 	<NetworkIcon {network} />
 
