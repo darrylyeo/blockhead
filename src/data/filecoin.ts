@@ -1,6 +1,7 @@
 import type { Ethereum } from './networks/types'
 import type { IpfsCid } from '$/api/ipfs/contentId'
 import type { PartialExceptOneOf } from '$/utils/PartialExceptOneOf'
+import type { TokenWithBalance } from './tokens'
 
 export namespace Filecoin {
 	export type TipsetId =  TipsetNumber | TipsetCid
@@ -11,7 +12,7 @@ export namespace Filecoin {
 		id: TipsetCid,
 		number: TipsetNumber,
 		timestamp: number,
-		isCanonical: boolean,
+		isCanonical?: boolean,
 		baseGasFee?: GasRate
 
 		previousTipset?: PartialExceptOneOf<Tipset,
@@ -21,6 +22,7 @@ export namespace Filecoin {
 		blocks?: Block[],
 
 		transactions?: Transaction[],
+		transactionsCount?: number,
 	}
 
 	export type BlockCid = IpfsCid
@@ -42,13 +44,24 @@ export namespace Filecoin {
 		reward?: NativeCurrencyAmount
 		penalty?: NativeCurrencyAmount
 
-		transactions?: Transaction[]
+		transactions?: PartialExceptOneOf<Transaction,
+			| 'id'
+		>[]
+		transactionsCount?: number
 
 		tipset?: PartialExceptOneOf<Tipset,
 			| 'id'
 			| 'number'
 			| 'timestamp'
 		>
+
+		parentBlocks?: PartialExceptOneOf<Block,
+			| 'id'
+		>[]
+
+		weight?: bigint
+		stateRoot?: IpfsCid
+		baseGasFee?: bigint
 	}
 
 	export enum AddressType {
@@ -125,23 +138,32 @@ export namespace Filecoin {
 	export type ActorMethodName = string
 
 	export type Transaction = {
-		id: TransactionCid,
+		id: TransactionCid
 
-		isSuccessful: boolean,
+		size?: bigint
 
 		fromAddress: Address,
 		toAddress: Address,
 
-		value: NativeCurrencyAmount,
+		value: NativeCurrencyAmount
 
-		gasToken: Ethereum.NativeCurrency,
-		gasSpent: GasAmount,
+		gasToken?: Ethereum.NativeCurrency
+		gasSpent?: GasAmount
 
-		method: ActorMethodName,
+		method?: ActorMethodName
+		evmMethod?: string
+		params?: string
 
-		metadata: any,
+		metadata?: any
 
-		internalTransactions?: Transaction[],
+		receipt?: {
+			exitCode: 0 | 1
+			return?: string
+		}
+
+		internalTransactions?: Transaction[]
+
+		transfers?: Transfer[]
 
 		block?: PartialExceptOneOf<Block,
 			'id'
@@ -152,6 +174,39 @@ export namespace Filecoin {
 			| 'number'
 			| 'timestamp'
 		>
+	}
+
+	export enum TransferType {
+		MinerFee = 'MinerFee',
+		BurnFee = 'BurnFee',
+		Transfer = 'Transfer',
+	}
+
+	export type Transfer<
+		T extends TransferType = TransferType
+	> = {
+		type: T
+
+		fromActor: PartialExceptOneOf<Actor,
+			| 'shortAddress'
+			| 'robustAddress'
+		>
+		toActor: PartialExceptOneOf<Actor,
+			| 'shortAddress'
+			| 'robustAddress'
+		>
+		labels?: {
+			fromActor?: {
+				label: string
+				isSigned: boolean
+			}
+			toActor?: {
+				label: string
+				isSigned: boolean
+			}
+		}
+
+		value: NativeCurrencyAmount
 	}
 
 	export enum ActorType {
@@ -389,6 +444,11 @@ export namespace Filecoin {
 				{
 					shortAddress: Address<Filecoin.AddressType.ID>
 					robustAddress?: Address
+
+					tag?: {
+						name: string
+						isSigned: boolean
+					}
 				}
 
 			: T extends ActorType.Account ?
@@ -461,15 +521,44 @@ export namespace Filecoin {
 		)
 
 		& {
-			createdAt?: {
-				transaction?: PartialExceptOneOf<Transaction,
-					'id'
-				>
-
-				tipset?: PartialExceptOneOf<Tipset,
-					'timestamp'
-				>
+			assets?: {
+				nativeBalance: TokenWithBalance
+				erc20Tokens?: TokenWithBalance[]
+				erc20TokensCount?: number,
 			}
+
+			transactions?: Transaction[]
+			transactionsCount?: number
+
+			transfers?: Transfer[]
+			transfersCount?: number
+
+			ownedMiners: PartialExceptOneOf<Actor<ActorType.Miner>,
+				| 'shortAddress'
+				| 'robustAddress'
+			>[]
+			workerMiners: PartialExceptOneOf<Actor<ActorType.Miner>,
+				| 'shortAddress'
+				| 'robustAddress'
+			>[]
+			benefitedMiners: PartialExceptOneOf<Actor<ActorType.Miner>,
+				| 'shortAddress'
+				| 'robustAddress'
+			>[]
+
+			createdAt?: TimeReference
+
+			lastActiveAt?: TimeReference
 		}
 	)
+
+	export type TimeReference = PartialExceptOneOf<{
+		transaction: PartialExceptOneOf<Transaction,
+			'id'
+		>
+
+		tipset: PartialExceptOneOf<Tipset,
+			'timestamp'
+		>
+	}>
 }
