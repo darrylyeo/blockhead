@@ -31,10 +31,20 @@ export namespace Filecoin {
 		miner: PartialExceptOneOf<Actor<ActorType.Miner>,
 			| 'shortAddress'
 		>
+		labels?: {
+			miner?: {
+				label: string
+				isSigned: boolean
+			}
+		}
+
+		winCount?: number
+		reward?: NativeCurrencyAmount
+		penalty?: NativeCurrencyAmount
 
 		transactions?: Transaction[]
 
-		tipset: PartialExceptOneOf<Tipset,
+		tipset?: PartialExceptOneOf<Tipset,
 			| 'id'
 			| 'number'
 			| 'timestamp'
