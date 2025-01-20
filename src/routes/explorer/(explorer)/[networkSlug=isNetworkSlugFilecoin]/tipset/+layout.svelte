@@ -2,11 +2,11 @@
 	// Params/Context
 	import {
 		explorerParams,
-	} from '../../../../_explorerParams'
+	} from '../../../_explorerParams'
 
 	import {
 		explorerNetwork,
-	} from '../../../../_explorerContext'
+	} from '../../../_explorerContext'
 
 
 	// Components
@@ -18,13 +18,13 @@
 <FilecoinTipsetLoader
 	network={$explorerNetwork}
 	query={
-		typeof $explorerParams.filecoinTipsetId === 'bigint' ?
+		$explorerParams.filecoinTipsetCid ?
 			{
-				tipsetNumber: BigInt($explorerParams.filecoinTipsetId),
+				tipsetCid: $explorerParams.filecoinTipsetCid,
 			}
 		:
 			{
-				tipsetCid: $explorerParams.filecoinTipsetId,
+				tipsetNumber: $explorerParams.blockNumber,
 			}
 	}
 	let:tipset

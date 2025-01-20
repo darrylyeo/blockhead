@@ -11,7 +11,7 @@
 		blockNumber,
 		ensName,
 		transactionId,
-		filecoinTipsetId,
+		filecoinTipsetCid,
 		filecoinBlockCid,
 
 		explorerParams,
@@ -116,7 +116,7 @@
 		$blockNumber = searchInputPatterns[StringPattern.BlockNumber] !== undefined && searchInputPatterns[StringPattern.BlockNumber] !== '' ? BigInt(searchInputPatterns[StringPattern.BlockNumber]) : ''
 		$ensName = searchInputPatterns[StringPattern.EnsName] ?? ''
 		$transactionId = searchInputPatterns[StringPattern.TransactionId] ?? ''
-		$filecoinTipsetId = !isNaN(Number(searchInputPatterns[StringPattern.FilecoinTipsetNumber])) ? BigInt(Number(searchInputPatterns[StringPattern.FilecoinTipsetNumber])) : searchInputPatterns[StringPattern.FilecoinTipsetCid] ?? ''
+		$filecoinTipsetCid = searchInputPatterns[StringPattern.FilecoinTipsetNumber] ?? ''
 		$filecoinBlockCid = searchInputPatterns[StringPattern.FilecoinBlockCid] ?? ''
 	}}>
 		<SearchInput

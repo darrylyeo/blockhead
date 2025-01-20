@@ -90,7 +90,7 @@ export const explorerQuery = derived(explorerParams, (
 			|| $explorerParams.blockNumber
 			|| $explorerParams.ensName
 			|| $explorerParams.transactionId
-			|| $explorerParams.filecoinTipsetId
+			|| $explorerParams.filecoinTipsetCid
 			|| $explorerParams.filecoinBlockCid
 			|| ''
 		)

@@ -1,4 +1,4 @@
-import { derived, writable, type Readable } from 'svelte/store'
+// Types
 import type { Ethereum } from '$/data/networks/types'
 import type { ENS } from '$/api/ens'
 import type { Filecoin } from '$/data/filecoin'
@@ -9,7 +9,7 @@ export type ExplorerParams = {
 	blockNumber: Ethereum.BlockNumber | '',
 	ensName: ENS.Name | '',
 	transactionId: Ethereum.TransactionId | '',
-	filecoinTipsetId: Filecoin.TipsetId | '',
+	filecoinTipsetCid: Filecoin.TipsetCid | '',
 	filecoinBlockCid: Filecoin.BlockCid | '',
 }
 
@@ -17,13 +17,12 @@ export type ExplorerInputParams = Partial<Omit<ExplorerParams, 'networkSlug'>>
 
 
 // Param stores
-
 export const networkSlug = writable<ExplorerParams['networkSlug']>('')
 export const address = writable<ExplorerParams['address']>('')
 export const blockNumber = writable<ExplorerParams['blockNumber']>('')
 export const ensName = writable<ExplorerParams['ensName']>('')
 export const transactionId = writable<ExplorerParams['transactionId']>('')
-export const filecoinTipsetId = writable<ExplorerParams['filecoinTipsetId']>('')
+export const filecoinTipsetCid = writable<ExplorerParams['filecoinTipsetCid']>('')
 export const filecoinBlockCid = writable<ExplorerParams['filecoinBlockCid']>('')
 
 export const explorerParams = derived([
@@ -32,7 +31,7 @@ export const explorerParams = derived([
 	blockNumber,
 	ensName,
 	transactionId,
-	filecoinTipsetId,
+	filecoinTipsetCid,
 	filecoinBlockCid,
 ], ([
 	$networkSlug,
@@ -40,7 +39,7 @@ export const explorerParams = derived([
 	$blockNumber,
 	$ensName,
 	$transactionId,
-	$filecoinTipsetId,
+	$filecoinTipsetCid,
 	$filecoinBlockCid,
 ], set: (_: ExplorerParams) => void) => {
 	set(({
@@ -49,13 +48,16 @@ export const explorerParams = derived([
 		blockNumber: $blockNumber,
 		ensName: $ensName,
 		transactionId: $transactionId,
-		filecoinTipsetId: $filecoinTipsetId,
+		filecoinTipsetCid: $filecoinTipsetCid,
 		filecoinBlockCid: $filecoinBlockCid,
 	}))
 })
 
 
 // Derived path store
+import { type Readable, derived, writable } from 'svelte/store'
+
+import { match as isNetworkSlugFilecoin } from '$/params/isNetworkSlugFilecoin'
 
 export const derivedPath: Readable<string> = derived([
 	networkSlug,
@@ -63,7 +65,7 @@ export const derivedPath: Readable<string> = derived([
 	blockNumber,
 	ensName,
 	transactionId,
-	filecoinTipsetId,
+	filecoinTipsetCid,
 	filecoinBlockCid,
 ], ([
 	$networkSlug,
@@ -71,7 +73,7 @@ export const derivedPath: Readable<string> = derived([
 	$blockNumber,
 	$ensName,
 	$transactionId,
-	$filecoinTipsetId,
+	$filecoinTipsetCid,
 	$filecoinBlockCid,
 ], set) => set(
 	`/explorer${
@@ -80,11 +82,11 @@ export const derivedPath: Readable<string> = derived([
 				$address || $ensName ?
 					`/address/${$address || $ensName}`
 				: $blockNumber ?
-					`/block/${$blockNumber}`
+					`/${isNetworkSlugFilecoin($networkSlug) ? 'tipset' : 'block'}/${$blockNumber}`
 				: $transactionId ?
 					`/tx/${$transactionId}`
-				: $filecoinTipsetId ?
-					`/tipset/${$filecoinTipsetId}`
+				: $filecoinTipsetCid ?
+					`/tipset/${$filecoinTipsetCid}`
 				: $filecoinBlockCid ?
 					`/block/${$filecoinBlockCid}`
 				:

@@ -6,7 +6,7 @@
 
 	// Inputs
 	export let network: Ethereum.Network
-	export let blockNumber: Ethereum.BlockNumber | Filecoin.TipsetId | undefined
+	export let blockNumber: Ethereum.BlockNumber | Filecoin.TipsetNumber | undefined
 
 	// (View options)
 	export let linked = true
