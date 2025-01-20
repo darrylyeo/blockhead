@@ -33,8 +33,6 @@ export const normalizeTipset = (
 			))
 	),
 
-	transactions: tipset.transactions,
-
 	...tipset.parent_tipset_cid && {
 		previousTipset: {
 			id: tipset.parent_tipset_cid,
@@ -83,12 +81,14 @@ export const normalizeTransaction = (
 	transaction: Transaction | TransactionWithInternalTransactions,
 	network: Ethereum.Network,
 ): Filecoin.Transaction => ({
-	id: transaction.tx_cid,
+	id: transaction.tx_cid! as Filecoin.TransactionCid,
 
-	isSuccessful: transaction.status == 'Ok',
-
-	fromAddress: transaction.tx_from,
-	toAddress: transaction.tx_to,
+	...transaction.tx_from && {
+		fromAddress: transaction.tx_from,
+	},
+	...transaction.tx_to && {
+		toAddress: transaction.tx_to,
+	},
 
 	value: BigInt(transaction.amount ?? 0),
 
@@ -97,7 +97,7 @@ export const normalizeTransaction = (
 
 	method: transaction.tx_type,
 
-	metadata: transaction.tx_metadata,
+	metadata: 'tx_metadata' in transaction ? transaction.tx_metadata : undefined, // ???
 
 	internalTransactions: (
 		'internalTransactions' in transaction ?
@@ -109,6 +109,16 @@ export const normalizeTransaction = (
 		:
 			undefined
 	),
+
+	receipt: {
+		exitCode: (
+			({
+				'Ok': 0,
+				'Error': 1,
+			} as const)
+				[transaction.status as 'Ok' | 'Error']
+		),
+	},
 
 	...transaction.block_cid && {
 		block: {
@@ -123,8 +133,12 @@ export const normalizeTransaction = (
 	) && {
 		tipset: {
 			id: transaction.tipset_cid,
-			number: transaction.height !== undefined ? BigInt(transaction.height) : undefined,
-			timestamp: transaction.tx_timestamp !== undefined ? new Date(transaction.tx_timestamp).valueOf() : undefined,
+			...transaction.height !== undefined && {
+				number: BigInt(transaction.height),
+			},
+			...transaction.tx_timestamp !== undefined && {
+				timestamp: new Date(transaction.tx_timestamp).valueOf(),
+			},
 		},
 	},
 })
