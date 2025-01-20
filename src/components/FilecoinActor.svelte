@@ -164,53 +164,47 @@
 							<a href="https://docs.filecoin.io/smart-contracts/filecoin-evm-runtime/address-types#id-addresses" target="_blank">ID Address</a>
 						</dt>
 						<dd>
-							<output>
-								<InlineTransition align="start"
-									key={actor.shortAddress}
-								>
-									<Address
-										{network}
-										address={actor.shortAddress}
-									/>
-								</InlineTransition>
-							</output>
+							<InlineTransition align="start"
+								key={actor.shortAddress}
+							>
+								<Address
+									{network}
+									address={actor.shortAddress}
+								/>
+							</InlineTransition>
 						</dd>
 					{/if}
 
 					{#if 'robustAddress' in actor && actor.robustAddress}
 						<dt>Robust Address</dt>
 						<dd>
-							<output>
-								<InlineTransition align="start"
-									key={actor.robustAddress}
-								>
-									<Address
-										{network}
-										address={actor.robustAddress}
-										format="middle-truncated"
-										truncateOptions={{
-											startLength: 23,
-											endLength: 21,
-										}}
-									/>
-								</InlineTransition>
-							</output>
+							<InlineTransition align="start"
+								key={actor.robustAddress}
+							>
+								<Address
+									{network}
+									address={actor.robustAddress}
+									format="middle-truncated"
+									truncateOptions={{
+										startLength: 23,
+										endLength: 21,
+									}}
+								/>
+							</InlineTransition>
 						</dd>
 					{/if}
 
 					{#if 'evmAddress' in actor && actor.evmAddress}
 						<dt>ETH Address</dt>
 						<dd>
-							<output>
-								<InlineTransition align="start"
-									key={actor.evmAddress}
-								>
-									<Address
-										{network}
-										address={actor.evmAddress}
-									/>
-								</InlineTransition>
-							</output>
+							<InlineTransition align="start"
+								key={actor.evmAddress}
+							>
+								<Address
+									{network}
+									address={actor.evmAddress}
+								/>
+							</InlineTransition>
 						</dd>
 					{/if}
 				</dl>
