@@ -39,7 +39,7 @@
 
 
 	// Components
-	import Address from './Address.svelte'
+	import AddressWithLabel from './AddressWithLabel.svelte'
 	import BlockNumber from './BlockNumber.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import DateTime from './DateTime.svelte'
@@ -99,10 +99,11 @@
 	<div class="row">
 		{#if !(isSummary && (contextIsSender || contextIsReceiver)) && transaction.fromActor}
 			<span class="sender" transition:fade>
-				<Address
+				<AddressWithLabel
 					{network}
 					address={transaction.fromActor.shortAddress ?? transaction.fromActor.robustAddress}
-					format="middle-truncated"
+					label={transaction.labels?.fromActor?.label}
+					addressFormat="middle-truncated"
 				/>
 			</span>
 		{/if}
@@ -138,7 +139,13 @@
 		{#if isSummary && contextIsReceiver && transaction.fromActor}
 			<span class="sender" transition:fade>
 				<span>from</span>
-				<Address {network} address={transaction.fromActor.shortAddress ?? transaction.fromActor.robustAddress} format="middle-truncated" />
+				<AddressWithLabel
+					{network}
+					address={transaction.fromActor.shortAddress ?? ('robustAddress' in transaction.fromActor ? transaction.fromActor.robustAddress : undefined)}
+					label={transaction.labels?.fromActor?.label}
+					addressFormat="middle-truncated"
+				/>
+				{#if transaction.labels?.fromActor?.isSigned}✔{/if}
 			</span>
 
 		{:else if transaction.toActor}
@@ -148,7 +155,13 @@
 				{:else}
 					<span>to</span>
 				{/if}
-				<Address {network} address={transaction.toActor.shortAddress ?? transaction.toActor.robustAddress} format="middle-truncated" />
+				<AddressWithLabel
+					{network}
+					address={transaction.toActor.shortAddress ?? ('robustAddress' in transaction.toActor ? transaction.toActor.robustAddress : undefined)}
+					label={transaction.labels?.toActor?.label}
+					addressFormat="middle-truncated"
+				/>
+				{#if transaction.labels?.toActor?.isSigned}✔{/if}
 			</span>
 		{/if}
 

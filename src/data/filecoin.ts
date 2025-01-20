@@ -150,6 +150,16 @@ export namespace Filecoin {
 			| 'shortAddress'
 			| 'robustAddress'
 		>
+		labels?: {
+			fromActor?: {
+				label: string
+				isSigned: boolean
+			}
+			toActor?: {
+				label: string
+				isSigned: boolean
+			}
+		}
 
 		value: NativeCurrencyAmount
 
