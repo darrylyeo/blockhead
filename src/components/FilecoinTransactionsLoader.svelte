@@ -70,7 +70,7 @@
 	// Functions
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { normalizeTransaction as normalizeTransactionBeryx, linkInternalTransactions as linkInternalTransactionsBeryx } from '$/api/beryx/filecoin/normalize'
+	import { normalizeTransactions as normalizeTransactionsBeryx } from '$/api/beryx/filecoin/normalize'
 
 
 	// Components
@@ -121,19 +121,18 @@
 							lastPage.next_cursor || undefined
 						),
 						select: result => ({
-							transactions: linkInternalTransactionsBeryx(
-								result.pages
-									.flatMap(result => (
-										result.transactions
-										?? []
-									))
-							)
-								.map(transaction => (
-									normalizeTransactionBeryx(
-										transaction,
-										network
-									)
-								)),
+							transactions: (
+								normalizeTransactionsBeryx(
+									(
+										result.pages
+											.flatMap(result => (
+												result.transactions
+												?? []
+											))
+									),
+									network
+								)
+							),
 							transactionsCount: result.pages[0]?.total_txs,
 						}),
 					})
@@ -170,19 +169,18 @@
 							lastPage.next_cursor || undefined
 						),
 						select: result => ({
-							transactions: linkInternalTransactionsBeryx(
-								result.pages
-									.flatMap(result => (
-										result.transactions
-										?? []
-									))
-							)
-								.map(transaction => (
-									normalizeTransactionBeryx(
-										transaction,
-										network
-									)
-								)),
+							transactions: (
+								normalizeTransactionsBeryx(
+									(
+										result.pages
+											.flatMap(result => (
+												result.transactions
+												?? []
+											))
+									),
+									network
+								)
+							),
 							transactionsCount: result.pages[0]?.total_txs,
 						}),
 					})
@@ -219,19 +217,18 @@
 							lastPage.next_cursor || undefined
 						),
 						select: result => ({
-							transactions: linkInternalTransactionsBeryx(
-								result.pages
-									.flatMap(result => (
-										result.transactions
-										?? []
-									))
-							)
-								.map(transaction => (
-									normalizeTransactionBeryx(
-										transaction,
-										network
-									)
-								)),
+							transactions: (
+								normalizeTransactionsBeryx(
+									(
+										result.pages
+											.flatMap(result => (
+												result.transactions
+												?? []
+											))
+									),
+									network
+								)
+							),
 							transactionsCount: result.pages[0]?.total_txs,
 						}),
 					})
@@ -302,19 +299,18 @@
 							lastPage.next_cursor || undefined
 						),
 						select: result => ({
-							transactions: linkInternalTransactionsBeryx(
-								result.pages
-									.flatMap(result => (
-										result.transactions
-										?? []
-									))
-							)
-								.map(transaction => (
-									normalizeTransactionBeryx(
-										transaction,
-										network
-									)
-								)),
+							transactions: (
+								normalizeTransactionsBeryx(
+									(
+										result.pages
+											.flatMap(result => (
+												result.transactions
+												?? []
+											))
+									),
+									network
+								)
+							),
 							transactionsCount: result.pages[0]?.total_txs,
 						}),
 					})

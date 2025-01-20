@@ -44,7 +44,7 @@
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
 
-	import { normalizeTransaction as normalizeTransactionBeryx, linkInternalTransactions as linkInternalTransactionsBeryx } from '$/api/beryx/filecoin/normalize'
+	import { normalizeTransactions as normalizeTransactionsBeryx } from '$/api/beryx/filecoin/normalize'
 
 
 	// Components
@@ -85,15 +85,10 @@
 					)
 				},
 				select: result => (
-					linkInternalTransactionsBeryx(
-						result.transactions
+					normalizeTransactionsBeryx(
+						result.transactions ?? [],
+						network
 					)
-						.map(transaction => (
-							normalizeTransactionBeryx(
-								transaction,
-								network
-							)
-						))
 						[0]
 				),
 			}),

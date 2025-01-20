@@ -129,6 +129,44 @@ export const normalizeTransaction = (
 	},
 })
 
+export const normalizeTransactions = (
+	transactions: Transaction[],
+	network: Ethereum.Network,
+): Filecoin.Transaction[] => (
+	linkInternalTransactions(
+		transactions
+	)
+		.map(transaction => (
+			normalizeTransaction(
+				transaction,
+				network
+			)
+		))
+)
+
+const linkInternalTransactions = (
+	transactions: Transaction[],
+) => {
+	const transactionsById = Object.fromEntries(
+		transactions
+			.map(transaction => [transaction.id, transaction])
+	)
+
+	const rootTransactions: TransactionWithInternalTransactions[] = []
+
+	for(const transaction of transactions){
+		const parentTransaction = transaction.parent_id && transactionsById[transaction.parent_id]
+
+		if(parentTransaction)
+			(parentTransaction.internalTransactions ??= []).push(transaction)
+
+		else
+			rootTransactions.push(transaction)
+	}
+
+	return rootTransactions
+}
+
 export const normalizeAccount = <
 	T extends BeryxActorType = BeryxActorType
 >(
@@ -218,26 +256,3 @@ export const normalizeBalance = (
 
 	balance: BigInt(balance.value),
 })
-
-export const linkInternalTransactions = (
-	transactions: Transaction[],
-) => {
-	const transactionsById = Object.fromEntries(
-		transactions
-			.map(transaction => [transaction.id, transaction])
-	)
-
-	const rootTransactions: TransactionWithInternalTransactions[] = []
-
-	for(const transaction of transactions){
-		const parentTransaction = transaction.parent_id && transactionsById[transaction.parent_id]
-
-		if(parentTransaction)
-			(parentTransaction.internalTransactions ??= []).push(transaction)
-
-		else
-			rootTransactions.push(transaction)
-	}
-
-	return rootTransactions
-}
