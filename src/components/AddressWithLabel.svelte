@@ -18,8 +18,8 @@
 	$: parts = (
 		(
 			{
-				'label': ['label'],
-				'address': ['address'], 
+				'label': [label ? 'label' : 'address'],
+				'address': [address ? 'address' : 'label'],
 				'both': ['label', 'address'],
 				'address-label': ['address', 'label']
 			} as const
