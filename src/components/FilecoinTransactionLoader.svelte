@@ -42,7 +42,7 @@
 
 
 	// Functions
-	import { createInfiniteQuery } from '@tanstack/svelte-query'
+	import { createQuery } from '@tanstack/svelte-query'
 
 	import { normalizeTransaction as normalizeTransactionBeryx, linkInternalTransactions as linkInternalTransactionsBeryx } from '$/api/beryx/filecoin/normalize'
 
@@ -62,20 +62,18 @@
 	errorMessage={`Couldn't retrieve transaction from ${filecoinTransactionProviders[filecoinTransactionProvider].name}.`}
 	{...{
 		[FilecoinTransactionProvider.Beryx]: () => ({
-			fromInfiniteQuery: createInfiniteQuery({
+			fromQuery: createQuery({
 				queryKey: ['Transaction', {
 					transactionProvider: filecoinTransactionProvider,
 					networkProvider,
 					chainId: network.chainId,
 					transactionId: transactionCid,
 				}],
-				initialPageParam: '',
 				queryFn: async ({
 					queryKey: [_, {
 						chainId,
 						transactionId,
 					}],
-					pageParam: cursor,
 				}) => {
 					const { baseUrls, getTransactionsByHash } = await import('$/api/beryx/filecoin/index')
 
@@ -83,17 +81,12 @@
 						transactionId,
 						{
 							baseUrl: baseUrls[chainId],
-							cursor
 						}
 					)
 				},
-				getNextPageParam: (lastPage, allPages) => (
-					lastPage.next_cursor || undefined
-				),
 				select: result => (
 					linkInternalTransactionsBeryx(
-						result.pages
-							.flatMap(result => result.transactions)
+						result.transactions
 					)
 						.map(transaction => (
 							normalizeTransactionBeryx(
