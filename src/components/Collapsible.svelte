@@ -87,7 +87,7 @@
 				translate
 			;
 
-			[data-collapsible-container][data-can-toggle] & {
+			[data-collapsible-container][data-can-toggle] > & {
 				cursor: var(--collapsible-trigger-cursor);
 
 				&:hover {
