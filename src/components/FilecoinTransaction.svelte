@@ -5,10 +5,8 @@
 	import { networkBySlug } from '$/data/networks'
 
 
-	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
-
-	
 	// Inputs
+	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
 	export let transaction: Filecoin.Transaction
 	export let isInternal = false
 	// (View options)
@@ -18,12 +16,26 @@
 	export let showFees = false
 	export let tokenBalanceFormat: 'original' | 'converted' | 'both' = 'original'
 
-	export let contextualAddress: Ethereum.Address
+	export let contextualAddress: Filecoin.Address
 
 	$: isSummary = detailLevel === 'summary'
 	$: isExhaustive = detailLevel === 'exhaustive'
-	$: contextIsSender = contextualAddress && transaction.fromAddress && contextualAddress.toLowerCase() === transaction.fromAddress.toLowerCase()
-	$: contextIsReceiver = contextualAddress && transaction.toAddress && contextualAddress.toLowerCase() === transaction.toAddress.toLowerCase()
+	$: contextIsSender = (
+		contextualAddress
+		&& transaction.fromActor
+		&& (
+			(transaction.fromActor.shortAddress && contextualAddress.toLowerCase() === transaction.fromActor.shortAddress.toLowerCase())
+			|| ('robustAddress' in transaction.fromActor && transaction.fromActor.robustAddress && contextualAddress.toLowerCase() === transaction.fromActor.robustAddress.toLowerCase())
+		)
+	)
+	$: contextIsReceiver = (
+		contextualAddress
+		&& transaction.toActor
+		&& (
+			(transaction.toActor.shortAddress && contextualAddress.toLowerCase() === transaction.toActor.shortAddress.toLowerCase())
+			|| ('robustAddress' in transaction.toActor && transaction.toActor.robustAddress && contextualAddress.toLowerCase() === transaction.toActor.robustAddress.toLowerCase())
+		)
+	)
 
 
 	// Components
@@ -69,27 +81,27 @@
 	</svelte:fragment>
 
 	<!-- <dl>
-		{#if transaction.fromAddress}
+		{#if transaction.fromActor}
 			<span>
 				<dt>From</dt>
-				<dd><Address address={transaction.fromAddress} format="middle-truncated" /></dd>
+				<dd><Address address={transaction.fromActor.shortAddress ?? transaction.fromActor.robustAddress} format="middle-truncated" /></dd>
 			</span>
 		{/if}
 
-		{#if transaction.toAddress}
+		{#if transaction.toActor}
 			<span>
 				<dt>To</dt>
-				<dd><Address address={transaction.toAddress} format="middle-truncated" /></dd>
+				<dd><Address address={transaction.toActor.shortAddress ?? transaction.toActor.robustAddress} format="middle-truncated" /></dd>
 			</span>
 		{/if}
 	</dl> -->
 
 	<div class="row">
-		{#if !(isSummary && (contextIsSender || contextIsReceiver))}
+		{#if !(isSummary && (contextIsSender || contextIsReceiver)) && transaction.fromActor}
 			<span class="sender" transition:fade>
 				<Address
 					{network}
-					address={transaction.fromAddress}
+					address={transaction.fromActor.shortAddress ?? transaction.fromActor.robustAddress}
 					format="middle-truncated"
 				/>
 			</span>
@@ -123,19 +135,20 @@
 			</span>
 		{/if}
 
-		{#if isSummary && contextIsReceiver && transaction.fromAddress}
+		{#if isSummary && contextIsReceiver && transaction.fromActor}
 			<span class="sender" transition:fade>
 				<span>from</span>
-				<Address {network} address={transaction.fromAddress} format="middle-truncated" />
+				<Address {network} address={transaction.fromActor.shortAddress ?? transaction.fromActor.robustAddress} format="middle-truncated" />
 			</span>
-		{:else if transaction.toAddress}
+
+		{:else if transaction.toActor}
 			<span class="receiver" transition:fade>
 				{#if transaction.method}
 					<span>on</span>
 				{:else}
 					<span>to</span>
 				{/if}
-				<Address {network} address={transaction.toAddress} format="middle-truncated" />
+				<Address {network} address={transaction.toActor.shortAddress ?? transaction.toActor.robustAddress} format="middle-truncated" />
 			</span>
 		{/if}
 

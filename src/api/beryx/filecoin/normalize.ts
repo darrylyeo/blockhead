@@ -84,10 +84,14 @@ export const normalizeTransaction = (
 	id: transaction.tx_cid! as Filecoin.TransactionCid,
 
 	...transaction.tx_from && {
-		fromAddress: transaction.tx_from,
+		fromActor: {
+			shortAddress: transaction.tx_from as Filecoin.Address<Filecoin.AddressType.ID>,
+		},
 	},
 	...transaction.tx_to && {
-		toAddress: transaction.tx_to,
+		toActor: {
+			shortAddress: transaction.tx_to as Filecoin.Address<Filecoin.AddressType.ID>,
+		},
 	},
 
 	value: BigInt(transaction.amount ?? 0),

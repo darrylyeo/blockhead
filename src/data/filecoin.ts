@@ -142,8 +142,14 @@ export namespace Filecoin {
 
 		size?: bigint
 
-		fromAddress: Address,
-		toAddress: Address,
+		fromActor?: PartialExceptOneOf<Actor,
+			| 'shortAddress'
+			| 'robustAddress'
+		>
+		toActor?: PartialExceptOneOf<Actor,
+			| 'shortAddress'
+			| 'robustAddress'
+		>
 
 		value: NativeCurrencyAmount
 
