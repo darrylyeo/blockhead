@@ -1,10 +1,11 @@
 <script lang="ts">
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
+	import type { Filecoin } from '$/data/filecoin'
 
 
 	// Inputs
-	export let transactionId: Ethereum.TransactionId
+	export let transactionId: Ethereum.TransactionId | Filecoin.TransactionCid
 	export let network: Ethereum.Network
 	// (View options)
 	export let format: 'full' | 'middle-truncated' = 'full'
