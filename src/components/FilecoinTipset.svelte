@@ -35,7 +35,7 @@
 			<svelte:element this={`h${headingLevel}`}>
 				<BlockNumber
 					{network}
-					blockNumber={tipset.number ?? tipset.id}
+					blockNumber={tipset.number ?? tipset.cid}
 				/>
 			</svelte:element>
 		</svelte:fragment>
@@ -91,7 +91,7 @@
 
 						<span>
 							{#if tipset.blocks?.length || tipset.transactions?.length}and{/if}
-							<abbr title="Block {previousTipsetNumber} hash: {tipset.previousTipset.id ?? ''}">hash</abbr>
+							<abbr title="Block {previousTipsetNumber} hash: {tipset.previousTipset.cid ?? ''}">hash</abbr>
 							of previous tipset
 							<BlockNumber
 								{network}

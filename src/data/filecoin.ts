@@ -9,14 +9,15 @@ export namespace Filecoin {
 	export type TipsetCid = IpfsCid
 
 	export type Tipset = {
-		id: TipsetCid,
 		number: TipsetNumber,
+		cid?: TipsetCid,
+
 		timestamp: number,
 		isCanonical?: boolean,
 		baseGasFee?: GasRate
 
 		previousTipset?: PartialExceptOneOf<Tipset,
-			| 'id'
+			| 'cid'
 		>
 
 		blocks?: Block[],
@@ -50,7 +51,7 @@ export namespace Filecoin {
 		transactionsCount?: number
 
 		tipset?: PartialExceptOneOf<Tipset,
-			| 'id'
+			| 'cid'
 			| 'number'
 			| 'timestamp'
 		>
@@ -186,7 +187,7 @@ export namespace Filecoin {
 		>
 
 		tipset?: PartialExceptOneOf<Tipset,
-			| 'id'
+			| 'cid'
 			| 'number'
 			| 'timestamp'
 		>

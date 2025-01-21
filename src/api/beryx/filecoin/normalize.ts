@@ -14,7 +14,7 @@ import { isTruthy } from '$/utils/isTruthy'
 export const normalizeTipset = (
 	tipset: TipsetInfo,
 ): Filecoin.Tipset => ({
-	id: tipset.tipset_cid,
+	cid: tipset.tipset_cid,
 
 	number: tipset.height !== undefined ? BigInt(tipset.height) : undefined,
 	timestamp: tipset.timestamp !== undefined ? new Date(tipset.timestamp).valueOf() : undefined,
@@ -35,7 +35,7 @@ export const normalizeTipset = (
 
 	...tipset.parent_tipset_cid && {
 		previousTipset: {
-			id: tipset.parent_tipset_cid,
+			cid: tipset.parent_tipset_cid,
 		},
 	},
 })
@@ -51,7 +51,7 @@ export const normalizeBlock = (
 	},
 
 	tipset: {
-		id: tipset.tipset_cid,
+		cid: tipset.tipset_cid,
 
 		...tipset.height !== undefined && {
 			number: BigInt(tipset.height),
@@ -136,7 +136,7 @@ export const normalizeTransaction = (
 		|| transaction.tx_timestamp !== undefined
 	) && {
 		tipset: {
-			id: transaction.tipset_cid,
+			cid: transaction.tipset_cid,
 			...transaction.height !== undefined && {
 				number: BigInt(transaction.height),
 			},
