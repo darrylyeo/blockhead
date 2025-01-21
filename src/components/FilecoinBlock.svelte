@@ -38,7 +38,7 @@
 			<svelte:element this={`h${headingLevel}`}>
 				<FilecoinBlockCid
 					{network}
-					blockCid={block.id}
+					blockCid={block.cid}
 					format="middle-truncated"
 				/>
 			</svelte:element>
@@ -122,7 +122,7 @@
 		<FilecoinTransactionsLoader
 			{network}
 			query={{
-				blockCid: block.id,
+				blockCid: block.cid,
 			}}
 			bind:transactions={block.transactions}
 			bind:transactionsCount={block.transactionsCount}
@@ -148,7 +148,7 @@
 				Block
 				<FilecoinBlockCid
 					{network}
-					blockCid={block.id}
+					blockCid={block.cid}
 					format="middle-truncated"
 				/>
 			</span>

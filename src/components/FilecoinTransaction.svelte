@@ -218,12 +218,12 @@
 					</TransactionId>
 				</span>
 
-				{#if transaction.block?.id !== undefined}
+				{#if transaction.block?.cid !== undefined}
 					<span>
 						in block
 						<FilecoinBlockCid
 							{network}
-							blockCid={transaction.block.id}
+							blockCid={transaction.block.cid}
 							format="middle-truncated"
 						/>
 					</span>

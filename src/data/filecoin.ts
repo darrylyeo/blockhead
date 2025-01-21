@@ -29,7 +29,7 @@ export namespace Filecoin {
 	export type BlockCid = IpfsCid
 
 	export type Block = {
-		id: BlockCid
+		cid: BlockCid
 
 		miner: PartialExceptOneOf<Actor<ActorType.Miner>,
 			| 'shortAddress'
@@ -57,7 +57,7 @@ export namespace Filecoin {
 		>
 
 		parentBlocks?: PartialExceptOneOf<Block,
-			| 'id'
+			| 'cid'
 		>[]
 
 		weight?: bigint
@@ -183,7 +183,7 @@ export namespace Filecoin {
 		transfers?: Transfer[]
 
 		block?: PartialExceptOneOf<Block,
-			'id'
+			'cid'
 		>
 
 		tipset?: PartialExceptOneOf<Tipset,

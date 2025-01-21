@@ -33,11 +33,11 @@
 	</svelte:fragment>
 	
 	<div class="blocks-list column" class:scrollable-list={blocks.length > 7}>
-		{#each blocks as block (block.id)}
+		{#each blocks as block (block.cid)}
 			<AnchorLink
 				class="card"
 				base={`/explorer/${network.slug}`}
-				link={`/block/${block.id}`}
+				link={`/block/${block.cid}`}
 			>
 				<FilecoinBlock
 					{block}

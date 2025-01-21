@@ -44,7 +44,7 @@ export const normalizeBlock = (
 	block: BlockInfo,
 	tipset: TipsetInfo,
 ): Filecoin.Block => ({
-	id: block.BlockCid!,
+	cid: block.BlockCid!,
 
 	miner: {
 		shortAddress: block.Miner as Filecoin.Address<Filecoin.AddressType.ID>,
@@ -126,7 +126,7 @@ export const normalizeTransaction = (
 
 	...transaction.block_cid && {
 		block: {
-			id: transaction.block_cid,
+			cid: transaction.block_cid,
 		},
 	},
 
