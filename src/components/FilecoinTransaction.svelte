@@ -68,7 +68,7 @@
 			<span class="transaction-id">
 				<TransactionId
 					{network}
-					transactionId={transaction.id}
+					transactionId={transaction.cid}
 				/>
 			</span>
 		</svelte:element>
@@ -204,12 +204,12 @@
 		<hr>
 
 		<footer class="footer bar">
-			<span class="row inline wrap" title="Transaction {transaction.id}">
+			<span class="row inline wrap" title="Transaction {transaction.cid}">
 				<span>
 					Transaction
 					<TransactionId
 						{network}
-						transactionId={transaction.id}
+						transactionId={transaction.cid}
 						format="middle-truncated"
 						linked
 						let:formattedTransactionId

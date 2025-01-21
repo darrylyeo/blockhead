@@ -106,13 +106,13 @@
 					{#if actor.createdAt}
 						<dt>Created</dt>
 						<dd>
-							{#if 'transaction' in actor.createdAt && actor.createdAt.transaction?.id}
+							{#if 'transaction' in actor.createdAt && actor.createdAt.transaction?.cid}
 								<InlineTransition align="start"
-									key={actor.createdAt.transaction.id}
+									key={actor.createdAt.transaction.cid}
 								>
 									<TransactionId
 										{network}
-										transactionId={actor.createdAt.transaction.id}
+										transactionId={actor.createdAt.transaction.cid}
 										format="middle-truncated"
 										truncateOptions={{
 											startLength: 8,

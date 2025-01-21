@@ -81,7 +81,7 @@ export const normalizeTransaction = (
 	transaction: Transaction | TransactionWithInternalTransactions,
 	network: Ethereum.Network,
 ): Filecoin.Transaction => ({
-	id: transaction.tx_cid! as Filecoin.TransactionCid,
+	cid: transaction.tx_cid! as Filecoin.TransactionCid,
 
 	...transaction.tx_from && {
 		fromActor: {
@@ -246,12 +246,12 @@ export const normalizeAccount = <
 		createdAt: {
 			...'creation_tx_hash' in account && account.creation_tx_hash && {
 				transaction: {
-					id: account.creation_tx_hash,
+					cid: account.creation_tx_hash,
 				},
 			},
 			...'creation_tx_cid' in account && account.creation_tx_cid && {
 				transaction: {
-					id: account.creation_tx_cid,
+					cid: account.creation_tx_cid,
 				},
 			},
 

@@ -102,7 +102,7 @@
 			<AnchorLink
 				class={layout === 'inline' ? 'card' : ''}
 				base={`/explorer/${network.slug}`}
-				link={`/tx/${transaction.id}`}
+				link={`/tx/${transaction.cid}`}
 			>
 				<FilecoinTransaction
 					{network}

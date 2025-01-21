@@ -46,7 +46,7 @@ export namespace Filecoin {
 		penalty?: NativeCurrencyAmount
 
 		transactions?: PartialExceptOneOf<Transaction,
-			| 'id'
+			| 'cid'
 		>[]
 		transactionsCount?: number
 
@@ -139,7 +139,7 @@ export namespace Filecoin {
 	export type ActorMethodName = string
 
 	export type Transaction = {
-		id: TransactionCid
+		cid: TransactionCid
 
 		size?: bigint
 
@@ -571,7 +571,7 @@ export namespace Filecoin {
 
 	export type TimeReference = PartialExceptOneOf<{
 		transaction: PartialExceptOneOf<Transaction,
-			'id'
+			'cid'
 		>
 
 		tipset: PartialExceptOneOf<Tipset,
