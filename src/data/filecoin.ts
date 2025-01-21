@@ -13,10 +13,13 @@ export namespace Filecoin {
 		cid?: TipsetCid,
 
 		timestamp: number,
+
 		isCanonical?: boolean,
+
 		baseGasFee?: GasRate
 
 		previousTipset?: PartialExceptOneOf<Tipset,
+			| 'number'
 			| 'cid'
 		>
 
@@ -51,8 +54,8 @@ export namespace Filecoin {
 		transactionsCount?: number
 
 		tipset?: PartialExceptOneOf<Tipset,
-			| 'cid'
 			| 'number'
+			| 'cid'
 			| 'timestamp'
 		>
 
@@ -187,8 +190,8 @@ export namespace Filecoin {
 		>
 
 		tipset?: PartialExceptOneOf<Tipset,
-			| 'cid'
 			| 'number'
+			| 'cid'
 			| 'timestamp'
 		>
 	}
