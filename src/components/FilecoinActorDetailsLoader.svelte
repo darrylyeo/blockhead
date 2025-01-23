@@ -45,6 +45,8 @@
 
 	import { normalizeAccount as normalizeAccountBeryx } from '$/api/beryx/filecoin/normalize'
 
+	import { normalizeAccount as normalizeAccountFilfox } from '$/api/filfox/normalize'
+
 
 	// Components
 	import Loader from './Loader.svelte'
@@ -92,6 +94,34 @@
 				select: account => (
 					normalizeAccountBeryx(
 						account,
+					)
+				),
+			}),
+		}),
+
+		[FilecoinTransactionProvider.Filfox]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['Account', {
+					transactionProvider: filecoinTransactionProvider,
+					chainId: network.chainId,
+					address,
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						address,
+					}],
+				}) => {
+					const { getAddress } = await import('$/api/filfox/index')
+
+					return await getAddress({
+						address,
+					})
+				},
+				select: account => (
+					normalizeAccountFilfox(
+						account,
+						network,
 					)
 				),
 			}),

@@ -244,6 +244,7 @@ export const preferencesConfig = [
 						name: 'Off-Chain',
 						options: (
 							([
+								FilecoinTransactionProvider.Filfox,
 								FilecoinTransactionProvider.Beryx,
 							] as const)
 								.map(provider => ({
