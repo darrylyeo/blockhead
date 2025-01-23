@@ -197,9 +197,49 @@ export namespace Filecoin {
 	}
 
 	export enum TransferType {
-		MinerFee = 'MinerFee',
+		Genesis = 'Genesis',
+		Burn = 'Burn',
 		BurnFee = 'BurnFee',
+		MinerFee = 'MinerFee',
+		Penalty = 'Penalty',
+		Rebalance = 'Rebalance',
+		Receive = 'Receive',
+		Reward = 'Reward',
+		Send = 'Send',
 		Transfer = 'Transfer',
+	}
+
+	export const transferTypes = {
+		[TransferType.Genesis]: {
+			label: 'Genesis',
+		},
+		[TransferType.Burn]: {
+			label: 'Burn',
+		},
+		[TransferType.BurnFee]: {
+			label: 'Burn Fee',
+		},
+		[TransferType.MinerFee]: {
+			label: 'Miner Fee',
+		},
+		[TransferType.Penalty]: {
+			label: 'Penalty',
+		},
+		[TransferType.Rebalance]: {
+			label: 'Rebalance',
+		},
+		[TransferType.Receive]: {
+			label: 'Receive',
+		},
+		[TransferType.Reward]: {
+			label: 'Reward',
+		},
+		[TransferType.Send]: {
+			label: 'Send',
+		},
+		[TransferType.Transfer]: {
+			label: 'Transfer',
+		},
 	}
 
 	export type Transfer<
