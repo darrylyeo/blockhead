@@ -38,3 +38,18 @@ export const filfoxActorTypes = invertRecord(
 		[Filecoin.ActorType.EvmContract]: 'evm',
 	} as const satisfies Partial<Record<Filecoin.ActorType, string>>
 )
+
+export const filfoxTransferTypes = invertRecord(
+	{
+		[Filecoin.TransferType.Genesis]: 'genesis',
+		[Filecoin.TransferType.Burn]: 'burn',
+		[Filecoin.TransferType.BurnFee]: 'burn-fee',
+		[Filecoin.TransferType.MinerFee]: 'miner-fee',
+		[Filecoin.TransferType.Penalty]: 'penalty',
+		[Filecoin.TransferType.Rebalance]: 'rebalance',
+		[Filecoin.TransferType.Receive]: 'receive',
+		[Filecoin.TransferType.Reward]: 'reward',
+		[Filecoin.TransferType.Send]: 'send',
+		[Filecoin.TransferType.Transfer]: 'transfer',
+	} as const satisfies Partial<Record<Filecoin.TransferType, string>>
+)

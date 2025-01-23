@@ -1,5 +1,5 @@
 // Types
-import type { filfoxActorTypes } from './constants'
+import type { filfoxActorTypes, filfoxTransferTypes } from './constants'
 
 
 export type Overview = {
@@ -246,7 +246,9 @@ export type Message = {
 	tokenTransfers: TokenTransfer[]
 }
 
-export type Transfer = {
+export type Transfer<
+	T extends keyof typeof filfoxTransferTypes = keyof typeof filfoxTransferTypes
+> = {
 	from: string
 	fromId: string
 	fromTag?: {
@@ -260,31 +262,22 @@ export type Transfer = {
 		signed: boolean
 	}
 	value: `${bigint}`
-	type: 'miner-fee' | 'burn-fee' | 'transfer'
+	type: T
 }
 
 export type AddressMessages = {
 	messages: Message[]
 }
 
-export type AddressTransferType = (
-	| 'genesis'
-	| 'burn-fee'
-	| 'miner-fee'
-	| 'rebalance'
-	| 'receive'
-	| 'reward'
-	| 'send'
-	| 'transfer'
-)
-
 export type AddressTransfers = {
 	totalCount: number
 	transfers: AddressTransfer[]
-	types: AddressTransferType[]
+	types: (keyof typeof filfoxTransferTypes)[]
 }
 
-export type AddressTransfer = {
+export type AddressTransfer<
+	T extends keyof typeof filfoxTransferTypes = keyof typeof filfoxTransferTypes
+> = {
 	height: number
 	timestamp: number
 	message?: string
@@ -299,7 +292,7 @@ export type AddressTransfer = {
 		signed: boolean
 	}
 	value: `${bigint}`
-	type: AddressTransferType
+	type: T
 }
 
 export type AddressMessageTransfers = {
