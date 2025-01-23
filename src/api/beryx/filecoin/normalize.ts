@@ -125,9 +125,11 @@ export const normalizeTransaction = (
 	},
 
 	...transaction.block_cid && {
-		block: {
-			cid: transaction.block_cid,
-		},
+		blocks: [
+			{
+				cid: transaction.block_cid,
+			},
+		],
 	},
 
 	...(
