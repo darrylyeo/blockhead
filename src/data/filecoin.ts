@@ -16,7 +16,7 @@ export namespace Filecoin {
 
 		isCanonical?: boolean,
 
-		baseGasFee?: GasRate
+		baseGasRate?: GasRate
 
 		previousTipset?: PartialExceptOneOf<Tipset,
 			| 'number'
@@ -65,7 +65,7 @@ export namespace Filecoin {
 
 		weight?: bigint
 		stateRoot?: IpfsCid
-		baseGasFee?: bigint
+		baseGasRate?: GasRate
 	}
 
 	export enum AddressType {
