@@ -498,6 +498,9 @@ export namespace Filecoin {
 				{
 					cid?: ActorCid
 					shortAddress: Address<AddressType.ID>
+					robustAddress?: Address<AddressType.Actor>
+
+					minerDetails?: Miner
 				}
 
 			: T extends ActorType.Miner ?
@@ -593,15 +596,15 @@ export namespace Filecoin {
 			transfers?: Transfer[]
 			transfersCount?: number
 
-			ownedMiners: PartialExceptOneOf<Actor<ActorType.Miner>,
+			ownedMiners?: PartialExceptOneOf<Actor<ActorType.StorageMiner>,
 				| 'shortAddress'
 				| 'robustAddress'
 			>[]
-			workerMiners: PartialExceptOneOf<Actor<ActorType.Miner>,
+			workerMiners?: PartialExceptOneOf<Actor<ActorType.StorageMiner>,
 				| 'shortAddress'
 				| 'robustAddress'
 			>[]
-			benefitedMiners: PartialExceptOneOf<Actor<ActorType.Miner>,
+			benefitedMiners?: PartialExceptOneOf<Actor<ActorType.StorageMiner>,
 				| 'shortAddress'
 				| 'robustAddress'
 			>[]
@@ -611,6 +614,68 @@ export namespace Filecoin {
 			lastActiveAt?: TimeReference
 		}
 	)
+
+	export type Miner = {
+		ownerActor: PartialExceptOneOf<Actor<ActorType.Account | ActorType.Multisig>,
+			| 'shortAddress'
+			| 'robustAddress'
+		>
+		workerActor: PartialExceptOneOf<Actor<ActorType.Account | ActorType.Multisig>,
+			| 'shortAddress'
+			| 'robustAddress'
+		>
+		beneficiaryActor: PartialExceptOneOf<Actor<ActorType.Account | ActorType.Multisig>,
+			| 'shortAddress'
+			| 'robustAddress'
+		>
+		controlActors: PartialExceptOneOf<Actor<ActorType.Account | ActorType.Multisig>,
+			| 'shortAddress'
+			| 'robustAddress'
+		>[]
+
+		peerId: string
+		multiAddresses: string[]
+
+		power: {
+			rawBytePower: {
+				value: bigint
+				rank: number
+			}
+
+			qualityAdjustedPower: {
+				value: bigint
+				rank: number
+			}
+
+		}
+		globalPower: {
+			rawBytePower: {
+				value: bigint
+			}
+			qualityAdjustedPower: {
+				value: bigint
+			}
+		}
+
+		minedBlocksCount: number
+		minedBlocksWeightedCount: number
+
+		totalRewards: NativeCurrencyAmount
+		preCommitDeposits: NativeCurrencyAmount
+		vestingFunds: NativeCurrencyAmount
+		initialPledgeRequirement: NativeCurrencyAmount
+		availableBalance: NativeCurrencyAmount
+		sectorPledgeBalance: NativeCurrencyAmount
+		pledgeBalance: NativeCurrencyAmount
+
+		sectorSize: number
+		sectors: {
+			live: number
+			active: number
+			faulty: number
+			recovering: number
+		}
+	}
 
 	export type TimeReference = PartialExceptOneOf<{
 		transaction: PartialExceptOneOf<Transaction,
