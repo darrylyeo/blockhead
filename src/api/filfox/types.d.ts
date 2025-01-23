@@ -1,3 +1,7 @@
+// Types
+import type { filfoxActorTypes } from './constants'
+
+
 export type Overview = {
 	height: number
 	timestamp: number
@@ -29,25 +33,83 @@ export type Overview = {
 	priceChangePercentage: number
 }
 
-export type AddressInfo = {
-	id: string
-	robust: string
-	actor: string
-	createHeight: number
-	createTimestamp: number
-	lastSeenHeight: number
-	lastSeenTimestamp: number
-	balance: `${bigint}`
-	messageCount: number
-	transferCount: number
-	tokenTransferCount: number
-	timestamp: number
-	tokens: number
-	ownedMiners: string[]
-	workerMiners: string[]
-	benefitedMiners: string[]
-	address: string
-}
+export type AddressInfo<
+	T extends keyof typeof filfoxActorTypes = keyof typeof filfoxActorTypes
+> = (
+	& {
+		id: string
+		robust: string
+		actor: T
+		createHeight: number
+		createTimestamp: number
+		lastSeenHeight: number
+		lastSeenTimestamp: number
+		balance: `${bigint}`
+		messageCount: number
+		transferCount: number
+		tokenTransferCount: number
+		timestamp: number
+		tokens: number
+	}
+
+	& (
+		T extends 'storageminer' ?
+			{
+				miner: {
+					owner: {
+						address: string
+						balance: `${bigint}`
+					}
+					worker: {
+						address: string
+						balance: `${bigint}`
+					}
+					beneficiary: {
+						address: string
+						balance: `${bigint}`
+					}
+					controlAddresses: {
+						address: string
+						balance: `${bigint}`
+					}[]
+					peerId: string
+					multiAddresses: string[]
+					sectorSize: number
+					rawBytePower: `${bigint}`
+					qualityAdjPower: `${bigint}`
+					networkRawBytePower: `${bigint}`
+					networkQualityAdjPower: `${bigint}`
+					blocksMined: number
+					weightedBlocksMined: number
+					totalRewards: `${bigint}`
+					sectors: {
+						live: number
+						active: number
+						faulty: number
+						recovering: number
+					}
+					preCommitDeposits: `${bigint}`
+					vestingFunds: `${bigint}`
+					initialPledgeRequirement: `${bigint}`
+					availableBalance: `${bigint}`
+					sectorPledgeBalance: `${bigint}`
+					pledgeBalance: `${bigint}`
+					rawBytePowerRank: number
+					qualityAdjPowerRank: number
+				}
+			}
+
+		:
+			never
+	)
+
+	& {
+		ownedMiners: string[]
+		workerMiners: string[]
+		benefitedMiners: string[]
+		address: string
+	}
+)
 
 export type Tipset = {
 	height: number
