@@ -65,7 +65,7 @@ export namespace Filecoin {
 
 		weight?: bigint
 		stateRoot?: IpfsCid
-		baseGasFee?: bigint
+		baseGasRate?: GasRate
 	}
 
 	export enum AddressType {

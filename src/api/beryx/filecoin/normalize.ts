@@ -20,7 +20,7 @@ export const normalizeTipset = (
 	timestamp: tipset.timestamp !== undefined ? new Date(tipset.timestamp).valueOf() : undefined,
 
 	isCanonical: tipset.canonical,
-	baseGasFee: tipset.base_fee !== undefined ? BigInt(tipset.base_fee) : undefined,
+	baseGasRate: tipset.base_fee !== undefined ? BigInt(tipset.base_fee) : undefined,
 
 	blocks: (
 		tipset
