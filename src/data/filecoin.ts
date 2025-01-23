@@ -185,9 +185,9 @@ export namespace Filecoin {
 
 		transfers?: Transfer[]
 
-		block?: PartialExceptOneOf<Block,
-			'cid'
-		>
+		blocks?: PartialExceptOneOf<Block,
+			| 'cid'
+		>[]
 
 		tipset?: PartialExceptOneOf<Tipset,
 			| 'number'

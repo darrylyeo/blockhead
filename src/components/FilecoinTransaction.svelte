@@ -218,14 +218,19 @@
 					</TransactionId>
 				</span>
 
-				{#if transaction.block?.cid !== undefined}
+				{#if transaction.blocks?.length}
 					<span>
-						in block
-						<FilecoinBlockCid
-							{network}
-							blockCid={transaction.block.cid}
-							format="middle-truncated"
-						/>
+						in
+						{transaction.blocks.length === 1 ? 'block' : 'blocks'}
+
+						{#each transaction.blocks as block (block.cid)}
+							{' '}
+							<FilecoinBlockCid
+								{network}
+								blockCid={block.cid}
+								format="middle-truncated"
+							/>
+						{/each}
 					</span>
 				{/if}
 
