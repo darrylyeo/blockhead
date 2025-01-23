@@ -46,6 +46,8 @@
 
 	import { normalizeTransactions as normalizeTransactionsBeryx } from '$/api/beryx/filecoin/normalize'
 
+	import { normalizeMessage as normalizeTransactionFilfox } from '$/api/filfox/normalize'
+
 
 	// Components
 	import Loader from './Loader.svelte'
@@ -90,6 +92,32 @@
 						network
 					)
 						[0]
+				),
+			}),
+		}),
+
+		[FilecoinTransactionProvider.Filfox]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['Transaction', {
+					transactionProvider: filecoinTransactionProvider,
+					transactionId: transactionCid,
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						transactionId,
+					}],
+				}) => {
+					const { getMessage } = await import('$/api/filfox')
+
+					return await getMessage({
+						cid: transactionId,
+					})
+				},
+				select: result => (
+					normalizeTransactionFilfox(
+						result,
+						network
+					)
 				),
 			}),
 		}),

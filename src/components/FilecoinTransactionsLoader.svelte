@@ -68,9 +68,11 @@
 
 
 	// Functions
-	import { createInfiniteQuery } from '@tanstack/svelte-query'
+	import { createQuery, createInfiniteQuery } from '@tanstack/svelte-query'
 
 	import { normalizeTransactions as normalizeTransactionsBeryx } from '$/api/beryx/filecoin/normalize'
+
+	import { normalizeMessage as normalizeTransactionFilfox } from '$/api/filfox/normalize'
 
 
 	// Components
@@ -314,6 +316,77 @@
 							transactionsCount: result.pages[0]?.total_txs,
 						}),
 					})
+				:
+					undefined
+			),
+		}),
+
+		[FilecoinTransactionProvider.Filfox]: () => ({
+			fromQuery: (
+				'address' in query ?
+					createQuery({
+						queryKey: ['Transactions', {
+							filecoinTransactionProvider,
+							address: query.address,
+						}],
+						queryFn: async ({
+							queryKey: [_, {
+								address,
+							}],
+						}) => {
+							const { getAddressMessages } = await import('$/api/filfox')
+
+							return await getAddressMessages({
+								address,
+							})
+						},
+						select: result => ({
+							transactions: (
+								result
+									.messages
+									.map(transaction => (
+										normalizeTransactionFilfox(
+											transaction,
+											network
+										)
+									))
+							),
+							transactionsCount: result.totalCount,
+						}),
+					})
+
+				: 'blockCid' in query ?
+					createQuery({
+						queryKey: ['Transactions', {
+							filecoinTransactionProvider,
+							blockCid: query.blockCid,
+						}],
+						queryFn: async ({
+							queryKey: [_, {
+								blockCid,
+							}],
+						}) => {
+							const { getBlockMessages } = await import('$/api/filfox')
+
+							return await getBlockMessages({
+								cid: blockCid,
+							})
+						},
+						select: result => ({
+							transactions: (
+								result
+									.messages
+									.map(transaction => (
+										normalizeTransactionFilfox(
+											transaction,
+											network
+										)
+									))
+							),
+							transactionsCount: result.totalCount,
+						}),
+					})
+
 				:
 					undefined
 			),

@@ -47,7 +47,10 @@
 
 	// Functions
 	import { createQuery } from '@tanstack/svelte-query'
+
 	import { normalizeBlockFromTipset as normalizeBlockFromTipsetBeryx } from '$/api/beryx/filecoin/normalize'
+
+	import { normalizeBlock as normalizeBlockFilfox } from '$/api/filfox/normalize'
 
 
 	// Components
@@ -90,6 +93,29 @@
 						blockCid
 					)
 				),
+			}),
+		}),
+
+		[FilecoinTransactionProvider.Filfox]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['Block', {
+					filecoinTransactionProvider,
+					blockCid,
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						blockCid,
+					}],
+				}) => {
+					const { getBlock } = await import('$/api/filfox')
+					
+					return await getBlock({
+						cid: blockCid,
+					})
+				},
+				select: result => (
+					normalizeBlockFilfox(result)
+				)
 			}),
 		}),
 	}[filecoinTransactionProvider]?.()}

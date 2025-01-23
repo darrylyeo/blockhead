@@ -52,6 +52,8 @@
 
 	import { normalizeTipset as normalizeTipsetBeryx } from '$/api/beryx/filecoin/normalize'
 
+	import { normalizeTipset as normalizeTipsetFilfox } from '$/api/filfox/normalize'
+
 
 	// Components
 	import Loader from './Loader.svelte'
@@ -115,6 +117,42 @@
 						select: result => (
 							normalizeTipsetBeryx(result[0])
 						),
+					})
+
+				:
+					undefined
+			),
+		}),
+
+		[FilecoinTransactionProvider.Filfox]: () => ({
+			fromQuery: (
+				'tipsetNumber' in query ?
+					createQuery({
+						queryKey: ['Block', {
+							filecoinTransactionProvider,
+							tipsetNumber: Number(query.tipsetNumber),
+						}],
+						queryFn: async () => {
+							const { getTipset } = await import('$/api/filfox')
+							
+							return await getTipset({
+								height: Number(query.tipsetNumber),
+							})
+						},
+						select: result => (
+							normalizeTipsetFilfox(result)
+						),
+					})
+
+				: 'tipsetCid' in query ?
+					createQuery({
+						queryKey: ['Block', {
+							filecoinTransactionProvider,
+							tipsetCid: query.tipsetCid,
+						}],
+						queryFn: async () => {
+							throw new Error(`The ${filecoinTransactionProviders[filecoinTransactionProvider].name} API doesn't support retrieving tipset by CID.`) 
+						},
 					})
 
 				:
