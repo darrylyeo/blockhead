@@ -193,21 +193,28 @@
 				/>
 
 				<dl>
-					<dt>Sectors</dt>
-					<dd>
-						<TokenBalance
-							token={network.nativeCurrency}
-							balance={minerDetails.sectorPledgeBalance}
-						/>
-					</dd>
-	
-					<dt>Vested</dt>
-					<dd>
-						<TokenBalance
-							token={network.nativeCurrency}
-							balance={minerDetails.vestingFunds}
-						/>
-					</dd>
+					{#each [
+						{
+							label: 'Sectors',
+							value: minerDetails.sectorPledgeBalance,
+						},
+						{
+							label: 'Vested',
+							value: minerDetails.vestingFunds,
+						},
+					] as { label, value } (label)}
+						{@const totalValue = minerDetails.pledgeBalance}
+
+						<dt>{label}</dt>
+						<dd>
+							<TokenBalance
+								token={network.nativeCurrency}
+								balance={value}
+							/>
+
+							<small>({formatPercent(Number(value) / Number(totalValue))})</small>
+						</dd>
+					{/each}
 				</dl>
 			</dd>
 
@@ -233,23 +240,55 @@
 			<dd class="column">
 				<span>
 					<TweenedNumber value={minerDetails.sectors.live} /> sectors
+
+					<small>(<BytesCount
+						bytesCount={minerDetails.sectors.live * minerDetails.sectorSize}
+						format={{
+							showDecimalPlaces: 4,
+						}}
+					/>)</small>
 				</span>
 
 				<dl>
-					<dt>Active</dt>
-					<dd>
-						<TweenedNumber value={minerDetails.sectors.active} /> sectors
-					</dd>
+					{#each [
+						{
+							label: 'Active',
+							value: minerDetails.sectors.active,
+						},
+						{
+							label: 'Faulty',
+							value: minerDetails.sectors.faulty,
+						},
+						{
+							label: 'Recovering',
+							value: minerDetails.sectors.recovering,
+						},
+					] as { label, value } (label)}
+						{@const totalValue = minerDetails.sectors.live}
 
-					<dt>Faulty</dt>
-					<dd>
-						<TweenedNumber value={minerDetails.sectors.faulty} /> sectors
-					</dd>
+						<dt>{label}</dt>
+						<dd>
+							{#if value}
+								<span>
+									<TweenedNumber value={value} /> sectors
+								</span>
 
-					<dt>Recovering</dt>
-					<dd>
-						<TweenedNumber value={minerDetails.sectors.recovering} /> sectors
-					</dd>
+								<small>({
+									#if value !== totalValue
+										}<BytesCount
+											bytesCount={value * minerDetails.sectorSize}
+											format={{
+												showDecimalPlaces: 4,
+											}}
+										/>・{
+									/if}{
+									formatPercent(value / totalValue)
+								})</small>
+							{:else}
+								<span class="placeholder" data-after="–" />
+							{/if}
+						</dd>
+					{/each}
 				</dl>
 			</dd>
 
@@ -261,13 +300,6 @@
 						showDecimalPlaces: 0,
 					}}
 				/> / sector
-
-				<small>(<BytesCount
-						bytesCount={minerDetails.sectorSize * minerDetails.sectors.live}
-						format={{
-							showDecimalPlaces: 4,
-						}}
-					/> total)</small>
 			</dd>
 
 			<dt>Pledge Requirement</dt>
