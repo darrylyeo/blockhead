@@ -20,6 +20,7 @@
 	import BlockNumber from './BlockNumber.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import DateTime from './DateTime.svelte'
+	import FilecoinBlockLoader from './FilecoinBlockLoader.svelte'
 	import FilecoinBlockCid from './FilecoinBlockCid.svelte'
 	import FilecoinTransactionsLoader from './FilecoinTransactionsLoader.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
@@ -318,6 +319,55 @@
 			/>
 		</FilecoinTransactionsLoader>
 	</section>
+
+	<hr>
+
+	{#if block.parentBlocks}
+		<Collapsible>
+			<svelte:fragment slot="title">
+				<svelte:element this={`h${headingLevel + 1}`}>
+					Parent Blocks
+					
+					{#if block.tipset?.number !== undefined}
+						<small>
+							from tipset
+							<BlockNumber
+								{network}
+								blockNumber={block.tipset.number - 1n}
+							/>
+						</small>
+					{/if}
+
+					<small>
+						({block.parentBlocks.length})
+					</small>
+				</svelte:element>
+			</svelte:fragment>
+
+			<ul class="column scrollable-list">
+				{#each block.parentBlocks as parentBlock}
+					<li class="scrollable-list-item">
+						<FilecoinBlockLoader
+							{network}
+							blockCid={parentBlock.cid}
+							let:block
+						>
+							{#if block}
+								<div class="card">
+									<svelte:self
+										{network}
+										{block}
+										headingLevel={headingLevel + 2}
+										isOpen={false}
+									/>
+								</div>
+							{/if}
+						</FilecoinBlockLoader>
+					</li>
+				{/each}
+			</ul>
+		</Collapsible>
+	{/if}
 
 	<hr>
 
