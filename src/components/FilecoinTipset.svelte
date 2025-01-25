@@ -58,7 +58,7 @@
 
 		<svelte:fragment slot="header-right">
 			<span class="card-annotation">
-				<abbr title="Tipset: A set of blocks that are mined at the same time.">{network.name} Tipset</abbr>
+				<abbr title="Tipset: A set of blocks that are mined at the same time.">{network.name}{tipset.number === 0n ? ' Genesis' : ''} Tipset</abbr>
 			</span>
 		</svelte:fragment>
 
