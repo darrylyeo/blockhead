@@ -20,6 +20,7 @@
 	import FilecoinBlocks from './FilecoinBlocks.svelte'
 	import FilecoinTransactionsLoader from './FilecoinTransactionsLoader.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
+	import IpfsContentId from './IpfsContentId.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 </script>
 
@@ -32,12 +33,27 @@
 		class="column"
 	>
 		<svelte:fragment slot="title">
-			<svelte:element this={`h${headingLevel}`}>
-				<BlockNumber
-					{network}
-					blockNumber={tipset.number ?? tipset.cid}
-				/>
-			</svelte:element>
+			<div class="row inline">
+				<svelte:element this={`h${headingLevel}`}>
+					<BlockNumber
+						{network}
+						blockNumber={tipset.number ?? tipset.cid}
+					/>
+
+					{#if tipset.cid}
+						<small>
+							<IpfsContentId
+								ipfsContentId={tipset.cid}
+								format="middle-truncated"
+							/>
+						</small>
+					{/if}
+				</svelte:element>
+
+				{#if tipset.isCanonical}
+					<abbr title="Canonical">✔</abbr>
+				{/if}
+			</div>
 		</svelte:fragment>
 
 		<svelte:fragment slot="header-right">
