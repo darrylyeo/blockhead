@@ -16,13 +16,16 @@
 	
 	
 	// Components
-	import Address from './Address.svelte'
+	import AddressWithLabel from './AddressWithLabel.svelte'
 	import BlockNumber from './BlockNumber.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import DateTime from './DateTime.svelte'
 	import FilecoinBlockCid from './FilecoinBlockCid.svelte'
 	import FilecoinTransactionsLoader from './FilecoinTransactionsLoader.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
+	import IpfsContentId from './IpfsContentId.svelte'
+	import TokenBalance from './TokenBalance.svelte'
+	import TweenedNumber from './TweenedNumber.svelte'
 </script>
 
 
@@ -86,29 +89,118 @@
 
 						{#if block.miner?.shortAddress ?? block.miner?.robustAddress}
 							<span class="miner-address">
-								<Address
+								<AddressWithLabel
 									{network}
 									address={block.miner?.shortAddress ?? block.miner?.robustAddress}
-									format="middle-truncated"
+									addressFormat="middle-truncated"
+									label={block.labels?.miner?.label}
 								/>
 							</span>
 						{/if}
 					</span>
 
-					{#if block.transactionsCount !== undefined}
-						<span>
-							included
+					<span>
+						included
 
+						<span>
+							{#if block.transactionsCount !== undefined}
+								<TweenedNumber
+									value={block.transactionsCount}
+								/>
+							{:else}
+								some
+							{/if}
+							{block.transactionsCount === 1 ? 'transaction' : 'transactions'}
+						</span>
+					</span>
+
+					{#if block.stateRoot}
+						<span>
+							and state root
+							<small>(<IpfsContentId
+								ipfsContentId={block.stateRoot}
+								format="middle-truncated"
+							/>)</small>
+						</span>
+					{/if}
+
+					<span>
+						in block
+					</span>
+
+
+					{#if
+						block.parentBlocks
+						|| block.weight !== undefined
+					}
+						<hr>
+					{/if}
+
+					{#if block.parentBlocks}
+						<span class="row">
 							<span>
-								{block.transactionsCount ?? 0}
-								{block.transactionsCount === 1 ? 'transaction' : 'transactions'}
+								referencing
+
+								<span>
+									{block.parentBlocks.length}
+									{block.parentBlocks.length === 1 ? 'block' : 'blocks'}
+								</span>
+
+								<small>
+									(<ul class="row inline wrap">
+										{#each block.parentBlocks as parentBlock (parentBlock.cid)}
+											<li>
+												<FilecoinBlockCid
+													{network}
+													blockCid={parentBlock.cid}
+													truncateOptions={{
+														// startLength: 6,
+														// endLength: 4,
+													}}
+												/>
+											</li>
+										{/each}
+									</ul>)
+								</small>
+
+								from
+
+								<span>
+									{#if (block.tipset?.previousTipset?.number ?? block.tipset?.number) !== undefined}
+										tipset
+										<BlockNumber
+											{network}
+											blockNumber={block.tipset.previousTipset?.number ?? block.tipset.number - 1n}
+										/>
+									{:else}
+										previous tipset
+									{/if}
+								</span>
 							</span>
 						</span>
 					{/if}
 
+					{#if block.weight !== undefined}
+						<span>
+							with cumulative weight
+							<TweenedNumber
+								value={Number(block.weight)}
+							/>
+						</span>
+					{/if}
+
+
+					{#if
+						block.tipset?.number !== undefined
+						|| block.winCount !== undefined
+					}
+						<hr>
+					{/if}
+
 					{#if block.tipset?.number !== undefined}
 						<span>
-							in
+							and
+							included in
 
 							<span>
 								tipset
@@ -120,9 +212,87 @@
 							</span>
 						</span>
 					{/if}
+
+					{#if block.winCount !== undefined}
+						<span>
+							with win count
+							<TweenedNumber
+								value={block.winCount}
+							/>
+						</span>
+					{/if}
+
+
+					{#if
+						block.reward !== undefined && block.reward > 0
+						|| block.penalty !== undefined && block.penalty > 0
+					}
+						<hr>
+					{/if}
+
+					{#if block.reward !== undefined && block.reward > 0}
+						<span>
+							earning reward
+							<TokenBalance
+								{network}
+								token={{
+									chainId: network.chainId,
+									...network.nativeCurrency,
+								}}
+								balance={block.reward}
+							/>
+						</span>
+					{/if}
+
+					{#if block.penalty !== undefined && block.penalty > 0}
+						<span>
+							{#if block.reward !== undefined && block.reward > 0}
+								but
+							{/if}
+
+							incurring penalty
+							<TokenBalance
+								{network}
+								token={{
+									chainId: network.chainId,
+									...network.nativeCurrency,
+								}}
+								balance={block.penalty}
+								showDecimalPlaces={network.nativeCurrency.decimals}
+							/>
+						</span>
+					{/if}
 				</div>
 			</div>
 		</Collapsible>
+	</section>
+
+	<hr>
+
+	<section>
+		<header class="bar">
+			<svelte:element this={`h${headingLevel + 1}`}>Economics</svelte:element>
+		</header>
+
+		<div class="card">
+			<dl>
+				{#if block.baseGasRate !== undefined}
+					<dt>Base gas rate</dt>
+					<dd>
+						<TokenBalance
+							{network}
+							token={{
+								chainId: network.chainId,
+								...network.nativeCurrency,
+							}}
+							balance={block.baseGasRate}
+							showDecimalPlaces={network.nativeCurrency.decimals}
+						/>
+						/ gas unit
+					</dd>
+				{/if}
+			</dl>
+		</div>
 	</section>
 
 	<hr>
