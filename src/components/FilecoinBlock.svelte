@@ -36,6 +36,15 @@
 	<svelte:fragment slot="title">
 		<div class="row wrap">
 			<svelte:element this={`h${headingLevel}`}>
+				{#if block.tipset?.number !== undefined}
+					<BlockNumber
+						{network}
+						blockNumber={block.tipset.number}
+					/>
+
+					›
+				{/if}
+
 				<FilecoinBlockCid
 					{network}
 					blockCid={block.cid}
