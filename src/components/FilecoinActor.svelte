@@ -19,11 +19,14 @@
 
 
 	// Functions
+	import { isTruthy } from '$/utils/isTruthy'
+
 	import { formatIdentifierToWords } from '$/utils/formatIdentifierToWords'
 
 
 	// Components
 	import Address from './Address.svelte'
+	import BlockNumber from './BlockNumber.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import DateTime from './DateTime.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
@@ -103,16 +106,28 @@
 						</dd>
 					{/if}
 
-					{#if actor.createdAt}
-						<dt>Created</dt>
+					{#each (
+						[
+							actor.lastActiveAt && {
+								label: 'Last Active',
+								timeReference: actor.lastActiveAt,
+							},
+							actor.createdAt && {
+								label: 'Created',
+								timeReference: actor.createdAt,
+							},
+						]
+							.filter(isTruthy)
+					) as { label, timeReference } (label)}
+						<dt>{label}</dt>
 						<dd>
-							{#if 'transaction' in actor.createdAt && actor.createdAt.transaction?.cid}
+							{#if 'transaction' in timeReference && timeReference.transaction?.cid}
 								<InlineTransition align="start"
-									key={actor.createdAt.transaction.cid}
+									key={timeReference.transaction.cid}
 								>
 									<TransactionId
 										{network}
-										transactionId={actor.createdAt.transaction.cid}
+										transactionId={timeReference.transaction.cid}
 										format="middle-truncated"
 										truncateOptions={{
 											startLength: 8,
@@ -122,17 +137,40 @@
 								</InlineTransition>
 							{/if}
 
-							{#if 'tipset' in actor.createdAt && actor.createdAt.tipset?.timestamp}
-								<InlineTransition align="start"
-									key={actor.createdAt.tipset.timestamp}
-								>
-									<DateTime
-										date={actor.createdAt.tipset.timestamp}
-									/>
-								</InlineTransition>
+							{#if 'tipset' in timeReference && timeReference.tipset}
+								<div class="column inline">
+									{#if timeReference.tipset.timestamp}
+										<InlineTransition align="start"
+											key={timeReference.tipset.timestamp}
+										>
+											<DateTime
+												date={timeReference.tipset.timestamp}
+												format="relative"
+											/>
+										</InlineTransition>
+									{/if}
+
+									{#if timeReference.tipset.number !== undefined}
+										<small>
+											at
+											<span>
+												tipset
+
+												<InlineTransition align="start"
+													key={timeReference.tipset.number}
+												>
+													<BlockNumber
+														{network}
+														blockNumber={timeReference.tipset.number}
+													/>
+												</InlineTransition>
+											</span>
+										</small>
+									{/if}
+								</div>
 							{/if}
 						</dd>
-					{/if}
+					{/each}
 
 					{#if 'creator' in actor && actor.creator}
 						<dt>Creator</dt>
@@ -268,3 +306,10 @@
 		</section>
 	</Collapsible>
 </article>
+
+
+<style>
+	small {
+		opacity: 0.66;
+	}
+</style>
