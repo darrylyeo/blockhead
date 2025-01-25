@@ -30,6 +30,7 @@
 	import Collapsible from './Collapsible.svelte'
 	import DateTime from './DateTime.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
+	import FilecoinActorDetailsLoader from './FilecoinActorDetailsLoader.svelte'
 	import FilecoinAddressDetails from './FilecoinAddressDetails.svelte'
 	import FilecoinBalancesLoader from './FilecoinBalancesLoader.svelte'
 	import FilecoinMinerDetails from './FilecoinMinerDetails.svelte'
@@ -37,6 +38,7 @@
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
 	import InlineTransition from './InlineTransition.svelte'
 	import IpfsContentId from './IpfsContentId.svelte'
+	import ScrollContainer from './ScrollContainer.svelte'
 	import TransactionId from './TransactionId.svelte'
 </script>
 
@@ -296,6 +298,67 @@
 				{/if}
 			</FilecoinBalancesLoader>
 		</section>
+
+		{#each (
+			[
+				actor.ownedMiners && {
+					label: 'Owned Miners',
+					actors: actor.ownedMiners,
+				},
+				actor.workerMiners && {
+					label: 'Worker Miners',
+					actors: actor.workerMiners,
+				},
+				actor.benefitedMiners && {
+					label: 'Benefitted Miners',
+					actors: actor.benefitedMiners,
+				},
+			]
+				.filter(isTruthy)
+				.filter(({ actors }) => actors.length)
+		) as { label, actors } (label)}
+			<hr>
+
+			<section>
+				<Collapsible>
+					<svelte:fragment slot="title">
+						<div class="row inline">
+							<svelte:element this={`h${headingLevel + 1}`}>
+								{label}
+							</svelte:element>
+
+							<small>({actors.length})</small>
+						</div>
+					</svelte:fragment>
+
+					<ScrollContainer
+						isScrollEnabled={actors.length > 7}
+					>
+						<ul class="column">
+							{#each actors as minerActor}
+								<li>
+									<FilecoinActorDetailsLoader
+										{network}
+										address={minerActor.shortAddress ?? minerActor.robustAddress}
+										let:actor
+									>
+										{#if actor}
+											<svelte:self
+												{network}
+												{actor}
+												displayedAddress={minerActor.shortAddress ?? minerActor.robustAddress}
+												layout="inline"
+												headingLevel={headingLevel + 1}
+											/>
+										{/if}
+									</FilecoinActorDetailsLoader>
+								</li>
+							{/each}
+						</ul>
+					</ScrollContainer>
+				</Collapsible>
+			</section>
+		{/each}
 
 		<hr>
 
