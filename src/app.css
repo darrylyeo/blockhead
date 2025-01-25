@@ -636,6 +636,17 @@ hr {
 }
 
 
+ul,
+ol {
+	&:not(.bulleted) {
+		list-style-type: none;
+	}
+
+	&.bulleted {
+		padding-inline-start: 1em;
+	}
+}
+
 dl {
 	@supports not (grid-template-columns: subgrid) {
 		&,
