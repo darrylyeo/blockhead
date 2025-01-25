@@ -28,7 +28,7 @@
 			type?: 'sender' | 'receiver'
 		}
 	)
-	export let filecoinTransactionProvider: FilecoinTransactionProvider = FilecoinTransactionProvider.Beryx
+	export let filecoinTransactionProvider: FilecoinTransactionProvider
 	export let networkProvider: NetworkProvider | undefined
 
 	// (Computed)

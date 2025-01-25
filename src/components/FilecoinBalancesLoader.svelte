@@ -14,7 +14,7 @@
 	// Inputs
 	export let network: Ethereum.Network
 	export let address: Filecoin.Address
-	export let tokenBalancesProvider: FilecoinTokenBalancesProvider = FilecoinTokenBalancesProvider.Beryx
+	export let tokenBalancesProvider: FilecoinTokenBalancesProvider
 	export let networkProvider: NetworkProvider | undefined
 	export let publicClient: Ethereum.PublicClient | undefined
 
