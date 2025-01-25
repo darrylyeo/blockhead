@@ -7,9 +7,14 @@
 	// Inputs
 	export let transactionId: Ethereum.TransactionId | Filecoin.TransactionCid
 	export let network: Ethereum.Network
+
 	// (View options)
 	export let format: 'full' | 'middle-truncated' = 'full'
 	export let linked = true
+	export let truncateOptions: Pick<TruncatedValue['$$prop_def'], 'startLength' | 'endLength'> | undefined = {
+		startLength: 18,
+		endLength: 16,
+	}
 
 
 	// Functions
@@ -48,6 +53,7 @@
 		{#if format === 'middle-truncated'}
 			<TruncatedValue
 				value={transactionId}
+				{...truncateOptions}
 			/>
 		{:else}
 			{formattedTransactionId}
