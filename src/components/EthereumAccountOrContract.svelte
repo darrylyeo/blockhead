@@ -48,6 +48,7 @@
 	let showSmallValues = false
 
 	let balances: TokenWithBalance[] = []
+	let balancesSummary: EthereumBalances['$$prop_def']['summary']
 
 	let selectedToken: Ethereum.NativeCurrency | Ethereum.Erc20Token | undefined
 
@@ -71,6 +72,7 @@
 	import AnchorLink from './AnchorLink.svelte'
 	import Balance from './Balance.svelte'
 	import EnsName from './EnsName.svelte'
+	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import EthereumContractBytecodeLoader from './EthereumContractBytecodeLoader.svelte'
 	import EthereumContractExplorer from './EthereumContractExplorer.svelte'
@@ -211,23 +213,22 @@
 		</EthereumContractExplorer>
 
 		<!-- <Balance {network} {networkProvider} {address} /> -->
-		<EthereumBalances
+
+		<EthereumBalancesLoader
 			{network}
 			{address}
 			{tokenBalancesProvider}
 			{quoteCurrency}
-			{sortBy}
-			{showSmallValues}
-			{tokenBalanceFormat}
-			isSelectable={true}
-			bind:selectedToken
 			bind:balances
+			let:balances
 		>
 			<svelte:fragment slot="header"
-				let:summary
+				let:balances
 				let:isOpen let:toggle
 			>
-				{#if balances?.length}
+				{#if balances?.length && balancesSummary}
+					{@const summary = balancesSummary}
+
 					<div class="column">
 						<hr>
 
@@ -280,7 +281,21 @@
 					</div>
 				{/if}
 			</svelte:fragment>
-		</EthereumBalances>
+
+			<EthereumBalances
+				{network}
+				{address}
+				{tokenBalancesProvider}
+				{quoteCurrency}
+				{sortBy}
+				{showSmallValues}
+				{tokenBalanceFormat}
+				isSelectable={true}
+				bind:selectedToken
+				bind:summary={balancesSummary}
+				{balances}
+			/>
+		</EthereumBalancesLoader>
 
 		<hr>
 

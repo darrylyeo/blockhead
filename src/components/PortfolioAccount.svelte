@@ -166,6 +166,7 @@
 	import DefiPositionsLoader from './DefiPositionsLoader.svelte'
 	import EnsName from './EnsName.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
+	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
 	import EthereumNftBalances from './EthereumNftBalances.svelte'
 	import EthereumNftBalancesLoader from './EthereumNftBalancesLoader.svelte'
 	import HeightContainer from './HeightContainer.svelte'
@@ -550,19 +551,25 @@
 							{#if view.showBalances}<section class="token-balances column-block">
 							<!-- <HeightContainer containerClass="token-balances" class="column" isOpen={showBalances}> -->
 								<!-- {#if tokenBalancesProvider === TokenBalancesProvider.Covalent && Covalent.ChainIDs.includes(network.chainId)} -->
-									<EthereumBalances
+
+									<EthereumBalancesLoader
 										{network}
 										{address}
 										{tokenBalancesProvider}
 										{quoteCurrency}
-										{tokenBalanceFormat} {sortBy} {showSmallValues} {showUnderlyingAssets}
-										loaderViewOptions={{
+										viewOptions={{
 											isOpen: Boolean(isGridLayout ? gridLayoutIsChainExpanded[view.chainId] : columnLayoutIsSectionExpanded[`${view.chainId}-${'tokens'}`]) && !isEditing,
 										}}
-										isScrollable={!isGridLayout} isHorizontal={!isGridLayout}
-										bind:summary={balancesSummaries[i]}
+										let:balances
 									>
-										<svelte:fragment slot="header" let:summary let:status let:loadingMessage let:errorMessage>
+										<!-- showIf={() => balances.length} -->
+										<svelte:fragment slot="header"
+											let:status
+											let:loadingMessage
+											let:errorMessage
+										>
+											{@const summary = balancesSummaries[i]}
+
 											<!-- {#if balances.length || isGridLayout} -->
 												<!-- <hr> -->
 
@@ -679,7 +686,18 @@
 												</label>
 											<!-- {/if} -->
 										</svelte:fragment>
-									</EthereumBalances>
+
+										<EthereumBalances
+											{network}
+											{address}
+											{tokenBalancesProvider}
+											{balances}
+											{quoteCurrency}
+											{tokenBalanceFormat} {sortBy} {showSmallValues} {showUnderlyingAssets}
+											isScrollable={!isGridLayout} isHorizontal={!isGridLayout}
+											bind:summary={balancesSummaries[i]}
+										/>
+									</EthereumBalancesLoader>
 								<!-- {:else if provider}
 									{#each [network.nativeCurrency.symbol] as symbol}
 										<Balance
