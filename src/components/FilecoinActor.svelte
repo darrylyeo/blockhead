@@ -235,10 +235,12 @@
 					</header>
 				</svelte:fragment>
 
-				<EthereumBalances
-					{network}
-					{balances}
-				/>
+				{#if balances}
+					<EthereumBalances
+						{network}
+						{balances}
+					/>
+				{/if}
 			</FilecoinBalancesLoader>
 		</section>
 
