@@ -6,14 +6,7 @@
 
 	// Inputs
 	export let format: 'token' | 'fiat' = 'token'
-	export let token: {
-		name?: string,
-		chainId?: Ethereum.ChainId,
-		symbol?: string,
-		address?: Ethereum.ContractAddress,
-		decimals?: number,
-		icon?: string,
-	}
+	export let token: Partial<Ethereum.NativeCurrency | Ethereum.Erc20Token> = {}
 	export let balance: number | bigint | undefined
 	export let isDebt = false
 
@@ -21,6 +14,13 @@
 	$: network = token.chainId && networkByChainId.get(token.chainId)
 
 	$: formattedBalance = Number(balance) * 0.1 ** (token.decimals ?? 0)
+
+	$: displayedBalance = (
+		showSmallestUnits ?
+			Number(balance)
+		:
+			formattedBalance
+	)
 
 	$: isZero = balance == 0
 	$: isNegative = balance && balance < 0
@@ -33,10 +33,34 @@
 	// (View options)
 	export let showName = false
 	export let showDecimalPlaces = 3 // 2 + Math.round(Math.log10(price || 1))
+	export let showSmallestUnits = false
 
 	export let tween = true
 	export let clip = true
 	export let transitionWidth = true
+
+	$: computedFormat = {
+		...(
+			showSmallestUnits ?
+				'unitSymbol' in token && token.unitSymbol ?
+					{
+						currency: token.unitSymbol,
+						showDecimalPlaces: 0,
+					}
+				:
+					{
+						currency: `${token.symbol} units`,
+						showDecimalPlaces: 0,
+					}
+					
+			:
+				{
+					currency: token.symbol,
+					showDecimalPlaces,
+				}
+		),
+		compactLargeValues,
+	}
 
 
 	// Actions
@@ -108,12 +132,8 @@
 	{#if format === 'fiat'}
 		<span class="token-balance">
 			{isNegative ? '−' : ''}<TweenedNumber
-				value={Math.abs(formattedBalance)}
-				format={{
-					currency: token.symbol,
-					showDecimalPlaces,
-					compactLargeValues
-				}}
+				value={Math.abs(displayedBalance)}
+				format={computedFormat}
 				{tween} {clip} {transitionWidth}
 			/>
 		</span>
@@ -123,10 +143,10 @@
 		<span class="inline-no-wrap">
 			<span class="token-balance">
 				{isNegative ? '−' : ''}<TweenedNumber
-					value={Math.abs(formattedBalance)}
+					value={Math.abs(displayedBalance)}
 					format={{
-						showDecimalPlaces,
-						compactLargeValues
+						...computedFormat,
+						currency: undefined,
 					}}
 					{tween} {clip} {transitionWidth}
 				/>
@@ -140,6 +160,14 @@
 				<span class="token-name">
 					{#if showName && token.name}
 						{token.name}
+					{:else if showSmallestUnits}
+						{#if 'unitSymbol' in token && token.unitSymbol}
+							<abbr
+								title={`10^−${token.decimals} ${token.symbol}`}
+							>{token.unitSymbol}</abbr>
+						{:else}
+							{token.symbol} units
+						{/if}
 					{:else if token.symbol}
 						{token.symbol}
 					{:else if formattedAddress}

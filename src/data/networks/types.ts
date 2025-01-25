@@ -54,6 +54,7 @@ export namespace Ethereum {
 	export type NativeCurrency = {
 		name: string,
 		symbol: TickerSymbol,
+		unitSymbol?: TickerSymbol,
 		decimals: number
 	}
 
