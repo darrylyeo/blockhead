@@ -1172,6 +1172,9 @@ address {
 	align-content: end;
 	--transformOriginY: bottom;
 }
+.align-stretch {
+	place-items: stretch;
+}
 
 
 :root {
