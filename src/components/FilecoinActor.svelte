@@ -32,6 +32,7 @@
 	import EthereumBalances from './EthereumBalances.svelte'
 	import FilecoinAddressDetails from './FilecoinAddressDetails.svelte'
 	import FilecoinBalancesLoader from './FilecoinBalancesLoader.svelte'
+	import FilecoinMinerDetails from './FilecoinMinerDetails.svelte'
 	import FilecoinTransactionsLoader from './FilecoinTransactionsLoader.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
 	import InlineTransition from './InlineTransition.svelte'
@@ -254,6 +255,20 @@
 				headingLevel={headingLevel + 2}
 			/>
 		</div>
+
+		{#if actor.type === Filecoin.ActorType.StorageMiner && 'minerDetails' in actor && actor.minerDetails}
+			<hr>
+
+			<Collapsible
+				title="Storage Miner Details"
+				isOpen={true}
+			>
+				<FilecoinMinerDetails
+					{network}
+					minerDetails={actor.minerDetails}
+				/>
+			</Collapsible>
+		{/if}
 
 		<hr>
 
