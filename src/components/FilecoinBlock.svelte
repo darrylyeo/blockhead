@@ -13,8 +13,8 @@
 	export let isOpen = true
 	export let layout: 'standalone' | 'inline' = 'inline'
 	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 4
-	
-	
+
+
 	// Components
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import BlockNumber from './BlockNumber.svelte'
@@ -315,6 +315,7 @@
 				{transactions}
 				{transactionsCount}
 				{pagination}
+				headingLevel={headingLevel + 1}
 				isOpen
 			/>
 		</FilecoinTransactionsLoader>
