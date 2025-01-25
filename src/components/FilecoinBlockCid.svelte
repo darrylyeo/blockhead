@@ -11,6 +11,10 @@
 	// (View options)
 	export let format: 'full' | 'middle-truncated' = 'full'
 	export let linked = true
+	export let truncateOptions: Pick<TruncatedValue['$$prop_def'], 'startLength' | 'endLength'> | undefined = {
+		startLength: 8,
+		endLength: 6,
+	}
 
 
 	// Functions
@@ -44,7 +48,10 @@
 	<NetworkIcon {network} />
 
 	<slot formattedTransactionId={formattedId}>
-		<TruncatedValue value={blockCid} />
+		<TruncatedValue
+			value={blockCid}
+			{...truncateOptions}
+		/>
 	</slot>
 </svelte:element>
 
