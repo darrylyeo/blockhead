@@ -130,9 +130,8 @@
 						{@const previousTipsetNumber = tipset.previousTipset.number ?? tipset.number - 1n}
 
 						<span>
-							{#if tipset.blocks?.length || tipset.transactions?.length}and{/if}
-							<abbr title="Block {previousTipsetNumber} hash: {tipset.previousTipset.cid ?? ''}">hash</abbr>
-							of previous tipset
+							<abbr title="Block {previousTipsetNumber} hash: {tipset.previousTipset.cid ?? ''}">referencing blocks in</abbr>
+							tipset
 							<BlockNumber
 								{network}
 								blockNumber={previousTipsetNumber}
