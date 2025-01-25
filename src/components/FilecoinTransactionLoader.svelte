@@ -15,7 +15,7 @@
 	// Inputs
 	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
 	export let transactionCid: Filecoin.TransactionCid
-	export let filecoinTransactionProvider: FilecoinTransactionProvider = FilecoinTransactionProvider.Beryx
+	export let filecoinTransactionProvider: FilecoinTransactionProvider
 	export let networkProvider: NetworkProvider | undefined
 	export let publicClient: Ethereum.PublicClient | undefined
 

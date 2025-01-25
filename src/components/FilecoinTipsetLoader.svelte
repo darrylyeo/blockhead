@@ -21,7 +21,7 @@
 			tipsetCid: Filecoin.TipsetCid,
 		}
 	)
-	export let filecoinTransactionProvider: FilecoinTransactionProvider = FilecoinTransactionProvider.Beryx
+	export let filecoinTransactionProvider: FilecoinTransactionProvider
 	export let networkProvider: NetworkProvider | undefined
 	export let publicClient: Ethereum.PublicClient | undefined
 
