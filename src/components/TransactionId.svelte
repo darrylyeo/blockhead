@@ -45,7 +45,7 @@
 	{...link ? {
 		href: link
 	} : undefined}
-	title={transactionId}
+	title="{network.name} Transaction {transactionId}"
 	draggable={true}
 	on:dragstart={onDragStart}
 >
