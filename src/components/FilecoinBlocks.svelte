@@ -41,6 +41,7 @@
 			>
 				<FilecoinBlock
 					{block}
+					headingLevel={headingLevel + 1}
 					isOpen
 				/>
 			</AnchorLink>
