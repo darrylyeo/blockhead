@@ -92,9 +92,29 @@
 					<span>containing</span>
 
 					{#if tipset.blocks?.length}
+						{@const uniqueMinersCount = tipset.blocks && (
+							new Set(
+								tipset.blocks.map(block => (
+									block.miner?.shortAddress
+								))
+							)
+								.size
+						)}
+
 						<span>
-							{tipset.blocks.length}
-							{new Intl.PluralRules('en-US').select(tipset.blocks.length) === 'one' ? 'block' : 'blocks'}
+							<span>
+								{tipset.blocks.length}
+								{new Intl.PluralRules('en-US').select(tipset.blocks.length) === 'one' ? 'block' : 'blocks'}
+							</span>
+
+							{#if uniqueMinersCount !== undefined}
+								<span>
+									produced by
+									{uniqueMinersCount}
+									unique
+									{new Intl.PluralRules('en-US').select(uniqueMinersCount) === 'one' ? 'miner' : 'miners'}
+								</span>
+							{/if}
 						</span>
 					{/if}
 
