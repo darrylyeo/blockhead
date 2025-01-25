@@ -2,8 +2,6 @@
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
 	import type { QuoteCurrency } from '$/data/currencies'
-	import type { TokenBalancesProvider } from '$/data/tokenBalancesProviders'
-
 	import type { TokenWithBalance } from '$/data/tokens'
 
 
@@ -14,8 +12,7 @@
 	// Inputs
 	export let network: Ethereum.Network
 	export let address: string
-	export let tokenBalancesProvider: TokenBalancesProvider
-	$: tokenBalancesProvider = $$props.tokenBalancesProvider || $preferences.tokenBalancesProvider
+	export let balances: TokenWithBalance[] | undefined
 	export let quoteCurrency: QuoteCurrency
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 
@@ -30,8 +27,6 @@
 	export let isScrollable = true
 	export let isHorizontal = false
 
-	export let loaderViewOptions: Loader['$$prop_def']['viewOptions'] | undefined
-
 
 	// Internal state
 	let animate: boolean
@@ -40,8 +35,6 @@
 
 
 	// Outputs
-	export let balances: TokenWithBalance[] | undefined
-
 	// (Computed)
 	$: hasConversions = balances
 		?.some(tokenWithBalance => tokenWithBalance.conversion)
@@ -95,8 +88,6 @@
 
 
 	// Components
-	import type Loader from './Loader.svelte'
-	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import ScrollContainer from './ScrollContainer.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
@@ -172,86 +163,65 @@
 </style>
 
 
-<EthereumBalancesLoader
-	{network}
-	{address}
-	{tokenBalancesProvider}
-	{quoteCurrency}
-	viewOptions={loaderViewOptions}
-	bind:balances
+<ScrollContainer
+	isScrollEnabled={isScrollable && filteredBalances.length > 45}
 >
-	<!-- showIf={() => balances.length} -->
-	<svelte:fragment slot="header"
-		let:status let:loadingMessage let:errorMessage
-		let:isOpen let:toggle
-	>
-		<slot name="header"
-			{balances} {filteredBalances} {summary}
-			{status} {loadingMessage} {errorMessage}
-			{isOpen} {toggle}
-		/>
-	</svelte:fragment>
+	{#if filteredBalances.length}
+		<div class="ethereum-balances card" class:horizontal={isHorizontal} class:show-amounts-and-values={tokenBalanceFormat === 'both'}>
+			{#each
+				filteredBalances
+				as tokenWithBalance,
+				i ('address' in tokenWithBalance.token ? tokenWithBalance.token : tokenWithBalance.token.symbol || tokenWithBalance.token.name)
+			}
+				{@const isNativeCurrency = tokensAreEqual(network.nativeCurrency, tokenWithBalance.token)}
+				{@const isSelected = selectedToken && selectedToken.address === tokenWithBalance.token.address}
 
-	<ScrollContainer
-		isScrollEnabled={isScrollable && filteredBalances.length > 45}
-	>
-		{#if filteredBalances.length}
-			<div class="ethereum-balances card" class:horizontal={isHorizontal} class:show-amounts-and-values={tokenBalanceFormat === 'both'}>
-				{#each
-					filteredBalances
-					as tokenWithBalance,
-					i ('address' in tokenWithBalance.token ? tokenWithBalance.token : tokenWithBalance.token.symbol || tokenWithBalance.token.name)
-				}
-					{@const isNativeCurrency = tokensAreEqual(network.nativeCurrency, tokenWithBalance.token)}
-					{@const isSelected = selectedToken && selectedToken.address === tokenWithBalance.token.address}
+				<span
+					class="ethereum-balance"
+					class:mark={isNativeCurrency}
+					class:is-selectable={isSelectable}
+					class:is-selected={isSelected}
+					tabindex={isSelectable ? 0 : undefined}
+					on:click={() => {
+						selectedToken = isSelected ? undefined : tokenWithBalance.token
+					}}
+					in:scale={{ duration: animate ? 500 : 0 }}
+					animate:flip|local={{ duration: animate ? 500 : 0, delay: animate ? 300 * i / filteredBalances.length : 0, easing: quintOut }}
+				>
+					{#if tokenWithBalance.conversion}
+						<TokenBalanceWithConversion
 
-					<span
-						class="ethereum-balance"
-						class:mark={isNativeCurrency}
-						class:is-selectable={isSelectable}
-						class:is-selected={isSelected}
-						tabindex={isSelectable ? 0 : undefined}
-						on:click={() => {
-							selectedToken = isSelected ? undefined : tokenWithBalance.token
-						}}
-						in:scale={{ duration: animate ? 500 : 0 }}
-						animate:flip|local={{ duration: animate ? 500 : 0, delay: animate ? 300 * i / filteredBalances.length : 0, easing: quintOut }}
-					>
-						{#if tokenWithBalance.conversion}
-							<TokenBalanceWithConversion
+							{network}
+							token={tokenWithBalance.token}
 
-								{network}
-								token={tokenWithBalance.token}
+							balance={tokenWithBalance.balance}
+							conversionCurrency={quoteCurrency}
+							convertedValue={tokenWithBalance.conversion.value}
+							conversionRate={tokenWithBalance.conversion.rate}
 
-								balance={tokenWithBalance.balance}
-								conversionCurrency={quoteCurrency}
-								convertedValue={tokenWithBalance.conversion.value}
-								conversionRate={tokenWithBalance.conversion.rate}
+							layout="block"
+							{tokenBalanceFormat}
+							animationDelay={i * 10}
+							transitionWidth={filteredBalances.length < 40}
+						/>
+					{:else}
+						<TokenBalance
+							{tokenBalanceFormat}
 
-								layout="block"
-								{tokenBalanceFormat}
-								animationDelay={i * 10}
-								transitionWidth={filteredBalances.length < 40}
-							/>
-						{:else}
-							<TokenBalance
-								{tokenBalanceFormat}
+							{network}
+							token={tokenWithBalance.token}
 
-								{network}
-								token={tokenWithBalance.token}
+							balance={tokenWithBalance.balance}
 
-								balance={tokenWithBalance.balance}
+							animationDelay={i * 10}
 
-								animationDelay={i * 10}
-
-								transitionWidth={filteredBalances.length < 40}
-							/>
-						{/if}
-					</span>
-				<!-- {:else}
-					No balances found. -->
-				{/each}
-			</div>
-		{/if}
-	</ScrollContainer>
-</EthereumBalancesLoader>
+							transitionWidth={filteredBalances.length < 40}
+						/>
+					{/if}
+				</span>
+			<!-- {:else}
+				No balances found. -->
+			{/each}
+		</div>
+	{/if}
+</ScrollContainer>
