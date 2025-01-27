@@ -3,6 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import type { Filecoin } from '$/data/filecoin'
 	import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviders } from '$/data/filecoinTokenBalancesProviders'
+	import type { TokenWithBalance } from '$/data/tokens'
 	import type { NetworkProvider } from '$/data/networkProviders/types'
 	import { getViemPublicClient } from '$/data/networkProviders'
 
@@ -28,7 +29,7 @@
 
 
 	// Outputs
-	export let balances: Ethereum.Erc20Token[]
+	export let balances: TokenWithBalance[]
 
 	type SharedSlotProps = {
 		balances: typeof balances,
