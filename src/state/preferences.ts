@@ -399,6 +399,7 @@ export const preferencesConfig = [
 						options: (
 							([
 								FilecoinTokenBalancesProvider.Beryx,
+								FilecoinTokenBalancesProvider.Filfox,
 							] as const)
 								.map(provider => ({
 									value: provider,

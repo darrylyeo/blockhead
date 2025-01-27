@@ -43,9 +43,13 @@
 
 
 	// Functions
+	import { isTruthy } from '$/utils/isTruthy'
+
 	import { createQuery } from '@tanstack/svelte-query'
 
 	import { normalizeBalance as normalizeBalanceBeryx } from '$/api/beryx/filecoin/normalize'
+
+	import { normalizeCurrentBalance as normalizeCurrentBalanceFilfox } from '$/api/filfox/normalize'
 
 
 	// Components
@@ -89,6 +93,37 @@
 						?.map(balance => (
 							normalizeBalanceBeryx(balance)
 						))
+				),
+			}),
+		}),
+
+		[FilecoinTokenBalancesProvider.Filfox]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['Balances', {
+					tokenBalancesProvider,
+					chainId: network.chainId,
+					address,
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						address,
+					}],
+				}) => {
+					const { getAddressBalanceStats } = await import('$/api/filfox/index')
+
+					return await getAddressBalanceStats({
+						address,
+					})
+				},
+				select: balances => (
+					[
+						normalizeCurrentBalanceFilfox(
+							balances,
+							network
+						),
+					]
+						.filter(isTruthy)
 				),
 			}),
 		}),
