@@ -1,6 +1,6 @@
 // Types
 import type { paths } from './api.d.ts'
-import type { Overview, AddressInfo, AddressMessages, AddressTransfers, AddressMessageTransfers, AddressTokenTransfers, Tipset, Block, BlockMessages, Message } from './types'
+import type { Overview, AddressInfo, AddressBalanceStats, AddressMessages, AddressTransfers, AddressMessageTransfers, AddressTokenTransfers, Tipset, Block, BlockMessages, Message } from './types'
 import type { DeepMerge } from '$/utils/DeepMerge'
 
 type GetJsonResponse<T> = {
@@ -21,6 +21,8 @@ type allPaths = DeepMerge<[
 		'/overview': GetJsonResponse<Overview>
 
 		'/address/{address}': GetJsonResponse<AddressInfo>
+
+		'/address/{address}/balance-stats': GetJsonResponse<AddressBalanceStats>
 
 		'/address/{address}/messages': GetJsonResponse<AddressMessages>
 
@@ -65,6 +67,8 @@ fetcher.configure({
 export const getOverview = fetcher.path('/overview').method('get').create()
 
 export const getAddress = fetcher.path('/address/{address}').method('get').create()
+
+export const getAddressBalanceStats = fetcher.path('/address/{address}/balance-stats').method('get').create()
 
 export const getAddressMessages = fetcher.path('/address/{address}/messages').method('get').create()
 

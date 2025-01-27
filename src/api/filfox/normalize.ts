@@ -3,9 +3,11 @@ import type { Ethereum } from '$/data/networks/types'
 import { Filecoin } from '$/data/filecoin'
 import { filfoxActorTypes, filfoxTransferTypes } from './constants'
 
+import type { TokenWithBalance } from '$/data/tokens'
+
 
 // Functions
-import type { getOverview, getAddress, getBlock, getTipset, getMessage, getBlockMessages, getAddressTransfers } from '.'
+import type { getOverview, getAddress, getBlock, getTipset, getMessage, getBlockMessages, getAddressTransfers, getAddressBalanceStats } from '.'
 import type { FetchReturnType } from 'openapi-typescript-fetch'
 
 export const normalizeOverview = (
@@ -210,6 +212,23 @@ export const normalizeAccount = (
 		},
 	},
 })
+
+export const normalizeCurrentBalance = (
+	balances: FetchReturnType<typeof getAddressBalanceStats>,
+	network: Ethereum.Network,
+): TokenWithBalance | undefined => (
+	(
+		balances
+			.sort((a, b) => b.timestamp - a.timestamp)
+			.slice(0, 1)
+			.map(item => ({
+				token: network.nativeCurrency,
+				balance: BigInt(item.balance),
+			}))
+			[0]
+	)
+	?? undefined
+)
 
 export const normalizeTipset = (
 	tipset: FetchReturnType<typeof getTipset>,
