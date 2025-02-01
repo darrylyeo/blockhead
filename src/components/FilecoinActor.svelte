@@ -10,6 +10,8 @@
 	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
 	export let displayedAddress: Filecoin.Address
 	export let actor: Filecoin.Actor
+	export let layout: 'default' | 'inline' = 'default'
+
 	// (View options)
 	export let headingLevel: 2 | 3 | 4 | 5 | 6 = 3
 
@@ -48,8 +50,8 @@
 <article class="card">
 	<Collapsible
 		type="label"
-		isOpen
-		canToggle={false}
+		isOpen={layout === 'default'}
+		canToggle={layout === 'inline'}
 		class="column"
 	>
 		<svelte:fragment slot="title">
