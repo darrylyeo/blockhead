@@ -36,6 +36,8 @@
 	import FilecoinMinerDetails from './FilecoinMinerDetails.svelte'
 	import FilecoinTransactionsLoader from './FilecoinTransactionsLoader.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
+	import FilecoinTransfersLoader from './FilecoinTransfersLoader.svelte'
+	import FilecoinTransfers from './FilecoinTransfers.svelte'
 	import InlineTransition from './InlineTransition.svelte'
 	import IpfsContentId from './IpfsContentId.svelte'
 	import ScrollContainer from './ScrollContainer.svelte'
@@ -381,6 +383,26 @@
 					{pagination}
 				/>
 			</FilecoinTransactionsLoader>
+		</section>
+
+		<hr>
+
+		<section>
+			<FilecoinTransfersLoader
+				{network}
+				query={{
+					address: displayedAddress,
+				}}
+				let:transfers
+				let:transfersCount
+			>
+				<FilecoinTransfers
+					{network}
+					{transfers}
+					{transfersCount}
+					headingLevel={headingLevel + 1}
+				/>
+			</FilecoinTransfersLoader>
 		</section>
 	</Collapsible>
 </article>
