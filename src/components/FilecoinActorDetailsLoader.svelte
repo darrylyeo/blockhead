@@ -31,7 +31,8 @@
 	export let actor: Filecoin.Actor
 
 	type SharedSlotProps = {
-		actor: typeof actor,
+		actor: typeof actor
+		filecoinTransactionProvider: typeof filecoinTransactionProvider
 	}
 
 	type $$Slots = {
@@ -133,8 +134,12 @@
 	<svelte:fragment slot="header">
 		<slot name="header"
 			{actor}
+			{filecoinTransactionProvider}
 		/>
 	</svelte:fragment>
 
-	<slot {actor} />
+	<slot
+		{actor}
+		{filecoinTransactionProvider}
+	/>
 </Loader>

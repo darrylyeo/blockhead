@@ -3,6 +3,7 @@
 	import type { Ethereum } from '$/data/networks/types'
 	import { Filecoin } from '$/data/filecoin'
 	import { networkBySlug } from '$/data/networks'
+	import { type FilecoinTransactionProvider, filecoinTransactionProviders } from '$/data/filecoinTransactionProviders'
 	import { filecoinTokenBalancesProviders } from '$/data/filecoinTokenBalancesProviders'
 
 
@@ -11,6 +12,9 @@
 	export let displayedAddress: Filecoin.Address
 	export let actor: Filecoin.Actor
 	export let layout: 'default' | 'inline' = 'default'
+
+	// (Sources)
+	export let filecoinTransactionProvider: FilecoinTransactionProvider
 
 	// (View options)
 	export let headingLevel: 2 | 3 | 4 | 5 | 6 = 3
@@ -269,6 +273,10 @@
 				title="Storage Miner Details"
 				isOpen={true}
 			>
+				<svelte:fragment slot="header-right">
+					<span class="card-annotation">{filecoinTransactionProviders[filecoinTransactionProvider]?.name ?? filecoinTransactionProvider}</span>
+				</svelte:fragment>
+
 				<FilecoinMinerDetails
 					{network}
 					minerDetails={actor.minerDetails}
