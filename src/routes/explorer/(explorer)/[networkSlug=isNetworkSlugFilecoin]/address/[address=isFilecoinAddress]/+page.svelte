@@ -19,12 +19,14 @@
 	network={$explorerNetwork}
 	address={$explorerParams.address}
 	let:actor
+	let:filecoinTransactionProvider
 >
 	{#if actor}
 		<FilecoinActor
 			network={$explorerNetwork}
 			displayedAddress={$explorerParams.address}
 			{actor}
+			{filecoinTransactionProvider}
 			headingLevel={2}
 		/>
 	{/if}
