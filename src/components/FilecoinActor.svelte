@@ -78,7 +78,7 @@
 			</span>
 		</svelte:fragment>
 
-		<div class="row flex-fill align-top wrap">
+		<div class="row flex-fill align-stretch wrap">
 			<section class="card">
 				<header class="bar wrap">
 					<svelte:element this={`h${headingLevel + 2}`}>Actor Details</svelte:element>
