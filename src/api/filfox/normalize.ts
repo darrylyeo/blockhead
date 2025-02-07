@@ -400,14 +400,29 @@ export const normalizeMessage = (
 		),
 	},
 
+	...'error' in message && {
+		receipt: {
+			error: message.error,
+		},
+	},
+
 	...(
 		('timestamp' in message && message.timestamp)
 		|| 'confirmations' in message
 		|| 'baseFee' in message
 	) && {
 		tipset: {
-			timestamp: message.timestamp * 1000,
-			confirmations: 'confirmations' in message ? message.confirmations : undefined,
+			...'timestamp' in message && message.timestamp && {
+				timestamp: message.timestamp * 1000,
+			},
+
+			...'confirmations' in message && {
+				confirmations: message.confirmations,
+			},
+
+			...'baseFee' in message && {
+				baseGasRate: BigInt(message.baseFee),
+			},
 		},
 	},
 
