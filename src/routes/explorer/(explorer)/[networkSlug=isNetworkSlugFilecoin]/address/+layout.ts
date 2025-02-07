@@ -5,12 +5,13 @@ import type { LayoutLoad } from './$types'
 
 export const load: LayoutLoad = async ({
 	parent,
+	params,
 }) => {
 	const data = await parent()
 
 	const metaTags: MetaTagsProps = {
 		...data.metaTags,
-		title: `Address | ${data.metaTags.title}`,
+		title: `Actor ${params.address} | ${data.metaTags.title}`,
 	}
 
 	return {
