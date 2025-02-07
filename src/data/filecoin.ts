@@ -9,12 +9,13 @@ export namespace Filecoin {
 	export type TipsetCid = IpfsCid
 
 	export type Tipset = {
-		number: TipsetNumber,
-		cid?: TipsetCid,
+		number: TipsetNumber
+		cid?: TipsetCid
 
-		timestamp: number,
+		timestamp: number
 
-		isCanonical?: boolean,
+		isCanonical?: boolean
+		confirmations?: number
 
 		baseGasRate?: GasRate
 
@@ -23,10 +24,10 @@ export namespace Filecoin {
 			| 'cid'
 		>
 
-		blocks?: Block[],
+		blocks?: Block[]
 
-		transactions?: Transaction[],
-		transactionsCount?: number,
+		transactions?: Transaction[]
+		transactionsCount?: number
 	}
 
 	export type BlockCid = IpfsCid
