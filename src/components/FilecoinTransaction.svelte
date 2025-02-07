@@ -102,13 +102,17 @@
 		{/if}
 	</dl> -->
 
-	<div class="row">
+	<div
+		class="row wrap"
+		class:card={layout === 'default'}
+	>
 		{#if !(isSummary && (contextIsSender || contextIsReceiver)) && transaction.fromActor}
 			<span class="sender" transition:fade>
 				<AddressWithLabel
 					{network}
 					address={transaction.fromActor.shortAddress ?? transaction.fromActor.robustAddress}
 					label={transaction.labels?.fromActor?.label}
+					format="address-label"
 					addressFormat="middle-truncated"
 				/>
 			</span>
@@ -116,13 +120,14 @@
 
 		{#if transaction.method}
 			<span>
-				called 
+				called
 				<output title="actor method">{transaction.method.name}</output>
 			</span>
 		{/if}
 
-		{#if transaction.value != 0}
+		{#if transaction.value > 0n}
 			<span>
+				{#if transaction.method}and{/if}
 				<span class="action">
 					{isSummary && contextIsReceiver
 						? transaction.receipt?.exitCode === 0 ? 'received' : 'failed to receive'
@@ -149,6 +154,7 @@
 					{network}
 					address={transaction.fromActor.shortAddress ?? ('robustAddress' in transaction.fromActor ? transaction.fromActor.robustAddress : undefined)}
 					label={transaction.labels?.fromActor?.label}
+					format="address-label"
 					addressFormat="middle-truncated"
 				/>
 				{#if transaction.labels?.fromActor?.isSigned}✔{/if}
@@ -156,7 +162,7 @@
 
 		{:else if transaction.toActor}
 			<span class="receiver" transition:fade>
-				{#if transaction.method}
+				{#if transaction.method && !(transaction.value > 0n)}
 					<span>on</span>
 				{:else}
 					<span>to</span>
@@ -165,6 +171,7 @@
 					{network}
 					address={transaction.toActor.shortAddress ?? ('robustAddress' in transaction.toActor ? transaction.toActor.robustAddress : undefined)}
 					label={transaction.labels?.toActor?.label}
+					format="address-label"
 					addressFormat="middle-truncated"
 				/>
 				{#if transaction.labels?.toActor?.isSigned}✔{/if}
@@ -189,7 +196,9 @@
 		{/if}
 
 		{#if isSummary && transaction.tipset?.timestamp}
-			<DateTime date={transaction.tipset.timestamp} />
+			<small>
+				<DateTime date={transaction.tipset.timestamp} />
+			</small>
 		{/if}
 	</div>
 
@@ -478,7 +487,7 @@
 		</section>
 	{/if}
 
-	{#if transaction.internalTransactions}
+	{#if transaction.internalTransactions?.length}
 		<hr>
 
 		<section>
@@ -487,6 +496,7 @@
 				title="Internal Transactions"
 				isInternal
 				headingLevel={headingLevel + 1}
+				layout="inline"
 			/>
 		</section>
 	{/if}
