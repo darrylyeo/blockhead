@@ -20,7 +20,7 @@
 {#if format === 'abbr'}
 	{@const formattedValue = (
 		isTruncated ?
-			`${value.slice(0, startLength)}⸱⸱⸱${value.slice(-endLength)}`
+			`${value.slice(0, startLength)}⸱⸱⸱${value.slice(-endLength || value.length)}`
 		:
 			value
 	)}
@@ -35,8 +35,8 @@
 	>
 		{#if value}
 			{@const start = value.slice(0, _startLength)}
-			{@const middle = value.slice(_startLength, -_endLength || undefined)}
-			{@const end = value.slice(-_endLength || undefined)}
+			{@const middle = value.slice(_startLength, -_endLength || value.length)}
+			{@const end = value.slice(-_endLength || value.length)}
 
 			<span>{start}</span><span class="middle"><span>{middle.slice(0, middle.length / 2)}</span><span aria-hidden="true"></span><span>{middle.slice(middle.length / 2)}</span></span><span>{end}</span>
 		{/if}
@@ -47,7 +47,7 @@
 		data-format="visual-characters"
 		data-is-truncated={isTruncated}
 		tabindex="0"
-	>{#if _startLength}<span>{value.slice(0, _startLength)}</span>{/if}<span class="middle" style:--l={value.length - _startLength - _endLength}>{#each value.slice(_startLength, -_endLength || undefined) as char, i}<span style:--i={i}>{char}</span>{/each}</span>{#if _endLength}<span>{value.slice(-_endLength)}</span>{/if}</span>
+	>{#if _startLength}<span>{value.slice(0, _startLength)}</span>{/if}<span class="middle" style:--l={value.length - _startLength - _endLength}>{#each value.slice(_startLength, -_endLength || value.length) as char, i}<span style:--i={i}>{char}</span>{/each}</span>{#if _endLength}<span>{value.slice(-_endLength)}</span>{/if}</span>
 
 {/if}
 
