@@ -6,6 +6,7 @@
 
 	import {
 		explorerNetwork,
+		navigationContext,
 	} from '../../../_explorerContext'
 
 
@@ -27,6 +28,7 @@
 				tipsetNumber: $explorerParams.blockNumber,
 			}
 	}
+	bind:tipset={$navigationContext.filecoinTipset}
 	let:tipset
 >
 	{#if tipset}

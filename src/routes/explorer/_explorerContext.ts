@@ -201,11 +201,21 @@ export const relevantPreferences = derived([
 
 // Internal stores
 import { writable } from 'svelte/store'
+import type { PartialExceptOneOf } from '$/utils/PartialExceptOneOf'
+import type { Filecoin } from '$/data/filecoin'
 
 export const showTestnets = writable(false)
 
 export const navigationContext = writable<{
-	transaction?: Ethereum.Transaction,
-	transactionBlockNumber?: Ethereum.BlockNumber,
-	block?: Ethereum.Block,
+	transaction?: PartialExceptOneOf<Ethereum.Transaction,
+		| 'blockNumber'
+	>
+
+	block?: PartialExceptOneOf<Ethereum.Block,
+		| 'blockNumber'
+	>
+
+	filecoinTipset? : PartialExceptOneOf<Filecoin.Tipset,
+		| 'number'
+	>
 }>({})

@@ -48,8 +48,6 @@
 
 
 	// Block Navigation
-	$: $navigationContext.transactionBlockNumber = $navigationContext.transaction?.blockNumber
-
 	import { availableNetworks } from '$/data/networks'
 	import { TransactionProvider, transactionProviders } from '$/data/transactionProviders'
 	import { parallelLoaderStore } from '$/utils/parallelLoaderStore'
@@ -163,9 +161,9 @@
 				{networkProvider}
 				blockNumber={
 					$explorerQueryType === 'block' ?
-						BigInt($blockNumber)
+						$navigationContext.block?.blockNumber ?? $navigationContext.filecoinTipset?.number
 					: $explorerQueryType === 'transaction' ?
-						$navigationContext.transactionBlockNumber
+						$navigationContext.transaction?.blockNumber
 					:
 						undefined
 				}
