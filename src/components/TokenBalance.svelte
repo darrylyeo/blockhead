@@ -9,6 +9,7 @@
 	export let token: Partial<Ethereum.NativeCurrency | Ethereum.Erc20Token> = {}
 	export let balance: number | bigint | undefined
 	export let isDebt = false
+	export let isBalanceChange = false
 
 	// (Derived)
 	$: network = token.chainId && networkByChainId.get(token.chainId)
@@ -23,7 +24,7 @@
 	)
 
 	$: isZero = balance !== undefined && Number(balance) === 0
-	$: isNegative = balance !== undefined && (balance ? balance < 0 : balance.toString()[0] === '-')
+	$: isNegative = balance !== undefined && (balance ? balance < 0 : Object.is(balance, -0))
 
 	$: compactLargeValues = format === 'token'
 
@@ -129,7 +130,7 @@
 >
 	{#if format === 'fiat'}
 		<span class="token-balance">
-			{isNegative ? '−' : ''}<TweenedNumber
+			{#if isNegative}−{:else if isBalanceChange}+{/if}<TweenedNumber
 				value={Math.abs(displayedBalance)}
 				format={computedFormat}
 				{tween} {clip} {transitionWidth}
@@ -140,7 +141,7 @@
 
 		<span class="inline-no-wrap">
 			<span class="token-balance">
-				{isNegative ? '−' : ''}<TweenedNumber
+				{#if isNegative}−{:else if isBalanceChange}+{/if}<TweenedNumber
 					value={Math.abs(displayedBalance)}
 					format={{
 						...computedFormat,
