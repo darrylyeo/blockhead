@@ -97,11 +97,26 @@ export const normalizeTransaction = (
 	value: BigInt(transaction.amount ?? 0),
 
 	gasToken: network.nativeCurrency,
-	gasSpent: transaction.gas_used !== undefined ? BigInt(transaction.gas_used) : undefined,
 
-	method: transaction.tx_type,
+	...transaction.tx_type && {
+		method: {
+			name: transaction.tx_type,
+		},
+	},
 
 	metadata: 'tx_metadata' in transaction ? transaction.tx_metadata : undefined, // ???
+
+	receipt: {
+		exitCode: (
+			({
+				'Ok': 0,
+				'Error': 1,
+			} as const)
+				[transaction.status as 'Ok' | 'Error']
+		),
+
+		gasSpent: transaction.gas_used !== undefined ? BigInt(transaction.gas_used) : undefined,
+	},
 
 	internalTransactions: (
 		'internalTransactions' in transaction ?
@@ -113,16 +128,6 @@ export const normalizeTransaction = (
 		:
 			undefined
 	),
-
-	receipt: {
-		exitCode: (
-			({
-				'Ok': 0,
-				'Error': 1,
-			} as const)
-				[transaction.status as 'Ok' | 'Error']
-		),
-	},
 
 	...transaction.block_cid && {
 		blocks: [
