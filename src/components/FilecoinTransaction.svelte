@@ -501,6 +501,19 @@
 		</section>
 	{/if}
 
+	{#if transaction.transfers?.length}
+		<hr>
+
+		<section>
+			<FilecoinTransfers
+				{network}
+				transfers={transaction.transfers}
+				transfersCount={transaction.transfers.length}
+				headingLevel={headingLevel + 1}
+			/>
+		</section>
+	{/if}
+
 	{#if !isSummary && !isInternal}
 		<hr>
 
