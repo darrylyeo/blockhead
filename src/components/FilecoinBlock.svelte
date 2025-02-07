@@ -33,7 +33,7 @@
 <Collapsible
 	type="label"
 	bind:isOpen
-	canToggle={false}
+	canToggle={layout === "inline"}
 	containerClass="column {layout === 'standalone' ? 'card' : ''}"
 	class="column"
 >
@@ -278,7 +278,7 @@
 		<div class="card">
 			<dl>
 				{#if block.baseGasRate !== undefined}
-					<dt>Base gas rate</dt>
+					<dt>Base Gas Rate</dt>
 					<dd>
 						<TokenBalance
 							{network}
@@ -287,7 +287,7 @@
 								...network.nativeCurrency,
 							}}
 							balance={block.baseGasRate}
-							showDecimalPlaces={network.nativeCurrency.decimals}
+							showSmallestUnits
 						/>
 						/ gas unit
 					</dd>
