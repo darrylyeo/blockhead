@@ -145,8 +145,6 @@ export namespace Filecoin {
 	export type Transaction = {
 		cid: TransactionCid
 
-		size?: bigint
-
 		fromActor?: PartialExceptOneOf<Actor,
 			| 'shortAddress'
 			| 'robustAddress'
@@ -169,22 +167,57 @@ export namespace Filecoin {
 		value: NativeCurrencyAmount
 
 		gasToken?: Ethereum.NativeCurrency
-		gasSpent?: GasAmount
+		gasParams?: {
+			gasLimit: GasAmount
+			gasUnitRateCap: GasRate
+			gasPremium: GasRate
+		}
 
-		method?: ActorMethodName
+		method?: {
+			name: ActorMethodName
+			number?: number
+		}
 		evmMethod?: string
 		params?: string
+		evmTransaction?: PartialExceptOneOf<Ethereum.Transaction,
+			| 'transactionId'
+		>
 
 		metadata?: any
+
+		// ---
+
+		nonce?: number
+
+		size?: bigint
 
 		receipt?: {
 			exitCode: 0 | 1
 			return?: string
+			error?: string
+
+			gasSpent?: GasAmount
 		}
 
 		internalTransactions?: Transaction[]
+		internalTransactionsCount?: number
+
+		eventLogs?: Ethereum.TransactionLogEvent[]
+		eventLogsCount?: number
 
 		transfers?: Transfer[]
+
+		tokenTransfers?: Ethereum.Erc20Transfer[]
+
+		fees?: {
+			baseFeeBurn: NativeCurrencyAmount
+			overEstimationBurn: NativeCurrencyAmount
+			minerPenalty: NativeCurrencyAmount
+			minerTip: NativeCurrencyAmount
+			refund: NativeCurrencyAmount
+		}
+
+		baseGasRate?: GasRate
 
 		blocks?: PartialExceptOneOf<Block,
 			| 'cid'

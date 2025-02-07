@@ -111,7 +111,7 @@
 		{#if transaction.method}
 			<span>
 				called 
-				<output title="actor method">{transaction.method}</output>
+				<output title="actor method">{transaction.method.name}</output>
 			</span>
 		{/if}
 
@@ -119,8 +119,8 @@
 			<span>
 				<span class="action">
 					{isSummary && contextIsReceiver
-						? transaction.isSuccessful ? 'received' : 'failed to receive'
-						: transaction.isSuccessful ? 'sent' : 'failed to send'}
+						? transaction.receipt?.exitCode === 0 ? 'received' : 'failed to receive'
+						: transaction.receipt?.exitCode === 0 ? 'sent' : 'failed to send'}
 				</span>
 				<TokenBalanceWithConversion
 					{tokenBalanceFormat}
@@ -165,7 +165,7 @@
 			</span>
 		{/if}
 
-		{#if showFees && transaction.gasSpent !== undefined}
+		{#if showFees && transaction.receipt?.gasSpent !== undefined}
 			<span class="fee" transition:fade>
 				<span>for fee</span>
 				<TokenBalanceWithConversion
@@ -177,7 +177,7 @@
 						...transaction.gasToken,
 					}}
 
-					balance={transaction.gasSpent}
+					balance={transaction.receipt.gasSpent}
 				/>
 			</span>
 		{/if}

@@ -344,7 +344,9 @@ export const normalizeMessage = (
 
 	value: BigInt(message.value),
 
-	method: message.method,
+	method: {
+		name: message.method,
+	},
 	...message.evmMethod && {
 		evmMethod: message.evmMethod,
 	},
@@ -356,25 +358,27 @@ export const normalizeMessage = (
 		},
 	},
 
-	...message.receipt && {
+	...(
+		message.receipt !== undefined
+		|| 'error' in message
+	) && {
 		receipt: {
-			exitCode: message.receipt.exitCode,
-			return: message.receipt.return,
-			...message.receipt.gasUsed && {
+			...message.receipt && {
+				exitCode: message.receipt.exitCode,
+				return: message.receipt.return,
+			},
+
+			...'error' in message && {
+				error: message.error,
+			},
+
+			...message.receipt?.gasUsed !== undefined && {
 				gasSpent: BigInt(message.receipt.gasUsed),
 			},
 		},
 	},
 
 	gasToken: network.nativeCurrency,
-
-	...'error' in message && {
-		error: message.error,
-	},
-
-	...'baseFee' in message && {
-		baseGasRate: BigInt(message.baseFee),
-	},
 
 	...'fee' in message && {
 		fees: {
@@ -396,7 +400,11 @@ export const normalizeMessage = (
 		),
 	},
 
-	...'timestamp' in message && message.timestamp && {
+	...(
+		('timestamp' in message && message.timestamp)
+		|| 'confirmations' in message
+		|| 'baseFee' in message
+	) && {
 		tipset: {
 			timestamp: message.timestamp * 1000,
 			confirmations: 'confirmations' in message ? message.confirmations : undefined,
