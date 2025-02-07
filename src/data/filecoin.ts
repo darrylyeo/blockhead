@@ -217,8 +217,6 @@ export namespace Filecoin {
 			refund: NativeCurrencyAmount
 		}
 
-		baseGasRate?: GasRate
-
 		blocks?: PartialExceptOneOf<Block,
 			| 'cid'
 		>[]
