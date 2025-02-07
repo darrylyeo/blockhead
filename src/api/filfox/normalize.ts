@@ -344,8 +344,19 @@ export const normalizeMessage = (
 
 	value: BigInt(message.value),
 
+	...'gasLimit' in message && {
+		gasParams: {
+			gasLimit: BigInt(message.gasLimit),
+			gasUnitRateCap: BigInt(message.gasFeeCap),
+			gasPremium: BigInt(message.gasPremium),
+		},
+	},
+
 	method: {
 		name: message.method,
+		...'methodNumber' in message && {
+			number: message.methodNumber,
+		},
 	},
 	...message.evmMethod && {
 		evmMethod: message.evmMethod,
@@ -356,6 +367,10 @@ export const normalizeMessage = (
 		evmTransaction: {
 			transactionId: message.ethTransactionHash as Ethereum.TransactionId,
 		},
+	},
+
+	...'nonce' in message && {
+		nonce: message.nonce,
 	},
 
 	...(
@@ -390,6 +405,14 @@ export const normalizeMessage = (
 		},
 	},
 
+	...'subcallCount' in message && {
+		internalTransactionsCount: message.subcallCount,
+	},
+
+	...'eventLogCount' in message && {
+		eventLogsCount: message.eventLogCount,
+	},
+
 	...'transfers' in message && {
 		transfers: (
 			message.transfers
@@ -400,10 +423,13 @@ export const normalizeMessage = (
 		),
 	},
 
-	...'error' in message && {
-		receipt: {
-			error: message.error,
-		},
+	...'tokenTransfers' in message && {
+		tokenTransfers: (
+			message.tokenTransfers
+				.map(tokenTransfer => (
+					normalizeTokenTransfer(tokenTransfer)
+				))
+		),
 	},
 
 	...(
