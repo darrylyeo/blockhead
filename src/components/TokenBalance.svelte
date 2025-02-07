@@ -39,28 +39,26 @@
 	export let clip = true
 	export let transitionWidth = true
 
-	$: computedFormat = {
-		...(
-			showSmallestUnits ?
-				'unitSymbol' in token && token.unitSymbol ?
-					{
-						currency: token.unitSymbol,
-						showDecimalPlaces: 0,
-					}
-				:
-					{
-						currency: `${token.symbol} units`,
-						showDecimalPlaces: 0,
-					}
-					
+	$: computedFormat = (
+		showSmallestUnits ?
+			'unitSymbol' in token && token.unitSymbol ?
+				{
+					currency: token.unitSymbol,
+					showDecimalPlaces: 0,
+				}
 			:
 				{
-					currency: token.symbol,
-					showDecimalPlaces,
+					currency: `${token.symbol} units`,
+					showDecimalPlaces: 0,
 				}
-		),
-		compactLargeValues,
-	}
+				
+		:
+			{
+				currency: token.symbol,
+				showDecimalPlaces,
+				compactLargeValues,
+			}
+	)
 
 
 	// Actions
