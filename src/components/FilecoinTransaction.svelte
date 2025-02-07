@@ -38,6 +38,10 @@
 	)
 
 
+	// Functions
+	import { formatPercent } from '$/utils/formatPercent'
+
+
 	// Components
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import BlockNumber from './BlockNumber.svelte'
@@ -45,8 +49,10 @@
 	import DateTime from './DateTime.svelte'
 	import FilecoinBlockCid from './FilecoinBlockCid.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
+	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 	import TransactionId from './TransactionId.svelte'
+	import TweenedNumber from './TweenedNumber.svelte'
 
 
 	// Transitions
@@ -187,6 +193,291 @@
 		{/if}
 	</div>
 
+	{#if !isSummary && (
+		transaction.gasParams !== undefined
+		|| transaction.tipset?.baseGasRate !== undefined
+		|| transaction.receipt?.gasSpent !== undefined
+		|| transaction.fees !== undefined
+	)}
+		<hr>
+
+		<section>
+			<Collapsible
+				isOpen
+			>
+				<svelte:fragment slot="title">
+					<svelte:element this={`h${headingLevel + 1}`}>
+						Fees
+					</svelte:element>
+				</svelte:fragment>
+
+				<svelte:fragment slot="header-right">
+					<span class="card-annotation">
+						<a href="https://spec.filecoin.io/systems/filecoin_vm/gas_fee/" target="_blank">EIP-1559 Auction</a>
+					</span>
+				</svelte:fragment>
+
+				<div class="card">
+					<dl>
+						{#if transaction.gasParams !== undefined && transaction.fees !== undefined}
+							{@const estimatedTotalFees = transaction.gasParams.gasUnitRateCap * transaction.gasParams.gasLimit}
+
+							<dt>
+								<abbr title="Gas Limit × Max Gas Rate">
+									Estimated Total Fees
+								</abbr>
+							</dt>
+							<dd>
+								<span>
+									<TokenBalance
+										token={network.nativeCurrency}
+										balance={-estimatedTotalFees || -0}
+										isBalanceChange
+										showDecimalPlaces={network.nativeCurrency.decimals}
+									/>
+								</span>
+
+								<dl>
+									<dt>Gas Limit</dt>
+									<dd>
+										<TweenedNumber value={transaction.gasParams.gasLimit} /> gas units
+									</dd>
+									
+									<dt>Max Gas Rate</dt>
+									<dd>
+										<span>
+											<TokenBalance
+												token={network.nativeCurrency}
+												balance={transaction.gasParams.gasUnitRateCap}
+												showSmallestUnits
+											/> / gas unit
+										</span>
+									</dd>
+								</dl>
+							</dd>
+
+							<dt>Gas Premium</dt>
+							<dd>
+								<span>
+									<TokenBalance
+										token={network.nativeCurrency}
+										balance={transaction.gasParams.gasPremium}
+										showSmallestUnits
+									/> / gas unit
+								</span>
+							</dd>
+						{/if}
+
+						{#if
+							(transaction.gasParams !== undefined && transaction.fees !== undefined)
+							&& (
+								transaction.tipset?.baseGasRate !== undefined
+								|| transaction.receipt?.gasSpent !== undefined
+							)
+						}
+							<hr>
+						{/if}
+
+						{#if transaction.tipset?.baseGasRate !== undefined}
+							<dt>
+								Base Gas Rate
+								<small>(tipset{#if transaction.tipset?.number !== undefined} <BlockNumber
+									{network}
+									blockNumber={transaction.tipset.number}
+								/>{/if})</small>
+							</dt>
+							<dd>
+								<TokenBalance
+									token={{
+										chainId: network.chainId,
+										...network.nativeCurrency
+									}}
+									balance={transaction.tipset.baseGasRate}
+									showSmallestUnits
+								/> / gas unit
+							</dd>
+						{/if}
+
+						{#if transaction.receipt?.gasSpent !== undefined}
+							<dt>Used Gas</dt>
+							<dd>
+								<span>
+									<TweenedNumber value={transaction.receipt?.gasSpent} /> gas units
+								</span>
+								{#if transaction.gasParams}
+									<small>({formatPercent(Number(transaction.receipt.gasSpent) / Number(transaction.gasParams.gasLimit))} of <abbr title="Gas Limit">Gas Limit</abbr>)</small>
+								{/if}
+							</dd>
+
+							{#if transaction.gasParams !== undefined}
+								<dt>Unused Gas</dt>
+								<dd>
+									<span>
+										<TweenedNumber value={transaction.gasParams.gasLimit - transaction.receipt.gasSpent} /> gas units
+									</span>
+
+									<small
+										>(<span>{formatPercent(Number(transaction.gasParams.gasLimit - transaction.receipt.gasSpent) / Number(transaction.gasParams.gasLimit))} of <abbr title="Gas Limit">Gas Limit</abbr></span
+										>・<span>{formatPercent(Number(transaction.gasParams.gasLimit) / Number(transaction.receipt.gasSpent) - 1)} <abbr title="≥ 10%">overbid</abbr></span
+									>)</small>
+								</dd>
+							{/if}
+						{/if}
+
+						{#if transaction.gasParams !== undefined}
+							{@const estimatedTotalFees = transaction.gasParams.gasUnitRateCap * transaction.gasParams.gasLimit}
+
+							{#if transaction.fees !== undefined}
+								{@const totalBurnedFees = transaction.fees.baseFeeBurn + transaction.fees.overEstimationBurn}
+								{@const totalMinerFees = transaction.fees.minerTip + transaction.fees.minerPenalty}
+								{@const totalFees = totalBurnedFees + totalMinerFees}
+
+								<hr>
+
+								<dt>Total Fees</dt>
+								<dd>
+									<span>
+										<TokenBalance
+											token={{
+												chainId: network.chainId,
+												...network.nativeCurrency
+											}}
+											balance={-totalFees || -0}
+											isBalanceChange
+											showDecimalPlaces={network.nativeCurrency.decimals}
+										/>
+										<small>({formatPercent(Number(totalFees) / Number(estimatedTotalFees))} of <abbr title="Estimated Total Fees">Estimated Total Fees</abbr>)</small>
+									</span>
+
+									<dl>
+										<dt>Burned</dt>
+										<dd>
+											<span>
+												<TokenBalance
+													token={{
+														chainId: network.chainId,
+														...network.nativeCurrency
+													}}
+													balance={-totalBurnedFees || -0}
+													isBalanceChange
+													showDecimalPlaces={network.nativeCurrency.decimals}
+												/>
+											</span>
+
+											<dl>
+												<dt>
+													<abbr
+														title="Base Gas Rate × Used Gas"
+													>
+														Base Fee
+													</abbr>
+												</dt>
+												<dd>
+													<TokenBalance
+														token={{
+															chainId: network.chainId,
+															...network.nativeCurrency
+														}}
+														balance={-transaction.fees.baseFeeBurn || -0}
+														isBalanceChange
+														showDecimalPlaces={network.nativeCurrency.decimals}
+													/>
+													<small>({formatPercent(Number(transaction.fees.baseFeeBurn) / Number(totalBurnedFees))})</small>
+												</dd>
+
+												<dt>
+													<abbr
+														title="Unused Gas × (Base Gas Rate + Miner Premium)"
+													>
+														Overestimation Penalty
+													</abbr>
+												</dt>
+												<dd>
+													<TokenBalance
+														token={{
+															chainId: network.chainId,
+															...network.nativeCurrency
+														}}
+														balance={-transaction.fees.overEstimationBurn || -0}
+														isBalanceChange
+														showDecimalPlaces={network.nativeCurrency.decimals}
+													/>
+													<small>({formatPercent(Number(transaction.fees.overEstimationBurn) / Number(totalBurnedFees))})</small>
+												</dd>
+											</dl>
+										</dd>
+
+										<dt>Miner</dt>
+										<dd>
+											<span class="total">
+												<TokenBalance
+													token={{
+														chainId: network.chainId,
+														...network.nativeCurrency
+													}}
+													balance={-totalMinerFees || -0}
+													isBalanceChange
+													showDecimalPlaces={network.nativeCurrency.decimals}
+												/>
+											</span>
+											<dl>
+												<dt>
+													<abbr title="Gas Limit × Gas Premium">
+														Tip
+													</abbr>
+												</dt>
+												<dd>
+													<TokenBalance
+														token={{
+															chainId: network.chainId,
+															...network.nativeCurrency
+														}}
+														balance={-transaction.fees.minerTip || -0}
+														isBalanceChange
+														showDecimalPlaces={network.nativeCurrency.decimals}
+													/>
+												</dd>
+
+												<dt>Penalty</dt>
+												<dd>
+													<TokenBalance
+														token={{
+															chainId: network.chainId,
+															...network.nativeCurrency
+														}}
+														balance={-transaction.fees.minerPenalty || -0}
+														isBalanceChange
+														showDecimalPlaces={network.nativeCurrency.decimals}
+													/>
+												</dd>
+											</dl>
+										</dd>
+									</dl>
+								</dd>
+
+								<hr>
+
+								<dt>Refund</dt>
+								<dd>
+									<TokenBalance
+										token={{
+											chainId: network.chainId,
+											...network.nativeCurrency
+										}}
+										balance={transaction.fees.refund}
+										isBalanceChange
+										showDecimalPlaces={network.nativeCurrency.decimals}
+									/>
+									<small>({formatPercent(Number(transaction.fees.refund) / Number(estimatedTotalFees))} of <abbr title="Estimated Total Fees">Estimated Total Fees</abbr>)</small>
+								</dd>
+							{/if}
+						{/if}
+					</dl>
+				</div>
+			</Collapsible>
+		</section>
+	{/if}
+
 	{#if transaction.internalTransactions}
 		<hr>
 
@@ -256,5 +547,62 @@
 <style>
 	.transaction-id {
 		font-size: 0.925em;
+	}
+
+	small {
+		opacity: 0.66;
+	}
+
+	dl {
+		--level: 0;
+
+		dl {
+			--level: 1;
+
+			dl {
+				--level: 2;
+
+				dl {
+					--level: 3;
+
+					dl {
+						--level: 4;
+					}
+				}
+			}
+		}
+	}
+
+	dd:has(> dl) {
+		display: contents;
+
+		> dl {
+			display: grid;
+			grid-template-columns: subgrid;
+			grid-column: 1 / -1;
+			row-gap: 0.5em;
+
+			--r: 0.85;
+			margin-top: calc((var(--r) - 1) * (1 / var(--r)) * var(--padding-inner));
+			font-size: calc(var(--r) * 1em);
+		}
+
+		dt:has(+ &) {
+			display: contents;
+		}
+	}
+
+	dd dd:has(> dl) > :first-child,
+	dd:has(> dl) dd:not(:has(> dl)) {
+		padding-inline-start: calc(
+			(var(--level) - 1) * var(--icon-size)
+			+ (var(--level) - 2) * var(--padding-inner)
+		);
+
+		&:before {
+			content: '┖ ';
+			width: var(--icon-size);
+			display: inline-block;
+		}
 	}
 </style>
