@@ -22,8 +22,8 @@
 			formattedBalance
 	)
 
-	$: isZero = balance == 0
-	$: isNegative = balance && balance < 0
+	$: isZero = balance !== undefined && Number(balance) === 0
+	$: isNegative = balance !== undefined && (balance ? balance < 0 : balance.toString()[0] === '-')
 
 	$: compactLargeValues = format === 'token'
 
