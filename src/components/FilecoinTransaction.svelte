@@ -49,6 +49,7 @@
 	import DateTime from './DateTime.svelte'
 	import FilecoinBlockCid from './FilecoinBlockCid.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
+	import FilecoinTransfers from './FilecoinTransfers.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 	import TransactionId from './TransactionId.svelte'
@@ -497,6 +498,19 @@
 				isInternal
 				headingLevel={headingLevel + 1}
 				layout="inline"
+			/>
+		</section>
+	{/if}
+
+	{#if transaction.transfers?.length}
+		<hr>
+
+		<section>
+			<FilecoinTransfers
+				{network}
+				transfers={transaction.transfers}
+				transfersCount={transaction.transfers.length}
+				headingLevel={headingLevel + 1}
 			/>
 		</section>
 	{/if}
