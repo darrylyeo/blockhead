@@ -21,10 +21,20 @@
 	import { formatTransactionHash } from '$/utils/formatTransactionHash'
 	import { resolveRoute } from '$app/paths'
 
+
 	// Internal state
 	// (Computed)
 	$: formattedTransactionId = formatTransactionHash(transactionId, format)
-	$: link = linked && network && transactionId ? resolveRoute(`/explorer/[networkSlug]/tx/[transactionId]`, { networkSlug: network.slug, transactionId }) : undefined
+
+	$: link = (
+		linked && network && transactionId ?
+			resolveRoute(`/explorer/[networkSlug]/tx/[transactionId]`, {
+				networkSlug: network.slug,
+				transactionId,
+			})
+		:
+			undefined
+	)
 
 
 	// Actions
@@ -42,9 +52,9 @@
 <svelte:element
 	this={link ? 'a' : 'span'}
 	class="transaction-id monospace"
-	{...link ? {
-		href: link
-	} : undefined}
+	{...link && {
+		href: link,
+	}}
 	title="{network ? `${network.name} ` : ''}Transaction {transactionId}"
 	draggable={true}
 	on:dragstart={onDragStart}
