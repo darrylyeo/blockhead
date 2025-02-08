@@ -34,10 +34,9 @@
 	import Collapsible from './Collapsible.svelte'
 	import FilecoinTransaction from './FilecoinTransaction.svelte'
 	import InlineContainer from './InlineContainer.svelte'
-	import InlineTransition from './InlineTransition.svelte'
 	import Loading from './Loading.svelte'
+	import PaginationCount from './PaginationCount.svelte'
 	import ScrollContainer from './ScrollContainer.svelte'
-	import TweenedNumber from './TweenedNumber.svelte'
 </script>
 
 
@@ -52,24 +51,11 @@
 				<svelte:element this={`h${headingLevel}`}>
 					{title}
 				</svelte:element>
-				<small
-					><span>(</span
-					><InlineTransition
-						align="end"
-						clip
-						isOpen={isOpen && transactionsCount !== undefined}
-					><span
-						><TweenedNumber
-							value={1}
-						/> – <TweenedNumber
-							value={transactions.length}
-						/></span> of&nbsp;</InlineTransition
-					><TweenedNumber
-						value={transactionsCount ?? transactions.length}
-					/>{
-						#if transactionsCount === undefined && pagination?.hasNextPage}+{/if
-					}<span>)</span
-				></small>
+				<small><PaginationCount
+					itemsCount={transactionsCount ?? transactions.length}
+					hasMoreItems={pagination?.hasNextPage}
+					isShowingRange={isOpen}
+				/></small>
 			</span>
 		</slot>
 	</svelte:fragment>
