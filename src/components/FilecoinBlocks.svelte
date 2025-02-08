@@ -18,8 +18,7 @@
 	import AnchorLink from './AnchorLink.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import FilecoinBlock from './FilecoinBlock.svelte'
-	import InlineTransition from './InlineTransition.svelte'
-	import TweenedNumber from './TweenedNumber.svelte'
+	import PaginationCount from './PaginationCount.svelte'
 </script>
 
 
@@ -33,22 +32,10 @@
 				<svelte:element this={`h${headingLevel}`}>
 					Blocks
 				</svelte:element>
-				<small
-					><span>(</span
-					><InlineTransition
-						align="end"
-						clip
-						isOpen={isOpen && blocks.length !== undefined}
-					><span
-						><TweenedNumber
-							value={1}
-						/> – <TweenedNumber
-							value={blocks.length}
-						/></span> of&nbsp;</InlineTransition
-					><TweenedNumber
-						value={blocks.length}
-					/><span>)</span
-				></small>
+				<small><PaginationCount
+					itemsCount={blocks.length}
+					isShowingRange={isOpen}
+				/></small>
 			</span>
 		</slot>
 	</svelte:fragment>
