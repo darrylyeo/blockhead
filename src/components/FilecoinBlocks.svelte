@@ -8,6 +8,7 @@
 	// Inputs
 	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
 	export let blocks: Filecoin.Block[] = []
+
 	// (View options)
 	export let headingLevel: 2 | 3 | 4 | 5 | 6 = 3
 	export let isOpen: boolean
@@ -17,6 +18,7 @@
 	import AnchorLink from './AnchorLink.svelte'
 	import Collapsible from './Collapsible.svelte'
 	import FilecoinBlock from './FilecoinBlock.svelte'
+	import InlineTransition from './InlineTransition.svelte'
 	import TweenedNumber from './TweenedNumber.svelte'
 </script>
 
@@ -26,10 +28,29 @@
 	bind:isOpen
 >
 	<svelte:fragment slot="title">
-		<svelte:element this={`h${headingLevel}`}>
-			Blocks
-			<span>(<TweenedNumber value={blocks.length} />)</span>
-		</svelte:element>
+		<slot name="title">
+			<span class="row inline wrap">
+				<svelte:element this={`h${headingLevel}`}>
+					Blocks
+				</svelte:element>
+				<small
+					><span>(</span
+					><InlineTransition
+						align="end"
+						clip
+						isOpen={isOpen && blocks.length !== undefined}
+					><span
+						><TweenedNumber
+							value={1}
+						/> – <TweenedNumber
+							value={blocks.length}
+						/></span> of&nbsp;</InlineTransition
+					><TweenedNumber
+						value={blocks.length}
+					/><span>)</span
+				></small>
+			</span>
+		</slot>
 	</svelte:fragment>
 	
 	<div class="blocks-list column" class:scrollable-list={blocks.length > 7}>
@@ -48,3 +69,10 @@
 		{/each}
 	</div>
 </Collapsible>
+
+
+<style>
+	small {
+		opacity: 0.5;
+	}
+</style>
