@@ -5,8 +5,8 @@
 
 
 	// Inputs
+	export let network: Ethereum.Network | undefined
 	export let transactionId: Ethereum.TransactionId | Filecoin.TransactionCid
-	export let network: Ethereum.Network
 
 	// (View options)
 	export let format: 'full' | 'middle-truncated' = 'full'
@@ -45,7 +45,7 @@
 	{...link ? {
 		href: link
 	} : undefined}
-	title="{network.name} Transaction {transactionId}"
+	title="{network ? `${network.name} ` : ''}Transaction {transactionId}"
 	draggable={true}
 	on:dragstart={onDragStart}
 >
