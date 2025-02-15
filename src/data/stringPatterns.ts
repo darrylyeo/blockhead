@@ -121,7 +121,7 @@ export const stringPatterns = {
 		label: 'Transaction ID',
 		placeholder: 'bafy…',
 		placeholderLong: 'bafy…wxyz',
-		pattern: /bafy.+/,
+		pattern: /bafy.+|0x[0-9a-fA-F]{64}/,
 		complexity: 3,
 	},
 	[StringPattern.LensHandle]: {
