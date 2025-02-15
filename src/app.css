@@ -633,6 +633,9 @@ hr {
 	border: none;
 	border-bottom: currentColor 1px solid;
 	opacity: 0.25;
+
+	flex-basis: 100%;
+	grid-column: 1 / -1;
 }
 
 
