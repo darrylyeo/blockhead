@@ -123,6 +123,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		icon: ArbitrumOneIcon,
@@ -285,6 +286,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		icon: ArbitrumNovaIcon,
@@ -413,6 +415,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		icon: AuroraIcon,
@@ -532,6 +535,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		icon: BaseIcon,
@@ -652,6 +656,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Binance Chain Native Token',
 			symbol: 'BNB',
+			unitSymbol: 'jager',
 			decimals: 18,
 		},
 		icon: BnbChainIcon,
@@ -696,6 +701,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Binance Chain Native Token',
 			symbol: 'tBNB',
+			unitSymbol: 'jager',
 			decimals: 18,
 		},
 		rpc: [
@@ -729,6 +735,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Bitcoin',
 			symbol: 'BTC',
+			unitSymbol: 'satoshi',
 			decimals: 8,
 		},
 		colors: [
@@ -745,6 +752,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		icon: BlastIcon,
@@ -1544,6 +1552,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		icon: EthereumIcon,
@@ -1607,6 +1616,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ethereum Classic Ether',
 			symbol: 'ETC',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		rpc: [
@@ -1670,6 +1680,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Goerli Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		rpc: [
@@ -1719,6 +1730,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Testnet ETH',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		rpc: [
@@ -1770,7 +1782,8 @@ export const networks = [
 		networkId: 42,
 		nativeCurrency: {
 			name: 'Kovan Ether',
-			symbol: 'KOV',
+			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		rpc: [
@@ -1793,7 +1806,8 @@ export const networks = [
 		networkId: 4,
 		nativeCurrency: {
 			name: 'Rinkeby Ether',
-			symbol: 'RIN',
+			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		faucets: [
@@ -1843,6 +1857,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Sepolia Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		rpc: [
@@ -2166,8 +2181,9 @@ export const networks = [
 		chain: 'FIL',
 		networkId: 314,
 		nativeCurrency: {
-			name: 'filecoin',
+			name: 'Filecoin',
 			symbol: 'FIL',
+			unitSymbol: 'attoFIL',
 			decimals: 18,
 		},
 		icon: FilecoinIcon,
@@ -2228,8 +2244,9 @@ export const networks = [
 		rpc: [
 		],
 		nativeCurrency: {
-			name: 'filecoin',
+			name: 'Filecoin',
 			symbol: 'tFIL',
+			unitSymbol: 'atto-tFIL',
 			decimals: 18,
 		},
 		infoURL: 'https://filecoin.io',
@@ -2253,7 +2270,7 @@ export const networks = [
 			'https://calibration.filfox.info/rpc/v1',
 		],
 		nativeCurrency: {
-			name: 'testnet filecoin',
+			name: 'Testnet Filecoin',
 			symbol: 'tFIL',
 			decimals: 18,
 		},
@@ -3490,6 +3507,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		rpc: [
@@ -3889,6 +3907,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		icon: MintIcon,
@@ -4030,6 +4049,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		icon: ModeIcon,
@@ -4200,6 +4220,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		icon: NahmiiIcon,
@@ -4243,6 +4264,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		icon: NahmiiIcon,
@@ -4569,6 +4591,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		icon: OptimismIcon,
@@ -4690,6 +4713,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'BNB Chain Native Token',
 			symbol: 'BNB',
+			unitSymbol: 'jager',
 			decimals: 18,
 		},
 		rpc: [
@@ -5002,6 +5026,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		icon: PolygonZkevmIcon,
@@ -5041,6 +5066,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		rpc: [
@@ -5557,6 +5583,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		icon: RedstoneIcon,
@@ -5676,6 +5703,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		icon: ScrollIcon,
@@ -5745,6 +5773,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		rpc: [
@@ -6582,6 +6611,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		infoURL: 'https://worldcoin.org',
@@ -6669,6 +6699,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		rpc: [
@@ -6710,6 +6741,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		rpc: [
@@ -6748,6 +6780,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		icon: ZoraIcon,
@@ -6784,6 +6817,7 @@ export const networks = [
 		nativeCurrency: {
 			name: 'Ether',
 			symbol: 'ETH',
+			unitSymbol: 'wei',
 			decimals: 18,
 		},
 		explorers: [
