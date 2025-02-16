@@ -237,7 +237,7 @@ export const preferencesConfig = [
 				preferenceId: 'filecoinTransactionProvider',
 				name: 'Transactions/Blocks (Filecoin)',
 				type: 'single',
-				defaultOption: FilecoinTransactionProvider.Beryx,
+				defaultOption: FilecoinTransactionProvider.Filfox,
 				options: [
 					{
 						groupId: 'offChain',
