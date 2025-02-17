@@ -718,4 +718,37 @@ export namespace Filecoin {
 			'timestamp'
 		>
 	}>
+
+	export enum EventType {
+		Native = 'Native',
+		Evm = 'Evm',
+	}
+
+	export type Event<
+		T extends EventType = EventType
+	> = {
+		selectorId: string
+		selectorSignature?: string
+
+		type: T
+		
+		emitter: PartialExceptOneOf<Actor,
+			| 'shortAddress'
+			| 'robustAddress'
+		>
+		
+		logIndex: number
+
+		metadata?: Record<string, unknown>
+		
+		transaction?: PartialExceptOneOf<Transaction,
+			| 'cid'
+		>
+		
+		tipset?: PartialExceptOneOf<Tipset,
+			| 'number'
+			| 'cid'
+			| 'timestamp'
+		>
+	}
 }
