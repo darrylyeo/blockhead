@@ -7,7 +7,7 @@ import type { TokenWithBalance } from '$/data/tokens'
 
 
 // Functions
-import type { getOverview, getAddress, getBlock, getTipset, getMessage, getBlockMessages, getAddressTransfers, getAddressBalanceStats } from '.'
+import type { getOverview, getAddress, getAddressBalanceStats, getAddressTransfers, getAddressEvents, getTipset, getTipsetEvents, getBlock, getBlockMessages, getMessage, getMessageEvents } from '.'
 import type { FetchReturnType } from 'openapi-typescript-fetch'
 
 export const normalizeOverview = (
@@ -459,6 +459,25 @@ export const normalizeMessage = (
 	},
 })
 
+export const normalizeEvent = (
+	event: (
+		| FetchReturnType<typeof getMessageEvents>['events'][number]
+		| FetchReturnType<typeof getAddressEvents>['events'][number]
+		| FetchReturnType<typeof getTipsetEvents>['events'][number]
+	),
+): Filecoin.Event => ({
+	type: event.type,
+	data: event.data,
+
+	transaction: {
+		cid: event.message as Filecoin.TransactionCid
+	},
+
+	tipset: {
+		number: BigInt(event.height),
+		timestamp: event.timestamp * 1000
+	}
+})
 
 export const normalizeTransfer = (
 	transfer: (
