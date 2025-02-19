@@ -1,6 +1,6 @@
 // Types
 import type { paths } from './api.d.ts'
-import type { Overview, AddressInfo, AddressBalanceStats, AddressMessages, AddressTransfers, AddressMessageTransfers, AddressTokenTransfers, Tipset, Block, BlockMessages, Message } from './types'
+import type { Overview, AddressInfo, AddressBalanceStats, AddressMessages, AddressTransfers, AddressMessageTransfers, AddressTokenTransfers, Tipset, Block, BlockMessages, Message, Events, MessageEvents } from './types'
 import type { DeepMerge } from '$/utils/DeepMerge'
 
 type GetJsonResponse<T> = {
@@ -34,13 +34,19 @@ type allPaths = DeepMerge<[
 
 		'/address/{address}/token-transfers': GetJsonResponse<AddressTokenTransfers>
 
+		'/address/{address}/events': GetJsonResponse<Events>
+
 		'/tipset/{height}': GetJsonResponse<Tipset>
+
+		'/tipset/{height}/events': GetJsonResponse<Events>
 
 		'/block/{cid}': GetJsonResponse<Block>
 
 		'/block/{cid}/messages': GetJsonResponse<BlockMessages>
 
 		'/message/{cid}': GetJsonResponse<Message>
+
+		'/message/{cid}/events': GetJsonResponse<MessageEvents>
 	}
 ]>
 
@@ -80,10 +86,16 @@ export const getAddressMessageTransfers = fetcher.path('/address/{address}/messa
 
 export const getAddressTokenTransfers = fetcher.path('/address/{address}/token-transfers').method('get').create()
 
+export const getAddressEvents = fetcher.path('/address/{address}/events').method('get').create()
+
 export const getTipset = fetcher.path('/tipset/{height}').method('get').create()
+
+export const getTipsetEvents = fetcher.path('/tipset/{height}/events').method('get').create()
 
 export const getBlock = fetcher.path('/block/{cid}').method('get').create()
 
 export const getBlockMessages = fetcher.path('/block/{cid}/messages').method('get').create()
 
 export const getMessage = fetcher.path('/message/{cid}').method('get').create()
+
+export const getMessageEvents = fetcher.path('/message/{cid}/events').method('get').create()

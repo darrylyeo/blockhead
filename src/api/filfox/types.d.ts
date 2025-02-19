@@ -246,6 +246,34 @@ export type Message = {
 	tokenTransfers: TokenTransfer[]
 }
 
+export type MessageEvents = MessageEvent[]
+
+export type MessageEvent = {
+	address: string
+	name: string
+	data: `0x${string}`
+	topics: `0x${string}`[]
+	removed: boolean
+	logIndex: number
+}
+
+export type Events = {
+	totalCount: number
+	events: Event[]
+}
+
+export type Event = {
+	address: string
+	data: `0x${string}`
+	topics: `0x${string}`[]
+	removed: boolean
+	logIndex: number
+	transactionIndex: number
+	transactionHash: `bafy${string}`
+	blockHash: `0x${string}`
+	blockNumber: number
+}
+
 export type Transfer<
 	T extends keyof typeof filfoxTransferTypes = keyof typeof filfoxTransferTypes
 > = {
