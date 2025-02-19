@@ -6,19 +6,36 @@
 	// Inputs
 	export let itemsCount: T | undefined
 
-	export let currentRange = (
+	export let currentRange: [NonNullable<T>, NonNullable<T>] | undefined
+
+	$: currentRange ??= (
 		typeof itemsCount === 'bigint' ?
-			[0n, itemsCount] as const
+			[0n, itemsCount] as [NonNullable<T>, NonNullable<T>]
 		: typeof itemsCount === 'number' ?
-			[0, itemsCount] as const
+			[0, itemsCount] as [NonNullable<T>, NonNullable<T>]
 		:
 			undefined
-	) as [NonNullable<T>, NonNullable<T>] | undefined
+	)
 
 	export let hasMoreItems: boolean | undefined = false
 
 	// (View options)
 	export let isShowingRange = false
+
+
+	// Internal state
+	/** 1-indexed, end-exclusive */
+	$: displayedRange = currentRange && [
+		(
+			typeof currentRange[0] === 'bigint' ?
+				currentRange[0] + 1n as T
+			: typeof currentRange[0] === 'number' ?
+				currentRange[0] + 1 as T
+			:
+				undefined as never
+		),
+		currentRange[1]
+	] as const
 
 
 	// Components
@@ -28,22 +45,15 @@
 
 
 <span>(</span
-	>{#if currentRange}<InlineTransition
+	>{#if displayedRange}<InlineTransition
 		align="end"
 		clip
 		isOpen={isShowingRange && itemsCount !== undefined}
 	><span
 		><TweenedNumber
-			value={
-				typeof currentRange[0] === 'bigint' ?
-					currentRange[0] + 1n
-				: typeof currentRange[0] === 'number' ?
-					currentRange[0] + 1
-				:
-					currentRange[0]
-			}
+			value={displayedRange[0]}
 		/> – <TweenedNumber
-			value={currentRange[1]}
+			value={displayedRange[1]}
 		/></span> of&nbsp;</InlineTransition
 	>{/if}<TweenedNumber
 		value={itemsCount}
