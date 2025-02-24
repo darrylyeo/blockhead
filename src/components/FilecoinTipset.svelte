@@ -20,6 +20,8 @@
 	import FilecoinBlocks from './FilecoinBlocks.svelte'
 	import FilecoinTransactionsLoader from './FilecoinTransactionsLoader.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
+	import FilecoinEventsLoader from './FilecoinEventsLoader.svelte'
+	import FilecoinEvents, { Layout as FilecoinEventsLayout } from './FilecoinEvents.svelte'
 	import IpfsContentId from './IpfsContentId.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 </script>
@@ -173,6 +175,30 @@
 					{pagination}
 				/>
 			</FilecoinTransactionsLoader>
+		</section>
+
+		<hr>
+
+		<section>
+			<FilecoinEventsLoader
+				query={{
+					tipsetNumber: tipset.number
+				}}
+				let:events
+				let:eventsCount
+				let:pagination
+			>
+				{#if events}
+					<FilecoinEvents
+						{network}
+						{events}
+						{eventsCount}
+						layout={FilecoinEventsLayout.ListDiscrete}
+						headingLevel={headingLevel + 1}
+						{pagination}
+					/>
+				{/if}
+			</FilecoinEventsLoader>
 		</section>
 
 		<hr>
