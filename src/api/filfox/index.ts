@@ -1,4 +1,13 @@
-// Types
+// Types/constants
+import type { Ethereum } from '$/data/networks/types'
+
+export const baseUrls = {
+	314: `https://filfox.info/api/v1`,
+	314159: `https://calibration.filfox.info/api/v1`,
+} as const satisfies Record<Ethereum.ChainId, string>
+
+
+// (Paths)
 import type { paths } from './api.d.ts'
 import type { Overview, AddressInfo, AddressBalanceStats, AddressMessages, AddressTransfers, AddressMessageTransfers, AddressTokenTransfers, Tipset, Block, BlockMessages, Message, Events, MessageEvents } from './types'
 import type { DeepMerge } from '$/utils/DeepMerge'
