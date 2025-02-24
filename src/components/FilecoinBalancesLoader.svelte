@@ -110,11 +110,17 @@
 						address,
 					}],
 				}) => {
-					const { getAddressBalanceStats } = await import('$/api/filfox/index')
+					const { getAddressBalanceStats } = await import('$/api/filfox')
+					const { baseUrls } = await import('$/api/filfox')
 
-					return await getAddressBalanceStats({
-						address,
-					})
+					return await getAddressBalanceStats(
+						{
+							address,
+						},
+						{
+							baseUrl: baseUrls[chainId],
+						}
+					)
 				},
 				select: balances => (
 					[

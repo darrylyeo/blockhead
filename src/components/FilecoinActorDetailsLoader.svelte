@@ -113,11 +113,17 @@
 						address,
 					}],
 				}) => {
-					const { getAddress } = await import('$/api/filfox/index')
+					const { getAddress } = await import('$/api/filfox')
+					const { baseUrls } = await import('$/api/filfox')
 
-					return await getAddress({
-						address,
-					})
+					return await getAddress(
+						{
+							address,
+						},
+						{
+							baseUrl: baseUrls[chainId],
+						}
+					)
 				},
 				select: account => (
 					normalizeAccountFilfox(

@@ -83,18 +83,26 @@
 					createQuery({
 						queryKey: ['Transfers', {
 							filecoinTransactionProvider,
+							chainId: network.chainId,
 							address: query.address,
 						}],
 						queryFn: async ({
 							queryKey: [_, {
+								chainId,
 								address,
 							}],
 						}) => {
 							const { getAddressTransfers } = await import('$/api/filfox')
+							const { baseUrls } = await import('$/api/filfox')
 							
-							return await getAddressTransfers({
-								address,
-							})
+							return await getAddressTransfers(
+								{
+									address: address,
+								},
+								{
+									baseUrl: baseUrls[chainId],
+								}
+							)
 						},
 						select: result => ({
 							transfers: (
@@ -113,18 +121,26 @@
 					createQuery({
 						queryKey: ['Transfers', {
 							filecoinTransactionProvider,
+							chainId: network.chainId,
 							transactionCid: query.transactionCid,
 						}],
 						queryFn: async ({
 							queryKey: [_, {
+								chainId,
 								transactionCid,
 							}],
 						}) => {
 							const { getMessageTransfers } = await import('$/api/filfox')
-							
-							return await getMessageTransfers({
-								address,
-							})
+							const { baseUrls } = await import('$/api/filfox')
+
+							return await getMessageTransfers(
+								{
+									cid: transactionCid,
+								},
+								{
+									baseUrl: baseUrls[chainId],
+								}
+							)
 						},
 						select: result => ({
 							transfers: (
