@@ -3,7 +3,7 @@ import { Filecoin } from '$/data/filecoin'
 import type { Ethereum } from '$/data/networks/types'
 import type { TokenWithBalance } from '$/data/tokens'
 import type { TipsetInfo, BlockInfo, Transaction, AccountBalance, EventWithMetadata } from './api'
-import { type BeryxActorType, beryxActorTypes, type BeryxAccountInfo } from '.'
+import { type BeryxActorType, beryxActorTypes, type BeryxEventType, beryxEventTypes, type BeryxAccountInfo } from '.'
 
 type TransactionWithInternalTransactions = Transaction & { internalTransactions?: Transaction[] }
 
@@ -282,10 +282,12 @@ export const normalizeBalance = (
 	balance: BigInt(balance.value),
 })
 
-export const normalizeEvent = (
+export const normalizeEvent = <
+	T extends BeryxEventType = BeryxEventType
+>(
 	event: EventWithMetadata,
-): Filecoin.Event => ({
-	type: event.type! as Filecoin.EventType,
+) => ({
+	type: beryxEventTypes[event.type! as BeryxEventType],
 
 	emitter: {
 		shortAddress: event.emitter! as Filecoin.Address<Filecoin.AddressType.ID>,
@@ -321,4 +323,4 @@ export const normalizeEvent = (
 			},
 		},
 	},
-})
+} as Filecoin.Event<typeof beryxEventTypes[T]>)

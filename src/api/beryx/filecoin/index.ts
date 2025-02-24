@@ -222,3 +222,12 @@ export type BeryxAccountInfo<
 			never
 	)
 )
+
+export const beryxEventTypes = invertRecord(
+	{
+		[Filecoin.EventType.Native]: 'native',
+		[Filecoin.EventType.Evm]: 'evm',
+	} as const satisfies Partial<Record<Filecoin.EventType, string>>
+)
+
+export type BeryxEventType = keyof typeof beryxEventTypes
