@@ -134,10 +134,16 @@
 						}],
 						queryFn: async () => {
 							const { getTipset } = await import('$/api/filfox')
+							const { baseUrls } = await import('$/api/filfox')
 							
-							return await getTipset({
-								height: Number(query.tipsetNumber),
-							})
+							return await getTipset(
+								{
+									height: Number(query.tipsetNumber),
+								},
+								{
+									baseUrl: baseUrls[network.chainId],
+								}
+							)
 						},
 						select: result => (
 							normalizeTipsetFilfox(result)
