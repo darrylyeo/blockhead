@@ -100,18 +100,26 @@
 			fromQuery: createQuery({
 				queryKey: ['Transaction', {
 					transactionProvider: filecoinTransactionProvider,
-					transactionId: transactionCid,
+					chainId: network.chainId,
+					transactionCid,
 				}],
 				queryFn: async ({
 					queryKey: [_, {
-						transactionId,
+						chainId,
+						transactionCid,
 					}],
 				}) => {
 					const { getMessage } = await import('$/api/filfox')
+					const { baseUrls } = await import('$/api/filfox')
 
-					return await getMessage({
-						cid: transactionId,
-					})
+					return await getMessage(
+						{
+							cid: transactionCid,
+						},
+						{
+							baseUrl: baseUrls[chainId],
+						}
+					)
 				},
 				select: result => (
 					normalizeTransactionFilfox(
