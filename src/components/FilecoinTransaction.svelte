@@ -9,6 +9,7 @@
 	export let network: Ethereum.Network = networkBySlug.get('filecoin')!
 	export let transaction: Filecoin.Transaction
 	export let isInternal = false
+
 	// (View options)
 	export let layout: 'default' | 'inline' = isInternal ? 'inline' : 'default'
 	export let headingLevel: 2 | 3 | 4 | 5 | 6 = 3
@@ -50,6 +51,8 @@
 	import FilecoinBlockCid from './FilecoinBlockCid.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
 	import FilecoinTransfers from './FilecoinTransfers.svelte'
+	import FilecoinEventsLoader from './FilecoinEventsLoader.svelte'
+	import FilecoinEvents, { Layout as FilecoinEventsLayout } from './FilecoinEvents.svelte'
 	import TokenBalance from './TokenBalance.svelte'
 	import TokenBalanceWithConversion from './TokenBalanceWithConversion.svelte'
 	import TransactionId from './TransactionId.svelte'
@@ -512,6 +515,32 @@
 				transfersCount={transaction.transfers.length}
 				headingLevel={headingLevel + 1}
 			/>
+		</section>
+	{/if}
+
+	{#if !isSummary}
+		<hr>
+
+		<section>
+			<FilecoinEventsLoader
+				query={{
+					transactionCid: transaction.cid,
+				}}
+				let:events
+				let:eventsCount
+				let:pagination
+			>
+				{#if events}
+					<FilecoinEvents
+						{network}
+						{events}
+						{eventsCount}
+						layout={FilecoinEventsLayout.ListSequential}
+						headingLevel={headingLevel + 1}
+						{pagination}
+					/>
+				{/if}
+			</FilecoinEventsLoader>
 		</section>
 	{/if}
 

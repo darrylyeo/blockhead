@@ -39,6 +39,8 @@
 	import FilecoinActorDetailsLoader from './FilecoinActorDetailsLoader.svelte'
 	import FilecoinAddressDetails from './FilecoinAddressDetails.svelte'
 	import FilecoinBalancesLoader from './FilecoinBalancesLoader.svelte'
+	import FilecoinEvents from './FilecoinEvents.svelte'
+	import FilecoinEventsLoader from './FilecoinEventsLoader.svelte'
 	import FilecoinMinerDetails from './FilecoinMinerDetails.svelte'
 	import FilecoinTransactionsLoader from './FilecoinTransactionsLoader.svelte'
 	import FilecoinTransactions from './FilecoinTransactions.svelte'
@@ -413,6 +415,26 @@
 					headingLevel={headingLevel + 1}
 				/>
 			</FilecoinTransfersLoader>
+		</section>
+
+		<hr>
+
+		<section>
+			<FilecoinEventsLoader
+				{network}
+				query={{
+					emitterActorAddress: displayedAddress,
+				}}
+				let:events
+				let:eventsCount
+			>
+				<FilecoinEvents
+					{network}
+					{events}
+					{eventsCount}
+					headingLevel={headingLevel + 1}
+				/>
+			</FilecoinEventsLoader>
 		</section>
 	</Collapsible>
 </article>
