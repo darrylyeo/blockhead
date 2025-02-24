@@ -459,24 +459,58 @@ export const normalizeMessage = (
 	},
 })
 
+const normalizeEvmEventSignature = (signature: `${string}(${string})` | string) => {
+	const groups = (
+		signature.match(/^(?<name>[^(]+)\((?<signature>.*)\)$/)?.groups ?? undefined
+	) as {
+		name: string
+		signature: string
+	} | undefined
+
+	return groups ? {
+		name: groups.name,
+		signature: groups.signature.split(','),
+	} : undefined
+}
+
 export const normalizeEvent = (
 	event: (
-		| FetchReturnType<typeof getMessageEvents>['events'][number]
 		| FetchReturnType<typeof getAddressEvents>['events'][number]
 		| FetchReturnType<typeof getTipsetEvents>['events'][number]
+		| FetchReturnType<typeof getMessageEvents>[number]
 	),
 ): Filecoin.Event => ({
-	type: event.type,
-	data: event.data,
+	type: Filecoin.EventType.Evm,
 
-	transaction: {
-		cid: event.message as Filecoin.TransactionCid
+	...'name' in event && event.name && {
+		method: normalizeEvmEventSignature(event.name)
 	},
 
-	tipset: {
-		number: BigInt(event.height),
-		timestamp: event.timestamp * 1000
-	}
+	...event.data !== '0x' && {
+		data: event.data,
+	},
+
+	indexInTransaction: event.logIndex,
+
+	emitter: {
+		robustAddress: event.address,
+	},
+
+	topics: event.topics,
+
+	isCanonical: !event.removed,
+
+	...'blockHash' in event && {
+		tipset: {
+			cid: event.blockHash,
+		},
+	},
+
+	...'transactionIndex' in event && {
+		transaction: {
+			indexInTipset: event.transactionIndex,
+		},
+	},
 })
 
 export const normalizeTransfer = (
