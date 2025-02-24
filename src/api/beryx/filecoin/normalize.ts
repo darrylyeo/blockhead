@@ -293,12 +293,18 @@ export const normalizeEvent = <
 		shortAddress: event.emitter! as Filecoin.Address<Filecoin.AddressType.ID>,
 	},
 
-	selectorId: event.selector_id!,
-	...event.selector_sig && {
-		selectorSignature: event.selector_sig,
+	...(event.selector_id || event.selector_sig) && {
+		method: {
+			...event.selector_id && {
+				name: event.selector_id,
+			},
+			...event.selector_sig && {
+				signature: event.selector_sig,
+			},
+		},
 	},
 
-	logIndex: event.log_index!,
+	indexInTransaction: event.log_index!,
 
 	metadata: event.metadata as Record<string, unknown> | undefined,
 

@@ -727,24 +727,59 @@ export namespace Filecoin {
 	export type Event<
 		T extends EventType = EventType
 	> = {
-		selectorId: string
-		selectorSignature?: string
-
 		type: T
-		
+
+		method?: {
+			name?: string
+
+			signature?: (
+				T extends EventType.Native ?
+					string
+
+				: T extends EventType.Evm ?
+					`0x{string}`
+
+				:
+					never
+			)
+
+			selector?: `0x{string}`
+		}
+
 		emitter: PartialExceptOneOf<Actor,
 			| 'shortAddress'
 			| 'robustAddress'
 		>
-		
-		logIndex: number
+		labels?: {
+			emitter?: {
+				label: string
+				isSigned: boolean
+			}
+		}
 
 		metadata?: Record<string, unknown>
-		
+
+		data?: (
+			T extends EventType.Evm ?
+				string
+			:
+				never
+		)
+
+		topics?: (
+			T extends EventType.Evm ?
+				Ethereum.TopicHash[]
+			:
+				never
+		)
+
+		isCanonical?: boolean
+
 		transaction?: PartialExceptOneOf<Transaction,
 			| 'cid'
 		>
-		
+		indexInTransaction: number
+
 		tipset?: PartialExceptOneOf<Tipset,
 			| 'number'
 			| 'cid'
