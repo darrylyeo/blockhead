@@ -645,8 +645,12 @@ ol {
 		list-style-type: none;
 	}
 
-	&.bulleted {
+	&:is(ul).bulleted {
 		padding-inline-start: 1em;
+	}
+
+	&:is(ol).bulleted {
+		padding-inline-start: 1.5em;
 	}
 }
 
