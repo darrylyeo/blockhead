@@ -16,7 +16,9 @@ export const normalizeBlock = (
 
 	gasLimit: BigInt(block.gas_limit),
 	gasUsed: BigInt(block.gas_used),
-	baseFeePerGas: BigInt(block.base_fee_per_gas),
+	...'base_fee_per_gas' in block && block.base_fee_per_gas !== null && {
+		baseFeePerGas: BigInt(block.base_fee_per_gas),
+	},
 
 	minerAddress: block.miner as `0x${string}`,
 	difficulty: BigInt(block.difficulty),
@@ -24,22 +26,22 @@ export const normalizeBlock = (
 
 	extraData: block.extra_data,
 
-	...'blob_gas_used' in block && {
+	...'blob_gas_used' in block && block.blob_gas_used !== null && {
 		blobGasUsed: BigInt(block.blob_gas_used),
 	},
-	...'excess_blob_gas' in block && {
+	...'excess_blob_gas' in block && block.excess_blob_gas !== null && {
 		excessBlobGas: BigInt(block.excess_blob_gas),
 	},
-	...'parent_beacon_block_root' in block && {
+	...'parent_beacon_block_root' in block && block.parent_beacon_block_root !== null && {
 		parentBeaconBlockRoot: block.parent_beacon_block_root as `0x${string}`,
 	},
-	...'withdrawals_root' in block && {
+	...'withdrawals_root' in block && block.withdrawals_root !== null && {
 		withdrawalsRoot: block.withdrawals_root as `0x${string}`,
 	},
-	...'withdrawals' in block && {
+	...'withdrawals' in block && block.withdrawals !== null && {
 		withdrawals: block.withdrawals as string,
 	},
-	...'mix_hash' in block && {
+	...'mix_hash' in block && block.mix_hash !== null && {
 		mixHash: block.mix_hash as `0x${string}`,
 	},
 })
