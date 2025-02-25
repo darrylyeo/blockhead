@@ -349,6 +349,28 @@
 			}),
 		}),
 
+		[TransactionProvider.Envio_Hypersync]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['Transaction', {
+					transactionProvider,
+					chainId: network.chainId,
+					transactionId,
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						transactionProvider,
+						chainId,
+						transactionId,
+					}],
+				}) => {
+					throw new Error('Envio HyperSync doesn’t suppport direct transaction lookup.')
+				},
+				select: transaction => (
+					normalizeTransactionEnvioHypersync(transaction, network)
+				),
+			}),
+		}),
+
 		[TransactionProvider.Etherscan]: () => ({
 			fromQuery: createQueries({
 				queries: [
