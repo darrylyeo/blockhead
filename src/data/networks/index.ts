@@ -7142,6 +7142,11 @@ export const otherL1Networks = ([
 ] as const satisfies Readonly<NetworkSlug[]>)
 	.map(slug => networkBySlug.get(slug))
 
+export const bitcoinL2Networks = ([
+	'rsk',
+] as const satisfies Readonly<NetworkSlug[]>)
+	.map(slug => networkBySlug.get(slug))
+
 export const dataNetworks = ([
 	'filecoin',
 ] as const satisfies Readonly<NetworkSlug[]>)
@@ -7196,6 +7201,10 @@ export const networksBySection = [
 	// 	title: 'Other Networks (Experimental)',
 	// 	otherNetworks: otherNetworks,
 	// },
+	{
+		title: 'Bitcoin › Layer-Two Networks',
+		featuredNetworks: bitcoinL2Networks,
+	},
 	{
 		title: 'Base › Layer-Three Networks',
 		featuredNetworks: layer3Networks,
