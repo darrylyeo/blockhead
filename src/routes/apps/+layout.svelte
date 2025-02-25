@@ -323,7 +323,7 @@
 								{/if}
 							</InlineTransition>
 
-							<a href={`/apps/${$web3AppSlug}`}>
+							<a href={`/apps`}>
 								Apps
 							</a>
 						{/if}
