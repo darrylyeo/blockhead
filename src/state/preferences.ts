@@ -9,7 +9,7 @@ import type { Ethereum } from '$/data/networks/types'
 import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '$/data/currencies'
 import { tokenIcons } from '$/assets/tokenIcons'
 import { NetworkProvider } from '$/data/networkProviders/types'
-import { networkProviderConfigs, networkProviderConfigByProvider } from '$/data/networkProviders'
+import { networkProviderConfigs, networkProviderConfigByProvider, getNetworkProviderName } from '$/data/networkProviders'
 import { Erc20TokenProvider, erc20TokenProviders } from '$/data/erc20TokenProviders'
 import { TokenBalancesProvider, tokenBalancesProviders } from '$/data/tokenBalancesProviders'
 import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviders } from '$/data/filecoinTokenBalancesProviders'
@@ -45,9 +45,9 @@ namespace Preferences {
 
 	export type Option = {
 		value: Value,
-		name: string | ((preferences: any /* PreferencesState */) => string),
+		name: string | ((preferences: any /* PreferencesState */, network?: Ethereum.Network) => string),
 		disabled?: boolean,
-		icon?: string | ((preferences: any /* PreferencesState */) => string),
+		icon?: string | ((preferences: any /* PreferencesState */, network?: Ethereum.Network) => string),
 	}
 
 	export type OptionGroup = {
@@ -153,7 +153,7 @@ export const preferencesConfig = [
 						options: [
 							{
 								value: NetworkProvider.Default,
-								name: 'Default',
+								name: (_, network) => getNetworkProviderName(NetworkProvider.Default, network),
 								icon: networkProviderConfigByProvider[NetworkProvider.Default]?.icon,
 							},
 						],
@@ -208,8 +208,8 @@ export const preferencesConfig = [
 						options: [
 							{ 
 								value: TransactionProvider.RpcProvider, 
-								name: (preferences: PreferencesState) => `Node Client (${networkProviderConfigByProvider[preferences.rpcNetwork]?.name || preferences.rpcNetwork})`, 
-								icon: (preferences: PreferencesState) => networkProviderConfigByProvider[preferences.rpcNetwork]?.icon 
+								name: (preferences, network) => `Node Client (${getNetworkProviderName(preferences.rpcNetwork, network)})`,
+								icon: (preferences) => networkProviderConfigByProvider[preferences.rpcNetwork]?.icon,
 							},
 						]
 					},
@@ -272,7 +272,7 @@ export const preferencesConfig = [
 						options: [
 							{
 								value: Erc20TokenProvider.RpcProvider,
-								name: (preferences: any) => `${networkProviderConfigByProvider[preferences.rpcNetwork]?.name ?? preferences.rpcNetwork}`,
+								name: (preferences, network) => `${getNetworkProviderName(preferences.rpcNetwork, network)}`,
 							},
 						],
 					},
