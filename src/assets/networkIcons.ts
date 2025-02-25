@@ -37,6 +37,7 @@ export const PolygonIcon = tokenIcons.MATIC
 export { default as PolygonZkevmIcon } from './networks/Polygon-zkEVM.svg'
 export { default as RedstoneIcon } from './networks/Redstone.svg'
 // export { default as ReefIcon } from './networks/Reef.svg'
+export { default as RootstockIcon } from './networks/Rootstock.svg'
 export { default as ScrollIcon } from './networks/Scroll.svg'
 export { default as SkaleIcon } from './networks/SKALE.svg'
 export { default as ZksyncIcon } from './networks/ZKsync.svg'
