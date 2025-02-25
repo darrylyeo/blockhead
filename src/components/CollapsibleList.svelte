@@ -66,8 +66,12 @@
 		</span>
 	</svelte:fragment>
 
-	<svelte:fragment slot="toolbar-items">
-		<slot name="toolbar-items" />
+	<svelte:fragment slot="toolbar-items"
+		let:isOpen
+	>
+		<slot name="toolbar-items"
+			{isOpen}
+		/>
 	</svelte:fragment>
 
 	<svelte:fragment slot="header-right">
