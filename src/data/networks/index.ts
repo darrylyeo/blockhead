@@ -5636,6 +5636,11 @@ export const networks = [
 			decimals: 18,
 		},
 		icon: RootstockIcon,
+		colors: [
+			'#ff9100',
+			// '#79c600',
+			// '#ff71e1',
+		],
 		rpc: [
 			'https://public-node.rsk.co',
 			'https://mycrypto.rsk.co',
@@ -5656,6 +5661,11 @@ export const networks = [
 			decimals: 18,
 		},
 		icon: RootstockIcon,
+		colors: [
+			'#ff9100',
+			// '#79c600',
+			// '#ff71e1',
+		],
 		rpc: [
 			'https://public-node.testnet.rsk.co',
 			'https://mycrypto.testnet.rsk.co',
