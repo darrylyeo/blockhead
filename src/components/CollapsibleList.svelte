@@ -15,6 +15,8 @@
 
 	// (View options)
 	export let isOpen: boolean
+	export let containerClass: string
+	export let showContentsOnly = false
 
 	export let title: string
 	export let headingLevel: 2 | 3 | 4 | 5 | 6 = 3
@@ -38,7 +40,9 @@
 <Collapsible
 	type="label"
 	bind:isOpen
+	{containerClass}
 	canToggle={items.length > 0}
+	{showContentsOnly}
 >
 	<svelte:fragment slot="title">
 		<span class="row inline wrap">
