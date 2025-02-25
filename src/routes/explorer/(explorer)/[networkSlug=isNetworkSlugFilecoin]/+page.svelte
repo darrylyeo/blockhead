@@ -54,6 +54,16 @@
 	{/if}
 </div>
 
+{#if $explorerNetwork}
+	<EthereumBlocks
+		network={$explorerNetwork}
+	>
+		<svelte:fragment slot="title">
+			Latest Tipsets
+		</svelte:fragment>
+	</EthereumBlocks>
+{/if}
+
 {#if showHistoricalPrice}
 	<div class="row">
 		<section class="card">
@@ -74,16 +84,6 @@
 			/>
 		</section>
 	</div>
-{/if}
-
-{#if $explorerNetwork}
-	<EthereumBlocks
-		network={$explorerNetwork}
-	>
-		<svelte:fragment slot="title">
-			Latest Tipsets
-		</svelte:fragment>
-	</EthereumBlocks>
 {/if}
 
 

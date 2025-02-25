@@ -61,6 +61,12 @@
 	{/if}
 </div>
 
+{#if $explorerNetwork}
+	<EthereumBlocks
+		network={$explorerNetwork}
+	/>
+{/if}
+
 {#if showHistoricalPrice}
 	<div class="row">
 		<section class="card">
@@ -81,12 +87,6 @@
 			/>
 		</section>
 	</div>
-{/if}
-
-{#if $explorerNetwork}
-	<EthereumBlocks
-		network={$explorerNetwork}
-	/>
 {/if}
 
 
