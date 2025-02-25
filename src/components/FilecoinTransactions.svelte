@@ -44,18 +44,23 @@
 	type="label"
 	title=""
 	bind:isOpen
+	canToggle={transactions.length > 0}
 >
 	<svelte:fragment slot="title">
 		<slot name="title">
 			<span class="row inline wrap">
 				<svelte:element this={`h${headingLevel}`}>
 					{title}
+					<!-- <span>(<TweenedNumber value={transactions.length} />{#if transactionsCount !== undefined && transactions.length !== transactionsCount}{' '}/ {transactionsCount}{:else if pagination?.hasNextPage}+{/if})</span> -->
 				</svelte:element>
-				<small><PaginationCount
-					itemsCount={transactionsCount ?? transactions.length}
-					hasMoreItems={pagination?.hasNextPage}
-					isShowingRange={isOpen}
-				/></small>
+				<small>
+					<PaginationCount
+						itemsCount={transactionsCount}
+						currentRange={[0, transactions.length]}
+						hasMoreItems={pagination?.hasNextPage}
+						isShowingRange={isOpen}
+					/>
+				</small>
 			</span>
 		</slot>
 	</svelte:fragment>
@@ -123,6 +128,6 @@
 
 <style>
 	small {
-		opacity: 0.5;
+		opacity: 0.66;
 	}
 </style>
