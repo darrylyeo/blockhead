@@ -36,36 +36,46 @@
 	// Components
 	import type Loader from './Loader.svelte'
 	import AnchorLink from './AnchorLink.svelte'
-	import Collapsible from './Collapsible.svelte'
+	import CollapsibleList, { Layout as CollapsibleListLayout } from './CollapsibleList.svelte'
 	import FilecoinEvent, { Layout as FilecoinEventLayout, DetailLevel as FilecoinEventDetailLevel } from './FilecoinEvent.svelte'
-	import PaginationCount from './PaginationCount.svelte'
-	import ScrollContainer from './ScrollContainer.svelte'
 </script>
 
 
-<Collapsible
-	type="label"
-	bind:isOpen
-	canToggle={events.length > 0}
->
-	<svelte:fragment slot="title">
-		<slot name="title">
-			<span class="row inline wrap">
-				<svelte:element this={`h${headingLevel}`}>
-					{title}
-				</svelte:element>
-				<small>
-					<PaginationCount
-						itemsCount={eventsCount}
-						currentRange={[0, events.length]}
-						hasMoreItems={pagination?.hasNextPage}
-						isShowingRange={isOpen}
-					/>
-				</small>
-			</span>
-		</slot>
-	</svelte:fragment>
+<CollapsibleList
+	items={
+		layout === Layout.ListSequential ?
+			events
+				.sort((a, b) => a.indexInTransaction - b.indexInTransaction)
+		:
+			events
+	}
+	itemsCount={eventsCount}
+	getIndex={(event, i) => layout === Layout.ListSequential ? event.indexInTransaction : i}
+	isOrdered={true}
 
+	bind:isOpen
+
+	{title}
+	{headingLevel}
+
+	isScrollEnabled={
+		events.length > (
+			{
+				[FilecoinEventDetailLevel.Summary]: 16,
+				[FilecoinEventDetailLevel.SummaryLocation]: 4,
+				[FilecoinEventDetailLevel.SummaryDetailsLocation]: 2,
+			}[detailLevel]
+		)
+	}
+	layout={
+		detailLevel === FilecoinEventDetailLevel.Summary && layout === Layout.ListSequential ?
+			CollapsibleListLayout.Card
+		:
+			CollapsibleListLayout.Cards
+	}
+
+	{pagination}
+>
 	<svelte:fragment slot="header-right">
 		{#if isOpen}
 			<menu class="row wrap">
@@ -89,59 +99,24 @@
 			</menu>
 		{/if}
 	</svelte:fragment>
-	
-	<ScrollContainer
-		{pagination}
-		isScrollEnabled={
-			events.length > (
-				{
-					[FilecoinEventDetailLevel.Summary]: 16,
-					[FilecoinEventDetailLevel.SummaryLocation]: 4,
-					[FilecoinEventDetailLevel.SummaryDetailsLocation]: 2,
-				}[detailLevel]
-			)
-		}
-	>
-		<ol
-			class="column"
-			class:card={detailLevel === FilecoinEventDetailLevel.Summary && layout === Layout.ListSequential}
+
+	<svelte:fragment let:item={event}>
+		<AnchorLink
+			base={`/explorer/${network.slug}/tx/${event.transaction?.cid}`}
+			link={`/event/${event.indexInTransaction}`}
+			class=""
 		>
-			{#each (
-				layout === Layout.ListSequential ?
-					events
-						.sort((a, b) => a.indexInTransaction - b.indexInTransaction)
-				:
-					events
-			) as event, i (layout === Layout.ListSequential ? event.indexInTransaction : i)}
-				<li
-					class:card={!(detailLevel === FilecoinEventDetailLevel.Summary && layout === Layout.ListSequential)}
-				>
-					<AnchorLink
-						base={`/explorer/${network.slug}/tx/${event.transaction?.cid}`}
-						link={`/event/${event.indexInTransaction}`}
-						class=""
-					>
-						<FilecoinEvent
-							{network}
-							{event}
-							headingLevel={headingLevel + 1}
-							layout={{
-								[Layout.ListSequential]: FilecoinEventLayout.ListItemSequential,
-								[Layout.ListDiscrete]: FilecoinEventLayout.ListItemDiscrete,
-							}[layout]}
-							{detailLevel}
-							{showFormattedNames}
-						/>
-					</AnchorLink>
-				</li>
-			{/each}
-		</ol>
-	</ScrollContainer>
-</Collapsible>
-
-
-<style>
-	small {
-		opacity: 0.66;
-	}
-</style>
+			<FilecoinEvent
+				{network}
+				{event}
+				headingLevel={headingLevel + 1}
+				layout={{
+					[Layout.ListSequential]: FilecoinEventLayout.ListItemSequential,
+					[Layout.ListDiscrete]: FilecoinEventLayout.ListItemDiscrete,
+				}[layout]}
+				{detailLevel}
+				{showFormattedNames}
+			/>
+		</AnchorLink>
+	</svelte:fragment>
+</CollapsibleList>
