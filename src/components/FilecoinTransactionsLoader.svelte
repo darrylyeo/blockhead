@@ -387,6 +387,17 @@
 						}),
 					})
 
+				: 'tipsetNumber' in query ?
+					createQuery({
+						queryKey: ['Transactions', {
+							filecoinTransactionProvider,
+							tipsetNumber: Number(query.tipsetNumber),
+						}],
+						queryFn: async () => {
+							throw new Error('Filfox does not yet support querying transactions by tipset.')
+						},
+					})
+
 				:
 					undefined
 			),
