@@ -58,6 +58,6 @@
 	>{/if}<TweenedNumber
 		value={itemsCount}
 	/>{
-		#if itemsCount === undefined && hasMoreItems}+{/if
+		#if hasMoreItems}+{/if
 	}<span>)</span
 >

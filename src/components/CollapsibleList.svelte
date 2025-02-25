@@ -50,9 +50,9 @@
 
 			<small>
 				<PaginationCount
-					itemsCount={itemsCount}
+					itemsCount={itemsCount ?? items.length}
 					currentRange={[0, items.length]}
-					hasMoreItems={pagination?.hasNextPage}
+					hasMoreItems={pagination?.hasNextPage ?? itemsCount === undefined}
 					isShowingRange={isOpen}
 				/>
 			</small>
