@@ -5,7 +5,7 @@ export const normalizeSimulationOutput = (
 	output: SimulationOutput,
 	network: Ethereum.Network,
 ): Ethereum.Transaction => {
-	const blockNumber = output.blockNumber ? BigInt(output.blockNumber) : undefined
+	const blockNumber = output.blockNumber !== undefined ? BigInt(output.blockNumber) : undefined
 
 	const trace = output.trace! && (
 		normalizeTransactionTraces(
