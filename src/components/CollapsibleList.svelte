@@ -78,7 +78,7 @@
 			let:item
 			let:index
 		>
-			<slot name="item"
+			<slot
 				{item}
 				{index}
 			/>
