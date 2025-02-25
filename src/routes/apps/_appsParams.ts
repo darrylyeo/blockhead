@@ -12,30 +12,30 @@ import type { MoxieAuctionId, MoxieOrderId } from '$/api/moxie'
 import type { MoxieSubjectId } from '$/api/moxie'
 
 export type AppsParams = {
-	web3AppSlug: Web3AppSlug | '',
-	networkSlug: Ethereum.NetworkSlug | '',
+	web3AppSlug?: Web3AppSlug
+	networkSlug?: Ethereum.NetworkSlug
 
-	accountId: AccountId | '',
+	accountId?: AccountId
 
-	audiusQuery: string,
-	audiusPlaylistId: string,
-	audiusTrackId: string,
-	audiusUserId: string,
-	didUrl: DidUrl | '',
-	discoCredentialId: ReturnType<typeof crypto.randomUUID> | '',
-	easAttestationId: EasAttestationId | '',
-	easSchemaId: EasSchemaId | '',
-	farcasterCastId: FarcasterCastId | '',
-	farcasterCastShortId: FarcasterCastShortId | '',
-	farcasterChannelId: FarcasterChannelId | '',
-	farcasterUserId: FarcasterUserId | '',
-	farcasterUserName: FarcasterUserName | '',
-	ipfsContentId: IpfsCid | '',
-	ipnsName: IpnsName | '',
-	ipfsContentPath: string,
-	moxieAuctionId: MoxieAuctionId | '',
-	moxieOrderId: MoxieOrderId | '',
-	moxieSubjectId: MoxieSubjectId | '',
+	audiusQuery?: string
+	audiusPlaylistId?: string
+	audiusTrackId?: string
+	audiusUserId?: string
+	didUrl?: DidUrl
+	discoCredentialId?: ReturnType<typeof crypto.randomUUID>
+	easAttestationId?: EasAttestationId
+	easSchemaId?: EasSchemaId
+	farcasterCastId?: FarcasterCastId
+	farcasterCastShortId?: FarcasterCastShortId
+	farcasterChannelId?: FarcasterChannelId
+	farcasterUserId?: FarcasterUserId
+	farcasterUserName?: FarcasterUserName
+	ipfsContentId?: IpfsCid
+	ipnsName?: IpnsName
+	ipfsContentPath: string
+	moxieAuctionId?: MoxieAuctionId
+	moxieOrderId?: MoxieOrderId
+	moxieSubjectId?: MoxieSubjectId
 }
 
 export type AppsSearchInputParams = Partial<Pick<AppsParams,
@@ -63,29 +63,29 @@ export type AppsSearchInputParams = Partial<Pick<AppsParams,
 // Param stores
 import { derived, writable, type Readable } from 'svelte/store'
 
-export const web3AppSlug = writable<Web3AppSlug | ''>('')
-export const networkSlug = writable<Ethereum.NetworkSlug | ''>('')
-export const accountId = writable<AccountId | ''>('')
+export const web3AppSlug = writable<Web3AppSlug | undefined>()
+export const networkSlug = writable<Ethereum.NetworkSlug | undefined>()
+export const accountId = writable<AccountId | undefined>()
 
-export const audiusQuery = writable('')
-export const audiusPlaylistId = writable('')
-export const audiusTrackId = writable('')
-export const audiusUserId = writable('')
-export const didUrl = writable<DidUrl | ''>('')
-export const discoCredentialId = writable<ReturnType<typeof crypto.randomUUID> | ''>('')
-export const easAttestationId = writable<EasAttestationId | ''>('')
-export const easSchemaId = writable<EasSchemaId | ''>('')
-export const farcasterCastId = writable<FarcasterCastId | ''>('')
-export const farcasterCastShortId = writable<FarcasterCastShortId | ''>('')
-export const farcasterChannelId = writable<FarcasterChannelId | ''>('')
-export const farcasterUserId = writable<FarcasterUserId | ''>('')
-export const farcasterUserName = writable<FarcasterUserName | ''>('')
-export const ipfsContentId = writable<IpfsCid | ''>('')
-export const ipnsName = writable<IpnsName | ''>('')
-export const ipfsContentPath = writable('')
-export const moxieAuctionId = writable<MoxieAuctionId | ''>('')
-export const moxieOrderId = writable<MoxieOrderId | ''>('')
-export const moxieSubjectId = writable<MoxieSubjectId | ''>('')
+export const audiusQuery = writable<string | undefined>()
+export const audiusPlaylistId = writable<string | undefined>()
+export const audiusTrackId = writable<string | undefined>()
+export const audiusUserId = writable<string | undefined>()
+export const didUrl = writable<DidUrl | undefined>()
+export const discoCredentialId = writable<ReturnType<typeof crypto.randomUUID> | undefined>()
+export const easAttestationId = writable<EasAttestationId | undefined>()
+export const easSchemaId = writable<EasSchemaId | undefined>()
+export const farcasterCastId = writable<FarcasterCastId | undefined>()
+export const farcasterCastShortId = writable<FarcasterCastShortId | undefined>()
+export const farcasterChannelId = writable<FarcasterChannelId | undefined>()
+export const farcasterUserId = writable<FarcasterUserId | undefined>()
+export const farcasterUserName = writable<FarcasterUserName | undefined>()
+export const ipfsContentId = writable<IpfsCid | undefined>()
+export const ipnsName = writable<IpnsName | undefined>()
+export const ipfsContentPath = writable<string | undefined>()
+export const moxieAuctionId = writable<MoxieAuctionId | undefined>()
+export const moxieOrderId = writable<MoxieOrderId | undefined>()
+export const moxieSubjectId = writable<MoxieSubjectId | undefined>()
 
 export const appsParams = derived([
 	web3AppSlug,

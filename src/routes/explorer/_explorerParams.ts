@@ -4,26 +4,26 @@ import type { ENS } from '$/api/ens'
 import type { Filecoin } from '$/data/filecoin'
 
 export type ExplorerParams = {
-	networkSlug: Ethereum.NetworkSlug | '',
-	address: Ethereum.Address | '',
-	blockNumber: Ethereum.BlockNumber | '',
-	ensName: ENS.Name | '',
-	transactionId: Ethereum.TransactionId | '',
-	filecoinTipsetCid: Filecoin.TipsetCid | '',
-	filecoinBlockCid: Filecoin.BlockCid | '',
+	networkSlug?: Ethereum.NetworkSlug
+	address?: Ethereum.Address
+	blockNumber?: Ethereum.BlockNumber
+	ensName?: ENS.Name
+	transactionId?: Ethereum.TransactionId
+	filecoinTipsetCid?: Filecoin.TipsetCid
+	filecoinBlockCid?: Filecoin.BlockCid
 }
 
 export type ExplorerInputParams = Partial<Omit<ExplorerParams, 'networkSlug'>>
 
 
 // Param stores
-export const networkSlug = writable<ExplorerParams['networkSlug']>('')
-export const address = writable<ExplorerParams['address']>('')
-export const blockNumber = writable<ExplorerParams['blockNumber']>('')
-export const ensName = writable<ExplorerParams['ensName']>('')
-export const transactionId = writable<ExplorerParams['transactionId']>('')
-export const filecoinTipsetCid = writable<ExplorerParams['filecoinTipsetCid']>('')
-export const filecoinBlockCid = writable<ExplorerParams['filecoinBlockCid']>('')
+export const networkSlug = writable<ExplorerParams['networkSlug']>()
+export const address = writable<ExplorerParams['address']>()
+export const blockNumber = writable<ExplorerParams['blockNumber']>()
+export const ensName = writable<ExplorerParams['ensName']>()
+export const transactionId = writable<ExplorerParams['transactionId']>()
+export const filecoinTipsetCid = writable<ExplorerParams['filecoinTipsetCid']>()
+export const filecoinBlockCid = writable<ExplorerParams['filecoinBlockCid']>()
 
 export const explorerParams = derived([
 	networkSlug,
