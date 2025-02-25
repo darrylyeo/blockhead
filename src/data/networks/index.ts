@@ -7165,7 +7165,7 @@ export const layer3Networks = ([
 
 export const networksBySection = [
 	{
-		title: 'Layer-One Networks',
+		title: 'Layer-1 Networks',
 		featuredNetworks: l1Networks,
 	},
 	{
@@ -7173,7 +7173,7 @@ export const networksBySection = [
 		featuredNetworks: opStackNetworks,
 	},
 	{
-		title: 'Ethereum › Layer-Two Networks',
+		title: 'Ethereum › Layer-2 Networks',
 		featuredNetworks: l2Networks,
 	},
 	// {
@@ -7202,11 +7202,11 @@ export const networksBySection = [
 	// 	otherNetworks: otherNetworks,
 	// },
 	{
-		title: 'Bitcoin › Layer-Two Networks',
+		title: 'Bitcoin › Layer-2s',
 		featuredNetworks: bitcoinL2Networks,
 	},
 	{
-		title: 'Base › Layer-Three Networks',
+		title: 'Base › Layer-3s',
 		featuredNetworks: layer3Networks,
 	},
 	{
