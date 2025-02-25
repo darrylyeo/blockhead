@@ -59,6 +59,10 @@
 		</span>
 	</svelte:fragment>
 
+	<svelte:fragment slot="toolbar-items">
+		<slot name="toolbar-items" />
+	</svelte:fragment>
+
 	<svelte:fragment slot="header-right">
 		<slot name="header-right" />
 	</svelte:fragment>
