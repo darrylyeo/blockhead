@@ -19,57 +19,31 @@
 
 
 	// Components
-	import Collapsible from './Collapsible.svelte'
+	import CollapsibleList, { Layout as CollapsibleListLayout } from '$/components/CollapsibleList.svelte'
 	import FilecoinTransfer from './FilecoinTransfer.svelte'
-	import PaginationCount from './PaginationCount.svelte'
-	import ScrollContainer from './ScrollContainer.svelte'
 </script>
 
 
-<Collapsible
-	type="label"
-	title=""
+<CollapsibleList
+	items={transfers}
+	itemsCount={transfersCount}
+	isOrdered={true}
+
 	bind:isOpen
-	canToggle={transfers.length > 0}
+
+	{title}
+	{headingLevel}
+
+	isScrollEnabled={transfers.length > 7}
+	layout={CollapsibleListLayout.Cards}
 >
-	<svelte:fragment slot="title">
-		<slot name="title">
-			<span class="row inline wrap">
-				<svelte:element this={`h${headingLevel}`}>
-					{title}
-				</svelte:element>
-				<small>
-					<PaginationCount
-						itemsCount={transfersCount}
-						currentRange={[0, transfers.length]}
-						isShowingRange={isOpen}
-					/>
-				</small>
-			</span>
-		</slot>
+
+	<svelte:fragment let:item={transfer}>
+		<FilecoinTransfer
+			{network}
+			{transfer}
+			headingLevel={headingLevel + 1}
+			layout="inline"
+		/>
 	</svelte:fragment>
-	
-	<ScrollContainer
-		isScrollEnabled={transfers.length > 7}
-	>
-		<ol class="column">
-			{#each transfers as transfer}
-				<li class="card">
-					<FilecoinTransfer
-						{network}
-						{transfer}
-						headingLevel={headingLevel + 1}
-						layout="inline"
-					/>
-				</li>
-			{/each}
-		</ol>
-	</ScrollContainer>
-</Collapsible>
-
-
-<style>
-	small {
-		opacity: 0.66;
-	}
-</style>
+</CollapsibleList>
