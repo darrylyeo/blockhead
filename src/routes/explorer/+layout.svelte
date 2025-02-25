@@ -184,4 +184,5 @@
 
 <Preferences
 	relevantPreferences={$relevantPreferences}
+	relevantNetwork={$explorerNetwork}
 />
