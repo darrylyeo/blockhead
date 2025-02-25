@@ -607,9 +607,11 @@ export const getBlocks = async ({
 export const getBlock = async ({
 	chainId,
 	blockNumber,
+	includeTransactions = false,
 }: {
 	chainId: Ethereum.ChainId
 	blockNumber: number
+	includeTransactions?: boolean
 }) => (
 	(
 		await post<
@@ -633,6 +635,9 @@ export const getBlock = async ({
 				],
 				field_selection: {
 					block: blockFields,
+					...includeTransactions && {
+						transactions: transactionFields,
+					},
 				},
 			}
 		)
