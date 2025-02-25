@@ -122,13 +122,15 @@ export const normalizeTransaction = (
 	} as const)[transaction.type as 0 | 1 | 2],
 
 	fromAddress: transaction.from.hash as Ethereum.Address,
-	toAddress: transaction.to.hash as Ethereum.Address,
+	toAddress: transaction.to ? transaction.to.hash as Ethereum.Address : undefined,
 	...transaction.created_contract && {
 		deployedContractAddress: transaction.created_contract.hash as Ethereum.ContractAddress,
 	},
 	labels: {
 		fromAddress: transaction.from.name,
-		toAddress: transaction.to.name,
+		...transaction.to && {
+			toAddress: transaction.to.name,
+		},
 		...transaction.created_contract && {
 			deployedContractAddress: transaction.created_contract.name,
 		},
