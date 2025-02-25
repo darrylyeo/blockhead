@@ -10,8 +10,8 @@
 
 	export let showBeforeAndAfter = false
 
-	$: blockNumberBefore = blockNumber && blockNumber - 1n
-	$: blockNumberAfter = blockNumber && blockNumber + 1n
+	$: blockNumberBefore = blockNumber !== undefined && blockNumber - 1n
+	$: blockNumberAfter = blockNumber !== undefined && blockNumber + 1n
 
 
 	// let latestBlockNumber: Ethereum.BlockNumber
