@@ -46,7 +46,7 @@ export type SearchResultBlock = {
 };
 export type SearchResultTransaction = {
     timestamp: string;
-    tx_hash: string;
+    transaction_hash: string;
     "type": string;
     url: string;
 };
@@ -72,6 +72,8 @@ export type AddressParam = {
     hash: string;
     implementation_name: string;
     name: string;
+    ens_domain_name?: string;
+    metadata?: object;
     is_contract: boolean;
     private_tags: AddressTag[];
     watchlist_names: WatchlistName[];
@@ -94,15 +96,27 @@ export type TotalErc20 = {
     decimals: string;
     value: string;
 };
+export type NftInstance = {
+    is_unique: boolean;
+    id: string;
+    holder_address_hash?: string;
+    image_url?: string;
+    animation_url?: string;
+    external_app_url?: string;
+    metadata?: object;
+    owner: AddressParam;
+    token: TokenInfo;
+};
 export type TotalErc721 = {
     token_id: string;
+    token_instance?: NftInstance;
 };
 export type TotalErc1155 = {
     token_id: string;
     decimals: string;
     value: string;
+    token_instance?: NftInstance;
 };
-export type TotalErc1155Batch = TotalErc1155[];
 export type TokenTransfer = {
     block_hash: string;
     "from": AddressParam;
@@ -111,8 +125,8 @@ export type TokenTransfer = {
     timestamp: string;
     to: AddressParam;
     token: TokenInfo;
-    total: TotalErc20 | TotalErc721 | TotalErc1155 | TotalErc1155Batch;
-    tx_hash: string;
+    total: TotalErc20 | TotalErc721 | TotalErc1155;
+    transaction_hash: string;
     "type": string;
 };
 export type TransactionActionAaveV3LiquidationCall = {
@@ -155,14 +169,14 @@ export type Transaction = {
     timestamp: string;
     fee: Fee;
     gas_limit: number;
-    block: number;
+    block_number: number;
     status: string;
     method: string;
     confirmations: number;
     "type": number;
     exchange_rate: string;
     to: AddressParam;
-    tx_burnt_fee: string;
+    transaction_burnt_fee: string;
     max_fee_per_gas: string;
     result: string;
     hash: string;
@@ -171,12 +185,12 @@ export type Transaction = {
     base_fee_per_gas: string;
     "from": AddressParam;
     token_transfers: TokenTransfer[];
-    tx_types: string[];
+    transaction_types: string[];
     gas_used: string;
     created_contract: AddressParam;
     position: number;
     nonce: number;
-    has_error_in_internal_txs: boolean;
+    has_error_in_internal_transactions: boolean;
     actions: TransactionAction[];
     decoded_input: DecodedInput;
     token_transfers_overflow: boolean;
@@ -185,7 +199,7 @@ export type Transaction = {
     max_priority_fee_per_gas: string;
     revert_reason: string;
     confirmation_duration: object;
-    tx_tag: string;
+    transaction_tag: string;
 };
 export type Reward = {
     reward: number;
@@ -212,17 +226,31 @@ export type Block = {
     state_root: string;
     timestamp: string;
     total_difficulty: string;
-    tx_count: number;
-    tx_fees: string;
+    transaction_count: number;
+    transaction_fees: string;
     "type": string;
     uncles_hashes: string[];
     withdrawals_count: number;
+};
+export type InternalTransaction = {
+    block_number: number;
+    created_contract: AddressParam;
+    error: string;
+    "from": AddressParam;
+    gas_limit: string;
+    index: number;
+    success: boolean;
+    timestamp: string;
+    to: AddressParam;
+    transaction_hash: string;
+    "type": string;
+    value: string;
 };
 export type IndexingStatus = {
     finished_indexing: boolean;
     finished_indexing_blocks: boolean;
     indexed_blocks_ratio: string;
-    indexed_internal_transactions_ratio: string;
+    indexed_internal_transactions_ratio: string | null;
 };
 export type StatsResponse = {
     total_blocks: string;
@@ -240,26 +268,12 @@ export type StatsResponse = {
 };
 export type TransactionChartItem = {
     date: string;
-    tx_count: number;
+    transaction_count: number;
 };
 export type MarketChartItem = {
     date: string;
     closing_price: string;
     market_cap: string;
-};
-export type InternalTransaction = {
-    block: number;
-    created_contract: AddressParam;
-    error: string;
-    "from": AddressParam;
-    gas_limit: string;
-    index: number;
-    success: boolean;
-    timestamp: string;
-    to: AddressParam;
-    transaction_hash: string;
-    "type": string;
-    value: string;
 };
 export type DecodedInputLogParameter = {
     name: string;
@@ -281,7 +295,7 @@ export type Log = {
     index: number;
     smart_contract: AddressParam;
     topics: string[];
-    tx_hash: string;
+    transaction_hash: string;
 };
 export type RawTraceCallAction = {
     callType: string;
@@ -335,6 +349,69 @@ export type StateChange = {
     token_id?: string;
     change?: NftChangesArray | Erc20Or1155OrCoinChange;
 };
+export type SummaryVariable = {
+    /** Variable type */
+    "type": string;
+    /** Action Type */
+    value: string;
+};
+export type SummaryVariableCurrency = {
+    /** Currency type */
+    "type": string;
+    /** Value */
+    value: string;
+};
+export type TokenInfoDetailed = {
+    /** Token Address */
+    address: string;
+    /** Token circulating market cap */
+    circulating_market_cap: string;
+    /** Token decimals */
+    decimals: string;
+    /** Token exchange rate */
+    exchange_rate: string;
+    /** Token holders amount */
+    holders: string;
+    /** Token image URL  */
+    icon_url: string;
+    /** Token name */
+    name: string;
+    /** Token symbol */
+    "symbol": string;
+    /** Token total supply */
+    total_supply: string;
+    /** Token type */
+    "type": string;
+    /** Token trading volume for past 24h */
+    volume_24h: string;
+};
+export type SummaryVariableToken = {
+    /** Type */
+    "type": string;
+    /** Token info */
+    value: TokenInfoDetailed;
+};
+export type SummaryTemplateVariables = {
+    /** Action type */
+    action_type: SummaryVariable;
+    /** Amount */
+    amount: SummaryVariableCurrency;
+    /** Token info */
+    token: SummaryVariableToken;
+};
+export type Summary = {
+    /** Summary template */
+    summary_template: string;
+    /** Variables for summary */
+    summary_template_variables: SummaryTemplateVariables;
+};
+export type TransactionSummaryObj = {
+    summaries?: Summary[];
+};
+export type TransactionSummary = {
+    success: boolean;
+    data: TransactionSummaryObj;
+};
 export type Withdrawal = {
     index: number;
     amount: string;
@@ -345,7 +422,7 @@ export type Withdrawal = {
 };
 export type Address = {
     creator_address_hash?: string;
-    creation_tx_hash?: string;
+    creation_transaction_hash?: string;
     token?: TokenInfo;
     coin_balance?: string;
     exchange_rate?: string;
@@ -373,24 +450,13 @@ export type Address = {
     has_validated_blocks?: boolean;
 };
 export type AddressWithTxCount = Address & {
-    tx_count: string;
+    transaction_count: string;
 };
 export type AddressCounters = {
     transactions_count: string;
     token_transfers_count: string;
     gas_usage_count: string;
     validations_count: string;
-};
-export type NftInstance = {
-    is_unique: boolean;
-    id: string;
-    holder_address_hash?: string;
-    image_url?: string;
-    animation_url?: string;
-    external_app_url?: string;
-    metadata?: object;
-    owner: AddressParam;
-    token: TokenInfo;
 };
 export type Token = {
     name: string;
@@ -470,7 +536,7 @@ export type SmartContractForList = {
     language: string;
     has_constructor_args: boolean;
     optimization_enabled: boolean;
-    tx_count: number;
+    transaction_count: number;
     verified_at: string;
     market_cap?: number;
 };
@@ -543,6 +609,17 @@ export type ReadMethodResponse = {
     is_error: boolean;
     result: ExtendedRevertReasonAsMap | Error | DecodedInput | CodeAndMessage | OutputAndNames;
 };
+export type V1EntryPointIndexerStatus = {
+    enabled?: boolean;
+    live?: boolean;
+    past_db_logs_indexing_finished?: boolean;
+    past_rpc_logs_indexing_finished?: boolean;
+};
+export type V1IndexerStatus = {
+    finished_past_indexing?: boolean;
+    v06?: V1EntryPointIndexerStatus;
+    v07?: V1EntryPointIndexerStatus;
+};
 /**
  * search
  */
@@ -581,7 +658,7 @@ export function searchRedirect({ q }: {
     }));
 }
 /**
- * get txs
+ * get transactions
  */
 export function getTxs({ filter, $type, method }: {
     filter?: string;
@@ -625,7 +702,37 @@ export function getBlocks({ $type }: {
     }));
 }
 /**
- * get main page txs
+ * get token transfers
+ */
+export function getTokenTransfers(opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: {
+            items: TokenTransfer[];
+            next_page_params: object;
+        };
+    } | {
+        status: 400;
+    }>("/token-transfers", {
+        ...opts
+    }));
+}
+/**
+ * get internal transactions
+ */
+export function getInternalTransactions(opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: {
+            items: InternalTransaction[];
+            next_page_params: object;
+        };
+    }>("/internal-transactions", {
+        ...opts
+    }));
+}
+/**
+ * get main page transactions
  */
 export function getMainPageTxs(opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
@@ -669,7 +776,7 @@ export function getStats(opts?: Oazapfts.RequestOpts) {
     }));
 }
 /**
- * get txs chart
+ * get transactions chart
  */
 export function getTxsChart(opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
@@ -696,7 +803,7 @@ export function getMarketChart(opts?: Oazapfts.RequestOpts) {
     }));
 }
 /**
- * get tx info
+ * get transaction info
  */
 export function getTx(transactionHash: string, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
@@ -709,9 +816,9 @@ export function getTx(transactionHash: string, opts?: Oazapfts.RequestOpts) {
     }));
 }
 /**
- * get token transfers
+ * get transaction token transfers
  */
-export function getTokenTransfers(transactionHash: string, { $type }: {
+export function getTransactionTokenTransfers(transactionHash: string, { $type }: {
     $type?: string;
 } = {}, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
@@ -729,9 +836,9 @@ export function getTokenTransfers(transactionHash: string, { $type }: {
     }));
 }
 /**
- * get internal txs
+ * get transaction internal transactions
  */
-export function getInternalTxs(transactionHash: string, opts?: Oazapfts.RequestOpts) {
+export function getTransactionInternalTxs(transactionHash: string, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
         data: {
@@ -745,9 +852,9 @@ export function getInternalTxs(transactionHash: string, opts?: Oazapfts.RequestO
     }));
 }
 /**
- * get logs
+ * get transaction logs
  */
-export function getLogs(transactionHash: string, opts?: Oazapfts.RequestOpts) {
+export function getTransactionLogs(transactionHash: string, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
         data: {
@@ -761,9 +868,9 @@ export function getLogs(transactionHash: string, opts?: Oazapfts.RequestOpts) {
     }));
 }
 /**
- * get raw trace
+ * get transaction raw trace
  */
-export function getRawTrace(transactionHash: string, opts?: Oazapfts.RequestOpts) {
+export function getTransactionRawTrace(transactionHash: string, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
         data: RawTrace[];
@@ -774,9 +881,9 @@ export function getRawTrace(transactionHash: string, opts?: Oazapfts.RequestOpts
     }));
 }
 /**
- * get state changes
+ * get transaction state changes
  */
-export function getStateChanges(transactionHash: string, opts?: Oazapfts.RequestOpts) {
+export function getTransactionStateChanges(transactionHash: string, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
         status: 200;
         data: {
@@ -786,6 +893,19 @@ export function getStateChanges(transactionHash: string, opts?: Oazapfts.Request
     } | {
         status: 400;
     }>(`/transactions/${encodeURIComponent(transactionHash)}/state-changes`, {
+        ...opts
+    }));
+}
+/**
+ * get human-readable transaction summary
+ */
+export function getTransactionSummary(transactionHash: string, opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: TransactionSummary;
+    } | {
+        status: 400;
+    }>(`/transactions/${encodeURIComponent(transactionHash)}/summary`, {
         ...opts
     }));
 }
@@ -803,7 +923,7 @@ export function getBlock(blockNumberOrHash: string, opts?: Oazapfts.RequestOpts)
     }));
 }
 /**
- * get block txs
+ * get block transactions
  */
 export function getBlockTxs(blockNumberOrHash: string, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
@@ -879,7 +999,7 @@ export function getAddressCounters(addressHash: string, opts?: Oazapfts.RequestO
     }));
 }
 /**
- * get address txs
+ * get address transactions
  */
 export function getAddressTxs(addressHash: string, { filter }: {
     filter?: string;
@@ -923,7 +1043,7 @@ export function getAddressTokenTransfers(addressHash: string, { $type, filter, t
     }));
 }
 /**
- * get address internal txs
+ * get address internal transactions
  */
 export function getAddressInternalTxs(addressHash: string, { filter }: {
     filter?: string;
@@ -1322,7 +1442,7 @@ export function getSmartContract(addressHash: string, opts?: Oazapfts.RequestOpt
     }));
 }
 /**
- * get read methods
+ * get verified smart-contract read methods
  */
 export function getReadMethods(addressHash: string, { isCustomAbi, $from }: {
     isCustomAbi?: string;
@@ -1341,7 +1461,7 @@ export function getReadMethods(addressHash: string, { isCustomAbi, $from }: {
     }));
 }
 /**
- * get read methods proxy
+ * get verified smart-contract read methods proxy
  */
 export function getReadMethodsProxy(addressHash: string, { isCustomAbi, $from }: {
     isCustomAbi?: string;
@@ -1358,7 +1478,7 @@ export function getReadMethodsProxy(addressHash: string, { isCustomAbi, $from }:
     }));
 }
 /**
- * get write methods
+ * get verified smart-contract write methods
  */
 export function getWriteMethods(addressHash: string, { isCustomAbi }: {
     isCustomAbi?: string;
@@ -1375,7 +1495,7 @@ export function getWriteMethods(addressHash: string, { isCustomAbi }: {
     }));
 }
 /**
- * get write methods proxy
+ * get verified smart-contract write methods proxy
  */
 export function getWriteMethodsProxy(addressHash: string, { isCustomAbi }: {
     isCustomAbi?: string;
@@ -1392,7 +1512,7 @@ export function getWriteMethodsProxy(addressHash: string, { isCustomAbi }: {
     }));
 }
 /**
- * query read method
+ * query verified smart-contract read method
  */
 export function queryReadMethod(addressHash: string, readMethodQueryBody: ReadMethodQueryBody, opts?: Oazapfts.RequestOpts) {
     return oazapfts.ok(oazapfts.fetchJson<{
@@ -1430,6 +1550,19 @@ export function getWithdrawals(opts?: Oazapfts.RequestOpts) {
             next_page_params: object;
         };
     }>("/withdrawals", {
+        ...opts
+    }));
+}
+/**
+ * get account abstraction indexing status
+ */
+export function getAccountAbstractionStatus(opts?: Oazapfts.RequestOpts) {
+    return oazapfts.ok(oazapfts.fetchJson<{
+        status: 200;
+        data: V1IndexerStatus;
+    } | {
+        status: 500;
+    }>("/proxy/account-abstraction/status", {
         ...opts
     }));
 }
