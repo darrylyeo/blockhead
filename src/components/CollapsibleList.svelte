@@ -9,7 +9,7 @@
 	_ListLayout extends ListLayout
 ">
 	// Inputs
-	export let items: Item[] = []
+	export let items: Item[] | undefined = []
 	export let itemsCount: number | undefined
 	export let getIndex: (item: Item, index: any) => any
 	export let isOrdered = true
@@ -44,7 +44,7 @@
 	type="label"
 	bind:isOpen
 	{containerClass}
-	canToggle={items.length > 0}
+	canToggle={(items?.length ?? 0) > 0}
 	{showContentsOnly}
 >
 	<svelte:fragment slot="title">
@@ -55,14 +55,16 @@
 				</svelte:element>
 			</slot>
 
-			<small>
-				<PaginationCount
-					itemsCount={itemsCount ?? items.length}
-					currentRange={[0, items.length]}
-					hasMoreItems={pagination?.hasNextPage ?? itemsCount === undefined}
-					isShowingRange={isOpen}
-				/>
-			</small>
+			{#if items !== undefined}
+				<small>
+					<PaginationCount
+						itemsCount={itemsCount ?? (items?.length ?? 0)}
+						currentRange={[0, (items?.length ?? 0)]}
+						hasMoreItems={pagination?.hasNextPage ?? itemsCount === undefined}
+						isShowingRange={isOpen}
+					/>
+				</small>
+			{/if}
 		</span>
 	</svelte:fragment>
 
