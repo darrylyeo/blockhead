@@ -38,6 +38,7 @@
 	import DateTime from './DateTime.svelte'
 	import BlockNumber from './BlockNumber.svelte'
 	import Collapsible from './Collapsible.svelte'
+	import CollapsibleList, { Layout as CollapsibleListLayout } from './CollapsibleList.svelte'
 	import EthereumTransaction from './EthereumTransaction.svelte'
 	import EthereumTransactionLoader from './EthereumTransactionLoader.svelte'
 	import TruncatedValue from './TruncatedValue.svelte'
@@ -228,15 +229,16 @@
 
 <hr>
 
-<Collapsible
-	type="details"
+<CollapsibleList
+	items={block.transactions ?? block.transactionIds?.map(transactionId => ({ transactionId }))}
+	itemsCount={block.transactions?.length ?? block.transactionIds?.length}
+	getIndex={item => item.transactionId}
+	isOrdered={true}
 	bind:isOpen={showTransactions}
+	title="Transactions"
+	isScrollEnabled={(block.transactions?.length ?? block.transactionIds?.length ?? 0) > 7}
+	layout={CollapsibleListLayout.Plain}
 >
-	<svelte:element slot="title" this={`h${headingLevel + 1}`}>
-		Transactions
-		{#if block.transactions?.length}({block.transactions.length}{block.transactions.length === 100 ? '+' : ''}){/if}
-	</svelte:element>
-
 	<svelte:fragment slot="toolbar-items" let:isOpen>
 		{#if isOpen}
 			<div class="row align-end" transition:scale={{ easing: expoOut }}>
@@ -248,75 +250,68 @@
 				<label>
 					<span>View</span>
 					<select bind:value={detailLevel}>
-						<option value='summary'>Summary</option>
-						<option value='detailed'>Detailed</option>
-						<option value='exhaustive'>Exhaustive</option>
+						<option value="summary">Summary</option>
+						<option value="detailed">Detailed</option>
+						<option value="exhaustive">Exhaustive</option>
 					</select>
 				</label>
 			</div>
 		{/if}
 	</svelte:fragment>
 
-	<div class="transactions-list column" class:scrollable-list={block.transactions?.length > 7}>
-		{#if block.transactions}
-			{#each block.transactions as transaction (transaction.transactionId)}
-				<AnchorLink
-					class="card"
-					base={`/explorer/${network.slug}`}
-					link={`/tx/${transaction.transactionId}`}
+	<svelte:fragment let:item={transaction}>
+		{#if 'transactionId' in transaction && !('fromAddress' in transaction)}
+			<AnchorLink
+				class="card"
+				base={`/explorer/${network.slug}`}
+				link={`/tx/${transaction.transactionId}`}
+			>
+				<EthereumTransactionLoader
+					{network}
+					transactionId={transaction.transactionId}
+					{transactionProvider}
+					{quoteCurrency}
+
+					{detailLevel}
+					{tokenBalanceFormat}
+					{showFees}
+
+					let:transaction
 				>
-					<EthereumTransaction
-						{network}
-						{transactionProvider}
-						{transaction}
-						{quoteCurrency}
-						includeLogs={detailLevel === 'exhaustive'}
-						showDate={false}
+					{#if transaction}
+						<EthereumTransaction
+							{network}
+							{transactionProvider}
+							{transaction}
+							{quoteCurrency}
 
-						{detailLevel}
-						{tokenBalanceFormat}
-						{showFees}
-					/>
-				</AnchorLink>
-			{/each}
+							{detailLevel}
+							{tokenBalanceFormat}
+							{showFees}
+						/>
+					{/if}
+				</EthereumTransactionLoader>
+			</AnchorLink>
+		{:else}
+			<AnchorLink
+				class="card"
+				base={`/explorer/${network.slug}`}
+				link={`/tx/${transaction.transactionId}`}
+			>
+				<EthereumTransaction
+					{network}
+					{transactionProvider}
+					{transaction}
+					{quoteCurrency}
 
-		{:else if block.transactionIds}
-			{#each block.transactionIds as transactionId (transactionId)}
-				<AnchorLink
-					class="card"
-					base={`/explorer/${network.slug}`}
-					link={`/tx/${transactionId}`}
-				>
-					<EthereumTransactionLoader
-						{network}
-						{transactionId}
-						{transactionProvider}
-						{quoteCurrency}
-
-						{detailLevel}
-						{tokenBalanceFormat}
-						{showFees}
-
-						let:transaction
-					>
-						{#if transaction}
-							<EthereumTransaction
-								{network}
-								{transactionProvider}
-								{transaction}
-								{quoteCurrency}
-				
-								{detailLevel}
-								{tokenBalanceFormat}
-								{showFees}
-							/>
-						{/if}
-					</EthereumTransactionLoader>
-				</AnchorLink>
-			{/each}
+					{detailLevel}
+					{tokenBalanceFormat}
+					{showFees}
+				/>
+			</AnchorLink>
 		{/if}
-	</div>
-</Collapsible>
+	</svelte:fragment>
+</CollapsibleList>
 
 <hr>
 
