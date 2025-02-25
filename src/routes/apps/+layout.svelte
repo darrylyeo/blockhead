@@ -416,4 +416,5 @@
 				'quoteCurrency'
 			]
 	}
+	relevantNetwork={$network}
 />

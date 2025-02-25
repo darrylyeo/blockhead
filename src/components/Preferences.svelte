@@ -10,6 +10,8 @@
 
 	// Inputs
 	export let relevantPreferences: PreferenceId[] = []
+	export let relevantNetwork: Ethereum.Network | undefined
+
 	// (View options)
 	export let isShowingAll = false
 
@@ -21,7 +23,7 @@
 
 	const resolveOptionName = (name: PreferenceOption['name']) => (
 		typeof name === 'function'
-			? name($preferences)
+			? name($preferences, relevantNetwork)
 			: name
 	)
 
