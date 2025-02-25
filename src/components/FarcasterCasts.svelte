@@ -23,19 +23,31 @@
 
 	// Components
 	import AnchorLink from './AnchorLink.svelte'
-	import Collapsible from './Collapsible.svelte'
+	import CollapsibleList, { Layout as CollapsibleListLayout } from '$/components/CollapsibleList.svelte'
 	import FarcasterCast from './FarcasterCast.svelte'
 	import FarcasterCastLoader from './FarcasterCastLoader.svelte'
 	import Loader from './Loader.svelte'
 	import Loading from './Loading.svelte'
-	import ScrollContainer from './ScrollContainer.svelte'
 </script>
 
 
-<Collapsible
+<CollapsibleList
+	items={casts}
+	getIndex={cast => cast.id}
+	isOrdered={true}
+
 	containerClass="card"
 	isOpen
 	showContentsOnly={layout === 'embedded-replies'}
+
+	{title}
+	headingLevel={headingLevel + 1}
+
+	isScrollEnabled={true}
+	layout={CollapsibleListLayout.Plain}
+	defaultHeight="max(16rem, calc(100dvh - 24rem))"
+
+	{pagination}
 	{...$$restProps}
 >
 	<svelte:fragment slot="title">
@@ -50,35 +62,30 @@
 		<span class="card-annotation">Farcaster Feed</span>
 	</svelte:fragment>
 
-	<ScrollContainer
-		{pagination}
-		style="
-			--resizeVertical-defaultHeight: max(16rem, calc(100dvh - 24rem));
-		"
-	>
-		{#each casts as cast (cast.id)}
-			{#if 'timestamp' in cast && String(farcasterProvider) === String(farcasterFeedProvider)}
-				<AnchorLink
-					base={`/apps/farcaster`}
-					link={`/cast/${cast.id}`}
-					isEnabled={!isReplies}
-				>
-					<FarcasterCast
-						{cast}
-						{farcasterProvider}
-						{farcasterFeedProvider}
-					/>
-				</AnchorLink>
-
-			{:else}
-				<FarcasterCastLoader
+	<svelte:fragment let:item={cast}>
+		{#if 'timestamp' in cast && String(farcasterProvider) === String(farcasterFeedProvider)}
+			<AnchorLink
+				base={`/apps/farcaster`}
+				link={`/cast/${cast.id}`}
+				isEnabled={!isReplies}
+			>
+				<FarcasterCast
+					{cast}
 					{farcasterProvider}
-					query={{
-						castId: cast.id,
-						isReply: isReplies,
-					}}
-					let:cast
-				>
+					{farcasterFeedProvider}
+				/>
+			</AnchorLink>
+
+		{:else}
+			<FarcasterCastLoader
+				{farcasterProvider}
+				query={{
+					castId: cast.id,
+					isReply: isReplies,
+				}}
+				let:cast
+			>
+				{#if cast}
 					<AnchorLink
 						base={`/apps/farcaster`}
 						link={`/cast/${cast.id}`}
@@ -90,24 +97,26 @@
 							{farcasterFeedProvider}
 						/>
 					</AnchorLink>
-				</FarcasterCastLoader>
-			{/if}
-		{:else}
-			<div class="card">No {isReplies ? 'replies' : 'casts'} yet.</div>
-		{/each}
+				{/if}
+			</FarcasterCastLoader>
+		{/if}
+	</svelte:fragment>
 
-		<svelte:fragment slot="after">
-			{#if pagination?.isFetchingNextPage}
-				<Loading
-					icon={{
-						src: farcasterFeedProviders[farcasterFeedProvider].icon,
-						name: farcasterFeedProviders[farcasterFeedProvider].name,
-					}}
-					iconAnimation="hover"
-				>
-					Loading more {isReplies ? 'replies' : 'casts'} via {farcasterFeedProviders[farcasterFeedProvider].name}...
-				</Loading>
-			{/if}
-		</svelte:fragment>
-	</ScrollContainer>
-</Collapsible>
+	<svelte:fragment slot="empty">
+		<div class="card">No {isReplies ? 'replies' : 'casts'} yet.</div>
+	</svelte:fragment>
+
+	<svelte:fragment slot="after">
+		{#if pagination?.isFetchingNextPage}
+			<Loading
+				icon={{
+					src: farcasterFeedProviders[farcasterFeedProvider].icon,
+					name: farcasterFeedProviders[farcasterFeedProvider].name,
+				}}
+				iconAnimation="hover"
+			>
+				Loading more {isReplies ? 'replies' : 'casts'} via {farcasterFeedProviders[farcasterFeedProvider].name}...
+			</Loading>
+		{/if}
+	</svelte:fragment>
+</CollapsibleList>
