@@ -38,10 +38,13 @@
 				<svelte:element this={`h${headingLevel}`}>
 					{title}
 				</svelte:element>
-				<small><PaginationCount
-					itemsCount={transfersCount ?? transfers.length}
-					isShowingRange={isOpen}
-				/></small>
+				<small>
+					<PaginationCount
+						itemsCount={transfersCount}
+						currentRange={[0, transfers.length]}
+						isShowingRange={isOpen}
+					/>
+				</small>
 			</span>
 		</slot>
 	</svelte:fragment>
