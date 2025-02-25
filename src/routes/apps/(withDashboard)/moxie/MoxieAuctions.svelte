@@ -11,6 +11,7 @@
 	export let auctions: _MoxieAuction[]
 
 	// (View options)
+	export let title = 'Auctions'
 	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 3
 	export let showFormattedNames = true
 	export let showFormattedTokenSymbols = true
@@ -22,75 +23,60 @@
 
 	// Components
 	import AnchorLink from '$/components/AnchorLink.svelte'
-	import Collapsible from '$/components/Collapsible.svelte'
+	import CollapsibleList, { Layout as CollapsibleListLayout } from '$/components/CollapsibleList.svelte'
 	import Loader from '$/components/Loader.svelte'
 	import Loading from '$/components/Loading.svelte'
-	import ScrollContainer from '$/components/ScrollContainer.svelte'
-	import TweenedNumber from '$/components/TweenedNumber.svelte'
 	import MoxieAuction from './MoxieAuction.svelte'
 </script>
 
 
-<Collapsible
-	type="label"
+<CollapsibleList
+	items={auctions}
+	getIndex={auction => auction.id}
+	isOrdered={true}
+
 	class="column"
 	{...$$restProps}
+
+	{title}
+	headingLevel={headingLevel + 1}
+
+	isScrollEnabled={true}
+	layout={CollapsibleListLayout.Plain}
+
+	{pagination}
 >
-	<svelte:fragment slot="header"
-		let:isOpen let:toggle
-	>
-		<header class="bar wrap">
-			<svelte:element this={`h${headingLevel}`}>
-				<slot name="title">
-					Auctions
-				</slot>
-
-				(<TweenedNumber value={auctions?.length} />{#if pagination?.hasNextPage}+{/if})
-			</svelte:element>
-
-			<span class="card-annotation">
-				{moxieProvider}
-			</span>
-
-			<button
-				class="small"
-				data-after={isOpen ? '⏶' : '⏷'}
-				on:click={toggle}
-			>{isOpen ? 'Hide' : 'Show'}</button>
-		</header>
+	<svelte:fragment slot="header-right">
+		<span class="card-annotation">
+			{moxieProvider}
+		</span>
 	</svelte:fragment>
 
-	<hr />
+	<svelte:fragment let:item={auction}>
+		<AnchorLink
+			base={`/apps/moxie/network/${network.slug}`}
+			link={`/auction/${auction.id}`}
+		>
+			<MoxieAuction
+				{network}
+				{auction}
+				{showFormattedNames}
+				{showFormattedTokenSymbols}
+			/>
+		</AnchorLink>
+	</svelte:fragment>
 
-	<ScrollContainer
-		{pagination}
-	>
-		{#each auctions as auction (auction.id)}
-			<AnchorLink
-				base={`/apps/moxie/network/${network.slug}`}
-				link={`/auction/${auction.id}`}
+	<svelte:fragment slot="after">
+		{#if pagination?.isFetchingNextPage}
+			<Loading
+				icon={{
+					src: moxieProviderIcons[moxieProvider],
+					name: moxieProvider,
+				}}
+				iconAnimation="hover"
 			>
-				<MoxieAuction
-					{network}
-					{auction}
-					{showFormattedNames}
-					{showFormattedTokenSymbols}
-				/>
-			</AnchorLink>
-		{/each}
-
-		<svelte:fragment slot="after">
-			{#if pagination?.isFetchingNextPage}
-				<Loading
-					icon={{
-						src: moxieProviderIcons[moxieProvider],
-						name: moxieProvider,
-					}}
-					iconAnimation="hover"
-				>
-					Loading more auctions via {moxieProvider}...
-				</Loading>
-			{/if}
-		</svelte:fragment>
-	</ScrollContainer>
-</Collapsible>
+				Loading more auctions via {moxieProvider}...
+			</Loading>
+		{/if}
+	</svelte:fragment>
+</CollapsibleList>
