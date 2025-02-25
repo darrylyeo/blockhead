@@ -23,8 +23,8 @@
 	$: quoteCurrency = $$props.quoteCurrency || $preferences.quoteCurrency
 	$: transactionProvider = $$props.transactionProvider || $preferences.transactionProvider
 
-	$: loadingMessage = `Retrieving ${network.name} transactions from ${transactionProviders[transactionProvider].name}...`
-	$: errorMessage = `Couldn't retrieve ${network.name} transactions from ${transactionProviders[transactionProvider].name}.`
+	$: loadingMessage = `Retrieving ${network.name} transactions from ${transactionProviders[transactionProvider]?.name ?? transactionProvider}...`
+	$: errorMessage = `Couldn't retrieve ${network.name} transactions from ${transactionProviders[transactionProvider]?.name ?? transactionProvider}.`
 
 
 	// Functions
