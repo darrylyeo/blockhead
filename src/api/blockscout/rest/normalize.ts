@@ -110,7 +110,7 @@ export const normalizeTransaction = (
 	finalityStatus: 'finalized',
 	confirmations: transaction.confirmations,
 
-	blockNumber: BigInt(transaction.block),
+	blockNumber: BigInt(transaction.block_number),
 	blockTimestamp: new Date(transaction.timestamp).valueOf(),
 
 	transactionIndex: transaction.position,
@@ -164,10 +164,10 @@ export const normalizeTransaction = (
 		gasValue: Number(transaction.gas_used) * Number(transaction.gas_price),
 	},
 
-	...(transaction.tx_tag || transaction.tx_types) && {
+	...(transaction.transaction_tag || transaction.transaction_types) && {
 		tags: [
-			...transaction.tx_tag ? [transaction.tx_tag] : [],
-			...transaction.tx_types ?? [],
+			...transaction.transaction_tag ? [transaction.transaction_tag] : [],
+			...transaction.transaction_types ?? [],
 		],
 	},
 })
