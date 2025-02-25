@@ -51,7 +51,7 @@
 					chainId: $explorerNetwork.chainId,
 					erc20Token: {
 						address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-						...$explorerNetwork.nativeCurrency,
+						...$explorerNetwork.underlyingNativeCurrency ?? $explorerNetwork.nativeCurrency,
 					},
 				}}
 				quoteCurrency={$preferences.quoteCurrency}
