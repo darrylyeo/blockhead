@@ -56,6 +56,7 @@
 			network={$explorerNetwork}
 			{block}
 			headingLevel={2}
+			showTransactions
 		/>
 	{/if}
 </EthereumBlockLoader>
