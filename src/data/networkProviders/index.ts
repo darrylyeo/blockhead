@@ -38,8 +38,9 @@ import { llamaNodesProviderConfigs } from './llamaNodes'
 
 
 // Icons
-import { AlchemyIcon, BlastIcon, BlockscoutIcon, ChainbaseIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, GetBlockIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon, LlamaNodesIcon } from '$/assets/icons'
+import { AlchemyIcon, BlastIcon, BlockscoutIcon, ChainbaseIcon, EtherscanIcon, FigmentIcon, GatewayFmIcon, GetBlockIcon, InfuraIcon, MoralisIcon, TenderlyIcon, PocketIcon, QuickNodeIcon, LlamaNodesIcon, EnvioIcon } from '$/assets/icons'
 import { blockscoutProviderConfigs } from '$/api/blockscout'
+import { getRpcUrl as getRpcUrlEnvio } from './envio'
 
 
 // Functions
@@ -852,7 +853,37 @@ export const networkProviderConfigs = [
 				})
 			)
 		},
-	}
+	},
+
+	{
+		provider: NetworkProvider.Envio_Hyperrpc,
+		name: 'Envio › HyperRPC',
+		icon: EnvioIcon,
+
+		getEthersProvider: ({ network }) => {
+			const rpcUrl = getRpcUrlEnvio(network.chainId)
+
+			return rpcUrl && (
+				new JsonRpcProvider(
+					rpcUrl,
+					network.chainId
+				)
+			)
+		},
+
+		getViemPublicClient: ({ network }) => {
+			const rpcUrl = getRpcUrlEnvio(network.chainId)
+
+			return rpcUrl && (
+				createClient({
+					chain: networkToViemChain(network),
+					transport: http(
+						rpcUrl
+					)
+				})
+			)
+		},
+	},
 ] as const satisfies NetworkProviderConfig[]
 
 export const networkProviderConfigByProvider = Object.fromEntries(
