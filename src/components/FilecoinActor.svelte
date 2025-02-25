@@ -34,6 +34,7 @@
 	import Address from './Address.svelte'
 	import BlockNumber from './BlockNumber.svelte'
 	import Collapsible from './Collapsible.svelte'
+	import CollapsibleList, { Layout as CollapsibleListLayout } from './CollapsibleList.svelte'
 	import DateTime from './DateTime.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
 	import FilecoinActorDetailsLoader from './FilecoinActorDetailsLoader.svelte'
@@ -48,7 +49,6 @@
 	import FilecoinTransfers from './FilecoinTransfers.svelte'
 	import InlineTransition from './InlineTransition.svelte'
 	import IpfsContentId from './IpfsContentId.svelte'
-	import ScrollContainer from './ScrollContainer.svelte'
 	import TransactionId from './TransactionId.svelte'
 </script>
 
@@ -330,47 +330,39 @@
 			]
 				.filter(isTruthy)
 				.filter(({ actors }) => actors.length)
-		) as { label, actors } (label)}
+		) as { label, actors: minerActors } (label)}
 			<hr>
 
 			<section>
-				<Collapsible>
-					<svelte:fragment slot="title">
-						<div class="row inline">
-							<svelte:element this={`h${headingLevel + 1}`}>
-								{label}
-							</svelte:element>
-
-							<small>({actors.length})</small>
-						</div>
+				<CollapsibleList
+					items={minerActors}
+					itemsCount={minerActors.length}
+					getIndex={actor => actor.shortAddress ?? actor.robustAddress}
+					isOrdered={true}
+					isOpen={true}
+					title={label}
+					headingLevel={headingLevel + 1}
+					layout={CollapsibleListLayout.Plain}
+					isScrollEnabled={minerActors.length > 7}
+				>
+					<svelte:fragment let:item={minerActor}>
+						<FilecoinActorDetailsLoader
+							{network}
+							address={minerActor.shortAddress ?? minerActor.robustAddress}
+							let:actor
+						>
+							{#if actor}
+								<svelte:self
+									{network}
+									{actor}
+									displayedAddress={minerActor.shortAddress ?? minerActor.robustAddress}
+									layout="inline"
+									headingLevel={headingLevel + 1}
+								/>
+							{/if}
+						</FilecoinActorDetailsLoader>
 					</svelte:fragment>
-
-					<ScrollContainer
-						isScrollEnabled={actors.length > 7}
-					>
-						<ul class="column">
-							{#each actors as minerActor}
-								<li>
-									<FilecoinActorDetailsLoader
-										{network}
-										address={minerActor.shortAddress ?? minerActor.robustAddress}
-										let:actor
-									>
-										{#if actor}
-											<svelte:self
-												{network}
-												{actor}
-												displayedAddress={minerActor.shortAddress ?? minerActor.robustAddress}
-												layout="inline"
-												headingLevel={headingLevel + 1}
-											/>
-										{/if}
-									</FilecoinActorDetailsLoader>
-								</li>
-							{/each}
-						</ul>
-					</ScrollContainer>
-				</Collapsible>
+				</CollapsibleList>
 			</section>
 		{/each}
 
