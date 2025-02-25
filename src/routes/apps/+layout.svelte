@@ -2,6 +2,15 @@
 	// Constants/types
 	import type { Ethereum } from '$/data/networks/types'
 
+	import type { Web3AppSlug } from '$/data/web3Apps'
+	import type { AccountId } from '$/data/accountId'
+	import type { EasAttestationId, EasSchemaId } from '$/api/eas'
+	import type { FarcasterCastId, FarcasterCastShortId, FarcasterChannelId, FarcasterUserId, FarcasterUserName } from '$/api/farcaster'
+	import type { IpfsCid } from '$/api/ipfs/contentId'
+	import type { IpnsName } from '$/api/ipfs/ipns'
+	import type { MoxieAuctionId, MoxieOrderId } from '$/api/moxie'
+	import type { MoxieSubjectId } from '$/api/moxie'
+
 
 	// Params two-way binding
 	import {
@@ -45,28 +54,30 @@
 
 	afterNavigate(navigation => {
 		if(navigation.to?.route.id?.startsWith('/apps') && navigation.to.params){
-			$web3AppSlug = navigation.to.params.web3AppSlug || navigation.to.url.pathname.match(/^\/apps\/(audius|ceramic|disco|eas|ens|farcaster|ipfs|lens|moxie|uniswap)/)?.[1] || ''
-			$networkSlug = navigation.to.params.networkSlug || ''
-			$accountId = navigation.to.params.accountId || ''
-			$audiusQuery = navigation.to.params.audiusQuery || ''
-			$audiusPlaylistId = navigation.to.params.audiusPlaylistId || ''
-			$audiusTrackId = navigation.to.params.audiusTrackId || ''
-			$audiusUserId = navigation.to.params.audiusUserId || ''
-			$didUrl = navigation.to.params.didUrl || ''
-			$discoCredentialId = navigation.to.params.discoCredentialId || ''
-			$easAttestationId = navigation.to.params.easAttestationId || ''
-			$easSchemaId = navigation.to.params.easSchemaId || ''
-			$farcasterCastId = navigation.to.params.farcasterCastId || ''
-			$farcasterCastShortId = navigation.to.params.farcasterCastShortId || ''
-			$farcasterChannelId = navigation.to.params.farcasterChannelId || ''
-			$farcasterUserId = navigation.to.params.farcasterUserId || ''
-			$farcasterUserName = navigation.to.params.farcasterUserName || ''
-			$ipfsContentId = navigation.to.params.ipfsContentId || ''
-			$ipnsName = navigation.to.params.ipnsName || ''
-			$ipfsContentPath = navigation.to.params.ipfsContentPath || ''
-			$moxieAuctionId = navigation.to.params.moxieAuctionId || ''
-			$moxieOrderId = navigation.to.params.moxieOrderId || ''
-			$moxieSubjectId = navigation.to.params.moxieSubjectId || ''
+			const { params } = navigation.to
+
+			$web3AppSlug = 'web3AppSlug' in params ? params.web3AppSlug as Web3AppSlug : navigation.to.url.pathname.match(/^\/apps\/(audius|ceramic|disco|eas|ens|farcaster|ipfs|lens|moxie|uniswap)/)?.[1] as Web3AppSlug ?? undefined
+			$networkSlug = 'networkSlug' in params ? params.networkSlug : undefined
+			$accountId = 'accountId' in params ? params.accountId as AccountId : undefined
+			$audiusQuery = 'audiusQuery' in params ? params.audiusQuery : undefined
+			$audiusPlaylistId = 'audiusPlaylistId' in params ? params.audiusPlaylistId : undefined
+			$audiusTrackId = 'audiusTrackId' in params ? params.audiusTrackId : undefined
+			$audiusUserId = 'audiusUserId' in params ? params.audiusUserId : undefined
+			$didUrl = 'didUrl' in params ? params.didUrl as DidUrl : undefined
+			$discoCredentialId = 'discoCredentialId' in params ? params.discoCredentialId as ReturnType<typeof crypto.randomUUID> : undefined
+			$easAttestationId = 'easAttestationId' in params ? params.easAttestationId as EasAttestationId : undefined
+			$easSchemaId = 'easSchemaId' in params ? params.easSchemaId as EasSchemaId : undefined
+			$farcasterCastId = 'farcasterCastId' in params ? params.farcasterCastId as FarcasterCastId : undefined
+			$farcasterCastShortId = 'farcasterCastShortId' in params ? params.farcasterCastShortId as FarcasterCastShortId : undefined
+			$farcasterChannelId = 'farcasterChannelId' in params ? params.farcasterChannelId as FarcasterChannelId : undefined
+			$farcasterUserId = 'farcasterUserId' in params ? Number(params.farcasterUserId) as FarcasterUserId : undefined
+			$farcasterUserName = 'farcasterUserName' in params ? params.farcasterUserName as FarcasterUserName : undefined
+			$ipfsContentId = 'ipfsContentId' in params ? params.ipfsContentId as IpfsCid : undefined
+			$ipnsName = 'ipnsName' in params ? params.ipnsName as IpnsName : undefined
+			$ipfsContentPath = 'ipfsContentPath' in params ? params.ipfsContentPath : undefined
+			$moxieAuctionId = 'moxieAuctionId' in params ? params.moxieAuctionId as MoxieAuctionId : undefined
+			$moxieOrderId = 'moxieOrderId' in params ? params.moxieOrderId as MoxieOrderId : undefined
+			$moxieSubjectId = 'moxieSubjectId' in params ? params.moxieSubjectId as MoxieSubjectId : undefined
 
 			canNavigate = true
 		}
