@@ -1,5 +1,8 @@
 <script lang="ts">
+	// Types
 	import type { Ethereum } from '$/data/networks/types'
+	import type { ENS } from '$/api/ens'
+
 
 	// Params two-way binding
 	import {
@@ -23,13 +26,15 @@
 
 	afterNavigate(navigation => {
 		if(navigation.to?.route.id?.startsWith('/explorer') && navigation.to.params){
-			$networkSlug = navigation.to.params.networkSlug || navigation.to.url.pathname.match(/^\/explorer\/([^/]+)/)?.[1] || ''
-			$address = navigation.to.params.address || ''
-			$blockNumber = navigation.to.params.blockNumber || ''
-			$ensName = navigation.to.params.ensName || ''
-			$transactionId = navigation.to.params.transactionId || ''
-			$filecoinTipsetCid = navigation.to.params.filecoinTipsetCid || ''
-			$filecoinBlockCid = navigation.to.params.filecoinBlockCid || ''
+			const { params } = navigation.to
+
+			$networkSlug = 'networkSlug' in params ? params.networkSlug : navigation.to.url.pathname.match(/^\/explorer\/([^/]+)/)?.[1] ?? undefined
+			$address = 'address' in params ? params.address as Ethereum.Address : undefined
+			$blockNumber = 'blockNumber' in params ? BigInt(params.blockNumber) : undefined
+			$ensName = 'ensName' in params ? params.ensName as ENS.Name : undefined
+			$transactionId = 'transactionId' in params ? params.transactionId as Ethereum.TransactionId : undefined
+			$filecoinTipsetCid = 'filecoinTipsetCid' in params ? params.filecoinTipsetCid : undefined
+			$filecoinBlockCid = 'filecoinBlockCid' in params ? params.filecoinBlockCid : undefined
 
 			canNavigate = true
 		}
