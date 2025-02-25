@@ -276,6 +276,8 @@
 					{tokenBalanceFormat}
 					{showFees}
 
+					{transaction}
+
 					let:transaction
 				>
 					{#if transaction}
