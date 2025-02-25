@@ -43,9 +43,9 @@ export const explorerPublicClient: Readable<Ethereum.PublicClient | undefined> =
 		}))
 })
 
-export const explorerBlockNumber: Readable<number> = derived(explorerPublicClient, ($explorerPublicClient, set) => (
+export const explorerBlockNumber: Readable<Ethereum.BlockNumber> = derived(explorerPublicClient, ($explorerPublicClient, set) => (
 	$explorerPublicClient && watchBlockNumber($explorerPublicClient, {
-		onBlockNumber: blockNumber => set(Number(blockNumber))
+		onBlockNumber: blockNumber => set(blockNumber)
 	})
 ))
 
