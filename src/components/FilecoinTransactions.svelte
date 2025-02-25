@@ -31,40 +31,29 @@
 	// Components
 	import type Loader from './Loader.svelte'
 	import AnchorLink from './AnchorLink.svelte'
-	import Collapsible from './Collapsible.svelte'
+	import CollapsibleList, { Layout as CollapsibleListLayout } from '$/components/CollapsibleList.svelte'
 	import FilecoinTransaction from './FilecoinTransaction.svelte'
 	import InlineContainer from './InlineContainer.svelte'
 	import Loading from './Loading.svelte'
-	import PaginationCount from './PaginationCount.svelte'
-	import ScrollContainer from './ScrollContainer.svelte'
 </script>
 
 
-<Collapsible
-	type="label"
-	title=""
-	bind:isOpen
-	canToggle={transactions.length > 0}
->
-	<svelte:fragment slot="title">
-		<slot name="title">
-			<span class="row inline wrap">
-				<svelte:element this={`h${headingLevel}`}>
-					{title}
-					<!-- <span>(<TweenedNumber value={transactions.length} />{#if transactionsCount !== undefined && transactions.length !== transactionsCount}{' '}/ {transactionsCount}{:else if pagination?.hasNextPage}+{/if})</span> -->
-				</svelte:element>
-				<small>
-					<PaginationCount
-						itemsCount={transactionsCount}
-						currentRange={[0, transactions.length]}
-						hasMoreItems={pagination?.hasNextPage}
-						isShowingRange={isOpen}
-					/>
-				</small>
-			</span>
-		</slot>
-	</svelte:fragment>
+<CollapsibleList
+	items={transactions}
+	itemsCount={transactionsCount}
+	getIndex={transaction => transaction.cid}
+	isOrdered={true}
 
+	bind:isOpen
+
+	{title}
+	{headingLevel}
+
+	isScrollEnabled={transactions.length > 7}
+	layout={layout === 'inline' ? CollapsibleListLayout.Card : CollapsibleListLayout.Cards}
+
+	{pagination}
+>
 	<svelte:fragment slot="toolbar-items" let:isOpen>
 		<InlineContainer {isOpen}>
 			<label>
@@ -82,52 +71,39 @@
 			</label>
 		</InlineContainer>
 	</svelte:fragment>
-	
-	<ScrollContainer
-		{pagination}
-		style="
-			--resizeVertical-defaultHeight: max(16rem, calc(100dvh - 24rem));
-		"
-	>
-		{#each transactions as transaction}
-			<AnchorLink
-				class={layout === 'inline' ? 'card' : ''}
-				base={`/explorer/${network.slug}`}
-				link={`/tx/${transaction.cid}`}
+
+	<svelte:fragment let:item={transaction}>
+		<AnchorLink
+			class={layout === 'inline' ? 'card' : ''}
+			base={`/explorer/${network.slug}`}
+			link={`/tx/${transaction.cid}`}
+		>
+			<FilecoinTransaction
+				{network}
+				{transaction}
+				{isInternal}
+
+				{layout}
+				headingLevel={headingLevel + 1}
+				{detailLevel}
+				{tokenBalanceFormat}
+				{showFees}
+			/>
+		</AnchorLink>
+	</svelte:fragment>
+
+	<svelte:fragment slot="loading">
+		{#if pagination?.isFetchingNextPage}
+			<Loading
+				icon={{
+					src: filecoinTransactionProviders[filecoinTransactionProvider].icon,
+					name: filecoinTransactionProviders[filecoinTransactionProvider].name,
+				}}
+				iconAnimation="hover"
+				title="Loading more transactions..."
 			>
-				<FilecoinTransaction
-					{network}
-					{transaction}
-					{isInternal}
-
-					{layout}
-					headingLevel={headingLevel + 1}
-					{detailLevel}
-					{tokenBalanceFormat}
-					{showFees}
-				/>
-			</AnchorLink>
-		{/each}
-
-		<svelte:fragment slot="after">
-			{#if pagination?.isFetchingNextPage}
-				<Loading
-					icon={{
-						src: filecoinTransactionProviders[filecoinTransactionProvider].icon,
-						name: filecoinTransactionProviders[filecoinTransactionProvider].name,
-					}}
-					iconAnimation="hover"
-				>
-					Loading more transactions via {filecoinTransactionProviders[filecoinTransactionProvider].name}...
-				</Loading>
-			{/if}
-		</svelte:fragment>
-	</ScrollContainer>
-</Collapsible>
-
-
-<style>
-	small {
-		opacity: 0.66;
-	}
-</style>
+				Loading more transactions via {filecoinTransactionProviders[filecoinTransactionProvider].name}...
+			</Loading>
+		{/if}
+	</svelte:fragment>
+</CollapsibleList>
