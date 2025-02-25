@@ -5,7 +5,8 @@
 
 
 <script lang="ts" generics="
-	Item extends any
+	Item extends any,
+	_ListLayout extends ListLayout
 ">
 	// Inputs
 	export let items: Item[] = []
@@ -21,7 +22,7 @@
 	export let title: string
 	export let headingLevel: 2 | 3 | 4 | 5 | 6 = 3
 
-	export let layout: ListLayout
+	export let layout: _ListLayout
 	export let isScrollEnabled = true
 
 
