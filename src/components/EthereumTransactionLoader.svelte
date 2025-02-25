@@ -414,7 +414,9 @@
 						...receiptQuery,
 						data: {
 							...transaction,
-							gasValue: BigInt(transaction.gasUnitsSpent) * BigInt(transaction.gasUnitRate),
+							gasValue: transaction.gasUnitsSpent !== undefined && transaction.gasUnitRate !== undefined && (
+								BigInt(transaction.gasUnitsSpent) * BigInt(transaction.gasUnitRate)
+							),
 						},
 					}
 				},

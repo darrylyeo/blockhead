@@ -79,6 +79,12 @@ export const normalizeRpcTransaction = (
 
 	nonce: Number(transaction.nonce),
 	transactionIndex: Number(transaction.transactionIndex),
+	type: ({
+		'0x0': 'legacy',
+		'0x1': 'eip2930',
+		'0x2': 'eip1559',
+	} as const)[transaction.type],
+
 	blockNumber: BigInt(transaction.blockNumber),
 	blockHash: transaction.blockHash,
 
