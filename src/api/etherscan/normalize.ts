@@ -16,7 +16,9 @@ export const normalizeBlock = (
 	nonce: block.nonce ? block.nonce : undefined,
 
 	difficulty: BigInt(block.difficulty),
-	totalDifficulty: BigInt(block.totalDifficulty),
+	...'totalDifficulty' in block && {
+		totalDifficulty: BigInt(block.totalDifficulty),
+	},
 
 	gasLimit: BigInt(block.gasLimit),
 	gasUsed: BigInt(block.gasUsed),
