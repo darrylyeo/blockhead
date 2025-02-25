@@ -297,8 +297,23 @@
 							{detailLevel}
 							{tokenBalanceFormat}
 							{showFees}
-						/>
-				</AnchorLink>
+
+							let:transaction
+						>
+							{#if transaction}
+								<EthereumTransaction
+									{network}
+									{transactionProvider}
+									{transaction}
+									{quoteCurrency}
+					
+									{detailLevel}
+									{tokenBalanceFormat}
+									{showFees}
+								/>
+							{/if}
+						</EthereumTransactionLoader>
+					</AnchorLink>
 				{/each}
 			{/if}
 		</div>
