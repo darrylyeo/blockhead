@@ -206,7 +206,11 @@ export const preferencesConfig = [
 						groupId: 'onChain',
 						name: 'On-Chain',
 						options: [
-							{ value: TransactionProvider.RpcProvider, name: (preferences: any) => `Node Client (${preferences.rpcNetwork})`, icon: (preferences: any) => networkProviderConfigByProvider[preferences.rpcNetwork]?.icon },
+							{ 
+								value: TransactionProvider.RpcProvider, 
+								name: (preferences: PreferencesState) => `Node Client (${networkProviderConfigByProvider[preferences.rpcNetwork]?.name || preferences.rpcNetwork})`, 
+								icon: (preferences: PreferencesState) => networkProviderConfigByProvider[preferences.rpcNetwork]?.icon 
+							},
 						]
 					},
 					{
@@ -268,7 +272,7 @@ export const preferencesConfig = [
 						options: [
 							{
 								value: Erc20TokenProvider.RpcProvider,
-								name: (preferences: any) => `Node Client (${preferences.rpcNetwork})`,
+								name: (preferences: any) => `${networkProviderConfigByProvider[preferences.rpcNetwork]?.name ?? preferences.rpcNetwork}`,
 							},
 						],
 					},
