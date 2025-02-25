@@ -32,10 +32,13 @@
 				<svelte:element this={`h${headingLevel}`}>
 					Blocks
 				</svelte:element>
-				<small><PaginationCount
-					itemsCount={blocks.length}
-					isShowingRange={isOpen}
-				/></small>
+				<small>
+					<PaginationCount
+						itemsCount={blocks.length}
+						currentRange={[0, blocks.length]}
+						isShowingRange={isOpen}
+					/>
+				</small>
 			</span>
 		</slot>
 	</svelte:fragment>
