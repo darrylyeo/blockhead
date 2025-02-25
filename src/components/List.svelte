@@ -51,6 +51,9 @@
 					index={getIndex?.(item, i) ?? i}
 				/>
 			</li>
+
+		{:else}
+			<slot name="empty" />
 		{/each}
 	</svelte:element>
 
