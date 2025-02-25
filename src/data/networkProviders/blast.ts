@@ -623,6 +623,20 @@ export const blastProviderConfigs: {
 		nodeType: NetworkProviderNodeType.Archive,
 	},
 	{
+		label: 'Rootstock Mainnet - RPC Endpoint',
+		subdomain: 'rootstock-mainnet',
+		networkSlug: 'rootstock',
+		connectionType: NetworkProviderConnectionType.RPC,
+		nodeType: NetworkProviderNodeType.Archive,
+	},
+	{
+		label: 'Rootstock Mainnet - WSS Endpoint',
+		subdomain: 'rootstock-mainnet',
+		networkSlug: 'rootstock',
+		connectionType: NetworkProviderConnectionType.WebSocket,
+		nodeType: NetworkProviderNodeType.Archive,
+	},
+	{
 		label: 'Scroll Alpha Testnet - RPC Endpoint',
 		subdomain: 'scroll-alphanet',
 		networkSlug: 'scroll-alpha',
