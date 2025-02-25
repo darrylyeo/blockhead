@@ -29,6 +29,7 @@ import {
 	PolygonIcon,
 	PolygonZkevmIcon,
 	RedstoneIcon,
+	RootstockIcon,
 	ScrollIcon,
 	SkaleIcon,
 	ZksyncIcon,
@@ -5634,6 +5635,7 @@ export const networks = [
 			symbol: 'RBTC',
 			decimals: 18,
 		},
+		icon: RootstockIcon,
 		rpc: [
 			'https://public-node.rsk.co',
 			'https://mycrypto.rsk.co',
@@ -5653,6 +5655,7 @@ export const networks = [
 			symbol: 'tRBTC',
 			decimals: 18,
 		},
+		icon: RootstockIcon,
 		rpc: [
 			'https://public-node.testnet.rsk.co',
 			'https://mycrypto.testnet.rsk.co',
