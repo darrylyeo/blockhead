@@ -18,6 +18,7 @@ export namespace Ethereum {
 		networkId?: NetworkId,
 
 		nativeCurrency: NativeCurrency,
+		underlyingNativeCurrency?: NativeCurrency,
 
 		colors?: string[],
 		icon?: string,
