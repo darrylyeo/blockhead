@@ -18,6 +18,8 @@
 	// (View options)
 	export let layout: Layout
 	export let isScrollEnabled = true
+	export let margin: ScrollContainer['$$prop_def']['margin']
+	export let defaultHeight: ScrollContainer['$$prop_def']['defaultHeight']
 
 
 	// Events
@@ -33,6 +35,8 @@
 <ScrollContainer
 	{isScrollEnabled}
 	{pagination}
+	{margin}
+	{defaultHeight}
 >
 	<svelte:fragment slot="before">
 		<slot name="before" />

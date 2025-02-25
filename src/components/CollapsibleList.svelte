@@ -24,6 +24,8 @@
 
 	export let layout: _ListLayout
 	export let isScrollEnabled = true
+	export let margin: List<_ListLayout>['$$prop_def']['margin']
+	export let defaultHeight: List<_ListLayout>['$$prop_def']['defaultHeight']
 
 
 	// Events
@@ -79,6 +81,7 @@
 
 		{layout}
 		{isScrollEnabled}
+		{defaultHeight}
 
 		{pagination}
 	>
