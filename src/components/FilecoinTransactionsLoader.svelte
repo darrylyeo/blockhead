@@ -20,9 +20,9 @@
 		| {
 			blockCid: Filecoin.BlockCid
 		}
-		| {
-			transactionCid: Filecoin.TransactionCid
-		}
+		// | {
+		// 	transactionCid: Filecoin.TransactionCid
+		// }
 		| {
 			address: Filecoin.Address
 			type?: 'sender' | 'receiver'
