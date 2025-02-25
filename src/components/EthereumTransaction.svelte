@@ -59,7 +59,7 @@
 	import Collapsible from './Collapsible.svelte'
 	import DateTime from './DateTime.svelte'
 	import EthereumErc20Transfer from './EthereumErc20Transfer.svelte'
-	import EthereumLogEvent from './EthereumLogEvent.svelte'
+	import EthereumEvent from './EthereumEvent.svelte'
 	import EthereumParameters from './EthereumParameters.svelte'
 	import EthereumTransactionSummary from './EthereumTransactionSummary.svelte'
 	import EthereumTransactionTrace from './EthereumTransactionTrace.svelte'
@@ -440,7 +440,7 @@
 								class="log-event"
 								class:card={isStandaloneLayout}
 							>
-								<EthereumLogEvent
+								<EthereumEvent
 									network={transaction.network}
 									{logEvent}
 									{detailLevel}
