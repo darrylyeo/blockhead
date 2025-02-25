@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Types/constants
-	import { networksBySection, getNetworkColor, mainnetForTestnet, testnetsForMainnet, isTestnet } from '$/data/networks'
+	import { networksBySection, getNetworkColor, mainnetForTestnet, testnetsForMainnet, isTestnet, networkBySlug } from '$/data/networks'
 
 
 	// Context
@@ -51,7 +51,21 @@
 				class="column"
 			>
 				<svelte:fragment slot="title">
-					<h2>{title}</h2>
+					{@const [layer1Name, layer2Title] = title.split(' › ')}
+					{@const network = layer1Name ? networkBySlug.get(layer1Name.toLowerCase()) : undefined}
+
+					{#if network}
+						<h2>
+							<span class="row inline">
+								<NetworkIcon {network} />
+								<span>{network.name}</span>
+							</span>
+							›
+							{layer2Title}
+						</h2>
+					{:else}
+						<h2>{title}</h2>
+					{/if}
 				</svelte:fragment>
 
 				<svelte:fragment slot="toolbar-items">
@@ -171,6 +185,11 @@
 				border: none;
 				border-top: currentColor 1px solid;
 				opacity: 0.2;
+			}
+
+			h2 {
+				--icon-size: 1.2em;
+				overflow: visible !important;
 			}
 
 			.content {
