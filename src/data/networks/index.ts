@@ -7002,6 +7002,9 @@ const testnetSlugsForMainnetSlug = new Map([
 		'polygon-mumbai',
 		'polygon-amoy',
 	]],
+	['rsk', [
+		'rsk-testnet',
+	]],
 	['scroll', [
 		'scroll-sepolia',
 		'scroll-alpha',
