@@ -66,6 +66,8 @@
 
 	import { normalizeBlock as normalizeBlockCurvegridMultibaas } from '$/api/curvegrid/multibaas/normalize'
 
+	import { normalizeBlock as normalizeBlockEnvioHypersync } from '$/api/envio/hypersync/normalize'
+
 	import { normalizeBlock as normalizeBlockEtherscan } from '$/api/etherscan/normalize'
 
 	import { normalizeBlock as normalizeMoralisBlock } from '$/api/moralis/web3Api/normalize'
@@ -313,6 +315,45 @@
 				placeholderData: () => placeholderData,
 				queryFn: async () => {
 					throw `Decommas does not yet support querying blocks.`
+				},
+			}),
+		}),
+
+		[TransactionProvider.Envio_Hypersync]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['Block', {
+					transactionProvider,
+					chainId: network.chainId,
+					blockNumber: Number(blockNumber),
+				}],
+				placeholderData: () => placeholderData,
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						blockNumber,
+					}],
+				}) => {
+					const { getBlock } = await import('$/api/envio/hypersync')
+
+					return await getBlock({
+						chainId,
+						blockNumber,
+					})
+				},
+				select: result => {
+					if(result === placeholderData)
+						return result
+
+					if(!result.data[0])
+						throw new Error(`Block ${blockNumber} not found.`)
+
+					return (
+						result
+							.data
+							.flatMap(data => data.blocks)
+							.map(block => normalizeBlockEnvioHypersync(block, network))
+							[0]
+					)
 				},
 			}),
 		}),
