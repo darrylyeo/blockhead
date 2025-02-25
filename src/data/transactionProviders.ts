@@ -12,7 +12,7 @@ export enum TransactionProvider {
 }
 
 
-import { BlockscoutIcon, ChainbaseIcon, CovalentGoldRushIcon, CurvegridIcon, DecommasIcon, EtherscanIcon, EtherspotIcon, MoralisIcon, NovesIcon } from '$/assets/icons'
+import { BlockscoutIcon, ChainbaseIcon, CovalentGoldRushIcon, CurvegridIcon, DecommasIcon, EnvioIcon, EtherscanIcon, EtherspotIcon, MoralisIcon, NovesIcon } from '$/assets/icons'
 
 export const transactionProviders = {
 	[TransactionProvider.RpcProvider]: {

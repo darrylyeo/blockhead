@@ -15,6 +15,7 @@ export enum NetworkProvider {
 	Chainbase = 'Chainbase',
 	Blockscout = 'Blockscout',
 	LlamaNodes = 'LlamaNodes',
+	Envio_Hyperrpc = 'Envio_Hyperrpc',
 }
 
 export enum NetworkProviderConnectionType {
