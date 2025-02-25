@@ -5636,6 +5636,12 @@ export const networks = [
 			unitSymbol: 'satoshi',
 			decimals: 18,
 		},
+		underlyingNativeCurrency: {
+			name: 'Bitcoin',
+			symbol: 'BTC',
+			unitSymbol: 'satoshi',
+			decimals: 8,
+		},
 		icon: RootstockIcon,
 		colors: [
 			'#ff9100',
@@ -5677,6 +5683,12 @@ export const networks = [
 			symbol: 'tRBTC',
 			unitSymbol: 'satoshi',
 			decimals: 18,
+		},
+		underlyingNativeCurrency: {
+			name: 'Bitcoin',
+			symbol: 'BTC',
+			unitSymbol: 'satoshi',
+			decimals: 8,
 		},
 		icon: RootstockIcon,
 		colors: [
