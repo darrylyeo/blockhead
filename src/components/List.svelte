@@ -11,7 +11,7 @@
 	Item extends any
 ">
 	// Inputs
-	export let items: Item[] = []
+	export let items: Item[] | undefined = []
 	export let getIndex: (item: Item, index: number) => number
 	export let isOrdered = true
 
@@ -46,7 +46,7 @@
 		class="column"
 		class:card={layout === Layout.Card}
 	>
-		{#each items as item, i (getIndex?.(item, i) ?? i)}
+		{#each items ?? [] as item, i (getIndex?.(item, i) ?? i)}
 			<li
 				class:card={layout === Layout.Cards}
 			>
