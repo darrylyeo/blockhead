@@ -2,7 +2,10 @@
 	// Inputs
 	export let isScrollEnabled = true
 	export let pagination: Loader['$$slot_def']['default']['pagination']
+
+	// (View options)
 	export let margin: number | undefined
+	export let defaultHeight: string
 
 
 	// Components	
@@ -14,6 +17,7 @@
 <div
 	class="column {$$restProps.class}"
 	class:scrollable-list={isScrollEnabled}
+	style:--resizeVertical-defaultHeight={defaultHeight}
 	{...$$restProps}
 >
 	{#if pagination?.hasPreviousPage}
