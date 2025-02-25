@@ -11,6 +11,7 @@
 	export let orders: _MoxieOrder[]
 
 	// (View options)
+	export let title = 'Orders'
 	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 3
 	export let showFormattedNames = true
 	export let showFormattedTokenSymbols = true
@@ -22,75 +23,60 @@
 
 	// Components
 	import AnchorLink from '$/components/AnchorLink.svelte'
-	import Collapsible from '$/components/Collapsible.svelte'
+	import CollapsibleList, { Layout as CollapsibleListLayout } from '$/components/CollapsibleList.svelte'
 	import Loader from '$/components/Loader.svelte'
 	import Loading from '$/components/Loading.svelte'
-	import ScrollContainer from '$/components/ScrollContainer.svelte'
-	import TweenedNumber from '$/components/TweenedNumber.svelte'
 	import MoxieOrder from './MoxieOrder.svelte'
 </script>
 
 
-<Collapsible
-	type="label"
+<CollapsibleList
+	items={orders}
+	getIndex={order => order.id}
+	isOrdered={true}
+
 	class="column"
 	{...$$restProps}
+
+	{title}
+	headingLevel={headingLevel + 1}
+
+	isScrollEnabled={true}
+	layout={CollapsibleListLayout.Plain}
+
+	{pagination}
 >
-	<svelte:fragment slot="header"
-		let:isOpen let:toggle
-	>
-		<header class="bar wrap">
-			<svelte:element this={`h${headingLevel}`}>
-				<slot name="title">
-					Orders
-				</slot>
-
-				(<TweenedNumber value={orders?.length} />{#if pagination?.hasNextPage}+{/if})
-			</svelte:element>
-
-			<span class="card-annotation">
-				{moxieProvider}
-			</span>
-
-			<button
-				class="small"
-				data-after={isOpen ? '⏶' : '⏷'}
-				on:click={toggle}
-			>{isOpen ? 'Hide' : 'Show'}</button>
-		</header>
+	<svelte:fragment slot="header-right">
+		<span class="card-annotation">
+			{moxieProvider}
+		</span>
 	</svelte:fragment>
 
-	<hr />
+	<svelte:fragment let:item={order}>
+		<AnchorLink
+			base={`/apps/moxie/network/${network.slug}`}
+			link={`/order/${order.id}`}
+		>
+			<MoxieOrder
+				{network}
+				{order}
+				{showFormattedNames}
+				{showFormattedTokenSymbols}
+			/>
+		</AnchorLink>
+	</svelte:fragment>
 
-	<ScrollContainer
-		{pagination}
-	>
-		{#each orders as order (order.id)}
-			<AnchorLink
-				base={`/apps/moxie/network/${network.slug}`}
-				link={`/order/${order.id}`}
+	<svelte:fragment slot="after">
+		{#if pagination?.isFetchingNextPage}
+			<Loading
+				icon={{
+					src: moxieProviderIcons[moxieProvider],
+					name: moxieProvider,
+				}}
+				iconAnimation="hover"
 			>
-				<MoxieOrder
-					{network}
-					{order}
-					{showFormattedNames}
-					{showFormattedTokenSymbols}
-				/>
-			</AnchorLink>
-		{/each}
-
-		<svelte:fragment slot="after">
-			{#if pagination?.isFetchingNextPage}
-				<Loading
-					icon={{
-						src: moxieProviderIcons[moxieProvider],
-						name: moxieProvider,
-					}}
-					iconAnimation="hover"
-				>
-					Loading more orders via {moxieProvider}...
-				</Loading>
-			{/if}
-		</svelte:fragment>
-	</ScrollContainer>
-</Collapsible>
+				Loading more orders via {moxieProvider}...
+			</Loading>
+		{/if}
+	</svelte:fragment>
+</CollapsibleList>
