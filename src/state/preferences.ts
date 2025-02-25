@@ -223,6 +223,7 @@ export const preferencesConfig = [
 								TransactionProvider.Covalent,
 								TransactionProvider.Curvegrid_Multibaas,
 								TransactionProvider.Decommas,
+								TransactionProvider.Envio_Hypersync,
 								// TransactionProvider.Etherspot,
 								TransactionProvider.Etherscan,
 								TransactionProvider.Moralis,

@@ -40,6 +40,8 @@
 
 	import { normalizeTransaction as normalizeTransactionDecommas } from '$/api/decommas/normalize'
 
+	import { normalizeTransaction as normalizeTransactionEnvioHypersync } from '$/api/envio/hypersync/normalize'
+
 	import { normalizeTransaction as normalizeTransactionEtherscan } from '$/api/etherscan/normalize'
 
 	import { normalizeTransaction as normalizeTransactionMoralis } from '$/api/moralis/web3Api/normalize'
@@ -73,7 +75,7 @@
 		layout: 'collapsible',
 		...viewOptions,
 	}}
-	loadingIcon={transactionProviders[transactionProvider].icon}
+	loadingIcon={transactionProviders[transactionProvider]?.icon}
 	{loadingMessage}
 	{errorMessage}
 	{...{
@@ -271,6 +273,41 @@
 				select: ({ pages }) => (
 					pages.flatMap(page => page.result)
 						.map(transaction => normalizeTransactionDecommas(transaction, network))
+				),
+				staleTime: 10 * 1000,
+			}),
+		}),
+
+		[TransactionProvider.Envio_Hypersync]: () => ({
+			fromInfiniteQuery: createInfiniteQuery({
+				queryKey: ['Transactions', {
+					transactionProvider,
+					chainId: network.chainId,
+					address,
+					quoteCurrency,
+				}],
+				initialPageParam: 0,
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						address,
+					}],
+					pageParam: page,
+				}) => {
+					const { getTransactions } = await import('$/api/envio/hypersync')
+
+					return await getTransactions({
+						chainId,
+						fromBlock: page * 100,
+						toBlock: (page + 1) * 100
+					})
+				},
+				getNextPageParam: (lastPage, allPages) => lastPage.length === 100 ? allPages.length : undefined,
+				select: result => (
+					result
+						?.pages
+						?.flatMap(page => page.data ?? [])
+						.map(transaction => normalizeTransactionEnvioHypersync(transaction, network))
 				),
 				staleTime: 10 * 1000,
 			}),

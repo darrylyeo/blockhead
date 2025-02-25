@@ -5,6 +5,7 @@ export enum TransactionProvider {
 	Covalent = 'Covalent',
 	Curvegrid_Multibaas = 'Curvegrid › MultiBaas',
 	Decommas = 'Decommas',
+	Envio_Hypersync = 'Envio_Hypersync',
 	Etherscan = 'Etherscan',
 	Etherspot = 'Etherspot',
 	Moralis = 'Moralis',
@@ -37,6 +38,10 @@ export const transactionProviders = {
 	[TransactionProvider.Decommas]: {
 		name: 'Decommas',
 		icon: DecommasIcon,
+	},
+	[TransactionProvider.Envio_Hypersync]: {
+		name: 'Envio › HyperSync',
+		icon: EnvioIcon,
 	},
 	[TransactionProvider.Etherscan]: {
 		name: 'Etherscan',
