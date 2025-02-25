@@ -91,6 +91,10 @@
 			/>
 		</svelte:fragment>
 
+		<svelte:fragment slot="empty">
+			<slot name="empty" />
+		</svelte:fragment>
+
 		<svelte:fragment slot="after">
 			<slot name="after" />
 		</svelte:fragment>
