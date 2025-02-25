@@ -66,7 +66,7 @@
 
 	import { normalizeBlock as normalizeBlockCurvegridMultibaas } from '$/api/curvegrid/multibaas/normalize'
 
-	import { normalizeBlock as normalizeBlockEnvioHypersync } from '$/api/envio/hypersync/normalize'
+	import { normalizeBlock as normalizeBlockEnvioHypersync, normalizeTransaction as normalizeTransactionEnvioHypersync } from '$/api/envio/hypersync/normalize'
 
 	import { normalizeBlock as normalizeBlockEtherscan } from '$/api/etherscan/normalize'
 
@@ -320,41 +320,89 @@
 		}),
 
 		[TransactionProvider.Envio_Hypersync]: () => ({
-			fromQuery: createQuery({
-				queryKey: ['Block', {
-					transactionProvider,
-					chainId: network.chainId,
-					blockNumber: Number(blockNumber),
-				}],
-				placeholderData: () => placeholderData,
-				queryFn: async ({
-					queryKey: [_, {
-						chainId,
-						blockNumber,
-					}],
-				}) => {
-					const { getBlock } = await import('$/api/envio/hypersync')
+			fromQueries: createQueries({
+				queries: [
+					{
+						queryKey: ['Block', {
+							transactionProvider,
+							chainId: network.chainId,
+							blockNumber: Number(blockNumber),
+						}],
+						placeholderData: () => placeholderData,
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								blockNumber,
+							}],
+						}) => {
+							const { getBlock } = await import('$/api/envio/hypersync')
 
-					return await getBlock({
-						chainId,
-						blockNumber,
-					})
-				},
-				select: result => {
-					if(result === placeholderData)
-						return result
+							return await getBlock({
+								chainId,
+								blockNumber,
+							})
+						},
+						select: result => {
+							if(result === placeholderData)
+								return result
 
-					if(!result.data[0])
-						throw new Error(`Block ${blockNumber} not found.`)
+							if(!result.result.blocks[0])
+								throw new Error(`Block ${blockNumber} not found.`)
 
-					return (
-						result
-							.data
-							.flatMap(data => data.blocks)
-							.map(block => normalizeBlockEnvioHypersync(block, network))
-							[0]
-					)
-				},
+							return normalizeBlockEnvioHypersync(result.result.blocks[0], network)
+						},
+					},
+
+					includeTransactions && {
+						queryKey: ['BlockTransactions', {
+							transactionProvider,
+							chainId: network.chainId,
+							blockNumber: Number(blockNumber),
+						}],
+						placeholderData: () => placeholderData,
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								blockNumber,
+							}],
+						}) => {
+							const { getTransactions } = await import('$/api/envio/hypersync')
+
+							return await getTransactions({
+								chainId,
+								fromBlock: blockNumber,
+								toBlock: blockNumber + 1,
+							})
+						},
+						select: result => {
+							if(result === placeholderData)
+								return result
+
+							return (
+								result
+									.data
+									.transactions
+									.map(tx => (
+										normalizeTransactionEnvioHypersync(tx, network)
+									))
+							)
+						},
+					},
+				].filter(Boolean),
+
+				combine: ([
+					blockQuery,
+					transactionsQuery,
+				]) => ({
+					...blockQuery,
+					...transactionsQuery,
+					data: {
+						...blockQuery.data,
+						...transactionsQuery?.data && {
+							transactions: transactionsQuery.data,
+						},
+					},
+				}),
 			}),
 		}),
 
