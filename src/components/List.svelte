@@ -34,6 +34,10 @@
 	{isScrollEnabled}
 	{pagination}
 >
+	<svelte:fragment slot="before">
+		<slot name="before" />
+	</svelte:fragment>
+
 	<svelte:element this={isOrdered ? 'ol' : 'ul'}
 		class="column"
 		class:card={layout === Layout.Card}
@@ -49,4 +53,8 @@
 			</li>
 		{/each}
 	</svelte:element>
+
+	<svelte:fragment slot="after">
+		<slot name="after" />
+	</svelte:fragment>
 </ScrollContainer>

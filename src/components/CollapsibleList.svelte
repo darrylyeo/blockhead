@@ -66,7 +66,7 @@
 	<svelte:fragment slot="header-right">
 		<slot name="header-right" />
 	</svelte:fragment>
-	
+
 	<List
 		{items}
 		{getIndex}
@@ -74,7 +74,13 @@
 
 		{layout}
 		{isScrollEnabled}
+
+		{pagination}
 	>
+		<svelte:fragment slot="before">
+			<slot name="before" />
+		</svelte:fragment>
+
 		<svelte:fragment
 			let:item
 			let:index
@@ -83,6 +89,10 @@
 				{item}
 				{index}
 			/>
+		</svelte:fragment>
+
+		<svelte:fragment slot="after">
+			<slot name="after" />
 		</svelte:fragment>
 	</List>
 </Collapsible>
