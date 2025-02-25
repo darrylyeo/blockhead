@@ -988,6 +988,20 @@ export const networkProviderConfigByProvider = Object.fromEntries(
 // 		})
 // }
 
+import { parseUrl } from '$/utils/parseUrl'
+
+export const getNetworkProviderName = (
+	networkProvider: NetworkProvider,
+	network?: Ethereum.Network,
+) => {
+	if(networkProvider === NetworkProvider.Default){
+		const host = network && network.rpc?.[0] && parseUrl(network.rpc?.[0])?.host
+		return host ? `Default (${host})` : 'Default'
+	}
+
+	return networkProviderConfigByProvider[networkProvider]?.name
+}
+
 
 export const getEthersProvider = ({
 	network,
