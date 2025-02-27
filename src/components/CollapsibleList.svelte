@@ -22,7 +22,7 @@
 	export let title: string
 	export let headingLevel: 2 | 3 | 4 | 5 | 6 = 3
 
-	export let layout: _ListLayout
+	export let layout: _ListLayout = ListLayout.Plain
 	export let isScrollEnabled = true
 	export let margin: List<_ListLayout>['$$prop_def']['margin']
 	export let defaultHeight: List<_ListLayout>['$$prop_def']['defaultHeight']
