@@ -71,6 +71,7 @@
 	import AddressWithLabel from './AddressWithLabel.svelte'
 	import AnchorLink from './AnchorLink.svelte'
 	import Balance from './Balance.svelte'
+	import CollapsibleList from './CollapsibleList.svelte'
 	import EnsName from './EnsName.svelte'
 	import EthereumBalancesLoader from './EthereumBalancesLoader.svelte'
 	import EthereumBalances from './EthereumBalances.svelte'
@@ -315,22 +316,22 @@
 							isOpen: layout === 'standalone',
 						}}
 						let:transactions
+						let:pagination
 					>
-						<svelte:fragment slot="header"
-							let:status
-							let:transactions
-							let:pagination
-							let:isOpen
-							let:toggle
+						<CollapsibleList
+							items={transactions ?? []}
+							getIndex={transaction => transaction.transactionId}
+							isOpen={true}
+							showContentsOnly={true}
+							title="Transactions"
+							isScrollEnabled={transactions?.length > 7}
+							{pagination}
 						>
-							<summary class="bar wrap">
-								<svelte:element this={`h${headingLevel + 1}`}>
-									Transactions
-									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
-								</svelte:element>
-
+							<svelte:fragment slot="toolbar-items"
+								let:isOpen
+							>
 								{#if isOpen}
-									<div role="toolbar" class="row wrap align-end" transition:scale>
+									<div class="row wrap align-end" transition:scale>
 										<label>
 											<input type="checkbox" bind:checked={showFees}>
 											<span>Fees</span>
@@ -346,40 +347,32 @@
 										</label>
 									</div>
 								{/if}
+							</svelte:fragment>
 
-								<button
-									class="small"
-									data-after={isOpen ? '⏶' : '⏷'}
-									on:click={toggle}
-								>{isOpen ? 'Hide' : 'Show'}</button>
-							</summary>
-						</svelte:fragment>
-
-						{#if transactions?.length}
-							<div class="transactions-list column" class:scrollable-list={transactions.length > 7}>
-								{#each transactions as transaction}
-									<AnchorLink
-										class="card"
-										base={`/explorer/${network.slug}`}
-										link={`/tx/${transaction.transactionId}`}
-									>
-										<EthereumTransaction
-											{network}
-											{transactionProvider}
-											{transaction}
-											{quoteCurrency}
-											contextualAddress={address}
-											{detailLevel}
-											{tokenBalanceFormat}
-											{showFees}
-											layout="inline"
-										/>
-									</AnchorLink>
-								{:else}
-									<div class="card">No transactions yet.</div>
-								{/each}
-							</div>
-						{/if}
+							<svelte:fragment let:item={transaction}>
+								<AnchorLink
+									class="card"
+									base={`/explorer/${network.slug}`}
+									link={`/tx/${transaction.transactionId}`}
+								>
+									<EthereumTransaction
+										{network}
+										{transactionProvider}
+										{transaction}
+										{quoteCurrency}
+										contextualAddress={address}
+										{detailLevel}
+										{tokenBalanceFormat}
+										{showFees}
+										layout="inline"
+									/>
+								</AnchorLink>
+							</svelte:fragment>
+							
+							<svelte:fragment slot="empty">
+								<div class="card">No transactions yet.</div>
+							</svelte:fragment>
+						</CollapsibleList>
 					</EthereumTransactionsLoader>
 				</div>
 			{:else}{#key selectedToken}
@@ -394,13 +387,17 @@
 						{quoteCurrency}
 						includeLogs={detailLevel === 'exhaustive'}
 						let:transactions
+						let:pagination
 					>
-						<svelte:fragment slot="header"
-							let:status
-							let:transactions
-							let:pagination
+						<CollapsibleList
+							items={transactions ?? []}
+							getIndex={transaction => transaction.transactionId}
+							isOpen={true}
+							showContentsOnly={true}
+							isScrollEnabled={transactions?.length > 7}
+							{pagination}
 						>
-							<div class="bar wrap">
+							<svelte:fragment slot="title">
 								<svelte:element this={`h${headingLevel + 1}`}>
 									<TokenName
 										token={selectedToken}
@@ -411,57 +408,61 @@
 
 									<InlineContainer isOpen={status === 'resolved'}>(<TweenedNumber value={transactions.length} /><InlineContainer isOpen={pagination?.hasNextPage}>+</InlineContainer>)</InlineContainer>
 								</svelte:element>
+							</svelte:fragment>
 
-								<div role="toolbar" class="row wrap">
-									{#if detailLevel !== 'exhaustive'}
-										<label transition:scale>
-											<input type="checkbox" bind:checked={showFees}>
-											<span>Fees</span>
+							<svelte:fragment slot="toolbar-items"
+								let:isOpen
+							>
+								{#if isOpen}
+									<div class="row wrap align-end" transition:scale>
+										{#if detailLevel !== 'exhaustive'}
+											<label>
+												<input type="checkbox" bind:checked={showFees}>
+												<span>Fees</span>
+											</label>
+										{/if}
+
+										<label>
+											<span>View</span>
+											<select bind:value={detailLevel}>
+												<option value="summary">Summary</option>
+												<option value="detailed">Detailed</option>
+												<option value="exhaustive">Exhaustive</option>
+											</select>
 										</label>
-									{/if}
+										
+										<button
+											class="small"
+											on:click={() => selectedToken = undefined}
+										>Back</button>
+									</div>
+								{/if}
+							</svelte:fragment>
 
-									<label>
-										<span>View</span>
-										<select bind:value={detailLevel}>
-											<option value="summary">Summary</option>
-											<option value="detailed">Detailed</option>
-											<option value="exhaustive">Exhaustive</option>
-										</select>
-									</label>
-								</div>
-
-								<button
-									class="small"
-									on:click={() => selectedToken = undefined}
-								>Back</button>
-							</div>
-						</svelte:fragment>
-
-						{#if transactions?.length}
-							<div class="transfers-list column" class:scrollable-list={transactions.length > 7}>
-								{#each transactions as transaction}
-									<AnchorLink
-										class="card"
-										base={`/explorer/${network.slug}`}
-										link={`/tx/${transaction.transactionId}`}
-									>
-										<EthereumTransaction
-											{network}
-											{transactionProvider}
-											{transaction}
-											{quoteCurrency}
-											contextualAddress={address}
-											{detailLevel}
-											{tokenBalanceFormat}
-											{showFees}
-											layout="inline"
-										/>
-									</AnchorLink>
-								{:else}
-									<div class="card">No transactions yet.</div>
-								{/each}
-							</div>
-						{/if}
+							<svelte:fragment let:item={transaction}>
+								<AnchorLink
+									class="card"
+									base={`/explorer/${network.slug}`}
+									link={`/tx/${transaction.transactionId}`}
+								>
+									<EthereumTransaction
+										{network}
+										{transactionProvider}
+										transaction={transaction}
+										{quoteCurrency}
+										contextualAddress={address}
+										{detailLevel}
+										{tokenBalanceFormat}
+										{showFees}
+										layout="inline"
+									/>
+								</AnchorLink>
+							</svelte:fragment>
+							
+							<svelte:fragment slot="empty">
+								<div class="card">No transactions yet.</div>
+							</svelte:fragment>
+						</CollapsibleList>
 					</EthereumErc20TransfersLoader>
 				</div>
 			{/key}{/if}
