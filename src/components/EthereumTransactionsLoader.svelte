@@ -51,9 +51,11 @@
 
 	// Outputs
 	export let transactions: Ethereum.Transaction[] | undefined
+	export let pagination: Loader['$$slot_def']['default']['pagination']
 
 	type SharedSlotProps = {
 		transactions: typeof transactions,
+		pagination: typeof pagination,
 	}
 
 	type $$Slots = {
@@ -470,6 +472,7 @@
 		}),
 	}[transactionProvider]?.()}
 	bind:result={transactions}
+	bind:pagination
 	let:result={transactions}
 	let:pagination
 	let:isOpen let:toggle
