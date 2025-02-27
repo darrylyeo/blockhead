@@ -208,7 +208,7 @@ export const preferencesConfig = [
 						options: [
 							{ 
 								value: TransactionProvider.RpcProvider, 
-								name: (preferences, network) => `Node Client (${getNetworkProviderName(preferences.rpcNetwork, network)})`,
+								name: (preferences, network) => `Node Client (${getNetworkProviderName(preferences.rpcNetwork, network, false)})`,
 								icon: (preferences) => networkProviderConfigByProvider[preferences.rpcNetwork]?.icon,
 							},
 						]

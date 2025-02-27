@@ -993,10 +993,15 @@ import { parseUrl } from '$/utils/parseUrl'
 export const getNetworkProviderName = (
 	networkProvider: NetworkProvider,
 	network?: Ethereum.Network,
+	includeHost = true,
 ) => {
 	if(networkProvider === NetworkProvider.Default){
-		const host = network && network.rpc?.[0] && parseUrl(network.rpc?.[0])?.host
-		return host ? `Default (${host})` : 'Default'
+		if(includeHost){
+			const host = network && network.rpc?.[0] && parseUrl(network.rpc?.[0])?.host
+			return host ? `Default (${host})` : 'Default'
+		}
+
+		return 'Default'
 	}
 
 	return networkProviderConfigByProvider[networkProvider]?.name
