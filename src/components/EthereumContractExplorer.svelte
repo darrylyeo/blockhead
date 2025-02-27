@@ -73,6 +73,7 @@
 	// Components
 	import Address from './Address.svelte'
 	import Code from './Code.svelte'
+	import Collapsible from './Collapsible.svelte'
 	import BlockTransition from './BlockTransition.svelte'
 	import EthereumContractBytecodeLoader from './EthereumContractBytecodeLoader.svelte'
 	import EthereumContractMetadataLoader from './EthereumContractMetadataLoader.svelte'
@@ -191,77 +192,82 @@
 					}
 
 					<section class="card">
-						<header class="bar">
-							<abbr
-								class="row inline"
-								title={[
-									showContractCodeTypeOrSourcePath,
-									source.license && `License: ${source.license}`,
-									source.keccak256 && `keccak256 hash: ${source.keccak256}`
-								].filter(Boolean).join('\n\n')}
-							>
-								<svelte:element this={`h${headingLevel + 1}`}>{sourceFile}</svelte:element>
-								{#if source.license && source.license !== 'None'}<small><span class="card-annotation">{source.license}</span></small>{/if}
-							</abbr>
+						<Collapsible
+							isOpen={true}
+							showTriggerText={false}
+						>
+							<svelte:fragment slot="title">
+								<div class="row">
+									<abbr
+										class="row inline wrap"
+										title={[
+											showContractCodeTypeOrSourcePath,
+											source.license && `License: ${source.license}`,
+											source.keccak256 && `keccak256 hash: ${source.keccak256}`
+										].filter(Boolean).join('\n\n')}
+									>
+										<svelte:element this={`h${headingLevel + 1}`}>{sourceFile}</svelte:element>
+										{#if source.license && source.license !== 'None'}<small><span class="card-annotation">{source.license}</span></small>{/if}
+									</abbr>
+								</div>
+							</svelte:fragment>
+							
+							<svelte:fragment slot="header-right">
+								<abbr class="card-annotation" title="{contractMetadata?.language} {contractMetadata?.compiler?.version}">
+									{#if contractMetadata?.language}{contractMetadata?.language}{/if}
+									{#if solidityDefinitionType}{solidityDefinitionType}{/if}
+								</abbr>
+							</svelte:fragment>
 
-							<abbr class="card-annotation" title="{contractMetadata?.language} {contractMetadata?.compiler?.version}">
-								{#if contractMetadata?.language}{contractMetadata?.language}{/if}
-								<!-- {contractMetadata?.compiler?.version} -->
-								{#if solidityDefinitionType}{solidityDefinitionType}{/if}
-							</abbr>
-						</header>
+							{#if source.content || source.urls?.length}
+								<hr>
+							{/if}
 
-						<hr>
-
-						{#if source.content}
-							<Code
-								code={source.content}
-								extension={sourceFileExtension ?? 'sol'}
-								class="scrollable-list"
-								style="--resizeVertical-defaultHeight: 30em;"
-							/>
-
-							<hr>
-
-							<footer class="footer bar">
-								<a href={repository?.url || swarmUri} target="_blank">{repository?.name || contractSourceProviders[contractSourceProvider].name}</a>
-
-								<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
-							</footer>
-						{:else if source.urls?.length}
-							{@const ipfsContentId = source.urls.find(url => url.startsWith('dweb:/'))?.match(/^dweb:\/ipfs\/(.+)$/)?.[1]}
-							<!-- {@const ipfsUrl = source.urls.find(url => url.startsWith('dweb:/'))} -->
-
-							<IpfsLoader
-								{ipfsContentId}
-								errorMessage="Couldn't fetch content on Sourcify."
-								let:text={sourceCode}
-								let:ipfsContentId
-								let:resolvedIpfsUrl
-								let:ipfsGateway
-							>
-								{#if sourceCode}
-									<Code
-										code={sourceCode}
-										extension={sourceFileExtension}
-										class="scrollable-list"
-										style="--resizeVertical-defaultHeight: 30em;"
-									/>
-								{/if}
+							{#if source.content}
+								<Code
+									code={source.content}
+									extension={sourceFileExtension ?? 'sol'}
+									class="scrollable-list"
+									style="--resizeVertical-defaultHeight: 30em;"
+								/>
 
 								<hr>
 
-								<footer class="footer row">
-									<span>
-										<a href={repository?.url} target="_blank">{repository?.name ?? 'Sourcify'}</a>
-									</span>
-
-									<!-- {#if source.license}<span>License: {source.license}</span>{/if} -->
-									
-									<span><a href="https://{ipfsGateway.gatewayDomain}" title="IPFS Gateway: {ipfsGateway.name} ({ipfsGateway.gatewayDomain})" target="_blank">IPFS</a> › <a href={resolvedIpfsUrl} target="_blank">{ipfsContentId}</a></span>
+								<footer class="footer bar">
+									<a href={repository?.url || swarmUri} target="_blank">{repository?.name || contractSourceProviders[contractSourceProvider].name}</a>
 								</footer>
-							</IpfsLoader>
-						{/if}
+							{:else if source.urls?.length}
+								{@const ipfsContentId = source.urls.find(url => url.startsWith('dweb:/'))?.match(/^dweb:\/ipfs\/(.+)$/)?.[1]}
+
+								<IpfsLoader
+									{ipfsContentId}
+									errorMessage="Couldn't fetch content on Sourcify."
+									let:text={sourceCode}
+									let:ipfsContentId
+									let:resolvedIpfsUrl
+									let:ipfsGateway
+								>
+									{#if sourceCode}
+										<Code
+											code={sourceCode}
+											extension={sourceFileExtension}
+											class="scrollable-list"
+											style="--resizeVertical-defaultHeight: 30em;"
+										/>
+									{/if}
+
+									<hr>
+
+									<footer class="footer row">
+										<span>
+											<a href={repository?.url} target="_blank">{repository?.name ?? 'Sourcify'}</a>
+										</span>
+										
+										<span><a href="https://{ipfsGateway.gatewayDomain}" title="IPFS Gateway: {ipfsGateway.name} ({ipfsGateway.gatewayDomain})" target="_blank">IPFS</a> › <a href={resolvedIpfsUrl} target="_blank">{ipfsContentId}</a></span>
+									</footer>
+								</IpfsLoader>
+							{/if}
+						</Collapsible>
 					</section>
 
 				{:else if showContractCodeTypeOrSourcePath === ContractCodeType.Abi}
