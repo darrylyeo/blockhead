@@ -1007,6 +1007,16 @@ export const getNetworkProviderName = (
 	return networkProviderConfigByProvider[networkProvider]?.name
 }
 
+export const getNetworkProviderIcon = (
+	networkProvider: NetworkProvider,
+	network?: Ethereum.Network,
+) => (
+	networkProvider === NetworkProvider.Default &&
+		network?.icon
+	||
+		networkProviderConfigByProvider[networkProvider]?.icon
+)
+
 
 export const getEthersProvider = ({
 	network,

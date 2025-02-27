@@ -9,7 +9,7 @@ import type { Ethereum } from '$/data/networks/types'
 import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '$/data/currencies'
 import { tokenIcons } from '$/assets/tokenIcons'
 import { NetworkProvider } from '$/data/networkProviders/types'
-import { networkProviderConfigs, networkProviderConfigByProvider, getNetworkProviderName } from '$/data/networkProviders'
+import { networkProviderConfigs, getNetworkProviderName, getNetworkProviderIcon } from '$/data/networkProviders'
 import { Erc20TokenProvider, erc20TokenProviders } from '$/data/erc20TokenProviders'
 import { TokenBalancesProvider, tokenBalancesProviders } from '$/data/tokenBalancesProviders'
 import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviders } from '$/data/filecoinTokenBalancesProviders'
@@ -154,7 +154,7 @@ export const preferencesConfig = [
 							{
 								value: NetworkProvider.Default,
 								name: (_, network) => getNetworkProviderName(NetworkProvider.Default, network),
-								icon: networkProviderConfigByProvider[NetworkProvider.Default]?.icon,
+								icon: (_, network) => getNetworkProviderIcon(NetworkProvider.Default, network),
 							},
 						],
 					},
@@ -209,7 +209,7 @@ export const preferencesConfig = [
 							{ 
 								value: TransactionProvider.RpcProvider, 
 								name: (preferences, network) => `Node Client (${getNetworkProviderName(preferences.rpcNetwork, network, false)})`,
-								icon: (preferences) => networkProviderConfigByProvider[preferences.rpcNetwork]?.icon,
+								icon: (preferences, network) => getNetworkProviderIcon(preferences.rpcNetwork, network),
 							},
 						]
 					},
@@ -274,6 +274,7 @@ export const preferencesConfig = [
 							{
 								value: Erc20TokenProvider.RpcProvider,
 								name: (preferences, network) => `${getNetworkProviderName(preferences.rpcNetwork, network)}`,
+								icon: (preferences, network) => getNetworkProviderIcon(preferences.rpcNetwork, network),
 							},
 						],
 					},
