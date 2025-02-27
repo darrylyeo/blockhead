@@ -29,7 +29,7 @@
 
 	const resolveIconUrl = (iconUrl: PreferenceOption['icon']) => (
 		typeof iconUrl === 'function'
-			? iconUrl($preferences)
+			? iconUrl($preferences, relevantNetwork)
 			: iconUrl
 	)
 
