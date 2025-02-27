@@ -34363,7 +34363,7 @@ const identityApps = ([
 	'ens',
 	'eas',
 	// 'ceramic',
-	'disco',
+	// 'disco',
 ] as const)
 .map(slug => web3AppsBySlug[slug])
 
