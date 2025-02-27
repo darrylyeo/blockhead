@@ -63,8 +63,6 @@
 	// Functions
 	import { createInfiniteQuery } from '@tanstack/svelte-query'
 
-	import { proxyFetch } from '$/utils/proxyFetch'
-
 	import { normalizeFarcasterCast as normalizeCastAirstack, normalizeFarcasterTrendingCast as normalizeTrendingCastAirstack } from '$/api/airstack/normalize'
 	import { normalizeCastV2 as normalizeCastNeynarV2 } from '$/api/neynar/normalize'
 	import { normalizeCast as normalizeCastPinata, normalizeCastCamelCase as normalizeCastCamelCasePinata } from '$/api/pinata/farcaster/normalize'
@@ -321,9 +319,6 @@
 									offset,
 									limit: 20,
 								},
-								{
-									fetch: proxyFetch,
-								},
 							)
 						},
 						getNextPageParam: (lastPage, allPages) => allPages.length * 50,
@@ -359,9 +354,6 @@
 									{
 										offset,
 										limit: 20,
-									},
-									{
-										fetch: proxyFetch,
 									},
 								)
 							} catch (e) {
@@ -406,9 +398,6 @@
 								{
 									offset,
 									limit: 20,
-								},
-								{
-									fetch: proxyFetch,
 								},
 							)
 						},
