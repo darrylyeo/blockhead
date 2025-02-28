@@ -211,6 +211,11 @@ export const preferencesConfig = [
 								name: (preferences, network) => `Node Client (${getNetworkProviderName(preferences.rpcNetwork, network, false)})`,
 								icon: (preferences, network) => getNetworkProviderIcon(preferences.rpcNetwork, network),
 							},
+							{
+								value: TransactionProvider.FlashBlocks,
+								name: 'FlashBlocks',
+								icon: (preferences, network) => getNetworkProviderIcon(preferences.rpcNetwork, network),
+							}
 						]
 					},
 					{

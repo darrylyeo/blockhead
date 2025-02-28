@@ -611,10 +611,11 @@ export const networks = [
 			decimals: 18,
 		},
 		rpc: [
+			'https://sepolia.base.org',
+			'https://sepolia-preconf.base.org',
 			'https://rpc.notadegen.com/base/sepolia',
 			'https://base-sepolia.blockpi.network/v1/rpc/public',
 			'https://public.stackup.sh/api/v1/node/base-sepolia',
-			'https://sepolia.base.org',
 			'https://base-sepolia-rpc.publicnode.com',
 			'wss://base-sepolia-rpc.publicnode.com',
 		],
@@ -625,6 +626,33 @@ export const networks = [
 				icon: 'blockscout',
 				standard: 'EIP3091',
 			},
+		],
+		infoURL: 'https://base.org',
+	},
+	{
+		slug: 'base-sepolia-flashblocks',
+		name: 'Base Sepolia Testnet (Flashblocks)',
+		chain: 'ETH',
+		shortName: 'basesep',
+		chainId: '84532-flashblocks',
+		networkId: 84532,
+		slip44: 1,
+		nativeCurrency: {
+			name: 'Sepolia Ether',
+			symbol: 'ETH',
+			decimals: 18,
+		},
+		rpc: [
+			'wss://sepolia.flashblocks.base.org/ws',
+			'https://sepolia.flashblocks.base.org',
+		],
+		explorers: [
+			{
+				name: 'basescout',
+				url: 'https://base-sepolia.blockscout.com',
+				icon: 'blockscout',
+				standard: 'EIP3091'
+			}
 		],
 		infoURL: 'https://base.org',
 	},
@@ -6951,8 +6979,9 @@ const testnetSlugsForMainnetSlug = new Map([
 		'avalanche-fuji',
 	]],
 	['base', [
-		'base-goerli',
 		'base-sepolia',
+		'base-sepolia-flashblocks',
+		'base-goerli',
 	]],
 	['bsc', [
 		'bsc-testnet',
@@ -7052,6 +7081,24 @@ export const isTestnet = (network: Network) => (
 		|| testnetNetworks.has(network)
 )
 
+export const relatedNetworksForNetworkSlug = [
+	['base-sepolia', [
+		'base-sepolia-flashblocks',
+	]],
+] as const satisfies Map<NetworkSlug, readonly NetworkSlug[]>
+
+export const relatedNetworksForNetwork = new Map(
+	relatedNetworksForNetworkSlug
+		.map(([networkSlug, relatedNetworkSlugs]) => [
+			networkBySlug.get(networkSlug)!,
+			relatedNetworkSlugs
+				.map(slug => (
+					networkBySlug.get(slug)!
+				))
+		])
+) satisfies Map<Network, Network[]>
+
+console.log({relatedNetworksForNetwork})
 
 export const ethereumMainnet = networkBySlug.get('ethereum')!
 

@@ -422,6 +422,99 @@
 			}),
 		}),
 
+		[TransactionProvider.FlashBlocks]: () => ({
+			fromQuery: createQueries({
+				queries: [
+					{
+						queryKey: ['Block', {
+							transactionProvider,
+							chainId: network.chainId,
+							blockNumber: Number(blockNumber),
+						}],
+						placeholderData: () => placeholderData,
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								blockNumber: _blockNumber,
+							}],
+						}) => {
+							await new Promise(resolve => setTimeout(resolve, 1000))
+							const blockNumber = BigInt(_blockNumber)
+
+							const { FlashBlocksClient, endpointsByChainId } = await import('$/api/flashblocks/index')
+
+							if(!endpointsByChainId[chainId])
+								throw new Error(`FlashBlocks does not yet support chain ${chainId}.`)
+
+							const client = new FlashBlocksClient(endpointsByChainId[chainId])
+
+							await client.connect()
+
+							console.log('connected', {client})
+
+							const block = await client.getBlock(blockNumber)
+
+							console.log('block', {block})
+
+							return block
+						},
+						select: result => (
+							result === placeholderData ?
+								placeholderData
+							:
+								normalizeBlockFlashblocks(result, network)
+						),
+					},
+					{
+						queryKey: ['FlashBlocks', {
+							transactionProvider,
+							chainId: network.chainId,
+							blockNumber: Number(blockNumber),
+						}],
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								blockNumber: _blockNumber,
+							}],
+						}) => {
+							await new Promise(resolve => setTimeout(resolve, 1000))
+							const blockNumber = BigInt(_blockNumber)
+
+							const { FlashBlocksClient, endpointsByChainId } = await import('$/api/flashblocks/index')
+
+							if(!endpointsByChainId[chainId])
+								throw new Error(`FlashBlocks does not yet support chain ${chainId}.`)
+
+							const client = new FlashBlocksClient(endpointsByChainId[chainId])
+
+							await client.connect()
+
+							console.log('connected', {client})
+
+							window.client = client
+
+							const flashBlocks = await client.getFlashBlocks(blockNumber)
+
+							console.log('flashBlocks', {flashBlocks})
+
+							return flashBlocks
+						},
+						select: result => result ? result.map(flashBlock => normalizeFlashBlockFlashblocks(flashBlock, network)) : [],
+					},
+				],
+				combine: ([
+					blockQuery,
+					flashBlocksQuery,
+				]) => (console.log('combine', {blockQuery, flashBlocksQuery})||{
+					...blockQuery,
+					data: {
+						...blockQuery.data,
+						flashblocks: flashBlocksQuery.data ?? [],
+					},
+				}),
+			}),
+		}),
+
 		[TransactionProvider.Noves]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Block', {

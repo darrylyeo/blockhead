@@ -318,6 +318,24 @@
 	</svelte:fragment>
 </CollapsibleList>
 
+{#if block.flashblocks && block.flashblocks.length > 0}
+	<CollapsibleList
+		title="Flash Blocks"
+		count={block.flashblocks.length}
+		headingLevel={headingLevel + 1}
+		open={false}
+	>		
+		<svelte:fragment slot="item" let:item={flashBlock} let:index>
+			<svelte:self
+				block={flashBlock}
+				{network}
+				{transactionProvider}
+				{quoteCurrency}
+			/>
+		</svelte:fragment>
+	</CollapsibleList>
+{/if}
+
 <hr>
 
 <footer class="footer bar wrap">
