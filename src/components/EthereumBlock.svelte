@@ -236,6 +236,7 @@
 	isOrdered={true}
 	bind:isOpen={showTransactions}
 	title="Transactions"
+	headingLevel={headingLevel + 1}
 	isScrollEnabled={(block.transactions?.length ?? block.transactionIds?.length ?? 0) > 7}
 	layout={CollapsibleListLayout.Plain}
 >
@@ -287,6 +288,7 @@
 							{transaction}
 							{quoteCurrency}
 
+							headingLevel={headingLevel + 2}
 							{detailLevel}
 							{tokenBalanceFormat}
 							{showFees}
@@ -306,6 +308,7 @@
 					{transaction}
 					{quoteCurrency}
 
+					headingLevel={headingLevel + 2}
 					{detailLevel}
 					{tokenBalanceFormat}
 					{showFees}
