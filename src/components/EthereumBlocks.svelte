@@ -24,6 +24,8 @@
 
 	// (View options)
 	export let headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 3
+	export let isOpen = true
+	export let title = 'Latest Blocks'
 
 
 	// Internal state
@@ -37,98 +39,102 @@
 
 	// Components
 	import AnchorLink from './AnchorLink.svelte'
-	import Collapsible from './Collapsible.svelte'
+	import CollapsibleList, { Layout as CollapsibleListLayout } from '$/components/CollapsibleList.svelte'
 	import EthereumBlock from './EthereumBlock.svelte'
 	import EthereumBlockLoader from './EthereumBlockLoader.svelte'
 	import EthereumBlockHeader from './EthereumBlockHeader.svelte'
 	import Loading from './Loading.svelte'
+	import { RangeFormat } from './PaginationCount.svelte'
 
 
 	// Transitions
-	import { flip } from 'svelte/animate'
 	import { blur } from 'svelte/transition'
 </script>
 
 
-<Collapsible
-	type="label"
+<CollapsibleList
+	items={blockNumbers}
+	getIndex={blockNumber => blockNumber}
+	itemsCount={$latestBlockNumberStore}
+	currentRange={[
+		blockNumbers[blockNumbers.length - 1],
+		blockNumbers[0],
+	]}
+	isOrdered={false}
 	containerClass="card"
-	class="column"
-	isOpen
->
-	<svelte:fragment slot="title">
-		<svelte:element this={`h${headingLevel}`}>
-			<slot name="title">
-				Latest Blocks
-			</slot>
-		</svelte:element>
-	</svelte:fragment>
+	rangeFormat={RangeFormat.EndIndexed}
+	rangePrefix="latest"
 
+	bind:isOpen
+
+	{title}
+	{headingLevel}
+
+	isScrollEnabled={blockNumbers.length > 7}
+	layout={CollapsibleListLayout.Plain}
+	defaultHeight="51.5rem"
+	animateFlip={true}
+>
 	<svelte:fragment slot="header-right">
 		<span class="card-annotation">
 			{transactionProvider === TransactionProvider.RpcProvider ? networkProviderConfigByProvider[$preferences.rpcNetwork].name : transactionProviders[transactionProvider].name}
 		</span>
 	</svelte:fragment>
 
-	<div class="scrollable-list column">
-		{#each blockNumbers as blockNumber (blockNumber)}
-			<div
-				animate:flip|local={{ duration: 300 }}
-				transition:blur={{ duration: 1000 }}
+	<svelte:fragment let:item={blockNumber}>
+		<div
+			transition:blur={{ duration: 1000 }}
+		>
+			<AnchorLink
+				class="card"
+				base={`/explorer/${network.slug}`}
+				link={`/block/${blockNumber}`}
 			>
-				<AnchorLink
-					class="card"
-					base={`/explorer/${network.slug}`}
-					link={`/block/${blockNumber}`}
+				<EthereumBlockLoader
+					{network}
+					{blockNumber}
+					{transactionProvider}
+					{networkProvider}
+					includeTransactions={true}
+
+					let:block
+					let:status
 				>
-					<EthereumBlockLoader
-						{network}
-						{blockNumber}
-						{transactionProvider}
-						{networkProvider}
-						includeTransactions={true}
-
-						let:block
-						let:status
-					>
-						<svelte:fragment slot="header" let:block>
-							{#if block}
-								<EthereumBlockHeader
-									{network}
-									{block}
-									headingLevel={headingLevel}
-								/>
-							{/if}
-						</svelte:fragment>
-
-						{#if status === 'resolved'}
-							<hr>
-
-							<EthereumBlock
+					<svelte:fragment slot="header" let:block>
+						{#if block}
+							<EthereumBlockHeader
 								{network}
 								{block}
 								headingLevel={headingLevel}
 							/>
 						{/if}
-					</EthereumBlockLoader>
-				</AnchorLink>
-			</div>
-		{:else}
-			<Loading
-				icon={{
-					src: transactionProviders[transactionProvider].icon,
-				}}
-				iconAnimation="hover"
-			>
-				Loading recent blocks from {transactionProviders[transactionProvider].name}...
-			</Loading>
-		{/each}
-	</div>
-</Collapsible>
+					</svelte:fragment>
 
+					{#if status === 'resolved'}
+						<hr>
 
-<style>
-	.scrollable-list {
-		--resizeVertical-defaultHeight: 51.5rem;
-	}
-</style>
+						<EthereumBlock
+							{network}
+							{block}
+							headingLevel={headingLevel}
+						/>
+					{/if}
+				</EthereumBlockLoader>
+			</AnchorLink>
+		</div>
+	</svelte:fragment>
+
+	<svelte:fragment slot="loading">
+		<Loading
+			icon={{
+				src: transactionProviders[transactionProvider].icon,
+				name: transactionProviders[transactionProvider].name,
+			}}
+			iconAnimation="hover"
+			title="Loading blocks..."
+		>
+			Loading recent blocks from {transactionProviders[transactionProvider].name}...
+		</Loading>
+	</svelte:fragment>
+</CollapsibleList>
+
