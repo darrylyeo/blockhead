@@ -1,3 +1,11 @@
+<script context="module" lang="ts">
+	export enum RangeFormat {
+		StartIndexed = 'StartIndexed',
+		EndIndexed = 'EndIndexed',
+	}
+</script>
+
+
 <script lang="ts"
 	generics="
 		T extends number | bigint = number | bigint
@@ -21,21 +29,40 @@
 
 	// (View options)
 	export let isShowingRange = false
-
+	export let rangeFormat: RangeFormat = RangeFormat.StartIndexed
 
 	// Internal state
+	$: isFromEnd = rangeFormat === RangeFormat.EndIndexed && itemsCount !== undefined
+
 	/** 1-indexed, end-exclusive */
-	$: displayedRange = currentRange && [
-		(
-			typeof currentRange[0] === 'bigint' ?
-				currentRange[0] + 1n as T
-			: typeof currentRange[0] === 'number' ?
-				currentRange[0] + 1 as T
+	$: displayedRange = currentRange && (
+		isFromEnd ?
+			typeof currentRange[1] === 'bigint' ?
+				[
+					itemsCount - currentRange[1] + 1n as T,
+					itemsCount - currentRange[0] + 1n as T,
+				] as const
+			: typeof currentRange[1] === 'number' ?
+				[
+					itemsCount - currentRange[1] + 1 as T,
+					itemsCount - currentRange[0] + 1 as T,
+				] as const
 			:
 				undefined as never
-		),
-		currentRange[1]
-	] as const
+
+		:
+			[
+				(
+					typeof currentRange[0] === 'bigint' ?
+						currentRange[0] + 1n as T
+					: typeof currentRange[0] === 'number' ?
+						currentRange[0] + 1 as T
+					:
+						undefined as never
+				),
+				currentRange[1]
+			] as const
+	)
 
 
 	// Components
