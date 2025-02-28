@@ -34,6 +34,9 @@
 	export let margin: List<_ListLayout>['$$prop_def']['margin']
 	export let defaultHeight: List<_ListLayout>['$$prop_def']['defaultHeight']
 	export let animateFlip = false
+	export let rangeFormat: RangeFormat | undefined
+	export let isShowingRangePrefix: boolean | undefined
+	export let rangePrefix: string | undefined
 
 
 	// Events
@@ -44,7 +47,7 @@
 	// Components
 	import Collapsible from './Collapsible.svelte'
 	import List, { Layout as ListLayout } from './List.svelte'
-	import PaginationCount from './PaginationCount.svelte'
+	import PaginationCount, { RangeFormat } from './PaginationCount.svelte'
 </script>
 
 
@@ -70,6 +73,9 @@
 						{currentRange}
 						hasMoreItems={pagination?.hasNextPage ?? itemsCount === undefined}
 						isShowingRange={isOpen}
+						{rangeFormat}
+						{isShowingRangePrefix}
+						{rangePrefix}
 					/>
 				</small>
 			{/if}
