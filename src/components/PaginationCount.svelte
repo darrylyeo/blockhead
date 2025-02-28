@@ -25,7 +25,7 @@
 
 	// Internal state
 	/** 1-indexed, end-exclusive */
-	const displayedRange = currentRange && [
+	$: displayedRange = currentRange && [
 		(
 			typeof currentRange[0] === 'bigint' ?
 				currentRange[0] + 1n as T
