@@ -41,6 +41,12 @@ export class FlashBlocksClient {
 
 			this.#ws.onmessage = (event) => {
 				try {
+					// Validate if the event is trusted
+					if (!event.isTrusted) {
+						console.warn('Received untrusted WebSocket event, ignoring')
+						return
+					}
+					
 					if(event.data instanceof Blob) {
 						const reader = new FileReader()
 						reader.readAsText(event.data)
@@ -138,6 +144,8 @@ export class FlashBlocksClient {
 			
 			this.#blockCache.get(this.#endpoint)!.set(blockNumber, block)
 		}
+
+		console.log('this.#blockCache', this.#blockCache)
 		
 		// Signal any waiting promises that cache has been updated
 		const signalKeys = [

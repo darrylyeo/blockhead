@@ -450,8 +450,6 @@
 
 							await client.connect()
 
-							console.log('connected', {client})
-
 							const block = await client.getBlock(blockNumber)
 
 							console.log('block', {block})
@@ -471,6 +469,7 @@
 							chainId: network.chainId,
 							blockNumber: Number(blockNumber),
 						}],
+						placeholderData: () => placeholderData,
 						queryFn: async ({
 							queryKey: [_, {
 								chainId,
@@ -489,8 +488,6 @@
 
 							await client.connect()
 
-							console.log('connected', {client})
-
 							window.client = client
 
 							const flashBlocks = await client.getFlashBlocks(blockNumber)
@@ -499,13 +496,20 @@
 
 							return flashBlocks
 						},
-						select: result => result ? result.map(flashBlock => normalizeFlashBlockFlashblocks(flashBlock, network)) : [],
+						select: result => (
+							result === placeholderData ?
+								placeholderData
+							:
+								result.map(flashBlock => (
+									normalizeFlashBlockFlashblocks(flashBlock, network)
+								))
+						),
 					},
 				],
 				combine: ([
 					blockQuery,
 					flashBlocksQuery,
-				]) => (console.log('combine', {blockQuery, flashBlocksQuery})||{
+				]) => ({
 					...blockQuery,
 					data: {
 						...blockQuery.data,
