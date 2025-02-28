@@ -170,7 +170,7 @@
 				<span>
 					<abbr title="Block {Number(block.blockNumber) - 1} hash: {block.parentBlockHash}">hash</abbr>
 					of block <BlockNumber {network} blockNumber={block.blockNumber - 1n} />
-					<small>(<output><TruncatedValue value={block.parentBlockHash} /></output>)</small>
+					{#if block.parentBlockHash}<small>(<output><TruncatedValue value={block.parentBlockHash} /></output>)</small>{/if}
 				</span>
 			{/if}
 
@@ -326,7 +326,7 @@
 			<abbr title={'Gas Used\n\nGas: A virtual fuel used in Ethereum to execute smart contracts. The EVM uses an accounting mechanism to measure the consumption of gas and limit the consumption of computing resources.\n\nSource: https://ethereum.org/en/glossary/#gas'}>{formatNumber(block.gasUsed)}</abbr>
 			/
 			<abbr title={'Gas Limit\n\nThe maximum amount of gas a transaction or block may consume.\n\nSource: https://ethereum.org/en/glossary/#gas-limit'}>{formatNumber(Number(block.gasLimit))}</abbr>
-			computational gas units used
+			gas units used
 			({formatPercent(Number(block.gasUsed) / Number(block.gasLimit))})
 		{/if}
 	</span>
