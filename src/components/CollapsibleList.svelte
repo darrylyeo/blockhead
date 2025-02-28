@@ -10,8 +10,15 @@
 ">
 	// Inputs
 	export let items: Item[] | undefined = []
+
 	export let itemsCount: number | undefined
+	$: itemsCount ??= items?.length ?? 0
+
+	export let currentRange: [number, number]
+	$: currentRange ??= [0, itemsCount ?? items?.length ?? 0]
+
 	export let getIndex: (item: Item, index: any) => any
+
 	export let isOrdered = true
 
 	// (View options)
@@ -59,8 +66,8 @@
 			{#if items !== undefined}
 				<small>
 					<PaginationCount
-						itemsCount={itemsCount ?? (items?.length ?? 0)}
-						currentRange={[0, (items?.length ?? 0)]}
+						{itemsCount}
+						{currentRange}
 						hasMoreItems={pagination?.hasNextPage ?? itemsCount === undefined}
 						isShowingRange={isOpen}
 					/>
