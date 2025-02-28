@@ -26,6 +26,7 @@
 	export let isScrollEnabled = true
 	export let margin: List<_ListLayout>['$$prop_def']['margin']
 	export let defaultHeight: List<_ListLayout>['$$prop_def']['defaultHeight']
+	export let animateFlip = false
 
 
 	// Events
@@ -90,6 +91,7 @@
 		{defaultHeight}
 
 		{pagination}
+		{animateFlip}
 	>
 		<svelte:fragment slot="before">
 			<slot name="before" />

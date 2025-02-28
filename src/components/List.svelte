@@ -20,6 +20,7 @@
 	export let isScrollEnabled = true
 	export let margin: ScrollContainer['$$prop_def']['margin']
 	export let defaultHeight: ScrollContainer['$$prop_def']['defaultHeight']
+	export let animateFlip = false
 
 
 	// Events
@@ -29,6 +30,12 @@
 
 	// Components
 	import ScrollContainer from './ScrollContainer.svelte'
+
+
+	// Transitions/animations
+	import { flip, type AnimationConfig } from 'svelte/animate'
+
+	$: animate = animateFlip ? flip : () => ({} as AnimationConfig)
 </script>
 
 
@@ -49,6 +56,7 @@
 		{#each items ?? [] as item, i (getIndex?.(item, i) ?? i)}
 			<li
 				class:card={layout === Layout.Cards}
+				animate:animate={{ duration: 300 }}
 			>
 				<slot
 					{item}
