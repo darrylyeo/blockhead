@@ -45,7 +45,7 @@
 
 
 <span>(</span
-	>{#if displayedRange}<InlineTransition
+	>{#if currentRange && currentRange[1] > currentRange[0] && displayedRange}<InlineTransition
 		align="end"
 		clip
 		isOpen={isShowingRange && itemsCount !== undefined}
