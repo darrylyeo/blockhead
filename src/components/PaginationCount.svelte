@@ -30,6 +30,11 @@
 	// (View options)
 	export let isShowingRange = false
 	export let rangeFormat: RangeFormat = RangeFormat.StartIndexed
+	export let isShowingRangePrefix = rangeFormat === RangeFormat.EndIndexed
+	export let rangePrefix: string = {
+		[RangeFormat.StartIndexed]: 'first',
+		[RangeFormat.EndIndexed]: 'last',
+	}[rangeFormat]
 
 	// Internal state
 	$: isFromEnd = rangeFormat === RangeFormat.EndIndexed && itemsCount !== undefined
@@ -76,7 +81,7 @@
 		align="end"
 		clip
 		isOpen={isShowingRange && itemsCount !== undefined}
-	><span
+	>{#if isShowingRangePrefix && rangePrefix}{rangePrefix} {/if}<span
 		><TweenedNumber
 			value={displayedRange[0]}
 		/> – <TweenedNumber
