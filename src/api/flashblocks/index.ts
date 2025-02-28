@@ -7,21 +7,23 @@ export const endpointsByChainId = {
 } as const satisfies Record<Ethereum.ChainId, string>
 
 
+// Caches
+const payloadCache = new Map<string, Map<bigint, Map<number, Payload>>>()
+const blockCache = new Map<string, Map<bigint, Block>>()
+const flashBlockCache = new Map<string, Map<bigint, Map<number, FlashBlock>>>()
+const cacheUpdateSignals = new Map<string, AbortController>()
+
+
 // Functions
 export class FlashBlocksClient {
 	#ws: WebSocket | null = null
 	#endpoint: string
-	#onMessageCallback: ((data: Payload) => void) | null = null
-	#payloadCache = new Map<string, Map<bigint, Map<number, Payload>>>()
-	#blockCache = new Map<string, Map<bigint, Block>>()
-	#flashBlockCache = new Map<string, Map<bigint, Map<number, FlashBlock>>>()
-	#cacheUpdateSignals = new Map<string, AbortController>()
 
 	constructor(endpoint: string) {
 		this.#endpoint = endpoint
 	}
 
-	connect(onMessage?: (data: Payload) => void) {
+	connect() {
 		return new Promise<void>((resolve, reject) => {
 			if (this.#ws && this.#ws.readyState === WebSocket.OPEN) {
 				resolve()
@@ -29,7 +31,6 @@ export class FlashBlocksClient {
 			}
 
 			this.#ws = new WebSocket(this.#endpoint)
-			this.#onMessageCallback = onMessage || null
 
 			this.#ws.onopen = () => {
 				resolve()
@@ -53,18 +54,10 @@ export class FlashBlocksClient {
 						reader.onload = () => {
 							const data = JSON.parse(reader.result as string) as Payload
 							this.#cacheAndProcessPayload(data)
-							
-							if (this.#onMessageCallback) {
-								this.#onMessageCallback(data)
-							}
 						}
 					} else {
 						const data = JSON.parse(event.data) as Payload
 						this.#cacheAndProcessPayload(data)
-						
-						if (this.#onMessageCallback) {
-							this.#onMessageCallback(data)
-						}
 					}
 				} catch (error) {
 					console.error('Error processing WebSocket message:', error)
@@ -80,20 +73,21 @@ export class FlashBlocksClient {
 		}
 		
 		// Abort all pending cache wait operations
-		for (const controller of this.#cacheUpdateSignals.values()) {
+		for (const controller of cacheUpdateSignals.values()) {
 			controller.abort()
 		}
-		this.#cacheUpdateSignals.clear()
+		cacheUpdateSignals.clear()
 	}
 
 	#cacheAndProcessPayload(payload: Payload) {
+		console.log('cacheAndProcessPayload', payload)
 		const blockNumber = BigInt(payload.metadata.block_number)
 		
 		// Cache the raw payload
-		if (!this.#payloadCache.has(this.#endpoint))
-			this.#payloadCache.set(this.#endpoint, new Map())
+		if (!payloadCache.has(this.#endpoint))
+			payloadCache.set(this.#endpoint, new Map())
 		
-		const payloadEndpointCache = this.#payloadCache.get(this.#endpoint)!
+		const payloadEndpointCache = payloadCache.get(this.#endpoint)!
 		
 		if (!payloadEndpointCache.has(blockNumber))
 			payloadEndpointCache.set(blockNumber, new Map())
@@ -102,10 +96,10 @@ export class FlashBlocksClient {
 		blockPayloadCache.set(payload.index, payload)
 		
 		// Process and cache the flash block
-		if (!this.#flashBlockCache.has(this.#endpoint))
-			this.#flashBlockCache.set(this.#endpoint, new Map())
+		if (!flashBlockCache.has(this.#endpoint))
+			flashBlockCache.set(this.#endpoint, new Map())
 
-		const flashEndpointCache = this.#flashBlockCache.get(this.#endpoint)!
+		const flashEndpointCache = flashBlockCache.get(this.#endpoint)!
 		
 		if (!flashEndpointCache.has(blockNumber))
 			flashEndpointCache.set(blockNumber, new Map())
@@ -125,8 +119,8 @@ export class FlashBlocksClient {
 		
 		// If this is the initial block (index 0), also cache it as a regular block
 		if (payload.index === 0 && payload.base) {
-			if (!this.#blockCache.has(this.#endpoint))
-				this.#blockCache.set(this.#endpoint, new Map())
+			if (!blockCache.has(this.#endpoint))
+				blockCache.set(this.#endpoint, new Map())
 			
 			const block: Block = {
 				number: payload.base.block_number,
@@ -142,11 +136,9 @@ export class FlashBlocksClient {
 				transactions: this.#processTransactions(payload.diff.transactions)
 			}
 			
-			this.#blockCache.get(this.#endpoint)!.set(blockNumber, block)
+			blockCache.get(this.#endpoint)!.set(blockNumber, block)
 		}
 
-		console.log('this.#blockCache', this.#blockCache)
-		
 		// Signal any waiting promises that cache has been updated
 		const signalKeys = [
 			`payload-${blockNumber}-${payload.index}`,
@@ -159,10 +151,10 @@ export class FlashBlocksClient {
 		]
 		
 		for (const key of signalKeys) {
-			const controller = this.#cacheUpdateSignals.get(key)
+			const controller = cacheUpdateSignals.get(key)
 			if (controller) {
 				controller.abort() // Signal that cache has been updated
-				this.#cacheUpdateSignals.delete(key)
+				cacheUpdateSignals.delete(key)
 			}
 		}
 	}
@@ -191,12 +183,14 @@ export class FlashBlocksClient {
 	): Promise<T> {
 		// Check if data is already in cache
 		const existingData = checkFn()
-		console.log({existingData})
-		if (existingData !== undefined) return existingData
+
+		if (existingData !== undefined) return existingData as T
+
+		throw new Error('Data not found.')
 		
 		// Create a new abort controller for this wait operation
 		const controller = new AbortController()
-		this.#cacheUpdateSignals.set(key, controller)
+		cacheUpdateSignals.set(key, controller)
 		
 		try {
 			// Wait for the abort signal (which will be triggered when cache is updated)
@@ -222,11 +216,11 @@ export class FlashBlocksClient {
 			
 			// Check again after the wait
 			const data = checkFn()
-			if (data !== undefined) return data
+			if (data !== undefined) return data as T
 			
 			throw new Error(`Data for key ${key} not found after waiting`)
 		} finally {
-			this.#cacheUpdateSignals.delete(key)
+			cacheUpdateSignals.delete(key)
 		}
 	}
 
@@ -235,13 +229,13 @@ export class FlashBlocksClient {
 		console.log('getPayload', {blockNumber, index})
 		return await this.#waitForCacheUpdate(
 			`payload-${blockNumber}-${index}`,
-			() => this.#payloadCache.get(this.#endpoint)?.get(blockNumber)?.get(index)
+			() => payloadCache.get(this.#endpoint)?.get(blockNumber)?.get(index)
 		)
 	}
 	
 	async getAllPayloadsForBlock(blockNumber: bigint) {
 		return await this.#waitForCacheUpdate(`payloads-${blockNumber}`, () => {
-			const blockPayloads = this.#payloadCache.get(this.#endpoint)?.get(blockNumber)
+			const blockPayloads = payloadCache.get(this.#endpoint)?.get(blockNumber)
 			if (blockPayloads && blockPayloads.size > 0) {
 				return Array.from(blockPayloads.entries())
 					.sort(([indexA], [indexB]) => indexA - indexB)
@@ -253,17 +247,22 @@ export class FlashBlocksClient {
 	
 	// Processed block access methods
 	async getBlock(blockNumber: bigint) {
-		console.log('getBlock', {blockNumber})
+		console.log(
+			'getBlock',
+			blockCache,
+			blockCache.get(this.#endpoint),
+			blockCache.get(this.#endpoint)?.get(blockNumber)
+		)
 		return await this.#waitForCacheUpdate(
 			`block-${blockNumber}`,
-			() => this.#blockCache.get(this.#endpoint)?.get(blockNumber)
+			() => blockCache.get(this.#endpoint)?.get(blockNumber)
 		)
 	}
 	
 	async getBlocks() {
 		console.log('getBlocks')
 		return await this.#waitForCacheUpdate(`blocks`, () => {
-			const endpointCache = this.#blockCache.get(this.#endpoint)
+			const endpointCache = blockCache.get(this.#endpoint)
 			if (!endpointCache || endpointCache.size === 0) return undefined
 			
 			return Array.from(endpointCache.entries())
@@ -277,7 +276,7 @@ export class FlashBlocksClient {
 		console.log('getFlashBlock', {blockNumber, index})
 		return await this.#waitForCacheUpdate(
 			`flashblock-${blockNumber}-${index}`,
-			() => this.#flashBlockCache.get(this.#endpoint)?.get(blockNumber)?.get(index)
+			() => flashBlockCache.get(this.#endpoint)?.get(blockNumber)?.get(index)
 		)
 	}
 
@@ -286,7 +285,7 @@ export class FlashBlocksClient {
 		return await this.#waitForCacheUpdate(
 			`flashblocks-${blockNumber}`,
 			() => {
-				const blockFlashBlocks = this.#flashBlockCache.get(this.#endpoint)?.get(blockNumber)
+				const blockFlashBlocks = flashBlockCache.get(this.#endpoint)?.get(blockNumber)
 				if (blockFlashBlocks && blockFlashBlocks.size > 0) {
 					return Array.from(blockFlashBlocks.entries())
 						.sort(([indexA], [indexB]) => indexA - indexB)
@@ -304,7 +303,7 @@ export class FlashBlocksClient {
 		}
 		
 		return await this.#waitForCacheUpdate(`flashblocks`, () => {
-			const endpointCache = this.#flashBlockCache.get(this.#endpoint)
+			const endpointCache = flashBlockCache.get(this.#endpoint)
 			if (!endpointCache || Object.keys(endpointCache).length === 0) return undefined
 			
 			const allFlashBlocks: FlashBlock[] = []
@@ -321,3 +320,11 @@ export class FlashBlocksClient {
 		})
 	}
 }
+
+const clients = new Map<string, FlashBlocksClient>()
+
+export const getClient = (endpoint: string) => (
+	!clients.has(endpoint)
+		? clients.set(endpoint, new FlashBlocksClient(endpoint))
+		: clients.get(endpoint)
+)

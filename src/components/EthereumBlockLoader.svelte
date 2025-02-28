@@ -69,6 +69,8 @@
 
 	import { normalizeBlock as normalizeBlockEtherscan } from '$/api/etherscan/normalize'
 
+	import { normalizeBlock as normalizeBlockFlashblocks, normalizeFlashBlock as normalizeFlashBlockFlashblocks } from '$/api/flashblocks/normalize'
+
 	import { normalizeBlock as normalizeMoralisBlock } from '$/api/moralis/web3Api/normalize'
 
 
@@ -397,6 +399,133 @@
 			}),
 		}),
 
+		[TransactionProvider.FlashBlocks]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['Block', {
+					transactionProvider,
+					chainId: network.chainId,
+					blockNumber: Number(blockNumber),
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						blockNumber: _blockNumber,
+					}],
+				}) => {
+					const blockNumber = BigInt(_blockNumber)
+
+					const { getClient, endpointsByChainId } = await import('$/api/flashblocks/index')
+
+					if(!endpointsByChainId[chainId])
+						throw new Error(`FlashBlocks does not yet support chain ${chainId}.`)
+
+					const client = getClient(endpointsByChainId[chainId])
+
+					await client.connect()
+
+					console.log('connected')
+
+					const block = await client.getBlock(blockNumber)
+					console.log('block')
+
+					return block
+				},
+				select: result => (
+					normalizeBlockFlashblocks(result, network)
+				),
+				staleTime: 1000,
+				retry: 10,
+			}),
+		}),
+
+		// [TransactionProvider.FlashBlocks]: () => ({
+		// 	fromQuery: createQueries({
+		// 		queries: [
+		// 			{
+		// 				queryKey: ['Block', {
+		// 					transactionProvider,
+		// 					chainId: network.chainId,
+		// 					blockNumber: Number(blockNumber),
+		// 				}],
+		// 				queryFn: async ({
+		// 					queryKey: [_, {
+		// 						chainId,
+		// 						blockNumber: _blockNumber,
+		// 					}],
+		// 				}) => {
+		// 					const blockNumber = BigInt(_blockNumber)
+
+		// 					const { getClient, endpointsByChainId } = await import('$/api/flashblocks/index')
+
+		// 					if(!endpointsByChainId[chainId])
+		// 						throw new Error(`FlashBlocks does not yet support chain ${chainId}.`)
+
+		// 					const client = getClient(endpointsByChainId[chainId])
+
+		// 					await client.connect()
+
+		// 					console.log('connected')
+
+		// 					const block = await client.getBlock(blockNumber)
+		// 					console.log('block')
+
+		// 					return block
+		// 				},
+		// 				select: result => (
+		// 					normalizeBlockFlashblocks(result, network)
+		// 				),
+		// 				// staleTime: 10,
+		// 				// retry: 10,
+		// 			},
+		// 			{
+		// 				queryKey: ['FlashBlocks', {
+		// 					transactionProvider,
+		// 					chainId: network.chainId,
+		// 					blockNumber: Number(blockNumber),
+		// 				}],
+		// 				queryFn: async ({
+		// 					queryKey: [_, {
+		// 						chainId,
+		// 						blockNumber: _blockNumber,
+		// 					}],
+		// 				}) => {
+		// 					const blockNumber = BigInt(_blockNumber)
+
+		// 					const { getClient, endpointsByChainId } = await import('$/api/flashblocks/index')
+
+		// 					if(!endpointsByChainId[chainId])
+		// 						throw new Error(`FlashBlocks does not yet support chain ${chainId}.`)
+
+		// 					const client = getClient(endpointsByChainId[chainId])
+
+		// 					await client.connect()
+
+		// 					const flashBlocks = await client.getFlashBlocks(blockNumber)
+
+		// 					return flashBlocks
+		// 				},
+		// 				select: result => (
+		// 					result.map(flashBlock => (
+		// 						normalizeFlashBlockFlashblocks(flashBlock, network)
+		// 					))
+		// 				),
+		// 				// staleTime: 10,
+		// 				// retry: 10,
+		// 			},
+		// 		],
+		// 		combine: ([
+		// 			blockQuery,
+		// 			flashBlocksQuery,
+		// 		]) => ({
+		// 			...blockQuery,
+		// 			data: {
+		// 				...blockQuery.data,
+		// 				flashblocks: flashBlocksQuery.data ?? [],
+		// 			},
+		// 		}),
+		// 	}),
+		// }),
+
 		[TransactionProvider.Moralis]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Block', {
@@ -422,102 +551,6 @@
 			}),
 		}),
 
-		[TransactionProvider.FlashBlocks]: () => ({
-			fromQuery: createQueries({
-				queries: [
-					{
-						queryKey: ['Block', {
-							transactionProvider,
-							chainId: network.chainId,
-							blockNumber: Number(blockNumber),
-						}],
-						placeholderData: () => placeholderData,
-						queryFn: async ({
-							queryKey: [_, {
-								chainId,
-								blockNumber: _blockNumber,
-							}],
-						}) => {
-							await new Promise(resolve => setTimeout(resolve, 1000))
-							const blockNumber = BigInt(_blockNumber)
-
-							const { FlashBlocksClient, endpointsByChainId } = await import('$/api/flashblocks/index')
-
-							if(!endpointsByChainId[chainId])
-								throw new Error(`FlashBlocks does not yet support chain ${chainId}.`)
-
-							const client = new FlashBlocksClient(endpointsByChainId[chainId])
-
-							await client.connect()
-
-							const block = await client.getBlock(blockNumber)
-
-							console.log('block', {block})
-
-							return block
-						},
-						select: result => (
-							result === placeholderData ?
-								placeholderData
-							:
-								normalizeBlockFlashblocks(result, network)
-						),
-					},
-					{
-						queryKey: ['FlashBlocks', {
-							transactionProvider,
-							chainId: network.chainId,
-							blockNumber: Number(blockNumber),
-						}],
-						placeholderData: () => placeholderData,
-						queryFn: async ({
-							queryKey: [_, {
-								chainId,
-								blockNumber: _blockNumber,
-							}],
-						}) => {
-							await new Promise(resolve => setTimeout(resolve, 1000))
-							const blockNumber = BigInt(_blockNumber)
-
-							const { FlashBlocksClient, endpointsByChainId } = await import('$/api/flashblocks/index')
-
-							if(!endpointsByChainId[chainId])
-								throw new Error(`FlashBlocks does not yet support chain ${chainId}.`)
-
-							const client = new FlashBlocksClient(endpointsByChainId[chainId])
-
-							await client.connect()
-
-							window.client = client
-
-							const flashBlocks = await client.getFlashBlocks(blockNumber)
-
-							console.log('flashBlocks', {flashBlocks})
-
-							return flashBlocks
-						},
-						select: result => (
-							result === placeholderData ?
-								placeholderData
-							:
-								result.map(flashBlock => (
-									normalizeFlashBlockFlashblocks(flashBlock, network)
-								))
-						),
-					},
-				],
-				combine: ([
-					blockQuery,
-					flashBlocksQuery,
-				]) => ({
-					...blockQuery,
-					data: {
-						...blockQuery.data,
-						flashblocks: flashBlocksQuery.data ?? [],
-					},
-				}),
-			}),
-		}),
 
 		[TransactionProvider.Noves]: () => ({
 			fromQuery: createQuery({
