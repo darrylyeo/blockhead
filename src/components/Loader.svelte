@@ -339,7 +339,7 @@
 	}
 
 	$: if(status === LoadingStatus.Errored){
-		console.error(error)
+		console.error(error.stack, error)
 		whenErrored?.(error)
 	}
 
