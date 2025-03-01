@@ -399,7 +399,7 @@
 			}),
 		}),
 
-		[TransactionProvider.FlashBlocks]: () => ({
+		[TransactionProvider.Flashblocks]: () => ({
 			fromQuery: createQuery({
 				queryKey: ['Block', {
 					transactionProvider,
@@ -417,13 +417,11 @@
 					const { getClient, endpointsByChainId } = await import('$/api/flashblocks/index')
 
 					if(!endpointsByChainId[chainId])
-						throw new Error(`FlashBlocks does not yet support chain ${chainId}.`)
+						throw new Error(`Flashblocks does not yet support chain ${chainId}.`)
 
 					const client = getClient(endpointsByChainId[chainId])
 
 					await client.connect()
-
-					console.log('connected')
 
 					const block = await client.getBlock(blockNumber)
 					console.log('block')
@@ -433,12 +431,10 @@
 				select: result => (
 					normalizeBlockFlashblocks(result, network)
 				),
-				staleTime: 1000,
-				retry: 10,
 			}),
 		}),
 
-		// [TransactionProvider.FlashBlocks]: () => ({
+		// [TransactionProvider.Flashblocks]: () => ({
 		// 	fromQuery: createQueries({
 		// 		queries: [
 		// 			{
@@ -458,27 +454,20 @@
 		// 					const { getClient, endpointsByChainId } = await import('$/api/flashblocks/index')
 
 		// 					if(!endpointsByChainId[chainId])
-		// 						throw new Error(`FlashBlocks does not yet support chain ${chainId}.`)
+		// 						throw new Error(`Flashblocks does not yet support chain ${chainId}.`)
 
 		// 					const client = getClient(endpointsByChainId[chainId])
 
 		// 					await client.connect()
 
-		// 					console.log('connected')
-
-		// 					const block = await client.getBlock(blockNumber)
-		// 					console.log('block')
-
-		// 					return block
+		// 					return await client.getBlock(blockNumber)
 		// 				},
 		// 				select: result => (
 		// 					normalizeBlockFlashblocks(result, network)
 		// 				),
-		// 				// staleTime: 10,
-		// 				// retry: 10,
 		// 			},
 		// 			{
-		// 				queryKey: ['FlashBlocks', {
+		// 				queryKey: ['Flashblocks', {
 		// 					transactionProvider,
 		// 					chainId: network.chainId,
 		// 					blockNumber: Number(blockNumber),
@@ -494,23 +483,19 @@
 		// 					const { getClient, endpointsByChainId } = await import('$/api/flashblocks/index')
 
 		// 					if(!endpointsByChainId[chainId])
-		// 						throw new Error(`FlashBlocks does not yet support chain ${chainId}.`)
+		// 						throw new Error(`Flashblocks does not yet support chain ${chainId}.`)
 
 		// 					const client = getClient(endpointsByChainId[chainId])
 
 		// 					await client.connect()
 
-		// 					const flashBlocks = await client.getFlashBlocks(blockNumber)
-
-		// 					return flashBlocks
+		// 					return await client.getFlashblocks(blockNumber)
 		// 				},
 		// 				select: result => (
 		// 					result.map(flashBlock => (
 		// 						normalizeFlashBlockFlashblocks(flashBlock, network)
 		// 					))
 		// 				),
-		// 				// staleTime: 10,
-		// 				// retry: 10,
 		// 			},
 		// 		],
 		// 		combine: ([

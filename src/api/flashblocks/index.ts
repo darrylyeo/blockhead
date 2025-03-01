@@ -15,7 +15,7 @@ const cacheUpdateSignals = new Map<string, AbortController>()
 
 
 // Functions
-export class FlashBlocksClient {
+export class FlashblocksClient {
 	#ws: WebSocket | null = null
 	#endpoint: string
 
@@ -80,7 +80,6 @@ export class FlashBlocksClient {
 	}
 
 	#cacheAndProcessPayload(payload: Payload) {
-		console.log('cacheAndProcessPayload', payload)
 		const blockNumber = BigInt(payload.metadata.block_number)
 		
 		// Cache the raw payload
@@ -108,10 +107,10 @@ export class FlashBlocksClient {
 		
 		// Convert payload to FlashBlock format
 		const flashBlock: FlashBlock = {
-			number: payload.base?.block_number || `0x0`,
+			number: payload.base?.block_number ?? undefined,
 			hash: payload.diff.block_hash,
-			parentHash: payload.base?.parent_hash || `0x0`,
-			timestamp: payload.base?.timestamp || `0x0`,
+			parentHash: payload.base?.parent_hash ?? undefined,
+			timestamp: payload.base?.timestamp ?? undefined,
 			transactions: this.#processTransactions(payload.diff.transactions)
 		}
 		
@@ -186,8 +185,6 @@ export class FlashBlocksClient {
 
 		if (existingData !== undefined) return existingData as T
 
-		throw new Error('Data not found.')
-		
 		// Create a new abort controller for this wait operation
 		const controller = new AbortController()
 		cacheUpdateSignals.set(key, controller)
@@ -226,7 +223,6 @@ export class FlashBlocksClient {
 
 	// Raw payload access methods
 	async getPayload(blockNumber: bigint, index: number) {
-		console.log('getPayload', {blockNumber, index})
 		return await this.#waitForCacheUpdate(
 			`payload-${blockNumber}-${index}`,
 			() => payloadCache.get(this.#endpoint)?.get(blockNumber)?.get(index)
@@ -249,10 +245,11 @@ export class FlashBlocksClient {
 	async getBlock(blockNumber: bigint) {
 		console.log(
 			'getBlock',
-			blockCache,
+			blockNumber,
 			blockCache.get(this.#endpoint),
 			blockCache.get(this.#endpoint)?.get(blockNumber)
 		)
+
 		return await this.#waitForCacheUpdate(
 			`block-${blockNumber}`,
 			() => blockCache.get(this.#endpoint)?.get(blockNumber)
@@ -260,7 +257,6 @@ export class FlashBlocksClient {
 	}
 	
 	async getBlocks() {
-		console.log('getBlocks')
 		return await this.#waitForCacheUpdate(`blocks`, () => {
 			const endpointCache = blockCache.get(this.#endpoint)
 			if (!endpointCache || endpointCache.size === 0) return undefined
@@ -273,58 +269,54 @@ export class FlashBlocksClient {
 	
 	// Flash block access methods
 	async getFlashBlock(blockNumber: bigint, index: number) {
-		console.log('getFlashBlock', {blockNumber, index})
 		return await this.#waitForCacheUpdate(
 			`flashblock-${blockNumber}-${index}`,
 			() => flashBlockCache.get(this.#endpoint)?.get(blockNumber)?.get(index)
 		)
 	}
 
-	async getAllFlashBlocksForBlock(blockNumber: bigint) {
-		console.log('getAllFlashBlocksForBlock', {blockNumber})
+	async getAllFlashblocksForBlock(blockNumber: bigint) {
 		return await this.#waitForCacheUpdate(
 			`flashblocks-${blockNumber}`,
 			() => {
-				const blockFlashBlocks = flashBlockCache.get(this.#endpoint)?.get(blockNumber)
-				if (blockFlashBlocks && blockFlashBlocks.size > 0) {
-					return Array.from(blockFlashBlocks.entries())
+				const blockFlashblocks = flashBlockCache.get(this.#endpoint)?.get(blockNumber)
+
+				if (blockFlashblocks && blockFlashblocks.size > 0) {
+					return Array.from(blockFlashblocks.entries())
 						.sort(([indexA], [indexB]) => indexA - indexB)
 						.map(([, flashBlock]) => flashBlock)
 				}
+
 				return undefined
 			}
 		)
 	}
 
-	async getFlashBlocks(blockNumber?: bigint) {
-		console.log('getFlashBlocks', {blockNumber})
-		if (blockNumber !== undefined) {
-			return this.getAllFlashBlocksForBlock(blockNumber)
-		}
+	async getFlashblocks(blockNumber?: bigint) {
+		if (blockNumber !== undefined)
+			return this.getAllFlashblocksForBlock(blockNumber)
 		
 		return await this.#waitForCacheUpdate(`flashblocks`, () => {
 			const endpointCache = flashBlockCache.get(this.#endpoint)
-			if (!endpointCache || Object.keys(endpointCache).length === 0) return undefined
+
+			if (!endpointCache || Object.keys(endpointCache).length === 0) return undefined 
 			
-			const allFlashBlocks: FlashBlock[] = []
-			
-			for (const [, flashBlocksMap] of endpointCache.entries()) {
-				const blockFlashBlocks = Array.from(flashBlocksMap.entries())
-					.sort(([indexA], [indexB]) => indexA - indexB)
-					.map(([, flashBlock]) => flashBlock)
-				
-				allFlashBlocks.push(...blockFlashBlocks)
-			}
-			
-			return allFlashBlocks.length > 0 ? allFlashBlocks : undefined
+			return (
+				Array.from(endpointCache.entries())
+					.flatMap(([, flashBlocksMap]) => 
+						Array.from(flashBlocksMap.entries())
+							.sort(([indexA], [indexB]) => indexA - indexB)
+							.map(([, flashBlock]) => flashBlock)
+					)
+			)
 		})
 	}
 }
 
-const clients = new Map<string, FlashBlocksClient>()
+const clients = new Map<string, FlashblocksClient>()
 
 export const getClient = (endpoint: string) => (
 	!clients.has(endpoint)
-		? clients.set(endpoint, new FlashBlocksClient(endpoint))
+		? clients.set(endpoint, new FlashblocksClient(endpoint))
 		: clients.get(endpoint)
 )

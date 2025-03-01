@@ -8,7 +8,7 @@ export enum TransactionProvider {
 	Envio_Hypersync = 'Envio_Hypersync',
 	Etherscan = 'Etherscan',
 	Etherspot = 'Etherspot',
-	FlashBlocks = 'FlashBlocks',
+	Flashblocks = 'Flashblocks',
 	Moralis = 'Moralis',
 	Noves = 'Noves',
 }
@@ -52,8 +52,8 @@ export const transactionProviders = {
 		name: 'Etherspot',
 		icon: EtherspotIcon,
 	},
-	[TransactionProvider.FlashBlocks]: {
-		name: 'FlashBlocks',
+	[TransactionProvider.Flashblocks]: {
+		name: 'Flashblocks',
 	},
 	[TransactionProvider.Moralis]: {
 		name: 'Moralis',

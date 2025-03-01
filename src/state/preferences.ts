@@ -212,8 +212,8 @@ export const preferencesConfig = [
 								icon: (preferences, network) => getNetworkProviderIcon(preferences.rpcNetwork, network),
 							},
 							{
-								value: TransactionProvider.FlashBlocks,
-								name: 'FlashBlocks',
+								value: TransactionProvider.Flashblocks,
+								name: 'Flashblocks',
 								icon: (preferences, network) => getNetworkProviderIcon(preferences.rpcNetwork, network),
 							}
 						]
