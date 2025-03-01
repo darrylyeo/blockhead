@@ -9,7 +9,7 @@ import type { Ethereum } from '$/data/networks/types'
 import { cryptoQuoteCurrencies, fiatQuoteCurrencies } from '$/data/currencies'
 import { tokenIcons } from '$/assets/tokenIcons'
 import { NetworkProvider } from '$/data/networkProviders/types'
-import { networkProviderConfigs, getNetworkProviderName, getNetworkProviderIcon } from '$/data/networkProviders'
+import { networkProviderConfigs, getNetworkProviderName, getNetworkProviderIcon, getFlashblocksProviderName, getFlashblocksProviderIcon } from '$/data/networkProviders'
 import { Erc20TokenProvider, erc20TokenProviders } from '$/data/erc20TokenProviders'
 import { TokenBalancesProvider, tokenBalancesProviders } from '$/data/tokenBalancesProviders'
 import { FilecoinTokenBalancesProvider, filecoinTokenBalancesProviders } from '$/data/filecoinTokenBalancesProviders'
@@ -183,6 +183,19 @@ export const preferencesConfig = [
 				// 	{ value: 'Ethers', name: 'Ethers Quorum' }, // (Infura + Etherscan + Alchemy + Pocket)
 				// ]
 			},
+			{
+				preferenceId: 'flashblocksProvider',
+				name: 'Flashblocks Endpoint',
+				type: 'single',
+				defaultOption: NetworkProvider.Default,
+				options: [
+					{
+						value: NetworkProvider.Default,
+						name: (_, network) => getFlashblocksProviderName(NetworkProvider.Default, network),
+						icon: (_, network) => getFlashblocksProviderIcon(NetworkProvider.Default, network),
+					},
+				],
+			},
 			// {
 			// 	preferenceId: 'transactionRelay',
 			// 	name: 'Transaction Relay',
@@ -213,8 +226,8 @@ export const preferencesConfig = [
 							},
 							{
 								value: TransactionProvider.Flashblocks,
-								name: 'Flashblocks',
-								icon: (preferences, network) => getNetworkProviderIcon(preferences.rpcNetwork, network),
+								name: (preferences, network) => `Flashblocks Client (${getFlashblocksProviderName(preferences.flashblocksProvider, network, false)})`,
+								icon: (preferences, network) => getFlashblocksProviderIcon(preferences.flashblocksProvider, network),
 							}
 						]
 					},

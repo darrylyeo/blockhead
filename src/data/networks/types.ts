@@ -24,6 +24,7 @@ export namespace Ethereum {
 		icon?: string,
 
 		rpc?: string[],
+		flashblocksRpc?: string[],
 		faucets?: string[],
 		explorers?: {
 			name?: string,
@@ -97,7 +98,7 @@ export namespace Ethereum {
 		sha3Uncles?: `0x${string}`,
 		mixHashOrPrevRandao?: `0x${string}`,
 
-		extraData: string,
+		extraData?: string,
 
 		transactions?: Transaction[],
 		transactionIds?: TransactionId[],

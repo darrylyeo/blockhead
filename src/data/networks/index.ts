@@ -619,6 +619,12 @@ export const networks = [
 			'https://base-sepolia-rpc.publicnode.com',
 			'wss://base-sepolia-rpc.publicnode.com',
 		],
+		flashblocksRpc: [
+			'wss://sepolia.flashblocks.base.org/ws',
+			'https://sepolia.flashblocks.base.org',
+			'http://1rpc.io/base/sepolia/flashblocks',
+			'wss://1rpc.io/base/sepolia/flashblocks/ws',
+		],
 		explorers: [
 			{
 				name: 'basescout',

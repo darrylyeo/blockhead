@@ -1,10 +1,10 @@
 // Types/constants
-import type { Ethereum } from '$/data/networks/types'
+// import type { Ethereum } from '$/data/networks/types'
 import type { Payload, Block, FlashBlock, Transaction } from './types'
 
-export const endpointsByChainId = {
-	84532: 'wss://sepolia.flashblocks.base.org/ws',
-} as const satisfies Record<Ethereum.ChainId, string>
+// export const endpointsByChainId = {
+// 	84532: 'wss://sepolia.flashblocks.base.org/ws',
+// } as const satisfies Record<Ethereum.ChainId, string>
 
 
 // Caches
@@ -295,7 +295,7 @@ export class FlashblocksClient {
 	async getFlashblocks(blockNumber?: bigint) {
 		if (blockNumber !== undefined)
 			return this.getAllFlashblocksForBlock(blockNumber)
-		
+
 		return await this.#waitForCacheUpdate(`flashblocks`, () => {
 			const endpointCache = flashBlockCache.get(this.#endpoint)
 

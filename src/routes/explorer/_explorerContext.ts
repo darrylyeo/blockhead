@@ -141,10 +141,13 @@ export const relevantPreferences = derived([
 
 	set([
 		'theme',
+		'rpcNetwork',
+		...(
+			$explorerNetwork?.flashblocksRpc?.[0] ? ['flashblocksProvider'] : []
+		),
 		...(
 			$explorerQueryType === ExplorerQueryType.Account ?
 				[
-					'rpcNetwork',
 					'contractSourceProvider',
 					...(
 						isFilecoin ?
@@ -162,7 +165,6 @@ export const relevantPreferences = derived([
 				]
 			: $explorerQueryType === ExplorerQueryType.Block ?
 				[
-					'rpcNetwork',
 					(
 						isFilecoin ?
 							'filecoinTransactionProvider'
@@ -173,7 +175,6 @@ export const relevantPreferences = derived([
 				]
 			: $explorerQueryType === ExplorerQueryType.Transaction ?
 				[
-					'rpcNetwork',
 					(
 						isFilecoin ?
 							'filecoinTransactionProvider'
@@ -184,7 +185,6 @@ export const relevantPreferences = derived([
 				]
 			:
 				[
-					'rpcNetwork',
 					'currentPriceProvider',
 					'historicalPriceProvider',
 					(

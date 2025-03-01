@@ -2,7 +2,7 @@
 	// Types/constants
 	import type { Ethereum } from '$/data/networks/types'
 	import { TransactionProvider, transactionProviders } from '$/data/transactionProviders'
-	import type { NetworkProvider } from '$/data/networkProviders/types'
+	import { NetworkProvider } from '$/data/networkProviders/types'
 	import type { QuoteCurrency } from '$/data/currencies'
 
 
@@ -21,6 +21,7 @@
 	// (Computed)
 	$: transactionProvider = $$props.transactionProvider ?? $preferences.transactionProvider
 	$: networkProvider = $$props.networkProvider ?? $preferences.rpcNetwork
+	$: flashblocksProvider = $$props.flashblocksProvider ?? $preferences.flashblocksProvider
 	$: quoteCurrency = $$props.quoteCurrency ?? $preferences.quoteCurrency
 
 	// (View options)
@@ -399,117 +400,121 @@
 			}),
 		}),
 
-		[TransactionProvider.Flashblocks]: () => ({
-			fromQuery: createQuery({
-				queryKey: ['Block', {
-					transactionProvider,
-					chainId: network.chainId,
-					blockNumber: Number(blockNumber),
-				}],
-				queryFn: async ({
-					queryKey: [_, {
-						chainId,
-						blockNumber: _blockNumber,
-					}],
-				}) => {
-					const blockNumber = BigInt(_blockNumber)
-
-					const { getClient, endpointsByChainId } = await import('$/api/flashblocks/index')
-
-					if(!endpointsByChainId[chainId])
-						throw new Error(`Flashblocks does not yet support chain ${chainId}.`)
-
-					const client = getClient(endpointsByChainId[chainId])
-
-					await client.connect()
-
-					const block = await client.getBlock(blockNumber)
-					console.log('block')
-
-					return block
-				},
-				select: result => (
-					normalizeBlockFlashblocks(result, network)
-				),
-			}),
-		}),
-
 		// [TransactionProvider.Flashblocks]: () => ({
-		// 	fromQuery: createQueries({
-		// 		queries: [
-		// 			{
-		// 				queryKey: ['Block', {
-		// 					transactionProvider,
-		// 					chainId: network.chainId,
-		// 					blockNumber: Number(blockNumber),
-		// 				}],
-		// 				queryFn: async ({
-		// 					queryKey: [_, {
-		// 						chainId,
-		// 						blockNumber: _blockNumber,
-		// 					}],
-		// 				}) => {
-		// 					const blockNumber = BigInt(_blockNumber)
+		// 	fromQuery: createQuery({
+		// 		queryKey: ['Block', {
+		// 			transactionProvider,
+		// 			chainId: network.chainId,
+		// 			blockNumber: Number(blockNumber),
+		// 		}],
+		// 		queryFn: async ({
+		// 			queryKey: [_, {
+		// 				chainId,
+		// 				blockNumber: _blockNumber,
+		// 			}],
+		// 		}) => {
+		// 			const blockNumber = BigInt(_blockNumber)
 
-		// 					const { getClient, endpointsByChainId } = await import('$/api/flashblocks/index')
+		// 			const { getClient, endpointsByChainId } = await import('$/api/flashblocks/index')
 
-		// 					if(!endpointsByChainId[chainId])
-		// 						throw new Error(`Flashblocks does not yet support chain ${chainId}.`)
+		// 			if(!endpointsByChainId[chainId])
+		// 				throw new Error(`Flashblocks does not yet support chain ${chainId}.`)
 
-		// 					const client = getClient(endpointsByChainId[chainId])
+		// 			const client = getClient(endpointsByChainId[chainId])
 
-		// 					await client.connect()
+		// 			await client.connect()
 
-		// 					return await client.getBlock(blockNumber)
-		// 				},
-		// 				select: result => (
-		// 					normalizeBlockFlashblocks(result, network)
-		// 				),
-		// 			},
-		// 			{
-		// 				queryKey: ['Flashblocks', {
-		// 					transactionProvider,
-		// 					chainId: network.chainId,
-		// 					blockNumber: Number(blockNumber),
-		// 				}],
-		// 				queryFn: async ({
-		// 					queryKey: [_, {
-		// 						chainId,
-		// 						blockNumber: _blockNumber,
-		// 					}],
-		// 				}) => {
-		// 					const blockNumber = BigInt(_blockNumber)
+		// 			const block = await client.getBlock(blockNumber)
+		// 			console.log('block')
 
-		// 					const { getClient, endpointsByChainId } = await import('$/api/flashblocks/index')
-
-		// 					if(!endpointsByChainId[chainId])
-		// 						throw new Error(`Flashblocks does not yet support chain ${chainId}.`)
-
-		// 					const client = getClient(endpointsByChainId[chainId])
-
-		// 					await client.connect()
-
-		// 					return await client.getFlashblocks(blockNumber)
-		// 				},
-		// 				select: result => (
-		// 					result.map(flashBlock => (
-		// 						normalizeFlashBlockFlashblocks(flashBlock, network)
-		// 					))
-		// 				),
-		// 			},
-		// 		],
-		// 		combine: ([
-		// 			blockQuery,
-		// 			flashBlocksQuery,
-		// 		]) => ({
-		// 			...blockQuery,
-		// 			data: {
-		// 				...blockQuery.data,
-		// 				flashblocks: flashBlocksQuery.data ?? [],
-		// 			},
-		// 		}),
+		// 			return block
+		// 		},
+		// 		select: result => (
+		// 			normalizeBlockFlashblocks(result, network)
+		// 		),
 		// 	}),
 		// }),
+
+		[TransactionProvider.Flashblocks]: () => ({
+			fromQuery: createQueries({
+				queries: [
+					{
+						queryKey: ['Block', {
+							transactionProvider,
+							flashblocksProvider,
+							chainId: network.chainId,
+							blockNumber: Number(blockNumber),
+						}],
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								blockNumber: _blockNumber,
+							}],
+						}) => {
+							const blockNumber = BigInt(_blockNumber)
+
+							const { getClient } = await import('$/api/flashblocks/index')
+
+							if(flashblocksProvider === NetworkProvider.Default && network.flashblocksRpc?.[0]){
+								const client = getClient(network.flashblocksRpc[0])
+
+								await client.connect()
+
+								return await client.getBlock(blockNumber)
+							}
+
+							throw new Error(`Flashblocks does not yet support chain ${chainId}.`)
+						},
+						select: result => (
+							normalizeBlockFlashblocks(result, network)
+						),
+					},
+					{
+						queryKey: ['Flashblocks', {
+							transactionProvider,
+							chainId: network.chainId,
+							blockNumber: Number(blockNumber),
+						}],
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								blockNumber: _blockNumber,
+							}],
+						}) => {
+							const blockNumber = BigInt(_blockNumber)
+
+							const { getClient } = await import('$/api/flashblocks/index')
+
+							if(flashblocksProvider === NetworkProvider.Default && network.flashblocksRpc?.[0]){
+								const client = getClient(network.flashblocksRpc[0])
+
+								await client.connect()
+
+								return await client.getFlashblocks(blockNumber)
+							}
+
+							throw new Error(`Flashblocks does not yet support chain ${chainId}.`)
+						},
+						select: result => (
+							result.map(flashBlock => (
+								normalizeFlashBlockFlashblocks(flashBlock, network)
+							))
+						),
+					},
+				],
+				combine: ([
+					blockQuery,
+					flashBlocksQuery,
+				]) => (console.log({blockQuery, flashBlocksQuery})||{
+					...blockQuery,
+					...flashBlocksQuery,
+					data: {
+						...blockQuery.data,
+						flashblocks: flashBlocksQuery.data ?? [],
+					},
+				}),
+			}),
+		}),
 
 		[TransactionProvider.Moralis]: () => ({
 			fromQuery: createQuery({

@@ -1017,6 +1017,33 @@ export const getNetworkProviderIcon = (
 		networkProviderConfigByProvider[networkProvider]?.icon
 )
 
+export const getFlashblocksProviderName = (
+	networkProvider: NetworkProvider,
+	network?: Ethereum.Network,
+	includeHost = true,
+) => {
+	if(networkProvider === NetworkProvider.Default){
+		if(includeHost){
+			const host = network && network.flashblocksRpc?.[0] && parseUrl(network.flashblocksRpc?.[0])?.host
+			return host ? `Default (${host})` : 'Default'
+		}
+
+		return 'Default'
+	}
+
+	return networkProviderConfigByProvider[networkProvider]?.name
+}
+
+export const getFlashblocksProviderIcon = (
+	networkProvider: NetworkProvider,
+	network?: Ethereum.Network,
+) => (
+	networkProvider === NetworkProvider.Default &&
+		network?.icon
+	||
+		networkProviderConfigByProvider[networkProvider]?.icon
+)
+
 
 export const getEthersProvider = ({
 	network,
