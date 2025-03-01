@@ -30,6 +30,8 @@
 	import { get, set, del } from 'idb-keyval'
 	import { broadcastQueryClient } from '@tanstack/query-broadcast-client-experimental'
 
+	import { stringify, parse } from 'devalue'
+
 	export const queryClient = new QueryClient({
 		defaultOptions: {
 			queries: {
@@ -47,9 +49,23 @@
 		persistQueryClient({
 			queryClient,
 			persister: {
-				persistClient: async (client: PersistedClient) => set(idbKey, client),
-				restoreClient: async () => await get<PersistedClient>(idbKey),
-				removeClient: async () => await del(idbKey),
+				persistClient: async (client: PersistedClient) => {
+					set(idbKey, {
+						...client,
+						clientState: stringify(client.clientState),
+					})
+				},
+				restoreClient: async () => {
+					const client = await get<PersistedClient & { clientState: string }>(idbKey)
+
+					return client && {
+						...client,
+						clientState: client.clientState && parse(client.clientState) as unknown as PersistedClient['clientState'],
+					}
+				},
+				removeClient: async () => {
+					await del(idbKey)
+				},
 			}
 		})
 
