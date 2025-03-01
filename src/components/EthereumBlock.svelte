@@ -229,6 +229,26 @@
 
 <hr>
 
+{#if block.flashblocks && block.flashblocks.length > 0}
+	<hr>
+
+	<CollapsibleList
+		title="Flash Blocks"
+		count={block.flashblocks.length}
+		headingLevel={headingLevel + 1}
+		open={false}
+	>		
+		<svelte:fragment slot="item" let:item={flashBlock}>
+			<svelte:self
+				block={flashBlock}
+				{network}
+				{transactionProvider}
+				{quoteCurrency}
+			/>
+		</svelte:fragment>
+	</CollapsibleList>
+{/if}
+
 <CollapsibleList
 	items={block.transactions ?? block.transactionIds?.map(transactionId => ({ transactionId }))}
 	itemsCount={block.transactions?.length ?? block.transactionIds?.length}
@@ -317,24 +337,6 @@
 		{/if}
 	</svelte:fragment>
 </CollapsibleList>
-
-{#if block.flashblocks && block.flashblocks.length > 0}
-	<CollapsibleList
-		title="Flash Blocks"
-		count={block.flashblocks.length}
-		headingLevel={headingLevel + 1}
-		open={false}
-	>		
-		<svelte:fragment slot="item" let:item={flashBlock} let:index>
-			<svelte:self
-				block={flashBlock}
-				{network}
-				{transactionProvider}
-				{quoteCurrency}
-			/>
-		</svelte:fragment>
-	</CollapsibleList>
-{/if}
 
 <hr>
 

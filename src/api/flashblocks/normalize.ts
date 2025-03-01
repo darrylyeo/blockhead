@@ -26,11 +26,11 @@ export const normalizeBlock = (
 export const normalizeFlashBlock = (
 	flashBlock: FlashBlock,
 	network: Ethereum.Network
-): Ethereum.FlashBlock => ({
+): Ethereum.Block => ({
 	network,
 	blockNumber: BigInt(parseInt(flashBlock.number, 16)) as Ethereum.BlockNumber,
 	timestamp: parseInt(flashBlock.timestamp, 16) * 1000,
-	blockTime: 200, // Default block time in milliseconds
+	// blockTime: 200, // Default block time in milliseconds
 	producedAt: parseInt(flashBlock.timestamp, 16) * 1000,
 	transactions: flashBlock.transactions?.map(tx => normalizeTransaction(tx, network)),
 })

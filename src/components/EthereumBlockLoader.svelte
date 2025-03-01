@@ -445,6 +445,7 @@
 							chainId: network.chainId,
 							blockNumber: Number(blockNumber),
 						}],
+						placeholderData: () => placeholderData,
 						queryFn: async ({
 							queryKey: [_, {
 								chainId,
@@ -466,7 +467,10 @@
 							throw new Error(`Flashblocks does not yet support chain ${chainId}.`)
 						},
 						select: result => (
-							normalizeBlockFlashblocks(result, network)
+							result === placeholderData ?
+								placeholderData
+							:
+								normalizeBlockFlashblocks(result, network)
 						),
 					},
 					{
@@ -500,6 +504,7 @@
 								normalizeFlashBlockFlashblocks(flashBlock, network)
 							))
 						),
+						staleTime: 100,
 					},
 				],
 				combine: ([
