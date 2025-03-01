@@ -37,7 +37,8 @@ export class FlashblocksClient {
 			}
 
 			this.#ws.onerror = (error) => {
-				reject(error)
+				console.error('FlashblocksClient connect error', {error})
+				// reject(error)
 			}
 
 			this.#ws.onmessage = (event) => {
