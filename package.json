@@ -100,7 +100,7 @@
     "ethers": "^6.10.0",
     "etherspot": "^1.44.0",
     "file-type": "^18.7.0",
-    "gql.tada": "^1.8.2",
+    "gql.tada": "^1.8.10",
     "helia": "^4.2.2",
     "idb-keyval": "^6.2.1",
     "key-did-resolver": "^3.0.0",

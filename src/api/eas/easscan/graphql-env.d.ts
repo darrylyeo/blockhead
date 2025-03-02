@@ -1,20 +1,7 @@
 /* eslint-disable */
 /* prettier-ignore */
 
-/** An IntrospectionQuery representation of your schema.
- *
- * @remarks
- * This is an introspection of your schema saved as a file by GraphQLSP.
- * It will automatically be used by `gql.tada` to infer the types of your GraphQL documents.
- * If you need to reuse this data or update your `scalars`, update `tadaOutputLocation` to
- * instead save to a .ts instead of a .d.ts file.
- */
-export type introspection = {
-  name: 'eas/easscan';
-  query: 'Query';
-  mutation: 'Mutation';
-  subscription: never;
-  types: {
+export type introspection_types = {
     'AffectedRowsOutput': { kind: 'OBJECT'; name: 'AffectedRowsOutput'; fields: { 'count': { name: 'count'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Int'; ofType: null; }; } }; }; };
     'AggregateAttestation': { kind: 'OBJECT'; name: 'AggregateAttestation'; fields: { '_avg': { name: '_avg'; type: { kind: 'OBJECT'; name: 'AttestationAvgAggregate'; ofType: null; } }; '_count': { name: '_count'; type: { kind: 'OBJECT'; name: 'AttestationCountAggregate'; ofType: null; } }; '_max': { name: '_max'; type: { kind: 'OBJECT'; name: 'AttestationMaxAggregate'; ofType: null; } }; '_min': { name: '_min'; type: { kind: 'OBJECT'; name: 'AttestationMinAggregate'; ofType: null; } }; '_sum': { name: '_sum'; type: { kind: 'OBJECT'; name: 'AttestationSumAggregate'; ofType: null; } }; }; };
     'AggregateEnsName': { kind: 'OBJECT'; name: 'AggregateEnsName'; fields: { '_avg': { name: '_avg'; type: { kind: 'OBJECT'; name: 'EnsNameAvgAggregate'; ofType: null; } }; '_count': { name: '_count'; type: { kind: 'OBJECT'; name: 'EnsNameCountAggregate'; ofType: null; } }; '_max': { name: '_max'; type: { kind: 'OBJECT'; name: 'EnsNameMaxAggregate'; ofType: null; } }; '_min': { name: '_min'; type: { kind: 'OBJECT'; name: 'EnsNameMinAggregate'; ofType: null; } }; '_sum': { name: '_sum'; type: { kind: 'OBJECT'; name: 'EnsNameSumAggregate'; ofType: null; } }; }; };
@@ -237,7 +224,22 @@ export type introspection = {
     'TimestampUpdateManyMutationInput': { kind: 'INPUT_OBJECT'; name: 'TimestampUpdateManyMutationInput'; isOneOf: false; inputFields: [{ name: 'id'; type: { kind: 'INPUT_OBJECT'; name: 'StringFieldUpdateOperationsInput'; ofType: null; }; defaultValue: null }, { name: 'from'; type: { kind: 'INPUT_OBJECT'; name: 'StringFieldUpdateOperationsInput'; ofType: null; }; defaultValue: null }, { name: 'txid'; type: { kind: 'INPUT_OBJECT'; name: 'StringFieldUpdateOperationsInput'; ofType: null; }; defaultValue: null }, { name: 'tree'; type: { kind: 'INPUT_OBJECT'; name: 'StringFieldUpdateOperationsInput'; ofType: null; }; defaultValue: null }, { name: 'timestamp'; type: { kind: 'INPUT_OBJECT'; name: 'IntFieldUpdateOperationsInput'; ofType: null; }; defaultValue: null }]; };
     'TimestampWhereInput': { kind: 'INPUT_OBJECT'; name: 'TimestampWhereInput'; isOneOf: false; inputFields: [{ name: 'AND'; type: { kind: 'LIST'; name: never; ofType: { kind: 'NON_NULL'; name: never; ofType: { kind: 'INPUT_OBJECT'; name: 'TimestampWhereInput'; ofType: null; }; }; }; defaultValue: null }, { name: 'OR'; type: { kind: 'LIST'; name: never; ofType: { kind: 'NON_NULL'; name: never; ofType: { kind: 'INPUT_OBJECT'; name: 'TimestampWhereInput'; ofType: null; }; }; }; defaultValue: null }, { name: 'NOT'; type: { kind: 'LIST'; name: never; ofType: { kind: 'NON_NULL'; name: never; ofType: { kind: 'INPUT_OBJECT'; name: 'TimestampWhereInput'; ofType: null; }; }; }; defaultValue: null }, { name: 'id'; type: { kind: 'INPUT_OBJECT'; name: 'StringFilter'; ofType: null; }; defaultValue: null }, { name: 'from'; type: { kind: 'INPUT_OBJECT'; name: 'StringFilter'; ofType: null; }; defaultValue: null }, { name: 'txid'; type: { kind: 'INPUT_OBJECT'; name: 'StringFilter'; ofType: null; }; defaultValue: null }, { name: 'tree'; type: { kind: 'INPUT_OBJECT'; name: 'StringFilter'; ofType: null; }; defaultValue: null }, { name: 'timestamp'; type: { kind: 'INPUT_OBJECT'; name: 'IntFilter'; ofType: null; }; defaultValue: null }]; };
     'TimestampWhereUniqueInput': { kind: 'INPUT_OBJECT'; name: 'TimestampWhereUniqueInput'; isOneOf: false; inputFields: [{ name: 'id'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; }; defaultValue: null }]; };
-  };
+};
+
+/** An IntrospectionQuery representation of your schema.
+ *
+ * @remarks
+ * This is an introspection of your schema saved as a file by GraphQLSP.
+ * It will automatically be used by `gql.tada` to infer the types of your GraphQL documents.
+ * If you need to reuse this data or update your `scalars`, update `tadaOutputLocation` to
+ * instead save to a .ts instead of a .d.ts file.
+ */
+export type introspection = {
+  name: 'eas/easscan';
+  query: 'Query';
+  mutation: 'Mutation';
+  subscription: never;
+  types: introspection_types;
 };
 
 import * as gqlTada from 'gql.tada';
