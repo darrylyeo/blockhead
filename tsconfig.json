@@ -67,6 +67,13 @@
 						"tadaPersistedLocation": "./src/api/moxie/stats/graphql-persisted.d.ts"
 					},
 					{
+						"name": "spaceandtime/ethereum",
+						"schema": "./src/api/spaceandtime/graphql/ethereum/schema.graphql",
+						"tadaOutputLocation": "./src/api/spaceandtime/graphql/ethereum/graphql-env.d.ts",
+						"tadaTurboLocation": "./src/api/spaceandtime/graphql/ethereum/graphql-turbo.d.ts",
+						"tadaPersistedLocation": "./src/api/spaceandtime/graphql/ethereum/graphql-persisted.d.ts"
+					},
+					{
 						"name": "zapper",
 						"schema": "https://public.zapper.xyz/graphql",
 						"tadaOutputLocation": "./src/api/zapper/graphql/graphql-env.d.ts",
