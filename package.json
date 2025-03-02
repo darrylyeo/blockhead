@@ -19,6 +19,7 @@
     "generate": "npx npm-run-all generate:*",
     "generate:gql.tada": "gql.tada generate output",
     "generate:gql.tada:turbo": "gql.tada turbo",
+    "generate:gql.tada:spaceandtime:graphql": "dotenvx run --env-file=.env.production -- sh -c 'gql.tada generate-schema https://api.spaceandtime.dev/v1/graphql --header \"Authorization: Bearer $PUBLIC_SPACEANDTIME_ACCESS_TOKEN\"'",
     "generate:oazapfts:beryx:filecoin": "oazapfts https://docs.zondax.ch/openapi/beryx-fil-mainnet.json ./src/api/beryx/filecoin/api.ts --optimistic --useEnumType",
     "generate:oazapfts:blockscout:rest": "oazapfts https://raw.githubusercontent.com/blockscout/blockscout-api-v2-swagger/main/swagger.yaml ./src/api/blockscout/rest/index.ts --optimistic --useEnumType",
     "generate:oazapfts:coinapi": "oazapfts https://raw.githubusercontent.com/coinapi/coinapi-sdk/master/data-api/coinapi-marketdata-rest.yaml ./src/api/coinapi/market-data/rest/index.ts --optimistic --useEnumType",
