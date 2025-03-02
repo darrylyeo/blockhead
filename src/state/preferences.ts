@@ -228,6 +228,7 @@ export const preferencesConfig = [
 								TransactionProvider.Etherscan,
 								TransactionProvider.Moralis,
 								TransactionProvider.Noves,
+								TransactionProvider.SpaceAndTimeGraphql,
 							] as const)
 								.map(provider => ({
 									value: provider,

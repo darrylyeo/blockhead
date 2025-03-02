@@ -71,6 +71,8 @@
 
 	import { normalizeBlock as normalizeMoralisBlock } from '$/api/moralis/web3Api/normalize'
 
+	import { normalizeBlock as normalizeBlockSpaceAndTimeGraphql, normalizeTransaction as normalizeTransactionSpaceAndTimeGraphql } from '$/api/spaceandtime/graphql/normalize'
+
 
 	// Components
 	import Loader from './Loader.svelte'
@@ -466,6 +468,91 @@
 					})
 				},
 				select: block => block === placeholderData ? block : normalizeViemBlock(block, network),
+			}),
+		}),
+
+		[TransactionProvider.SpaceAndTimeGraphql]: () => ({
+			fromQuery: createQueries({
+				queries: [
+					{
+						queryKey: ['Block', {
+							transactionProvider,
+							chainId: network.chainId,
+							blockNumber: Number(blockNumber),
+						}],
+						placeholderData: () => placeholderData,
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								blockNumber,
+							}],
+						}) => {
+							const { getBlock } = await import('$/api/spaceandtime/graphql')
+
+							return await getBlock({
+								chainId,
+								blockNumber,
+							})
+						},
+						select: result => (
+							result === placeholderData ?
+								result
+							:
+								normalizeBlockSpaceAndTimeGraphql(
+									(
+										Object.values(result)[0]
+											[0]
+									),
+									network
+								)
+						),
+					},
+					includeTransactions && {
+						queryKey: ['BlockTransactions', {
+							transactionProvider,
+							chainId: network.chainId,
+							blockNumber: Number(blockNumber),
+						}],
+						placeholderData: () => placeholderData,
+						queryFn: async ({
+							queryKey: [_, {
+								chainId,
+								blockNumber,
+							}],
+						}) => {
+							const { getTransactionsForBlock } = await import('$/api/spaceandtime/graphql')
+
+							return await getTransactionsForBlock({
+								chainId,
+								blockNumber,
+							})
+						},
+						select: result => (
+							result === placeholderData ?
+								result
+							:
+								Object.values(result)[0]
+									.map(transaction => (
+										normalizeTransactionSpaceAndTimeGraphql(
+											transaction,
+											network
+										)
+									))
+						),
+					},
+				].filter(isTruthy),
+				combine: ([
+					blockQuery,
+					transactionsQuery,
+				]) => ({
+					...blockQuery,
+					data: {
+						...blockQuery.data,
+						...transactionsQuery?.data && {
+							transactions: transactionsQuery.data,
+						},
+					},
+				}),
 			}),
 		}),
 	}[transactionProvider]?.()}

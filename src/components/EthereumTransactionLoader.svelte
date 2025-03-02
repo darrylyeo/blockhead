@@ -67,6 +67,8 @@
 
 	import { normalizeTransaction as normalizeTransactionNoves, normalizeRawTransaction as normalizeRawTransactionNoves } from '$/api/noves/normalize'
 
+	import { normalizeTransaction as normalizeTransactionSpaceAndTimeGraphql } from '$/api/spaceandtime/graphql/normalize'
+
 
 	// Components
 	import EthereumTransaction from './EthereumTransaction.svelte'
@@ -572,7 +574,39 @@
 					},
 				}),
 			}),
-		})
+		}),
+
+		[TransactionProvider.SpaceAndTimeGraphql]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['Transaction', {
+					transactionProvider,
+					chainId: network.chainId,
+					transactionId,
+				}],
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						transactionId,
+					}],
+				}) => {
+					const { getTransaction } = await import('$/api/spaceandtime/graphql')
+
+					return await getTransaction({
+						chainId,
+						transactionId,
+					})
+				},
+				select: result => (console.log(777, {result}, Object.values(result)[0])||
+					normalizeTransactionSpaceAndTimeGraphql(
+						(
+							Object.values(result)[0]
+								[0]
+						),
+						network,
+					)
+				),
+			})
+		}),
 	}[transactionProvider]?.()}
 	bind:result={transaction}
 	let:result={transaction}
