@@ -48,6 +48,8 @@
 
 	import { normalizeTransaction as normalizeTransactionNoves } from '$/api/noves/normalize'
 
+	import { normalizeTransaction as normalizeTransactionSpaceAndTimeGraphql } from '$/api/spaceandtime/graphql/normalize'
+
 
 	// Outputs
 	export let transactions: Ethereum.Transaction[] | undefined
@@ -208,38 +210,6 @@
 				queryFn: () => {
 					throw new Error('Curvegrid does not yet support querying transactions by address.')
 				},
-				// initialPageParam: {
-				// 	limit: 100,
-				// 	offset: 0,
-				// },
-				// queryFn: async ({
-				// 	queryKey: [_, {
-				// 		chainId,
-				// 		address,
-				// 	}],
-				// 	pageParam: {
-				// 		limit,
-				// 		offset,
-				// 	},
-				// }) => {
-				// 	const { getTransactions } = await import('$/api/curvegrid/multibaas')
-
-				// 	return await getTransactions({
-				// 		chain: 'ethereum',
-				// 		wallet_address: address,
-				// 		limit,
-				// 		offset,
-				// 	})
-				// },
-				// getNextPageParam: (lastPage, allPages) => ({
-				// 	limit: lastPage.pageParam.limit,
-				// 	offset: lastPage.offset + lastPage.pageParam.limit,
-				// }),
-				// select: result => (
-				// 	result.pages
-				// 		.flatMap(page => page.data.result)
-				// 		.map(transaction => normalizeTransactionCurvegridMultibaas(transaction, network))
-				// ),
 				staleTime: 10 * 1000,
 			})
 		}),
@@ -469,6 +439,47 @@
 				),
 				staleTime: 10 * 1000,
 			})
+		}),
+
+		[TransactionProvider.SpaceAndTimeGraphql]: () => ({
+			fromQuery: createQuery({
+				queryKey: ['Transactions', {
+					transactionProvider,
+					chainId: network.chainId,
+					blockNumber,
+					address,
+					limit,
+					offset
+				}],
+				placeholderData: () => ({ network, transactions: [] }),
+				queryFn: async ({
+					queryKey: [_, {
+						chainId,
+						blockNumber,
+						address,
+						limit,
+						offset
+					}],
+				}) => {
+					const { getTransactionsForBlock } = await import('$/api/spaceandtime/graphql')
+
+					return await getTransactionsForBlock({
+						chainId,
+						blockNumber,
+						limit,
+						offset
+					})
+				},
+				select: result => (
+					normalizeTransactionSpaceAndTimeGraphql(
+						(
+							Object.values(result)[0]
+								[0]
+						),
+						network
+					)
+				),
+			}),
 		}),
 	}[transactionProvider]?.()}
 	bind:result={transactions}

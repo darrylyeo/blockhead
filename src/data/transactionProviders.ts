@@ -11,10 +11,11 @@ export enum TransactionProvider {
 	Flashblocks = 'Flashblocks',
 	Moralis = 'Moralis',
 	Noves = 'Noves',
+	SpaceAndTimeGraphql = 'SpaceAndTimeGraphql',
 }
 
 
-import { BlockscoutIcon, ChainbaseIcon, CovalentGoldRushIcon, CurvegridIcon, DecommasIcon, EnvioIcon, EtherscanIcon, EtherspotIcon, MoralisIcon, NovesIcon } from '$/assets/icons'
+import { BlockscoutIcon, ChainbaseIcon, CovalentGoldRushIcon, CurvegridIcon, DecommasIcon, EnvioIcon, EtherscanIcon, EtherspotIcon, MoralisIcon, NovesIcon, SpaceAndTimeIcon } from '$/assets/icons'
 
 export const transactionProviders = {
 	[TransactionProvider.RpcProvider]: {
@@ -62,6 +63,10 @@ export const transactionProviders = {
 	[TransactionProvider.Noves]: {
 		name: 'Noves',
 		icon: NovesIcon,
+	},
+	[TransactionProvider.SpaceAndTimeGraphql]: {
+		name: 'Space and Time › GraphQL',
+		icon: SpaceAndTimeIcon,
 	},
 } as const satisfies Record<TransactionProvider, {
 	name: string
