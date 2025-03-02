@@ -1,20 +1,7 @@
 /* eslint-disable */
 /* prettier-ignore */
 
-/** An IntrospectionQuery representation of your schema.
- *
- * @remarks
- * This is an introspection of your schema saved as a file by GraphQLSP.
- * It will automatically be used by `gql.tada` to infer the types of your GraphQL documents.
- * If you need to reuse this data or update your `scalars`, update `tadaOutputLocation` to
- * instead save to a .ts instead of a .d.ts file.
- */
-export type introspection = {
-  name: 'moxie/protocol';
-  query: 'Query';
-  mutation: never;
-  subscription: 'Subscription';
-  types: {
+export type introspection_types = {
     'Aggregation_interval': { name: 'Aggregation_interval'; enumValues: 'hour' | 'day'; };
     'Auction': { kind: 'OBJECT'; name: 'Auction'; fields: { 'amountRaised': { name: 'amountRaised'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'BigInt'; ofType: null; }; } }; 'auctionEndDate': { name: 'auctionEndDate'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'BigInt'; ofType: null; }; } }; 'clearingBuyAmount': { name: 'clearingBuyAmount'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'BigInt'; ofType: null; }; } }; 'clearingSellAmount': { name: 'clearingSellAmount'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'BigInt'; ofType: null; }; } }; 'clearingUserId': { name: 'clearingUserId'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'BigInt'; ofType: null; }; } }; 'endBlockInfo': { name: 'endBlockInfo'; type: { kind: 'OBJECT'; name: 'BlockInfo'; ofType: null; } }; 'endTxHash': { name: 'endTxHash'; type: { kind: 'SCALAR'; name: 'Bytes'; ofType: null; } }; 'id': { name: 'id'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'ID'; ofType: null; }; } }; 'minFundingThreshold': { name: 'minFundingThreshold'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'BigInt'; ofType: null; }; } }; 'minFundingThresholdNotReached': { name: 'minFundingThresholdNotReached'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Boolean'; ofType: null; }; } }; 'protocolFee': { name: 'protocolFee'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'BigInt'; ofType: null; }; } }; 'protocolToken': { name: 'protocolToken'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Bytes'; ofType: null; }; } }; 'startBlockInfo': { name: 'startBlockInfo'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'OBJECT'; name: 'BlockInfo'; ofType: null; }; } }; 'startBlockNumber': { name: 'startBlockNumber'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'BigInt'; ofType: null; }; } }; 'startTxHash': { name: 'startTxHash'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Bytes'; ofType: null; }; } }; 'subjectFee': { name: 'subjectFee'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'BigInt'; ofType: null; }; } }; 'subjectToken': { name: 'subjectToken'; type: { kind: 'OBJECT'; name: 'SubjectToken'; ofType: null; } }; 'volumeClearingPriceOrder': { name: 'volumeClearingPriceOrder'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'BigInt'; ofType: null; }; } }; }; };
     'AuctionUser': { kind: 'OBJECT'; name: 'AuctionUser'; fields: { 'id': { name: 'id'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'ID'; ofType: null; }; } }; 'userAddress': { name: 'userAddress'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Bytes'; ofType: null; }; } }; }; };
@@ -84,7 +71,22 @@ export type introspection = {
     '_Block_': { kind: 'OBJECT'; name: '_Block_'; fields: { 'hash': { name: 'hash'; type: { kind: 'SCALAR'; name: 'Bytes'; ofType: null; } }; 'number': { name: 'number'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Int'; ofType: null; }; } }; 'parentHash': { name: 'parentHash'; type: { kind: 'SCALAR'; name: 'Bytes'; ofType: null; } }; 'timestamp': { name: 'timestamp'; type: { kind: 'SCALAR'; name: 'Int'; ofType: null; } }; }; };
     '_Meta_': { kind: 'OBJECT'; name: '_Meta_'; fields: { 'block': { name: 'block'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'OBJECT'; name: '_Block_'; ofType: null; }; } }; 'deployment': { name: 'deployment'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; } }; 'hasIndexingErrors': { name: 'hasIndexingErrors'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Boolean'; ofType: null; }; } }; }; };
     '_SubgraphErrorPolicy_': { name: '_SubgraphErrorPolicy_'; enumValues: 'allow' | 'deny'; };
-  };
+};
+
+/** An IntrospectionQuery representation of your schema.
+ *
+ * @remarks
+ * This is an introspection of your schema saved as a file by GraphQLSP.
+ * It will automatically be used by `gql.tada` to infer the types of your GraphQL documents.
+ * If you need to reuse this data or update your `scalars`, update `tadaOutputLocation` to
+ * instead save to a .ts instead of a .d.ts file.
+ */
+export type introspection = {
+  name: 'moxie/protocol';
+  query: 'Query';
+  mutation: never;
+  subscription: 'Subscription';
+  types: introspection_types;
 };
 
 import * as gqlTada from 'gql.tada';
