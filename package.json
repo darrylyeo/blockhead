@@ -57,6 +57,7 @@
     "@decommas/sdk": "^1.8.0",
     "@didtools/pkh-ethereum": "^0.4.1",
     "@dotenvx/dotenvx": "^1.5.0",
+    "@farcaster/frame-sdk": "^0.0.37",
     "@fontsource/fira-code": "^5.0.16",
     "@fontsource/ubuntu": "^5.0.8",
     "@helia/ipns": "^7.2.2",

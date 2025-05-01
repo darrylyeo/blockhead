@@ -112,6 +112,14 @@
 	let showAccounts = false
 
 
+	// Farcaster Mini-App
+	onMount(async () => {
+		const { sdk } = await import('@farcaster/frame-sdk')
+
+		await sdk.actions.ready()
+	})
+
+
 	// Functions
 	import { parseFarcasterFrameServerMeta } from '$/api/farcaster/frame'
 
