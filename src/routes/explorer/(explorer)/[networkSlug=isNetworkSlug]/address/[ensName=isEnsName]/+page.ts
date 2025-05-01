@@ -2,13 +2,8 @@
 import type { MetaTagsProps } from 'svelte-meta-tags'
 
 
-// Context
-import { farcasterFrameRoutes } from './farcasterFrameRoutes'
-
-
 // Functions
 import { openGraphImageGeneratorMeta } from '$/opengraph/imageGenerator'
-import { serializeFarcasterFrameServerMeta } from '$/api/farcaster/frame'
 
 
 // Outputs
@@ -33,12 +28,6 @@ export const load: PageLoad = async ({
 				openGraphImageMeta,
 			],
 		},
-		additionalMetaTags: serializeFarcasterFrameServerMeta({
-			image: {
-				url: openGraphImageMeta.url,
-			},
-			...farcasterFrameRoutes['/'],
-		}),
 	}
 
 	return {
