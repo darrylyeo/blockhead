@@ -1,0 +1,33 @@
+{
+	"frame": {
+		"version": "1",
+		"homeUrl": "https://blockhead.info",
+		"iconUrl": "https://blockhead.info/logo-512.png",
+		"splashImageUrl": "https://blockhead.info/Blockhead-Logo.svg",
+		"splashBackgroundColor": "#182855",
+		"webhookUrl": "https://blockhead.info/api/webhook",
+		"subtitle": "Explore the decentralized web!",
+		"description": "Track/visualize/explore blockchains, tokens, NFTs, Farcaster and more.",
+		"screenshotUrls": [
+		],
+		"primaryCategory": "utility",
+		"tags": [
+			"blockchain",
+			"explorer",
+			"portfolio",
+			"web3",
+			"decentralization"
+		],
+		"heroImageUrl": "https://blockhead.info/Blockhead@1-1728x1080.png",
+		"tagline": "Explore the decentralized web!",
+		"ogTitle": "Explore the decentralized web!",
+		"ogDescription": "Track/visualize/explore blockchains, tokens, NFTs, Farcaster and more.",
+		"ogImageUrl": "https://blockhead.info/Blockhead@1-1728x1080.png",
+		"noindex": false
+	},
+	"accountAssociation": {
+		"header": "eyJmaWQiOjM4NTQsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHhkMTUzNTNjMmQ3YWI0M2E1MmIxMDNiYzBkNmM5N2M5NzQyOWVmMGY2In0",
+		"payload": "eyJkb21haW4iOiJibG9ja2hlYWQuaW5mbyJ9",
+		"signature": ""
+	}
+}
