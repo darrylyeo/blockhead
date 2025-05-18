@@ -82,7 +82,7 @@ export let accountConnection = derived([
 	$accountConnections,
 	$accountId,
 ], set) => set(
-	$accountConnections.find(accountConnection => accountConnection.state?.account?.address?.toLowerCase() === $accountId.toLowerCase())
+	$accountConnections.find(accountConnection => accountConnection.state?.account?.address?.toLowerCase() === $accountId?.toLowerCase())
 ))
 
 export const title = derived([
