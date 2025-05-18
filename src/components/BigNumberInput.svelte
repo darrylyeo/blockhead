@@ -48,7 +48,7 @@
 		value = (
 			max !== undefined && parsedValue !== undefined && parsedValue > max ?
 				max
-			: min !== undefined && parsedValue !== undefined && parsedValue > min ?
+			: min !== undefined && parsedValue !== undefined && parsedValue < min ?
 				min
 			:
 				parsedValue
