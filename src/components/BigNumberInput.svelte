@@ -2,11 +2,21 @@
 	// Formatting
 	import { formatUnits, parseUnits } from 'viem'
 
-	const truncate = (n: string, decimals: number) =>
-		n.match(new RegExp(`^\\d*(?:\.\\d{0,${decimals}})?`))?.[0] ?? n.toString()
+	const truncate = (n: string, decimals: number) => (
+		(
+			decimals === 0 ?
+				n.split('.')[0]
+			:
+				n.match(new RegExp(`^\\d*(?:\.\\d{0,${decimals}})?`))?.[0]
+		) ?? n
+	)
 
-	const format = (n: bigint | undefined, decimals: number): string =>
-		n ? truncate(formatUnits(n, decimals), decimals) : ''
+	const format = (n: bigint | undefined, decimals: number): string => (
+		n !== undefined ?
+			truncate(formatUnits(n, decimals), decimals)
+		:
+			''
+	)
 
 	const parse = (n: string | number, decimals: number): bigint | undefined => {
 		try {
