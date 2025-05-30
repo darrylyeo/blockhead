@@ -5,6 +5,7 @@
     "npm:@sveltejs/adapter-static@^3.0.8": "3.0.8_@sveltejs+kit@2.21.1__@sveltejs+vite-plugin-svelte@5.0.3___svelte@5.33.10____acorn@8.14.1___vite@6.3.5____picomatch@4.0.2__svelte@5.33.10___acorn@8.14.1__vite@6.3.5___picomatch@4.0.2__acorn@8.14.1_@sveltejs+vite-plugin-svelte@5.0.3__svelte@5.33.10___acorn@8.14.1__vite@6.3.5___picomatch@4.0.2_svelte@5.33.10__acorn@8.14.1_vite@6.3.5__picomatch@4.0.2",
     "npm:@sveltejs/kit@^2.16.0": "2.21.1_@sveltejs+vite-plugin-svelte@5.0.3__svelte@5.33.10___acorn@8.14.1__vite@6.3.5___picomatch@4.0.2_svelte@5.33.10__acorn@8.14.1_vite@6.3.5__picomatch@4.0.2_acorn@8.14.1",
     "npm:@sveltejs/vite-plugin-svelte@5": "5.0.3_svelte@5.33.10__acorn@8.14.1_vite@6.3.5__picomatch@4.0.2",
+    "npm:gql.tada@^1.8.10": "1.8.10_typescript@5.8.3_@0no-co+graphqlsp@1.12.16__graphql@16.11.0__typescript@5.8.3",
     "npm:openapi-typescript@^7.8.0": "7.8.0_typescript@5.8.3",
     "npm:svelte-check@4": "4.2.1_svelte@5.33.10__acorn@8.14.1_typescript@5.8.3",
     "npm:svelte@5": "5.33.10_acorn@8.14.1",
@@ -12,6 +13,23 @@
     "npm:vite@^6.2.6": "6.3.5_picomatch@4.0.2"
   },
   "npm": {
+    "@0no-co/graphql.web@1.1.2_graphql@16.11.0": {
+      "integrity": "sha512-N2NGsU5FLBhT8NZ+3l2YrzZSHITjNXNuDhC4iDiikv0IujaJ0Xc6xIxQZ/Ek3Cb+rgPjnLHYyJm11tInuJn+cw==",
+      "dependencies": [
+        "graphql"
+      ],
+      "optionalPeers": [
+        "graphql"
+      ]
+    },
+    "@0no-co/graphqlsp@1.12.16_graphql@16.11.0_typescript@5.8.3": {
+      "integrity": "sha512-B5pyYVH93Etv7xjT6IfB7QtMBdaaC07yjbhN6v8H7KgFStMkPvi+oWYBTibMFRMY89qwc9H8YixXg8SXDVgYWw==",
+      "dependencies": [
+        "@gql.tada/internal",
+        "graphql",
+        "typescript"
+      ]
+    },
     "@ampproject/remapping@2.3.0": {
       "integrity": "sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==",
       "dependencies": [
@@ -175,6 +193,23 @@
       "integrity": "sha512-TXv6YnJ8ZMVdX+SXWVBo/0p8LTcrUYngpWjvm91TMjjBQii7Oz11Lw5lbDV5Y0TzuhSJHwiH4hEtC1I42mMS0g==",
       "os": ["win32"],
       "cpu": ["x64"]
+    },
+    "@gql.tada/cli-utils@1.6.3_@0no-co+graphqlsp@1.12.16__graphql@16.11.0__typescript@5.8.3_graphql@16.11.0_typescript@5.8.3": {
+      "integrity": "sha512-jFFSY8OxYeBxdKi58UzeMXG1tdm4FVjXa8WHIi66Gzu9JWtCE6mqom3a8xkmSw+mVaybFW5EN2WXf1WztJVNyQ==",
+      "dependencies": [
+        "@0no-co/graphqlsp",
+        "@gql.tada/internal",
+        "graphql",
+        "typescript"
+      ]
+    },
+    "@gql.tada/internal@1.0.8_graphql@16.11.0_typescript@5.8.3": {
+      "integrity": "sha512-XYdxJhtHC5WtZfdDqtKjcQ4d7R1s0d1rnlSs3OcBEUbYiPoJJfZU7tWsVXuv047Z6msvmr4ompJ7eLSK5Km57g==",
+      "dependencies": [
+        "@0no-co/graphql.web",
+        "graphql",
+        "typescript"
+      ]
     },
     "@jridgewell/gen-mapping@0.3.8": {
       "integrity": "sha512-imAbBGkb+ebQyxKgzv5Hu2nmROxoDOXHh80evxdoXNOrvAnVx7zimzc1Oo5h9RlfV4vPXaE2iM5pOFbvOCClWA==",
@@ -557,6 +592,20 @@
     },
     "get-stream@6.0.1": {
       "integrity": "sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg=="
+    },
+    "gql.tada@1.8.10_typescript@5.8.3_@0no-co+graphqlsp@1.12.16__graphql@16.11.0__typescript@5.8.3": {
+      "integrity": "sha512-FrvSxgz838FYVPgZHGOSgbpOjhR+yq44rCzww3oOPJYi0OvBJjAgCiP6LEokZIYND2fUTXzQAyLgcvgw1yNP5A==",
+      "dependencies": [
+        "@0no-co/graphql.web",
+        "@0no-co/graphqlsp",
+        "@gql.tada/cli-utils",
+        "@gql.tada/internal",
+        "typescript"
+      ],
+      "bin": true
+    },
+    "graphql@16.11.0": {
+      "integrity": "sha512-mS1lbMsxgQj6hge1XZ6p7GPhbrtFwUFYi3wRzXAC/FmYnyXMTvvI3td3rjmQ2u8ewXueaSvRPWaEcgVVOT9Jnw=="
     },
     "https-proxy-agent@7.0.6": {
       "integrity": "sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==",
@@ -1035,6 +1084,7 @@
         "npm:@sveltejs/adapter-static@^3.0.8",
         "npm:@sveltejs/kit@^2.16.0",
         "npm:@sveltejs/vite-plugin-svelte@5",
+        "npm:gql.tada@^1.8.10",
         "npm:openapi-typescript@^7.8.0",
         "npm:svelte-check@4",
         "npm:svelte@5",

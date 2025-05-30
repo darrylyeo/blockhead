@@ -11,6 +11,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"env:encrypt": "dotenvx encrypt -f .env.production",
+		"generate:gql.tada": "gql.tada generate-output --tsconfig ./tsconfig.json",
 		"generate:openapi-typescript:1inch:balances:arbitrum": "openapi-typescript https://portal.1inch.dev/api/swagger-docs/balance/swagger/arbitrum-json -o ./src/api/1inch/balances/arbitrum/api.d.ts",
 		"generate:openapi-typescript:1inch:balances:aurora": "openapi-typescript https://portal.1inch.dev/api/swagger-docs/balance/swagger/aurora-json -o ./src/api/1inch/balances/aurora/api.d.ts",
 		"generate:openapi-typescript:1inch:balances:avalanche": "openapi-typescript https://portal.1inch.dev/api/swagger-docs/balance/swagger/avalanche-json -o ./src/api/1inch/balances/avalanche/api.d.ts",
@@ -117,6 +118,7 @@
 		"vite": "^6.2.6"
 	},
 	"dependencies": {
-		"@dotenvx/dotenvx": "^1.0.1"
+		"@dotenvx/dotenvx": "^1.0.1",
+		"gql.tada": "^1.8.10"
 	}
 }
