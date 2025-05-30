@@ -1,0 +1,623 @@
+import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf.js'
+import type { Address, Hash, Actor, ActorType } from './address.js'
+import type { ChainId } from './chain.js'
+import type { Timestamp, BlockNumber, TokenAmount, USDAmount, Percentage, BasisPoints } from './types.js'
+
+// ABI and function types
+export type ABIType = 'function' | 'constructor' | 'event' | 'error' | 'fallback' | 'receive'
+export type StateMutability = 'pure' | 'view' | 'nonpayable' | 'payable'
+export type ABIParameterType = string // 'uint256', 'address', 'string', etc.
+
+// Generic ABI parameter type
+export type ABIParameter<
+	T extends ABIParameterType = ABIParameterType,
+	Components = any[]
+> = {
+	name: string
+	type: T
+	internalType?: string
+	components?: Components // For tuples/structs
+	indexed?: boolean // For events
+}
+
+// Generic ABI element base type
+export type ABIElement<
+	Type extends ABIType = ABIType,
+	P = {}
+> = {
+	type: Type
+} & P
+
+// Specific ABI element types
+export type ABIFunction<
+	SM extends StateMutability = StateMutability,
+	Inputs extends ABIParameter[] = ABIParameter[],
+	Outputs extends ABIParameter[] = ABIParameter[]
+> = ABIElement<'function', {
+	name: string
+	stateMutability: SM
+	inputs: Inputs
+	outputs: Outputs
+	
+	// Function metadata
+	selector: string // 4-byte function selector
+	signature: string // Human readable signature
+	gasEstimate?: string
+	
+	// Documentation
+	notice?: string
+	dev?: string
+	params?: Record<string, string>
+	returns?: Record<string, string>
+}>
+
+export type ABIEvent<
+	Inputs extends ABIParameter[] = ABIParameter[]
+> = ABIElement<'event', {
+	name: string
+	inputs: Inputs
+	anonymous?: boolean
+	
+	// Event metadata
+	signature: Hash // Event signature hash
+	topic0: Hash // Same as signature
+	
+	// Documentation
+	notice?: string
+	dev?: string
+	params?: Record<string, string>
+}>
+
+export type ABIError<
+	Inputs extends ABIParameter[] = ABIParameter[]
+> = ABIElement<'error', {
+	name: string
+	inputs: Inputs
+	
+	// Error metadata
+	selector: string // 4-byte error selector
+	signature: string
+}>
+
+export type ABIConstructor<
+	SM extends 'payable' | 'nonpayable' = 'payable' | 'nonpayable',
+	Inputs extends ABIParameter[] = ABIParameter[]
+> = ABIElement<'constructor', {
+	stateMutability?: SM
+	inputs: Inputs
+}>
+
+export type ABIFallback<
+	Type extends 'fallback' | 'receive' = 'fallback' | 'receive',
+	SM extends 'payable' | 'nonpayable' = 'payable' | 'nonpayable'
+> = ABIElement<Type, {
+	stateMutability: SM
+}>
+
+// Union type for all ABI elements
+export type AnyABIElement = ABIFunction | ABIEvent | ABIError | ABIConstructor | ABIFallback
+
+// Generic contract ABI type
+export type ContractABI<
+	Elements extends AnyABIElement[] = AnyABIElement[]
+> = {
+	abi: Elements
+	
+	// Function lookups
+	functions: Record<string, ABIFunction> // name -> function
+	events: Record<string, ABIEvent> // name -> event
+	errors: Record<string, ABIError> // name -> error
+	
+	// Selectors
+	functionSelectors: Record<string, ABIFunction> // selector -> function
+	eventTopics: Record<Hash, ABIEvent> // topic0 -> event
+	errorSelectors: Record<string, ABIError> // selector -> error
+}
+
+// Contract source with generic compiler settings
+export type ContractSource<
+	Language extends 'Solidity' | 'Vyper' | 'Yul' = 'Solidity' | 'Vyper' | 'Yul',
+	Settings extends Record<string, any> = Record<string, any>,
+	VerificationMethod extends string = 'standard' | 'single-file' | 'multi-part',
+	VerifiedBy extends string = 'etherscan' | 'sourcify' | 'blockscout'
+> = {
+	sources: Record<string, string> // filename -> source code
+	compiler: {
+		version: string
+		language: Language
+		settings: Settings
+	}
+	
+	verificationMethod: VerificationMethod
+	verifiedAt: number
+	verifiedBy: VerifiedBy
+	
+	license?: string
+	libraries?: Record<string, Address>
+}
+
+// Contract deployment with generic creation type
+export type ContractDeployment<
+	CreationType extends 'create' | 'create2' = 'create' | 'create2'
+> = {
+	deployTransaction: Hash
+	deployBlock: number
+	deployTimestamp: number
+	deployer: Address
+	
+	constructorArgs?: string
+	gasUsed: string
+	gasPrice: string
+	deploymentCost: string
+	
+	creationType: CreationType
+	salt?: Hash
+	factory?: Address
+	
+	isProxy: boolean
+	implementation?: Address
+	admin?: Address
+}
+
+// Contract pattern with generic pattern type
+export type ContractPattern<
+	Pattern extends string = string,
+	Evidence extends string[] = string[]
+> = {
+	pattern: Pattern
+	confidence: number // 0-100
+	evidence: Evidence
+}
+
+// Contract vulnerability with generic severity and status
+export type ContractVulnerability<
+	Severity extends string = 'critical' | 'high' | 'medium' | 'low',
+	Status extends string = 'open' | 'fixed' | 'acknowledged'
+> = {
+	id: string
+	severity: Severity
+	title: string
+	description: string
+	status: Status
+	discoveredAt: number
+}
+
+// Contract audit with generic risk levels
+export type ContractAudit<
+	Risk extends string = 'low' | 'medium' | 'high' | 'critical',
+	Findings extends Record<string, number> = Record<string, number>
+> = {
+	auditor: string
+	auditDate: number
+	reportUrl?: string
+	findings: Findings
+	overallRisk: Risk
+}
+
+// Utility types for contract validation
+export type ValidContractAddress<T extends string> = T extends Address ? T : never
+
+// Contract metadata type
+export type ContractMetadata<
+	Extensions extends Record<string, any> = Record<string, any>
+> = {
+	address: Address
+	chainId: ChainId
+	name?: string
+	isVerified: boolean
+	deployBlock: number
+	deployer: Address
+	bytecodeSize: number
+	extensions?: Extensions
+}
+
+// Contract interface type for common patterns
+export type ContractInterface<
+	Standard extends string = string,
+	Methods extends string[] = string[]
+> = {
+	standard: Standard
+	requiredMethods: Methods
+	optionalMethods?: string[]
+	events?: string[]
+	errors?: string[]
+}
+
+// Common contract interfaces
+export type ERC20Interface = ContractInterface<'ERC-20', [
+	'totalSupply',
+	'balanceOf',
+	'transfer',
+	'transferFrom',
+	'approve',
+	'allowance'
+]>
+
+export type ERC721Interface = ContractInterface<'ERC-721', [
+	'balanceOf',
+	'ownerOf',
+	'safeTransferFrom',
+	'transferFrom',
+	'approve',
+	'getApproved',
+	'setApprovalForAll',
+	'isApprovedForAll'
+]>
+
+export type ERC1155Interface = ContractInterface<'ERC-1155', [
+	'balanceOf',
+	'balanceOfBatch',
+	'setApprovalForAll',
+	'isApprovedForAll',
+	'safeTransferFrom',
+	'safeBatchTransferFrom'
+]>
+
+export enum ContractStandard {
+	ERC20 = 'ERC20',
+	ERC721 = 'ERC721',
+	ERC1155 = 'ERC1155',
+	ERC4626 = 'ERC4626',
+	ERC1967 = 'ERC1967', // Proxy Standard
+	ERC2535 = 'ERC2535', // Diamond Standard
+	ERC4337 = 'ERC4337', // Account Abstraction
+	ERC6551 = 'ERC6551', // Token Bound Accounts
+	Custom = 'Custom'
+}
+
+export enum ContractCategory {
+	Token = 'Token',
+	NFT = 'NFT',
+	DeFi = 'DeFi',
+	Gaming = 'Gaming',
+	Governance = 'Governance',
+	Infrastructure = 'Infrastructure',
+	Bridge = 'Bridge',
+	Oracle = 'Oracle',
+	Identity = 'Identity',
+	Storage = 'Storage',
+	Proxy = 'Proxy',
+	Factory = 'Factory',
+	Multisig = 'Multisig',
+	Account = 'Account',
+	Utility = 'Utility'
+}
+
+export type ContractInterface = {
+	name: string
+	type: 'function' | 'event' | 'constructor' | 'fallback' | 'receive'
+	signature: string
+	selector?: Hash
+	inputs?: Array<{
+		name: string
+		type: string
+		indexed?: boolean
+	}>
+	outputs?: Array<{
+		name: string
+		type: string
+	}>
+	stateMutability?: 'pure' | 'view' | 'nonpayable' | 'payable'
+}
+
+export type Contract<_S extends ContractStandard = ContractStandard> = (
+	& {
+		// Contract identification
+		address: Address
+		chainId: ChainId
+		standard: _S
+		category: ContractCategory
+		
+		// Contract metadata
+		name?: string
+		version?: string
+		bytecode: Hash
+		sourceCode?: string
+		compilerVersion?: string
+		optimizationEnabled?: boolean
+		
+		// Deployment information
+		deploymentTransaction: Hash
+		deploymentBlock: BlockNumber
+		deploymentTimestamp: Timestamp
+		
+		// Contract interface
+		abi?: ContractInterface[]
+		functions: ContractInterface[]
+		events: ContractInterface[]
+		
+		// Verification status
+		verification: {
+			isVerified: boolean
+			verificationService?: string
+			verifiedAt?: Timestamp
+			sourcifyMatch?: 'perfect' | 'partial' | 'none'
+			securityScore?: number
+			
+			auditReports?: Array<{
+				auditor: string
+				date: Timestamp
+				reportUrl: string
+				score?: number
+				findings: Array<{
+					severity: 'critical' | 'high' | 'medium' | 'low' | 'informational'
+					title: string
+					description: string
+				}>
+			}>
+		}
+		
+		// Usage statistics
+		statistics: {
+			transactionCount: number
+			internalTransactionCount: number
+			uniqueCallers: number
+			
+			// Activity metrics
+			dailyActiveUsers: number
+			weeklyActiveUsers: number
+			monthlyActiveUsers: number
+			
+			// Function usage
+			functionCalls: Record<string, {
+				count: number
+				percentage: Percentage
+				averageGasUsed: number
+			}>
+			
+			// Economic metrics
+			totalValueReceived: TokenAmount
+			totalValueSent: TokenAmount
+			totalFeesGenerated: TokenAmount
+			averageTransactionValue: TokenAmount
+		}
+		
+		// Risk assessment
+		risk: {
+			riskLevel: 'low' | 'medium' | 'high' | 'critical'
+			riskFactors: string[]
+			
+			// Security analysis
+			hasRenounceOwnership: boolean
+			hasMultiSig: boolean
+			hasTimelock: boolean
+			hasEmergencyPause: boolean
+			hasUpgradeability: boolean
+			hasExternalDependencies: boolean
+			
+			// Compliance flags
+			blacklistedFunctions: string[]
+			suspiciousPatterns: string[]
+			complianceIssues: string[]
+		}
+	}
+
+	& (
+		_S extends ContractStandard.ERC20 ?
+			{
+				// ERC20 specific data
+				tokenData: {
+					name: string
+					symbol: string
+					decimals: number
+					totalSupply: TokenAmount
+					
+					// Token mechanics
+					isMintable: boolean
+					isBurnable: boolean
+					hasTransferTax: boolean
+					hasReflection: boolean
+					hasAntiWhale: boolean
+					
+					// Distribution
+					holderCount: number
+					topHolderPercentage: Percentage
+					liquidityLocked: boolean
+				}
+			}
+
+		: _S extends ContractStandard.ERC721 ?
+			{
+				// ERC721 specific data
+				nftData: {
+					name: string
+					symbol: string
+					totalSupply: TokenAmount
+					baseURI?: string
+					
+					// Collection info
+					maxSupply?: number
+					mintPrice?: TokenAmount
+					royaltyPercentage?: Percentage
+					
+					// Minting mechanics
+					isMintable: boolean
+					publicMint: boolean
+					whitelistMint: boolean
+					
+					// Market data
+					floorPrice?: TokenAmount
+					totalVolume?: TokenAmount
+					uniqueOwners: number
+				}
+			}
+
+		: _S extends ContractStandard.ERC1155 ?
+			{
+				// ERC1155 specific data
+				multiTokenData: {
+					name?: string
+					uri: string
+					tokenCount: number
+					
+					// Token tracking
+					tokenTypes: {
+						fungible: number
+						nonFungible: number
+						semiFungible: number
+					}
+					
+					// Batch operations
+					supportsBatchTransfer: boolean
+					supportsBatchMint: boolean
+				}
+			}
+
+		: _S extends ContractStandard.ERC1967 ?
+			{
+				// Proxy specific data
+				proxyData: {
+					proxyType: 'transparent' | 'uups' | 'beacon' | 'diamond' | 'minimal'
+					implementation?: Address
+					admin?: Address
+					beacon?: Address
+					slots?: Record<string, Hash>
+					
+					// Upgrade mechanics
+					isUpgradable: boolean
+					upgradeHistory?: Array<{
+						timestamp: Timestamp
+						oldImplementation: Address
+						newImplementation: Address
+					}>
+				}
+			}
+
+		: _S extends ContractStandard.Custom ?
+			{
+				// Custom contract data
+				customData: {
+					contractType: string
+					protocolName?: string
+					protocolVersion?: string
+					features: string[]
+					
+					// Custom properties
+					properties: Record<string, any>
+				}
+			}
+
+		:
+			{}
+	)
+
+	& (
+		category extends ContractCategory.DeFi ?
+			{
+				// DeFi protocol specific features
+				defiFeatures?: {
+					protocolType: 'dex' | 'lending' | 'yield' | 'derivatives' | 'insurance'
+					tvl?: TokenAmount
+					apr?: Percentage
+					fees?: {
+						tradingFee?: BasisPoints
+						protocolFee?: BasisPoints
+						performanceFee?: BasisPoints
+					}
+				}
+			}
+
+		: category extends ContractCategory.Governance ?
+			{
+				// Governance features
+				governance?: {
+					hasOwner: boolean
+					isMultiOwner: boolean
+					hasPermissions: boolean
+					isPausable: boolean
+					isUpgradable: boolean
+					
+					roles?: Array<{
+						role: string
+						members: Address[]
+						permissions: string[]
+					}>
+					
+					timelock?: {
+						delay: number
+						proposalThreshold: TokenAmount
+						executionThreshold: number
+					}
+				}
+			}
+
+		:
+			{}
+	)
+
+	& {
+		// --
+		// Entity References (using PartialExceptOneOf)
+		contractActor?: PartialExceptOneOf<Actor<ActorType.Contract | ActorType.Token | ActorType.Proxy | ActorType.Factory>,
+			| 'address'
+			| 'type'
+		>
+		
+		deployer?: PartialExceptOneOf<Actor,
+			| 'address'
+			| 'type'
+		>
+		
+		owner?: PartialExceptOneOf<Actor,
+			| 'address'
+			| 'type'
+		>
+		
+		admin?: PartialExceptOneOf<Actor,
+			| 'address'
+			| 'type'
+		>
+		
+		implementation?: PartialExceptOneOf<Contract,
+			| 'address'
+			| 'standard'
+		>
+		
+		beacon?: PartialExceptOneOf<Contract,
+			| 'address'
+			| 'standard'
+		>
+		
+		factory?: PartialExceptOneOf<Actor<ActorType.Factory>,
+			| 'address'
+			| 'type'
+		>
+		
+		createdContracts?: PartialExceptOneOf<Contract,
+			| 'address'
+			| 'deploymentTimestamp'
+		>[]
+		
+		relatedContracts?: PartialExceptOneOf<Contract,
+			| 'address'
+			| 'category'
+		>[]
+		
+		dependsOn?: PartialExceptOneOf<Contract,
+			| 'address'
+			| 'standard'
+		>[]
+		
+		dependents?: PartialExceptOneOf<Contract,
+			| 'address'
+			| 'standard'
+		>[]
+		
+		frequentCallers?: PartialExceptOneOf<Actor,
+			| 'address'
+			| 'type'
+		>[]
+		
+		recentTransactions?: PartialExceptOneOf<import('./transaction.js').Transaction,
+			| 'transactionId'
+			| 'type'
+			| 'timestamp'
+		>[]
+		
+		events?: PartialExceptOneOf<import('./event.js').Event,
+			| 'id'
+			| 'emitter'
+			| 'topics'
+		>[]
+	}
+) 
