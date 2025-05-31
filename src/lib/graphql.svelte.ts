@@ -6,9 +6,12 @@ import type { TadaDocumentNode } from 'gql.tada'
 import { getContextClient, queryStore } from '@urql/svelte'
 import { fromStore } from 'svelte/store'
 
-export const query = <_TadaDocumentNode extends TadaDocumentNode>(
-	query: _TadaDocumentNode,
-	variables: _TadaDocumentNode extends TadaDocumentNode<any, infer Variables> ? Variables : never,
+export const query = <
+	Result extends Record<string, any>,
+	Variables extends Record<string, any> = Record<string, any>
+>(
+	query: TadaDocumentNode<Result, Variables>,
+	variables: Variables,
 ) => {
 	const client = getContextClient()
 
