@@ -1,7 +1,9 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
-import type { ChainId } from './network'
-import type { Address, Hash } from './scalars'
-import type { Timestamp } from './types'
+import type { Actor } from './actor'
+import type { ChainId } from './chain'
+import type { Address, Hash, Timestamp } from './scalars'
+
+export type ENSNodeId = Hash
 
 export type ENSName = string
 export type ENSNode = Hash
@@ -48,34 +50,29 @@ export type ENSDomain = {
 	node: ENSNode
 	labelhash: Hash
 	chainId: ChainId
-	
+
 	// Domain hierarchy
 	tld: string // e.g., 'eth'
 	sld?: string // Second level domain
 	subdomain?: string
 	parent?: ENSName
-	
-	// Ownership
-	owner: Address
-	registrant?: Address
-	controller?: Address
-	
+
 	// Registration
 	registeredAt: Timestamp
 	expiresAt?: Timestamp
 	renewedAt?: Timestamp
 	registrationDuration?: number // in seconds
 	registrationPrice?: string
-	
+
 	// Status
 	status: ENSNameStatus
 	isAvailable: boolean
 	isPrimary?: boolean // Primary name for an address
-	
+
 	// Resolver
 	resolver?: Address
 	resolverName?: string
-	
+
 	// Records
 	records?: {
 		addresses?: ENSAddressRecord[]
@@ -91,24 +88,39 @@ export type ENSDomain = {
 		keywords?: string[]
 		notice?: string
 	}
-	
+
 	// Metadata
 	tokenId?: string
 	wrapped?: boolean // If wrapped as ERC1155 NFT
 	fuses?: number // Permission fuses if wrapped
-	
+
 	// Subdomains
 	subdomains?: ENSName[]
 	subdomainCount?: number
-	
+
 	// History
-	transferHistory?: Array<{
+	transferHistory?: {
 		from: Address
 		to: Address
 		timestamp: Timestamp
 		transactionHash: Hash
 		price?: string
-	}>
+	}[]
+} & {
+	$owner?: PartialExceptOneOf<Actor,
+		| 'address'
+		| 'format'
+	>
+
+	$registrant?: PartialExceptOneOf<Actor,
+		| 'address'
+		| 'format'
+	>
+
+	$controller?: PartialExceptOneOf<Actor,
+		| 'address'
+		| 'format'
+	>
 }
 
 export type ENSReverseRecord = {
@@ -117,15 +129,20 @@ export type ENSReverseRecord = {
 	name: ENSName
 	node: ENSNode
 	chainId: ChainId
-	
+
 	// Record data
 	resolver: Address
 	verifiedAt: Timestamp
 	lastChecked: Timestamp
-	
+
 	// Validation
 	isValid: boolean
 	validationErrors?: string[]
+} & {
+	$addressActor?: PartialExceptOneOf<Actor,
+		| 'address'
+		| 'format'
+	>
 }
 
 export type ENSSubdomain = {
@@ -134,17 +151,15 @@ export type ENSSubdomain = {
 	parent: ENSName
 	fullName: ENSName
 	node: ENSNode
-	
-	// Ownership
-	owner: Address
-	creator: Address
+
+	// Creation details
 	createdAt: Timestamp
-	
+
 	// Configuration
 	resolver?: Address
 	ttl?: number
 	allowSubdomains?: boolean
-	
+
 	// Permissions
 	permissions?: {
 		canTransfer: boolean
@@ -152,6 +167,16 @@ export type ENSSubdomain = {
 		canSetTTL: boolean
 		canCreateSubdomains: boolean
 	}
+} & {
+	$owner?: PartialExceptOneOf<Actor,
+		| 'address'
+		| 'format'
+	>
+
+	$creator?: PartialExceptOneOf<Actor,
+		| 'address'
+		| 'format'
+	>
 }
 
 export type ENSRegistration = {
@@ -159,29 +184,37 @@ export type ENSRegistration = {
 	id: string
 	name: ENSName
 	label: string
-	
+
 	// Registration details
-	registrant: Address
-	controller?: Address
 	registeredAt: Timestamp
 	expiresAt: Timestamp
-	
+
 	// Cost
 	cost: string
 	fee?: string
 	duration: number // seconds
-	
+
 	// Transaction
 	transactionHash: Hash
 	blockNumber: number
-	
+
 	// Events
-	events?: Array<{
+	events?: {
 		type: 'registered' | 'renewed' | 'transferred' | 'migrated'
 		timestamp: Timestamp
 		transactionHash: Hash
 		data?: Record<string, any>
-	}>
+	}[]
+} & {
+	$registrant?: PartialExceptOneOf<Actor,
+		| 'address'
+		| 'format'
+	>
+
+	$controller?: PartialExceptOneOf<Actor,
+		| 'address'
+		| 'format'
+	>
 }
 
 export type ENSResolver = {
@@ -189,7 +222,7 @@ export type ENSResolver = {
 	address: Address
 	chainId: ChainId
 	version?: string
-	
+
 	// Capabilities
 	supportsInterface: {
 		addr: boolean
@@ -201,11 +234,11 @@ export type ENSResolver = {
 		multicoin: boolean
 		dns: boolean
 	}
-	
+
 	// Usage
 	namesCount?: number
 	lastActivity?: Timestamp
-	
+
 	// Metadata
 	isOfficial?: boolean
 	description?: string
@@ -216,30 +249,36 @@ export type ENSActivity = {
 	id: string
 	type: 'register' | 'renew' | 'transfer' | 'setResolver' | 'setRecord' | 'wrap' | 'unwrap'
 	name: ENSName
-	
-	// Participants
-	from?: Address
-	to?: Address
-	
+
 	// Transaction
 	transactionHash: Hash
 	blockNumber: number
 	timestamp: Timestamp
 	gasUsed?: string
-	
+
 	// Activity specific data
 	data?: {
 		// For register/renew
 		duration?: number
 		cost?: string
-		
+
 		// For setRecord
 		recordType?: ENSRecordType
 		recordKey?: string
 		recordValue?: string
-		
+
 		// For wrap/unwrap
 		fuses?: number
 		expiry?: Timestamp
 	}
+} & {
+	$from?: PartialExceptOneOf<Actor,
+		| 'address'
+		| 'format'
+	>
+
+	$to?: PartialExceptOneOf<Actor,
+		| 'address'
+		| 'format'
+	>
 } 

@@ -1,8 +1,10 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
 import type { Actor } from './actor'
-import type { Address, Hash } from './scalars'
-import type { ChainId } from './network'
-import type { Timestamp, BlockNumber, TokenAmount, UsdAmount, Percentage, BasisPoints } from './types'
+import type { BlockNumber } from './block'
+import type { ChainId } from './chain'
+import type { Address, BasisPoints, Hash, Percentage, Timestamp, TokenAmount, UsdAmount } from './scalars'
+
+export type TransferId = string
 
 // Transfer types based on token standards
 export enum TransferStandard {
@@ -26,37 +28,35 @@ export enum TransferCategory {
 	Refund = 'Refund' // Refund transaction
 }
 
-// Generic transfer type with standard and category-specific fields
 export type Transfer<
 	_Standard extends TransferStandard = TransferStandard,
 	_Category extends TransferCategory = TransferCategory
 > = (
 	& {
 		// Transfer identification
-		id: string
+		id: TransferId
 		chainId: ChainId
 		standard: _Standard
 		category: _Category
-		
-		// Transfer parties
-		from: Actor
-		to: Actor
-		
+
 		// Position in blockchain
+		blockNumber: BlockNumber
+		indexInBlock: number
+		indexInTransaction: number
 		logIndex?: number // For token transfers
-		
+
 		// Timing
 		timestamp: Timestamp
-		
+
 		// Transfer metadata
 		isInternal?: boolean
 		gasUsed?: number
 		gasPrice?: TokenAmount
-		
+
 		// Risk and compliance
 		riskLevel?: 'low' | 'medium' | 'high' | 'critical'
 		riskFactors?: string[]
-		
+
 		// Transfer context
 		context?: {
 			protocol?: string
@@ -64,20 +64,6 @@ export type Transfer<
 			method?: string
 			purpose?: string
 		}
-
-		block: PartialExceptOneOf<import('./block').Block,
-			| 'number'
-			| 'hash'
-			| 'timestamp'
-		>
-		indexInBlock: number
-
-		transaction: PartialExceptOneOf<import('./transaction').Transaction,
-			| 'transactionId'
-			| 'type'
-			| 'status'
-		>
-		indexInTransaction: number
 	}
 
 	& (
@@ -86,14 +72,13 @@ export type Transfer<
 				// Native currency transfer data
 				nativeData: {
 					amount: TokenAmount
-					amountFormatted: string
 					symbol: string
 					amountUsd?: UsdAmount
-					
+
 					// Network specific
 					networkName: string
 					isDeployment?: boolean
-					
+
 					// Gas context
 					isGasPayment?: boolean
 					refundAmount?: TokenAmount
@@ -106,16 +91,15 @@ export type Transfer<
 				tokenData: {
 					tokenAddress: Address
 					amount: TokenAmount
-					amountFormatted: string
 					symbol: string
 					name: string
 					decimals: number
 					amountUsd?: UsdAmount
-					
+
 					// Price information
 					pricePerToken?: UsdAmount
 					priceSource?: string
-					
+
 					// Token metadata
 					logoUri?: string
 					isVerified?: boolean
@@ -129,31 +113,31 @@ export type Transfer<
 				nftData: {
 					tokenAddress: Address
 					tokenId: string
-					
+
 					// Collection information
 					collectionName: string
 					collectionSymbol: string
 					collectionSlug?: string
-					
+
 					// Token metadata
 					tokenName?: string
 					tokenDescription?: string
 					tokenImage?: string
 					tokenAnimationUrl?: string
-					
+
 					// Attributes
-					attributes?: Array<{
+					attributes?: {
 						traitType: string
 						value: string | number
 						rarity?: Percentage
-					}>
-					
+					}[]
+
 					// Market data
 					lastSalePrice?: TokenAmount
 					estimatedValue?: UsdAmount
 					floorPrice?: UsdAmount
 					rarityRank?: number
-					
+
 					// Marketplace context
 					marketplace?: {
 						name: string
@@ -170,33 +154,32 @@ export type Transfer<
 					tokenAddress: Address
 					tokenIds: string[]
 					amounts: TokenAmount[]
-					
+
 					// Collection information
 					collectionName: string
 					collectionSymbol: string
-					
+
 					// Batch transfer info
 					isBatchTransfer: boolean
 					totalTokenTypes: number
 					totalAmount: TokenAmount
-					
+
 					// Individual token details
-					tokens: Array<{
+					tokens: {
 						tokenId: string
 						amount: TokenAmount
-						amountFormatted: string
-						
+
 						// Token metadata
 						name?: string
 						description?: string
 						image?: string
 						decimals?: number
-						
+
 						// Market data
 						pricePerToken?: UsdAmount
 						totalValue?: UsdAmount
-					}>
-					
+					}[]
+
 					// Aggregate value
 					totalValueUsd?: UsdAmount
 				}
@@ -208,20 +191,19 @@ export type Transfer<
 				internalData: {
 					callType: 'call' | 'delegatecall' | 'staticcall' | 'create' | 'create2'
 					amount: TokenAmount
-					amountFormatted: string
-					
+
 					// Call context
 					input?: string
 					output?: string
 					error?: string
 					gasLimit?: number
 					gasUsed?: number
-					
+
 					// Trace information
 					traceAddress: number[]
 					subtraces: number
 					isSuccess: boolean
-					
+
 					// Contract interaction
 					hasCallData: boolean
 					methodSignature?: Hash
@@ -242,16 +224,16 @@ export type Transfer<
 					marketplaceAddress: Address
 					salePrice: TokenAmount
 					salePriceUsd: UsdAmount
-					
+
 					// Fees
 					marketplaceFee?: TokenAmount
 					royaltyFee?: TokenAmount
 					totalFees?: TokenAmount
-					
+
 					// Trade context
 					tradeType: 'sale' | 'auction' | 'offer' | 'bundle'
 					paymentToken?: Address
-					
+
 					// Seller/buyer context
 					isFirstSale?: boolean
 					previousOwner?: Address
@@ -266,23 +248,23 @@ export type Transfer<
 					dexName: string
 					dexAddress: Address
 					dexVersion?: string
-					
+
 					// Swap details
 					tokenIn: Address
 					tokenOut: Address
 					amountIn: TokenAmount
 					amountOut: TokenAmount
-					
+
 					// Swap metrics
 					exchangeRate: string
 					slippage: Percentage
 					priceImpact: Percentage
-					
+
 					// Fees
 					tradingFee: TokenAmount
 					protocolFee?: TokenAmount
 					lpFee?: TokenAmount
-					
+
 					// Liquidity pool
 					poolAddress?: Address
 					poolFee?: BasisPoints
@@ -296,20 +278,20 @@ export type Transfer<
 					bridgeName: string
 					bridgeAddress: Address
 					bridgeType: 'lock-mint' | 'burn-mint' | 'liquidity'
-					
+
 					// Bridge details
 					sourceChain: ChainId
 					targetChain: ChainId
 					targetAddress?: Address
-					
+
 					// Bridge fees
 					bridgeFee: TokenAmount
 					bridgeFeeUsd?: UsdAmount
-					
+
 					// Timing
 					estimatedArrival?: Timestamp
 					confirmationBlocks?: number
-					
+
 					// Status
 					bridgeStatus?: 'initiated' | 'confirmed' | 'completed' | 'failed'
 				}
@@ -323,16 +305,16 @@ export type Transfer<
 					campaignId?: string
 					merkleRoot?: Hash
 					merkleProof?: Hash[]
-					
+
 					// Airdrop details
 					reason: string
 					eligibilityCriteria?: string[]
-					
+
 					// Distribution info
 					totalRecipients?: number
 					totalAmount?: TokenAmount
 					distributionPhase?: number
-					
+
 					// Claiming
 					claimIndex?: number
 					claimDeadline?: Timestamp
@@ -346,18 +328,18 @@ export type Transfer<
 					rewardType: 'staking' | 'farming' | 'mining' | 'governance' | 'referral'
 					protocol: string
 					protocolAddress: Address
-					
+
 					// Reward details
 					rewardPeriod?: {
 						start: Timestamp
 						end: Timestamp
 					}
-					
+
 					// Staking context
 					stakedAmount?: TokenAmount
 					stakingDuration?: number
 					apr?: Percentage
-					
+
 					// Reward calculation
 					rewardRate?: TokenAmount
 					multiplier?: number
@@ -370,81 +352,76 @@ export type Transfer<
 	)
 
 	& {
-		// --
-		// Entity References (using PartialExceptOneOf)
-		fromActor?: PartialExceptOneOf<Actor,
+		$from?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
+			| 'format'
 		>
-		
-		toActor?: PartialExceptOneOf<Actor,
+
+		$to?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
+			| 'format'
 		>
-		
-		block?: PartialExceptOneOf<import('./block').Block,
-			| 'number'
-			| 'hash'
+
+		$block?: PartialExceptOneOf<import('./block').Block,
+			| 'blockNumber'
+			| 'blockHash'
 			| 'timestamp'
 		>
-		
-		transaction?: PartialExceptOneOf<import('./transaction').Transaction,
-			| 'transactionId'
-			| 'type'
+
+		$transaction?: PartialExceptOneOf<import('./transaction').Transaction,
+			| 'id'
+			| 'format'
 			| 'status'
 		>
-		
+
 		// For token transfers
-		tokenContract?: PartialExceptOneOf<import('./token').Token,
+		$tokenContract?: PartialExceptOneOf<import('./token').Token,
 			| 'address'
 			| 'standard'
-			| 'metadata'
 		>
-		
+
 		// For NFT transfers
-		nftCollection?: PartialExceptOneOf<import('./nft').NftCollection,
+		$nftCollection?: PartialExceptOneOf<import('./nft').NftCollection,
 			| 'contractAddress'
 			| 'name'
 			| 'category'
 		>
-		
+
 		// For DeFi transfers
-		protocolActor?: PartialExceptOneOf<Actor,
+		$protocolActor?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
+			| 'format'
 		>
-		
+
 		// For marketplace trades
-		marketplaceActor?: PartialExceptOneOf<Actor,
+		$marketplaceActor?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
+			| 'format'
 		>
-		
+
 		// Related transfers
-		relatedTransfers?: PartialExceptOneOf<Transfer,
+		$relatedTransfers?: PartialExceptOneOf<Transfer,
 			| 'id'
 			| 'category'
 			| 'timestamp'
 		>[]
-		
+
 		// Parent transfer (for batch operations)
-		parentTransfer?: PartialExceptOneOf<Transfer,
+		$parentTransfer?: PartialExceptOneOf<Transfer,
 			| 'id'
 		>
-		
+
 		// Child transfers (for batch operations)
-		childTransfers?: PartialExceptOneOf<Transfer,
+		$childTransfers?: PartialExceptOneOf<Transfer,
 			| 'id'
 			| 'category'
 		>[]
-		
+
 		// Associated events
-		events?: PartialExceptOneOf<import('./event').Event,
+		$events?: PartialExceptOneOf<import('./event').Event,
 			| 'id'
 			| 'category'
 			| 'timestamp'
 		>[]
 	}
 )
-
-export type AnyTransfer = Transfer<TransferStandard, TransferCategory> 

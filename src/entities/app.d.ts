@@ -1,9 +1,8 @@
-import type { ComponentType } from 'svelte'
-import type { ChainId } from './network'
-import type { Address } from './scalars'
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
 import type { DataSource } from './DataSource'
-import type Token from '$/views/entities/Token.svelte'
+import type { ChainId } from './chain'
+import type { Address } from './scalars'
+import type { ComponentType } from 'svelte'
 
 // App configuration
 export type App = {

@@ -1,28 +1,52 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
 import type { Actor } from './actor'
-import type { Address, Hash } from './scalars'
-import type { ChainId } from './network'
-import type { Timestamp, BlockNumber, TokenAmount, UsdAmount, Percentage, BasisPoints } from './types'
+import type { BlockNumber } from './block'
+import type { ChainId } from './chain'
+import type { Address, BasisPoints, Hash, Percentage, Timestamp, TokenAmount, UsdAmount } from './scalars'
 
-// Transaction types based on EIP standards
-export enum TransactionType {
-	Legacy = 'Legacy', // Pre-EIP-2718 transactions
-	AccessList = 'AccessList', // EIP-2930 with access list
-	DynamicFee = 'DynamicFee', // EIP-1559 dynamic fee
-	BlobCarrying = 'BlobCarrying', // EIP-4844 blob transactions
+export type TransactionId = Hash
+
+// Transaction format types based on EIP standards (mutually exclusive)
+export enum TransactionFormat {
+	Type0Legacy = 'Type0Legacy', // Pre-EIP-2718 legacy transactions
+	Type1AccessList = 'Type1AccessList', // EIP-2930 access list transactions
+	Type2DynamicFee = 'Type2DynamicFee', // EIP-1559 dynamic fee transactions
+	Type3Blob = 'Type3Blob', // EIP-4844 blob transactions
+	Type4Eoa = 'Type4Eoa' // EIP-3074 authorized transactions (proposed)
+}
+
+// L2 operation types (mutually exclusive)
+export enum L2OperationType {
 	Deposit = 'Deposit', // L2 deposit transactions
 	Withdrawal = 'Withdrawal', // L2 withdrawal transactions
-	Internal = 'Internal', // Internal contract calls
-	System = 'System' // System-level transactions
+	System = 'System' // L2 system transactions
+}
+
+// Execution context (mutually exclusive)
+export enum ExecutionContext {
+	OnChain = 'OnChain', // Regular on-chain transaction
+	Internal = 'Internal' // Internal contract call (from traces)
+}
+
+// Transaction tags (can have multiple, use as flags or array)
+export enum TransactionTag {
+	Transfer = 'Transfer', // Simple value transfer
+	ContractCall = 'ContractCall', // Contract interaction
+	ContractCreation = 'ContractCreation', // Contract deployment
+	TokenTransfer = 'TokenTransfer', // ERC token transfer
+	Bridge = 'Bridge', // Cross-chain bridge operation
+	L2Operation = 'L2Operation' // L2 specific operation
 }
 
 export enum TransactionStatus {
 	Pending = 'Pending', // In mempool
 	Included = 'Included', // Included in block
 	Confirmed = 'Confirmed', // Block confirmed
+	Finalized = 'Finalized', // Block finalized
 	Failed = 'Failed', // Transaction failed
 	Dropped = 'Dropped', // Dropped from mempool
-	Replaced = 'Replaced' // Replaced by higher fee tx
+	Replaced = 'Replaced', // Replaced by higher fee tx
+	Cancelled = 'Cancelled' // Explicitly cancelled
 }
 
 export enum TransactionCategory {
@@ -35,395 +59,541 @@ export enum TransactionCategory {
 	Gaming = 'Gaming', // Gaming transaction
 	Dao = 'Dao', // DAO governance
 	Bridge = 'Bridge', // Cross-chain bridge
-	Mev = 'Mev' // MEV extraction
+	Mev = 'Mev', // MEV extraction
+	Staking = 'Staking', // Staking operations
+	L2Operations = 'L2Operations' // L2 specific operations
 }
 
-// Generic transaction type with type-specific fields
-export type Transaction<_TransactionType extends TransactionType = TransactionType> = (
-	& {
-		// Transaction identification
-		transactionId: string
-		hash: Hash
-		chainId: ChainId
-		type: _TransactionType
-		status: TransactionStatus
-		category: TransactionCategory
-		
-		// Position in blockchain
-		blockNumber?: BlockNumber
-		transactionIndex?: number
-		
-		// Timing
-		timestamp: Timestamp
-		submittedAt?: Timestamp
-		confirmedAt?: Timestamp
-		
-		// Transaction parties
-		from: Address
-		to?: Address
-		
-		// Value and gas
-		value: TokenAmount
-		valueFormatted: string
-		nonce: number
+// Generic transaction type with format and tag-specific fields
+export type Transaction<
+	_TransactionFormat extends TransactionFormat = TransactionFormat,
+	_TransactionTag extends TransactionTag = TransactionTag
+> = {
+	// Transaction identification
+	id: TransactionId
+	chainId: ChainId
+
+	// Transaction classification
+	format: _TransactionFormat
+	status: TransactionStatus
+	categories: TransactionCategory[]
+	tags: _TransactionTag[]
+	executionContext: ExecutionContext
+
+	// L2 operation type (only if tags includes L2Operation)
+	l2OperationType?: L2OperationType
+
+	// Position in blockchain
+	blockNumber?: BlockNumber
+	transactionIndex?: number
+
+	// Timing
+	timestamp: Timestamp
+	submittedAt?: Timestamp
+	confirmedAt?: Timestamp
+
+	// Value and gas
+	value: TokenAmount
+	nonce: number
+	gasLimit: TokenAmount
+	gasUsed?: TokenAmount
+	gasPrice?: TokenAmount
+	gasFee?: TokenAmount
+	gasEfficiency?: Percentage
+
+	// Transaction data
+	input?: string
+	output?: string
+
+	// Execution result
+	isSuccess: boolean
+	error?: string
+	revertReason?: string
+
+	// Transaction metadata
+	size: number // bytes
+	weight?: number
+	priority?: number
+	isReplacement?: boolean
+
+	// Network context
+	networkFee?: TokenAmount
+	priorityFee?: TokenAmount
+	tip?: TokenAmount
+
+	// Entity references
+	$block?: PartialExceptOneOf<import('./block').Block,
+		| 'blockHash'
+	>
+
+	// Transaction actors
+	$from?: PartialExceptOneOf<Actor,
+		| 'address'
+	>
+
+	$to?: PartialExceptOneOf<Actor,
+		| 'address'
+	>
+
+	// Related transactions
+	$relatedTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
+		| 'id'
+	>[]
+
+	// Replacement transactions
+	$replacedBy?: PartialExceptOneOf<import('./transaction').Transaction,
+		| 'id'
+	>
+
+	// Parent transaction (for internal transactions)
+	$parentTransaction?: PartialExceptOneOf<import('./transaction').Transaction,
+		| 'id'
+	>
+
+	// Associated events
+	$events?: PartialExceptOneOf<import('./event').Event,
+		| 'id'
+	>[]
+
+	// Associated transfers
+	$transfers?: PartialExceptOneOf<import('./transfer').Transfer,
+		| 'id'
+	>[]
+
+	// Associated traces
+	$traces?: PartialExceptOneOf<import('./trace').Trace,
+		| 'id'
+	>[]
+
+	// For blob transactions
+	$blobs?: PartialExceptOneOf<import('./blob').Blob,
+		| 'id'
+	>[]
+}\n& {
+	// Internal transaction data (present when executionContext is 'Internal')
+	internalData?: {
+		parentTransactionHash: Hash
+		traceAddress: number[]
+		callType: 'call' | 'delegatecall' | 'staticcall' | 'callcode' | 'create' | 'create2'
+
+		// Call context
+		depth: number
 		gasLimit: TokenAmount
-		gasUsed?: TokenAmount
-		gasPrice?: TokenAmount
-		gasFee?: TokenAmount
-		gasEfficiency?: Percentage
-		
-		// Transaction data
-		input?: string
-		output?: string
-		
+		gasUsed: TokenAmount
+
+		// Call data
+		input: string
+		output: string
+
 		// Execution result
-		isSuccess: boolean
+		success: boolean
 		error?: string
 		revertReason?: string
-		
-		// Transaction metadata
-		size: number // bytes
-		weight?: number
-		priority?: number
-		isReplacement?: boolean
-		
-		// Network context
-		networkFee?: TokenAmount
-		priorityFee?: TokenAmount
-		tip?: TokenAmount
-		
-		// Analysis metadata
-		complexity?: 'low' | 'medium' | 'high' | 'extreme'
-		riskLevel?: 'low' | 'medium' | 'high' | 'critical'
-		confidenceScore?: Percentage
+
+		// Function details
+		functionSelector: Hash
+		functionName?: string
+		decodedInput?: Record<string, any>
+		decodedOutput?: Record<string, any>
+
+		// State changes
+		stateChanges: {
+			address: Address
+			slot: Hash
+			before: Hash
+			after: Hash
+		}[]
+
+		// Sub-calls
+		subcallCount: number
+		maxDepthReached: number
 	}
+}
+& (
+	// L2 operation conditional fields
+	_TransactionTag extends TransactionTag.L2Operation ?
+		{
+			// L2 operation type (required when L2Operation tag is present)
+			l2OperationType: L2OperationType
 
-	& (
-		_TransactionType extends TransactionType.Legacy ?
-			{
-				// Legacy transaction data (pre-EIP-2718)
-				legacyData: {
-					gasPrice: TokenAmount
-					
-					// Legacy context
-					v: string
-					r: Hash
-					s: Hash
-					
-					// Transaction signing
-					publicKey?: string
-					signature: string
-					
-					// Legacy analysis
-					isLegacyFormat: true
-					upgradeRecommended?: boolean
-				}
+			// L2 operation data based on operation type
+			l2OperationData: (
+				L2OperationType extends 'Deposit' ?
+					{
+						// L2 deposit transaction data
+						depositData: {
+							// L1 context
+							l1OriginTransaction: Hash
+							l1OriginBlock: BlockNumber
+							l1Sender: Address
+
+							// Deposit details
+							mintValue: TokenAmount // ETH minted on L2
+							gasLimit: TokenAmount
+
+							// Optimism specific
+							opaqueData?: string // Additional data
+
+							// Deposit source
+							sourceHash: Hash // Unique identifier for deposit
+
+							// Processing
+							l2DepositTxHash?: Hash
+							processed: boolean
+
+							// Fees
+							l1DataFee?: TokenAmount
+							l2ExecutionFee?: TokenAmount
+						}
+					}
+
+				: L2OperationType extends 'Withdrawal' ?
+					{
+						// L2 withdrawal transaction data
+						withdrawalData: {
+							// Withdrawal details
+							withdrawalAmount: TokenAmount
+							l1Target: Address
+							l2Sender: Address
+
+							// Withdrawal proof
+							withdrawalHash: Hash
+							messageNonce: number
+
+							// Proof data
+							outputRootProof?: {
+								version: Hash
+								stateRoot: Hash
+								messagePasserStorageRoot: Hash
+								latestBlockhash: Hash
+							}
+
+							withdrawalProof?: Hash[]
+
+							// Status tracking
+							withdrawalStatus: 'initiated' | 'proven' | 'finalized' | 'relayed'
+							challengePeriodEnd?: Timestamp
+
+							// Cross-chain context
+							l1ClaimTransaction?: Hash
+							l1FinalizeTransaction?: Hash
+
+							// Fees
+							l1RelayFee?: TokenAmount
+							provingFee?: TokenAmount
+						}
+					}
+
+				: L2OperationType extends 'System' ?
+					{
+						// L2 system transaction data
+						systemData: {
+							systemType: 'l1-attributes' | 'user-deposit' | 'fee-vault' | 'upgrade'
+
+							// L1 attributes deposit (block info from L1)
+							l1Attributes?: {
+								l1BlockNumber: BlockNumber
+								l1BlockHash: Hash
+								l1Timestamp: Timestamp
+								l1BaseFee: TokenAmount
+								l1BlobBaseFee?: TokenAmount
+								sequenceNumber: number
+								batcherHash: Hash
+							}
+
+							// System upgrade
+							upgradeData?: {
+								upgradeType: 'implementation' | 'config' | 'hardfork'
+								version: string
+								activationBlock: BlockNumber
+							}
+
+							// Fee vault operations
+							feeVaultData?: {
+								vaultType: 'sequencer' | 'l1' | 'base'
+								withdrawalAmount: TokenAmount
+								recipientAddress: Address
+							}
+						}
+					}
+
+				:
+					never
+			)
+		}
+	: {}
+)
+& (
+	_TransactionFormat extends TransactionFormat.Type0Legacy ?
+		{
+			// Legacy transaction data (Type 0)
+			legacyData: {
+				gasPrice: TokenAmount
+
+				// Legacy signature (pre-EIP-155)
+				v: string // Recovery ID
+				r: Hash // Signature r value
+				s: Hash // Signature s value
+
+				// Chain protection (EIP-155)
+				protected: boolean // Whether EIP-155 protection is used
+
+				// Legacy analysis
+				preEip155: boolean // Whether this is a pre-EIP-155 transaction
+				replayProtected: boolean // Whether replay protection is active
 			}
+		}
 
-		: _TransactionType extends TransactionType.AccessList ?
-			{
-				// EIP-2930 access list transaction data
-				accessListData: {
-					gasPrice: TokenAmount
-					accessList: Array<{
-						address: Address
-						storageKeys: Hash[]
-					}>
-					
-					// Access list optimization
-					accessListSize: number
-					gasOptimization: TokenAmount
-					gasSavings: TokenAmount
-					
-					// Storage context
-					warmStorageAccesses: number
-					coldStorageAccesses: number
-					
-					// EIP-2930 specific
-					chainId: ChainId
-					yParity: number
-					signatureR: Hash
-					signatureS: Hash
-				}
+	: _TransactionFormat extends TransactionFormat.Type1AccessList ?
+		{
+			// EIP-2930 access list transaction data (Type 1)
+			accessListData: {
+				gasPrice: TokenAmount
+				accessList: {
+					address: Address
+					storageKeys: Hash[]
+				}[]
+
+				// Access list optimization metrics
+				accessListLength: number
+				totalStorageKeys: number
+				estimatedGasSavings: TokenAmount
+
+				// Warm/cold access tracking
+				warmAddresses: number
+				coldAddresses: number
+				warmStorageSlots: number
+				coldStorageSlots: number
+
+				// EIP-2930 signature
+				yParity: number // 0 or 1
+				r: Hash
+				s: Hash
+
+				// Optimization analysis
+				isOptimal: boolean
+				suggestedOptimizations?: string[]
 			}
+		}
 
-		: _TransactionType extends TransactionType.DynamicFee ?
-			{
-				// EIP-1559 dynamic fee transaction data
-				dynamicFeeData: {
-					maxFeePerGas: TokenAmount
-					maxPriorityFeePerGas: TokenAmount
-					baseFeePerGas?: TokenAmount
-					
-					// Fee optimization
-					effectiveGasPrice: TokenAmount
-					feeSavings?: TokenAmount
-					feeEfficiency: Percentage
-					
-					// Priority context
-					priorityLevel: 'low' | 'standard' | 'high' | 'urgent'
-					inclusionProbability: Percentage
-					estimatedWaitTime?: number
-					
-					// EIP-1559 specific
-					accessList?: Array<{
-						address: Address
-						storageKeys: Hash[]
-					}>
-					
-					// Fee burning (EIP-1559)
-					burntFee?: TokenAmount
-					tipToMiner?: TokenAmount
-				}
+	: _TransactionFormat extends TransactionFormat.Type2DynamicFee ?
+		{
+			// EIP-1559 dynamic fee transaction data (Type 2)
+			dynamicFeeData: {
+				maxFeePerGas: TokenAmount
+				maxPriorityFeePerGas: TokenAmount
+				baseFeePerGas: TokenAmount // From block
+
+				// Fee calculation
+				effectiveGasPrice: TokenAmount // min(maxFeePerGas, baseFeePerGas + maxPriorityFeePerGas)
+				priorityFeePerGas: TokenAmount // min(maxPriorityFeePerGas, maxFeePerGas - baseFeePerGas)
+
+				// Fee metrics
+				baseFeeUsage: Percentage // baseFeePerGas / maxFeePerGas
+				priorityFeeUsage: Percentage // priorityFeePerGas / maxPriorityFeePerGas
+				totalFeeSavings: TokenAmount // (maxFeePerGas - effectiveGasPrice) * gasUsed
+
+				// Inclusion metrics
+				inclusionProbability: Percentage
+				estimatedWaitTime: number // seconds
+
+				// Access list (optional for Type 2)
+				accessList?: {
+					address: Address
+					storageKeys: Hash[]
+				}[]
+
+				// EIP-1559 signature
+				yParity: number
+				r: Hash
+				s: Hash
+
+				// Fee burning (London hard fork)
+				baseFeeAmount: TokenAmount // baseFeePerGas * gasUsed
+				priorityTipAmount: TokenAmount // priorityFeePerGas * gasUsed
+				burntFee: TokenAmount // Same as baseFeeAmount
 			}
+		}
 
-		: _TransactionType extends TransactionType.BlobCarrying ?
-			{
-				// EIP-4844 blob transaction data
-				blobData: {
-					maxFeePerGas: TokenAmount
-					maxPriorityFeePerGas: TokenAmount
-					maxFeePerBlobGas: TokenAmount
-					blobVersionedHashes: Hash[]
-					
-					// Blob context
-					blobCount: number
-					totalBlobSize: number
-					blobGasUsed?: number
-					blobFee?: TokenAmount
-					
-					// Blob optimization
-					compressionRatio?: Percentage
-					dataEfficiency: Percentage
-					
-					// L2 rollup context
-					rollupUsage?: {
-						rollupChain: ChainId
-						batchId?: string
-						transactionCount?: number
-						stateRoot?: Hash
+	: _TransactionFormat extends TransactionFormat.Type3Blob ?
+		{
+			// EIP-4844 blob transaction data (Type 3)
+			blobData: {
+				// Gas fees (inherits from Type 2)
+				maxFeePerGas: TokenAmount
+				maxPriorityFeePerGas: TokenAmount
+				baseFeePerGas: TokenAmount
+				effectiveGasPrice: TokenAmount
+
+				// Blob-specific fees
+				maxFeePerBlobGas: TokenAmount
+				blobBaseFee: TokenAmount // From block
+				blobGasUsed: number // Always 2^17 (131,072) per blob
+				blobFeePerGas: TokenAmount // min(maxFeePerBlobGas, blobBaseFee)
+
+				// Blob data
+				blobVersionedHashes: Hash[] // KZG commitments
+				blobCount: number // Length of blobVersionedHashes
+
+				// Blob cost calculation
+				totalBlobFee: TokenAmount // blobFeePerGas * blobGasUsed * blobCount
+				blobFeeSavings: TokenAmount // (maxFeePerBlobGas - blobFeePerGas) * blobGasUsed * blobCount
+
+				// Data efficiency
+				totalBlobSize: number // bytes (each blob is 128KB)
+				dataCompressionRatio: Percentage
+				costPerKB: TokenAmount
+
+				// Sidecar data (not on-chain)
+				sidecarAvailable: boolean
+				sidecarSize?: number
+
+				// L2 rollup context
+				rollupUsage?: {
+					rollupChain: ChainId
+					batchId: string
+					l2TransactionCount: number
+					stateRoot: Hash
+					l2BlockRange: {
+						from: BlockNumber
+						to: BlockNumber
 					}
 				}
+
+				// EIP-4844 signature (same as Type 2)
+				yParity: number
+				r: Hash
+				s: Hash
+
+				// Access list (optional)
+				accessList?: {
+					address: Address
+					storageKeys: Hash[]
+				}[]
 			}
+		}
 
-		: _TransactionType extends TransactionType.Deposit ?
-			{
-				// L2 deposit transaction data
-				depositData: {
-					l1TransactionHash?: Hash
-					l1BlockNumber?: BlockNumber
-					depositAmount: TokenAmount
-					
-					// Deposit context
-					l1Token?: Address
-					l2Token?: Address
-					depositIndex?: number
-					
-					// Bridge details
-					bridgeContract: Address
-					bridgeType: 'native' | 'canonical' | 'third-party'
-					
-					// Processing details
-					processingTime?: number
-					confirmationBlocks?: number
-					
-					// Fees
-					l1Fee?: TokenAmount
-					bridgeFee?: TokenAmount
-					totalDepositCost: TokenAmount
-				}
+	: _TransactionFormat extends TransactionFormat.Type4Eoa ?
+		{
+			// EIP-3074 authorized transaction data (Type 4) - Proposed
+			eoaData: {
+				// Inherits fee structure from Type 2
+				maxFeePerGas: TokenAmount
+				maxPriorityFeePerGas: TokenAmount
+				baseFeePerGas: TokenAmount
+
+				// Authorization
+				authorizationList: {
+					chainId: ChainId
+					address: Address // EOA address
+					nonce: number
+					yParity: number
+					r: Hash
+					s: Hash
+				}[]
+
+				// Invoker context
+				invoker: Address // Contract that executes on behalf of EOA
+
+				// Access list
+				accessList?: {
+					address: Address
+					storageKeys: Hash[]
+				}[]
+
+				// Signature
+				yParity: number
+				r: Hash
+				s: Hash
 			}
+		}
 
-		: _TransactionType extends TransactionType.Withdrawal ?
-			{
-				// L2 withdrawal transaction data
-				withdrawalData: {
-					l2TransactionHash?: Hash
-					l1ClaimHash?: Hash
-					withdrawalAmount: TokenAmount
-					
-					// Withdrawal context
-					l2Token?: Address
-					l1Token?: Address
-					withdrawalIndex?: number
-					
-					// Challenge period
-					challengePeriodEnd?: Timestamp
-					isChallengeable: boolean
-					finalizedAt?: Timestamp
-					
-					// Withdrawal status
-					withdrawalStatus: 'initiated' | 'proven' | 'finalized' | 'claimed'
-					
-					// Proofs
-					withdrawalProof?: Hash[]
-					stateRoot?: Hash
-					
-					// Fees
-					l2Fee?: TokenAmount
-					l1ClaimFee?: TokenAmount
-					totalWithdrawalCost: TokenAmount
-				}
+	:
+		{}
+)
+& (
+	// Tag-specific conditional fields
+	_TransactionTag extends TransactionTag.ContractCreation ?
+		{
+			// For contract creation
+			$createdContract?: PartialExceptOneOf<import('./contract').Contract,
+				| 'address'
+			>
+
+			// Contract creation specific data
+			contractCreationData?: {
+				constructorArgs?: string
+				initCode?: string
+				deploymentCost?: TokenAmount
+				contractSize?: number
+				isProxy?: boolean
+				implementationAddress?: Address
 			}
+		}
+	: {}
+)\n& (
+	_TransactionTag extends TransactionTag.Bridge ?
+		{
+			// For bridge transactions
+			$bridgeContract?: PartialExceptOneOf<import('./contract').Contract,
+				| 'address'
+			>
 
-		: _TransactionType extends TransactionType.Internal ?
-			{
-				// Internal transaction data (from traces)
-				internalData: {
-					parentTransaction: Hash
-					traceAddress: number[]
-					callType: 'call' | 'delegatecall' | 'staticcall' | 'callcode'
-					
-					// Call context
-					depth: number
-					isError: boolean
-					gasUsed: TokenAmount
-					
-					// Function details
-					functionSelector?: Hash
-					functionName?: string
-					decodedInput?: Record<string, any>
-					decodedOutput?: Record<string, any>
-					
-					// Internal execution
-					subCalls?: number
-					stateChanges?: number
-					eventCount?: number
-				}
+			// Cross-chain context
+			$l1Transaction?: PartialExceptOneOf<import('./transaction').Transaction,
+				| 'id'
+			>
+
+			$l2Transaction?: PartialExceptOneOf<import('./transaction').Transaction,
+				| 'id'
+			>
+
+			// Bridge specific data
+			bridgeData?: {
+				sourceChain: ChainId
+				destinationChain: ChainId
+				bridgeProtocol: string
+				bridgeFee?: TokenAmount
+				estimatedTime?: number
 			}
+		}
+	: {}
+)\n& (
+	_TransactionTag extends TransactionTag.ContractCall ?
+		{
+			// For contract interactions
+			$targetContract?: PartialExceptOneOf<import('./contract').Contract,
+				| 'address'
+			>
 
-		: _TransactionType extends TransactionType.System ?
-			{
-				// System transaction data
-				systemData: {
-					systemType: 'genesis' | 'coinbase' | 'withdrawal' | 'deposit' | 'burn'
-					authority?: Address
-					
-					// System context
-					isAutomated: boolean
-					systemFunction: string
-					protocolVersion?: string
-					
-					// System parameters
-					systemParameters?: Record<string, any>
-					
-					// Consensus context
-					epoch?: number
-					slot?: number
-					validatorIndex?: number
-					
-					// Economic impact
-					inflationImpact?: TokenAmount
-					supplyChange?: TokenAmount
-				}
+			// Contract call specific data
+			contractCallData?: {
+				functionSelector?: Hash
+				functionName?: string
+				decodedInput?: Record<string, any>
+				decodedOutput?: Record<string, any>
+				isDelegate?: boolean
+				isStatic?: boolean
 			}
-
-		:
-			{}
-	)
-
-	& {
-		// --
-		// Entity References (using PartialExceptOneOf)
-		block?: PartialExceptOneOf<import('./block').Block,
-			| 'number'
-			| 'hash'
-			| 'timestamp'
-		>
-		
-		// Transaction actors
-		fromActor?: PartialExceptOneOf<Actor,
-			| 'address'
-			| 'type'
-		>
-		
-		toActor?: PartialExceptOneOf<Actor,
-			| 'address'
-			| 'type'
-		>
-		
-		// For contract interactions
-		targetContract?: PartialExceptOneOf<import('./contract').Contract,
-			| 'address'
-			| 'standard'
-			| 'metadata'
-		>
-		
-		// For contract creation
-		createdContract?: PartialExceptOneOf<import('./contract').Contract,
-			| 'address'
-			| 'standard'
-			| 'deploymentTimestamp'
-		>
-		
-		// Related transactions
-		relatedTransactions?: PartialExceptOneOf<Transaction,
-			| 'transactionId'
-			| 'type'
-			| 'timestamp'
-		>[]
-		
-		// Replacement transactions
-		replacedBy?: PartialExceptOneOf<Transaction,
-			| 'transactionId'
-			| 'gasPrice'
-			| 'timestamp'
-		>
-		
-		// Parent transaction (for internal transactions)
-		parentTransaction?: PartialExceptOneOf<Transaction,
-			| 'transactionId'
-			| 'type'
-			| 'status'
-		>
-		
-		// Associated events
-		events?: PartialExceptOneOf<import('./event').Event,
-			| 'id'
-			| 'category'
-			| 'timestamp'
-		>[]
-		
-		// Associated transfers
-		transfers?: PartialExceptOneOf<import('./transfer').Transfer,
-			| 'id'
-			| 'category'
-			| 'timestamp'
-		>[]
-		
-		// Associated traces
-		traces?: PartialExceptOneOf<import('./trace').Trace,
-			| 'id'
-			| 'type'
-			| 'timestamp'
-		>[]
-		
-		// For blob transactions
-		blobs?: PartialExceptOneOf<import('./blob').Blob,
-			| 'id'
-			| 'blobHash'
-			| 'size'
-		>[]
-		
-		// For bridge transactions
-		bridgeContract?: PartialExceptOneOf<import('./contract').Contract,
-			| 'address'
-			| 'standard'
-		>
-		
-		// Cross-chain context
-		l1Transaction?: PartialExceptOneOf<Transaction,
-			| 'transactionId'
-			| 'chainId'
-			| 'timestamp'
-		>
-		
-		l2Transaction?: PartialExceptOneOf<Transaction,
-			| 'transactionId'
-			| 'chainId'
-			| 'timestamp'
-		>
-	}
+		}
+	: {}
 )
 
-export type AnyTransaction = Transaction<TransactionType> 
+// Helper types for common transaction patterns
+export type EthereumTransaction = Transaction<TransactionFormat.Type0Legacy | TransactionFormat.Type1AccessList | TransactionFormat.Type2DynamicFee>
+export type BlobTransaction = Transaction<TransactionFormat.Type3Blob>
+export type L2DepositTransaction = Transaction<TransactionFormat, TransactionTag.L2Operation> & { l2OperationType: L2OperationType.Deposit }
+export type InternalTransaction = Transaction & { executionContext: ExecutionContext.Internal }
+export type ContractCreationTransaction = Transaction<TransactionFormat, TransactionTag.ContractCreation>
+export type BridgeTransaction = Transaction<TransactionFormat, TransactionTag.Bridge>
+
+// Examples of valid transaction combinations:
+// ✅ Type2DynamicFee + ContractCreation tag
+// ✅ Type3Blob + L2Operation tag + L2OperationType.Deposit
+// ✅ Type1AccessList + Bridge tag
+// ✅ Type0Legacy + Transfer tag + Internal execution context
+
+// Invalid combinations are now prevented by the type system:
+// ❌ Multiple transaction formats (Type0Legacy AND Type2DynamicFee)
+// ❌ Multiple execution contexts (OnChain AND Internal)
+// ❌ Multiple L2 operations (Deposit AND Withdrawal)

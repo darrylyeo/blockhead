@@ -1,8 +1,10 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
 import type { Actor } from './actor'
-import type { Address, Hash } from './scalars'
-import type { ChainId } from './network'
-import type { Timestamp, BlockNumber, TokenAmount, UsdAmount, Percentage, BasisPoints } from './types'
+import type { BlockNumber } from './block'
+import type { ChainId } from './chain'
+import type { Address, BasisPoints, Hash, Percentage, Timestamp, TokenAmount, UsdAmount } from './scalars'
+
+export type TraceId = string
 
 // Trace types based on EVM execution
 export enum TraceType {
@@ -27,64 +29,63 @@ export enum RewardType {
 	External = 'External' // External reward (e.g., MEV)
 }
 
-// Generic trace type with type-specific fields
 export type Trace<_T extends TraceType = TraceType> = (
 	& {
 		// Trace identification
-		id: string
+		id: TraceId
 		chainId: ChainId
 		type: _T
-		
+
 		// Position in execution
 		blockNumber: BlockNumber
 		transactionIndex: number
 		traceAddress: number[]
 		subtraces: number
-		
+
 		// Timing
 		timestamp: Timestamp
-		
+
 		// Basic execution context
 		gasLimit?: TokenAmount
 		gasUsed?: TokenAmount
 		gasPrice?: TokenAmount
 		gasCost?: TokenAmount
-		
+
 		// Execution result
 		isSuccess: boolean
 		error?: string
 		revertReason?: string
-		
+
 		// EVM context
 		depth: number
 		pcCounter?: number
 		opcode?: string
-		
+
 		// Input/output data
 		input?: string
 		output?: string
-		
+
 		// State changes
-		balanceChanges?: Array<{
+		balanceChanges?: {
 			address: Address
 			before: TokenAmount
 			after: TokenAmount
 			delta: TokenAmount
-		}>
-		
-		storageChanges?: Array<{
+		}[]
+
+		storageChanges?: {
 			address: Address
 			slot: Hash
 			before: Hash
 			after: Hash
-		}>
-		
+		}[]
+
 		// Code changes
-		codeChanges?: Array<{
+		codeChanges?: {
 			address: Address
 			before?: Hash
 			after?: Hash
-		}>
+		}[]
 	}
 
 	& (
@@ -96,23 +97,22 @@ export type Trace<_T extends TraceType = TraceType> = (
 					from: Address
 					to: Address
 					value: TokenAmount
-					valueFormatted: string
-					
+
 					// Function identification
 					methodSignature?: Hash
 					methodName?: string
 					functionSelector?: Hash
-					
+
 					// ABI decoding
 					decodedInput?: {
 						method: string
 						params: Record<string, any>
 					}
-					
+
 					decodedOutput?: {
 						returns: Record<string, any>
 					}
-					
+
 					// Call context
 					isPrecompile: boolean
 					isLibraryCall: boolean
@@ -127,22 +127,21 @@ export type Trace<_T extends TraceType = TraceType> = (
 					creator: Address
 					createdContract?: Address
 					value: TokenAmount
-					valueFormatted: string
-					
+
 					// Creation details
 					initCode: string
 					deployedBytecode?: string
 					salt?: Hash // For CREATE2
-					
+
 					// Constructor details
 					constructorArgs?: string
 					decodedConstructorArgs?: Record<string, any>
-					
+
 					// Contract metadata
 					contractSize?: number
 					isProxy?: boolean
 					implementationAddress?: Address
-					
+
 					// Creation cost
 					creationGasCost: TokenAmount
 					deploymentCost: TokenAmount
@@ -156,12 +155,11 @@ export type Trace<_T extends TraceType = TraceType> = (
 					contract: Address
 					refundAddress: Address
 					balance: TokenAmount
-					balanceFormatted: string
-					
+
 					// Self-destruct context
 					initiator: Address
 					reason?: string
-					
+
 					// Impact analysis
 					affectedContracts?: Address[]
 					storageCleared: boolean
@@ -176,18 +174,17 @@ export type Trace<_T extends TraceType = TraceType> = (
 					rewardType: RewardType
 					recipient: Address
 					amount: TokenAmount
-					amountFormatted: string
-					
+
 					// Reward context
 					blockReward?: TokenAmount
 					transactionFees?: TokenAmount
 					uncleReward?: TokenAmount
-					
+
 					// Mining context
 					miner?: Address
 					uncleHash?: Hash
 					uncleNumber?: number
-					
+
 					// MEV context
 					mevReward?: TokenAmount
 					flashloanProfit?: TokenAmount
@@ -201,13 +198,12 @@ export type Trace<_T extends TraceType = TraceType> = (
 				genesisData: {
 					recipient: Address
 					amount: TokenAmount
-					amountFormatted: string
-					
+
 					// Genesis context
 					allocationIndex: number
 					totalAllocations: number
 					totalGenesis: TokenAmount
-					
+
 					// Allocation type
 					allocationType: 'founder' | 'investor' | 'treasury' | 'public' | 'reserve'
 					vestingSchedule?: {
@@ -223,91 +219,87 @@ export type Trace<_T extends TraceType = TraceType> = (
 	)
 
 	& {
-		// --
-		// Entity References (using PartialExceptOneOf)
-		block?: PartialExceptOneOf<import('./block').Block,
-			| 'number'
-			| 'hash'
+		$block?: PartialExceptOneOf<import('./block').Block,
+			| 'blockNumber'
+			| 'blockHash'
 			| 'timestamp'
 		>
-		
-		transaction?: PartialExceptOneOf<import('./transaction').Transaction,
-			| 'transactionId'
-			| 'type'
+
+		$transaction?: PartialExceptOneOf<import('./transaction').Transaction,
+			| 'id'
+			| 'format'
 			| 'status'
 		>
-		
+
 		// For call traces
-		fromActor?: PartialExceptOneOf<Actor,
+		$fromActor?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
+			| 'format'
 		>
-		
-		toActor?: PartialExceptOneOf<Actor,
+
+		$toActor?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
+			| 'format'
 		>
-		
+
 		// For creation traces
-		creatorActor?: PartialExceptOneOf<Actor,
+		$creatorActor?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
+			| 'format'
 		>
-		
-		createdContract?: PartialExceptOneOf<import('./contract').Contract,
+
+		$createdContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
-			| 'standard'
+			| 'standards'
 			| 'deploymentTimestamp'
 		>
-		
+
 		// For self-destruct traces
-		selfDestructContract?: PartialExceptOneOf<import('./contract').Contract,
+		$selfDestructContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
-			| 'standard'
+			| 'standards'
 		>
-		
-		refundRecipient?: PartialExceptOneOf<Actor,
+
+		$refundRecipient?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
+			| 'format'
 		>
-		
+
 		// For reward traces
-		rewardRecipient?: PartialExceptOneOf<Actor,
+		$rewardRecipient?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
+			| 'format'
 		>
-		
+
 		// Trace relationships
-		parentTrace?: PartialExceptOneOf<Trace,
+		$parentTrace?: PartialExceptOneOf<Trace,
 			| 'id'
-			| 'type'
+			| 'format'
 		>
-		
-		childTraces?: PartialExceptOneOf<Trace,
+
+		$childTraces?: PartialExceptOneOf<Trace,
 			| 'id'
-			| 'type'
+			| 'format'
 			| 'traceAddress'
 		>[]
-		
-		relatedTraces?: PartialExceptOneOf<Trace,
+
+		$relatedTraces?: PartialExceptOneOf<Trace,
 			| 'id'
-			| 'type'
+			| 'format'
 			| 'timestamp'
 		>[]
-		
+
 		// Associated events and transfers
-		events?: PartialExceptOneOf<import('./event').Event,
+		$events?: PartialExceptOneOf<import('./event').Event,
 			| 'id'
 			| 'category'
 			| 'timestamp'
 		>[]
-		
-		transfers?: PartialExceptOneOf<import('./transfer').Transfer,
+
+		$transfers?: PartialExceptOneOf<import('./transfer').Transfer,
 			| 'id'
 			| 'category'
 			| 'timestamp'
 		>[]
 	}
 )
-
-export type AnyTrace = Trace<TraceType> 

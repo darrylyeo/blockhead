@@ -1,8 +1,8 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
 import type { Actor, ActorType } from './actor'
-import type { Address, Hash } from './scalars'
-import type { ChainId } from './network'
-import type { Timestamp, BlockNumber, TokenAmount, UsdAmount, Percentage, BasisPoints } from './types'
+import type { BlockNumber } from './block'
+import type { ChainId } from './chain'
+import type { Address, BasisPoints, Hash, Percentage, Timestamp, TokenAmount, UsdAmount } from './scalars'
 
 // Token standard types
 export enum TokenStandard {
@@ -51,14 +51,14 @@ export type Token<
 		address: Address
 		chainId: ChainId
 		standard: _Standard
-		type: _TokenType
-		
+		types: _TokenType[]
+
 		// Basic token info
 		metadata: TokenMetadata
 		decimals: number
 		totalSupply?: TokenAmount
 		maxSupply?: TokenAmount
-		
+
 		// Token mechanics
 		mechanics?: {
 			isMintable: boolean
@@ -66,32 +66,32 @@ export type Token<
 			isPausable: boolean
 			hasPermissions: boolean
 			isUpgradable: boolean
-			
+
 			// Fee mechanisms
 			transferTax?: Percentage
 			burnRate?: Percentage
 			reflectionRate?: Percentage
-			
+
 			// Supply mechanisms
 			inflationRate?: Percentage
-			emissionSchedule?: Array<{
+			emissionSchedule?: {
 				timestamp: Timestamp
 				rate: Percentage
 				amount: TokenAmount
-			}>
+			}[]
 		}
-		
+
 		// Verification and security
 		verification: {
 			isVerified: boolean
 			verificationSource?: string
 			securityScore?: number
-			auditReports?: Array<{
+			auditReports?: {
 				auditor: string
 				date: Timestamp
 				reportUrl: string
 				score?: number
-			}>
+			}[]
 			riskLevel: 'low' | 'medium' | 'high' | 'critical'
 			riskFactors: string[]
 		}
@@ -107,12 +107,12 @@ export type Token<
 							peggingMechanism: 'fiat-collateralized' | 'crypto-collateralized' | 'algorithmic' | 'hybrid'
 							targetPeg: UsdAmount
 							collateralRatio?: Percentage
-							reserveAssets?: Array<{
+							reserveAssets?: {
 								asset: Address
 								amount: TokenAmount
 								percentage: Percentage
-							}>
-							
+							}[]
+
 							// Stability metrics
 							depegEvents: number
 							maxDepegPercentage: Percentage
@@ -129,7 +129,7 @@ export type Token<
 							quorumThreshold: Percentage
 							votingPeriod: number
 							timelockDelay: number
-							
+
 							// DAO metrics
 							activeProposals: number
 							totalProposals: number
@@ -144,7 +144,7 @@ export type Token<
 							underlyingAsset: Address
 							currentApy: Percentage
 							totalValueLocked: TokenAmount
-							
+
 							// Yield mechanics
 							compoundingFrequency: number
 							feeStructure: {
@@ -152,12 +152,12 @@ export type Token<
 								performanceFee: Percentage
 								withdrawalFee?: Percentage
 							}
-							
+
 							// Performance tracking
-							historicalReturns: Array<{
+							historicalReturns: {
 								period: string
 								return: Percentage
-							}>
+							}[]
 						}
 					}
 
@@ -189,7 +189,7 @@ export type Token<
 					name: string
 					symbol: string
 					baseUri?: string
-					
+
 					// Collection information
 					collection?: {
 						name: string
@@ -197,7 +197,7 @@ export type Token<
 						royaltyFee: Percentage
 						verified: boolean
 					}
-					
+
 					// NFT mechanics
 					features: {
 						enumerable: boolean // ERC-721Enumerable
@@ -216,14 +216,14 @@ export type Token<
 				// Multi-token specific data
 				multiTokenData: {
 					uri: string // Token URI template
-					
+
 					// Token type distributions
 					tokenTypes: {
 						fungible: number
 						nonFungible: number
 						semiFungible: number
 					}
-					
+
 					// Features
 					features: {
 						burnable: boolean
@@ -231,15 +231,15 @@ export type Token<
 						upgradeable: boolean
 						supplyTracking: boolean
 					}
-					
+
 					// Gaming context
-					gameAssets?: Array<{
+					gameAssets?: {
 						tokenId: string
 						assetType: string
 						rarity: string
 						level?: number
 						stats?: Record<string, number>
-					}>
+					}[]
 				}
 			}
 
@@ -250,12 +250,12 @@ export type Token<
 					name: string
 					symbol: string
 					networkName: string
-					
+
 					// Network properties
 					consensusType: 'proof-of-work' | 'proof-of-stake' | 'proof-of-authority'
 					blockTime: number
 					gasTokenUsage: boolean
-					
+
 					// Economic model
 					issuanceModel: 'fixed' | 'inflationary' | 'deflationary' | 'dynamic'
 					annualInflation?: Percentage
@@ -274,14 +274,14 @@ export type Token<
 					gameTitle: string
 					gameGenre: string
 					utilityInGame: string[]
-					
+
 					// Game economy
-					tokenUtility: Array<{
+					tokenUtility: {
 						function: string
 						description: string
 						required: boolean
-					}>
-					
+					}[]
+
 					// Player economy
 					earnMechanics: string[]
 					stakingRewards: boolean
@@ -295,17 +295,17 @@ export type Token<
 				lpTokenData: {
 					dexProtocol: string
 					poolAddress: Address
-					
+
 					// Pool composition
 					token0: Address
 					token1: Address
 					poolFee: BasisPoints
-					
+
 					// LP metrics
 					totalValueLocked: TokenAmount
 					volume24h: UsdAmount
 					apr: Percentage
-					
+
 					// Risk metrics
 					impermanentLossRisk: Percentage
 					poolVolatility: Percentage
@@ -317,60 +317,44 @@ export type Token<
 	)
 
 	& {
-		// --
-		// Entity References (using PartialExceptOneOf)
-		contractActor?: PartialExceptOneOf<Actor<ActorType.Contract>,
+		$contractActor?: PartialExceptOneOf<Actor<ActorType.Contract>,
 			| 'address'
-			| 'type'
 		>
-		
-		creator?: PartialExceptOneOf<Actor,
+
+		$creator?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
 		>
-		
-		owner?: PartialExceptOneOf<Actor,
+
+		$owner?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
 		>
-		
-		deployer?: PartialExceptOneOf<Actor,
+
+		$deployer?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
 		>
-		
-		admin?: PartialExceptOneOf<Actor,
+
+		$admin?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
 		>
-		
-		minters?: PartialExceptOneOf<Actor,
+
+		$minters?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
 		>[]
-		
-		burners?: PartialExceptOneOf<Actor,
+
+		$burners?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
 		>[]
-		
-		topHolders?: PartialExceptOneOf<Actor,
+
+		$topHolders?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
 		>[]
-		
-		recentTransfers?: PartialExceptOneOf<import('./transfer').Transfer,
+
+		$recentTransfers?: PartialExceptOneOf<import('./transfer').Transfer,
 			| 'id'
-			| 'type'
-			| 'amount'
-			| 'timestamp'
 		>[]
-		
-		creationTransaction?: PartialExceptOneOf<import('./transaction').Transaction,
-			| 'transactionId'
-			| 'timestamp'
+
+		$creationTransaction?: PartialExceptOneOf<import('./transaction').Transaction,
+			| 'id'
 		>
 	}
 )
-
-export type AnyToken = Token<TokenStandard, TokenType> 

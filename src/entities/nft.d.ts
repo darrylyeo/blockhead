@@ -1,7 +1,6 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
-import type { Address, Hash } from './scalars'
-import type { ChainId } from './network'
-import type { Timestamp } from './types'
+import type { ChainId } from './chain'
+import type { Address, Hash, Timestamp } from './scalars'
 
 export type TokenId = string | number
 
@@ -58,17 +57,17 @@ export type NftMetadata = {
 	imagePreview?: string
 	imageThumbnail?: string
 	imageOriginal?: string
-	
+
 	// Media
 	animationUrl?: string
 	animationOriginal?: string
 	externalUrl?: string
 	backgroundColor?: string
-	
+
 	// Properties
 	attributes?: NftAttribute[]
 	properties?: Record<string, any>
-	
+
 	// Standards
 	tokenUri?: string
 	metadataUri?: string
@@ -76,51 +75,49 @@ export type NftMetadata = {
 }
 
 export type Nft<
-	_Standard extends NftStandard = NftStandard,
-	_Category extends NftCategory = NftCategory
+	_NftStandard extends NftStandard = NftStandard,
+	_NftCategory extends NftCategory = NftCategory
 > = (
 	& {
 		// NFT identification
-		standard: _Standard
-		category: _Category
+		standard: _NftStandard
+		categories: _NftCategory[]
 		contractAddress: Address
 		tokenId: TokenId
 		chainId: ChainId
-		
-		// Ownership
-		owner: Address
-		ownershipHistory?: Array<{
+
+		// Ownership history
+		ownershipHistory?: {
 			owner: Address
 			from: Address
 			timestamp: Timestamp
 			transactionHash: Hash
 			price?: string
-		}>
-		
+		}[]
+
 		// Metadata
 		metadata: NftMetadata
-		
+
 		// Rarity
 		rarity?: NftRarity
 		rarityScore?: number
 		rarityRank?: number
-		
+
 		// Supply
 		totalSupply?: number
 		circulatingSupply?: number
 		burned?: boolean
-		
+
 		// Minting
-		minter?: Address
 		mintedAt?: Timestamp
 		mintTransaction?: Hash
 		mintPrice?: string
-		
+
 		// Timestamps
 		createdAt: Timestamp
 		updatedAt: Timestamp
 		lastTransferAt?: Timestamp
-		
+
 		// Verification
 		isVerified?: boolean
 		verificationSource?: 'opensea' | 'rarible' | 'foundation' | 'manual'
@@ -129,7 +126,7 @@ export type Nft<
 	}
 
 	& (
-		_Standard extends NftStandard.Erc721 ?
+		_NftStandard extends NftStandard.Erc721 ?
 			{
 				// ERC721 specific
 				tokenUri?: string
@@ -137,7 +134,7 @@ export type Nft<
 				approvedForAll?: Record<Address, boolean>
 			}
 
-		: _Standard extends NftStandard.Erc1155 ?
+		: _NftStandard extends NftStandard.Erc1155 ?
 			{
 				// ERC1155 specific
 				balance: string
@@ -145,21 +142,21 @@ export type Nft<
 				totalHolders?: number
 			}
 
-		: _Standard extends NftStandard.Erc998 ?
+		: _NftStandard extends NftStandard.Erc998 ?
 			{
 				// Composable NFT specific
-				childTokens?: Array<{
+				childTokens?: {
 					contractAddress: Address
 					tokenId: TokenId
 					standard: NftStandard
-				}>
+				}[]
 				parentToken?: {
 					contractAddress: Address
 					tokenId: TokenId
 				}
 			}
 
-		: _Standard extends NftStandard.Erc4907 ?
+		: _NftStandard extends NftStandard.Erc4907 ?
 			{
 				// Rentable NFT specific
 				user?: Address
@@ -168,7 +165,7 @@ export type Nft<
 				rentalPeriod?: number
 			}
 
-		: _Standard extends NftStandard.Erc5192 ?
+		: _NftStandard extends NftStandard.Erc5192 ?
 			{
 				// Soulbound NFT specific
 				soulbound: true
@@ -177,7 +174,7 @@ export type Nft<
 				revocable?: boolean
 			}
 
-		: _Standard extends NftStandard.Ens ?
+		: _NftStandard extends NftStandard.Ens ?
 			{
 				// ENS specific
 				ensName: string
@@ -194,7 +191,7 @@ export type Nft<
 	& {
 		// Category specific properties
 	} & (
-		_Category extends NftCategory.Gaming ?
+		_NftCategory extends NftCategory.Gaming ?
 			{
 				gameData?: {
 					gameId: string
@@ -205,7 +202,7 @@ export type Nft<
 				}
 			}
 
-		: _Category extends NftCategory.Domain ?
+		: _NftCategory extends NftCategory.Domain ?
 			{
 				domainData?: {
 					tld: string
@@ -216,7 +213,7 @@ export type Nft<
 				}
 			}
 
-		: _Category extends NftCategory.Music ?
+		: _NftCategory extends NftCategory.Music ?
 			{
 				musicData?: {
 					artist: string
@@ -227,7 +224,7 @@ export type Nft<
 				}
 			}
 
-		: _Category extends NftCategory.VirtualWorlds ?
+		: _NftCategory extends NftCategory.VirtualWorlds ?
 			{
 				virtualWorldData?: {
 					world: string
@@ -243,16 +240,24 @@ export type Nft<
 
 	& {
 		// Entity references
-		collection?: PartialExceptOneOf<NftCollection,
+		$collection?: PartialExceptOneOf<NftCollection,
 			| 'contractAddress'
 		>
 
-		creator?: PartialExceptOneOf<import('./actor').Actor,
+		$creator?: PartialExceptOneOf<import('./actor').Actor,
 			| 'address'
 		>
 
-		currentOwner?: PartialExceptOneOf<import('./actor').Actor,
+		$owner?: PartialExceptOneOf<import('./actor').Actor,
 			| 'address'
+		>
+
+		$minter?: PartialExceptOneOf<import('./actor').Actor,
+			| 'address'
+		>
+
+		$mintTransaction?: PartialExceptOneOf<import('./transaction').Transaction,
+			| 'id'
 		>
 	}
 )
@@ -263,7 +268,7 @@ export type NftCollection = {
 	chainId: ChainId
 	name: string
 	symbol?: string
-	
+
 	// Collection metadata
 	description?: string
 	image?: string
@@ -271,29 +276,35 @@ export type NftCollection = {
 	website?: string
 	twitter?: string
 	discord?: string
-	
+
 	// Supply
 	totalSupply?: number
 	maxSupply?: number
 	circulatingSupply?: number
 	holders?: number
-	
-	// Creator
-	creator: Address
+
+	// Deployment
 	deployedAt: Timestamp
 	deployTransaction: Hash
-	
+
 	// Royalties
 	royaltyRecipient?: Address
 	royaltyPercentage?: number
-	
+
 	// Verification
 	isVerified: boolean
 	verificationDate?: Timestamp
-	
+
 	// Category
 	category: NftCategory
 	tags?: string[]
-}
 
-export type AnyNft = Nft<NftStandard, NftCategory> 
+	// Entity references
+	$creator?: PartialExceptOneOf<import('./actor').Actor,
+		| 'address'
+	>
+
+	$contract?: PartialExceptOneOf<import('./contract').Contract,
+		| 'address'
+	>
+}

@@ -1,10 +1,8 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
-import type { ChainId } from './network'
-import type { Address, Hash } from './scalars'
-import type { BasisPoints, BlockNumber, Percentage, Timestamp } from './types'
-import type { Epoch, Gwei, Slot } from './validator'
+import type { ChainId } from './chain'
+import type { Address, BasisPoints, BlockNumber, Hash, Percentage, Timestamp } from './scalars'
+import type { EpochNumber, NativeCurrencyAmount, SlotNumber } from './validator'
 
-// Beacon entity types
 export enum BeaconEntity {
 	Block = 'Block',
 	Attestation = 'Attestation',
@@ -70,21 +68,23 @@ export enum RewardType {
 	Slashing = 'Slashing'
 }
 
-// Generic beacon data type with entity-specific fields
-export type BeaconData<_BeaconEntity extends BeaconEntity = BeaconEntity> = (
+export type BeaconData<
+	_BeaconEntity extends BeaconEntity = BeaconEntity,
+	_RewardType extends RewardType = RewardType
+> = (
 	& {
 		// Beacon identification
 		id: string
 		chainId: ChainId
 		entity: _BeaconEntity
-		
+
 		// Position in beacon chain
-		epoch: Epoch
-		slot: Slot
-		
+		epoch: EpochNumber
+		slot: SlotNumber
+
 		// Timing
 		timestamp: Timestamp
-		
+
 		// Common metadata
 		isActive: boolean
 		isFinalized: boolean
@@ -98,20 +98,20 @@ export type BeaconData<_BeaconEntity extends BeaconEntity = BeaconEntity> = (
 				blockRoot: Hash
 				parentRoot: Hash
 				stateRoot: Hash
-				
+
 				// Block metadata
 				proposerIndex: number
 				proposerAddress: Address
 				randaoReveal: string
 				graffiti: string
-				
+
 				// Block content
 				attestations: number
 				deposits: number
 				voluntaryExits: number
 				attesterSlashings: number
 				proposerSlashings: number
-				
+
 				// Execution payload (post-merge)
 				executionPayload?: {
 					parentHash: Hash
@@ -130,7 +130,7 @@ export type BeaconData<_BeaconEntity extends BeaconEntity = BeaconEntity> = (
 					transactionsRoot: Hash
 					withdrawalsRoot?: Hash
 				}
-				
+
 				// Metrics
 				blockSize: number
 				transactionCount?: number
@@ -143,20 +143,20 @@ export type BeaconData<_BeaconEntity extends BeaconEntity = BeaconEntity> = (
 				status: AttestationStatus
 				aggregationBits: string
 				signature: string
-				
+
 				// Committee info
 				committeeIndex: number
 				validatorIndices: number[]
-				
+
 				// Attestation target
-				sourceEpoch: Epoch
+				sourceEpoch: EpochNumber
 				sourceRoot: Hash
-				targetEpoch: Epoch
+				targetEpoch: EpochNumber
 				targetRoot: Hash
 				beaconBlockRoot: Hash
-				
+
 				// Inclusion info
-				inclusionSlot?: Slot
+				inclusionSlot?: SlotNumber
 				inclusionIndex?: number
 				inclusionDelay?: number
 			}
@@ -167,11 +167,11 @@ export type BeaconData<_BeaconEntity extends BeaconEntity = BeaconEntity> = (
 				proposerIndex: number
 				proposerAddress: Address
 				status: ProposerStatus
-				
+
 				// Proposal data
 				blockRoot?: Hash
 				signature?: string
-				
+
 				// Missed proposal info
 				missedReason?: string
 				slashingEligible?: boolean
@@ -183,7 +183,7 @@ export type BeaconData<_BeaconEntity extends BeaconEntity = BeaconEntity> = (
 				syncCommitteeBits: string
 				syncCommitteeSignature: string
 				validatorIndices: number[]
-				
+
 				// Participation
 				participationRate: Percentage
 				validatorCount: number
@@ -194,13 +194,13 @@ export type BeaconData<_BeaconEntity extends BeaconEntity = BeaconEntity> = (
 				// Committee data
 				committeeIndex: number
 				validatorIndices: number[]
-				
+
 				// Committee size
 				committeeSize: number
 				targetCommitteeSize: number
-				
+
 				// Duties
-				attestationSlot: Slot
+				attestationSlot: SlotNumber
 				attestationShard?: number
 			}
 
@@ -209,13 +209,13 @@ export type BeaconData<_BeaconEntity extends BeaconEntity = BeaconEntity> = (
 				// Slashing data
 				slashingType: SlashingType
 				whistleblowerIndex?: number
-				whistleblowerReward?: Gwei
-				
+				whistleblowerReward?: NativeCurrencyAmount
+
 				// Slashed validators
 				slashedIndices: number[]
 				slashedAddresses: Address[]
-				totalSlashed: Gwei
-				
+				totalSlashed: NativeCurrencyAmount
+
 				// Evidence
 				attestation1?: {
 					attestingIndices: number[]
@@ -227,7 +227,7 @@ export type BeaconData<_BeaconEntity extends BeaconEntity = BeaconEntity> = (
 					data: any
 					signature: string
 				}
-				
+
 				// Proposal slashing
 				signedHeader1?: any
 				signedHeader2?: any
@@ -239,11 +239,11 @@ export type BeaconData<_BeaconEntity extends BeaconEntity = BeaconEntity> = (
 				exitType: ExitType
 				validatorIndex: number
 				validatorAddress: Address
-				
+
 				// Exit timing
-				exitEpoch: Epoch
-				withdrawableEpoch: Epoch
-				
+				exitEpoch: EpochNumber
+				withdrawableEpoch: EpochNumber
+
 				// Exit details
 				signature?: string
 				reason?: string
@@ -256,12 +256,12 @@ export type BeaconData<_BeaconEntity extends BeaconEntity = BeaconEntity> = (
 				validatorIndex: number
 				validatorAddress: Address
 				withdrawalAddress: Address
-				
+
 				// Amounts
-				amount: Gwei
-				fee?: Gwei
-				netAmount?: Gwei
-				
+				amount: NativeCurrencyAmount
+				fee?: NativeCurrencyAmount
+				netAmount?: NativeCurrencyAmount
+
 				// Processing info
 				withdrawalIndex?: number
 				executionBlockNumber?: BlockNumber
@@ -275,37 +275,73 @@ export type BeaconData<_BeaconEntity extends BeaconEntity = BeaconEntity> = (
 				pubkey: string
 				withdrawalCredentials: string
 				signature: string
-				
+
 				// Deposit amount
-				amount: Gwei
-				
+				amount: NativeCurrencyAmount
+
 				// Source info
 				depositorAddress: Address
 				transactionHash: Hash
 				logIndex: number
 				blockNumber: BlockNumber
-				
+
 				// Validator info
 				validatorIndex?: number
-				activationEpoch?: Epoch
+				activationEpoch?: EpochNumber
 			}
 
 		: _BeaconEntity extends BeaconEntity.Reward ?
 			{
 				// Reward data
-				rewardType: RewardType
+				rewardTypes: _RewardType[]
 				validatorIndex: number
 				validatorAddress: Address
-				
+
 				// Reward amounts
-				amount: Gwei
-				baseReward?: Gwei
-				inclusionReward?: Gwei
-				
+				amount: NativeCurrencyAmount
+				baseReward?: NativeCurrencyAmount
+				inclusionReward?: NativeCurrencyAmount
+
 				// Performance
 				performance?: Percentage
 				effectiveness?: Percentage
-			}
+			} & (
+				_RewardType extends RewardType.Attestation ? {
+					attestationRewardData: {
+						sourceEpoch: EpochNumber
+						targetEpoch: EpochNumber
+						headVote: boolean
+						sourceVote: boolean
+						targetVote: boolean
+						inclusionDelay?: number
+					}
+				}
+				: _RewardType extends RewardType.Proposal ? {
+					proposalRewardData: {
+						blockRoot: Hash
+						attestationsIncluded: number
+						syncAggregateIncluded: boolean
+						executionPayloadValue?: NativeCurrencyAmount
+						mevReward?: NativeCurrencyAmount
+					}
+				}
+				: _RewardType extends RewardType.Sync ? {
+					syncRewardData: {
+						syncCommitteeIndex: number
+						participationRate: Percentage
+						signatureIncluded: boolean
+					}
+				}
+				: _RewardType extends RewardType.Slashing ? {
+					slashingRewardData: {
+						slashedValidatorIndex: number
+						slashingType: SlashingType
+						whistleblowerShare: NativeCurrencyAmount
+						proposerShare: NativeCurrencyAmount
+					}
+				}
+				: {}
+			)
 
 		:
 			{}
@@ -323,23 +359,23 @@ export enum ValidatorAnalyticsTimeframe {
 export type ValidatorAnalytics = {
 	validatorIndex: number
 	timeframe: ValidatorAnalyticsTimeframe
-	
+
 	// Performance metrics
 	attestationRate: Percentage
 	proposalRate: Percentage
 	syncCommitteeRate?: Percentage
-	
+
 	// Reward metrics
-	totalRewards: Gwei
-	attestationRewards: Gwei
-	proposalRewards: Gwei
-	syncRewards?: Gwei
-	
+	totalRewards: NativeCurrencyAmount
+	attestationRewards: NativeCurrencyAmount
+	proposalRewards: NativeCurrencyAmount
+	syncRewards?: NativeCurrencyAmount
+
 	// Penalty metrics
-	totalPenalties: Gwei
+	totalPenalties: NativeCurrencyAmount
 	missedAttestations: number
 	missedProposals: number
-	
+
 	// Effectiveness
 	effectiveness: Percentage
 	uptime: Percentage
@@ -348,31 +384,31 @@ export type ValidatorAnalytics = {
 
 export type BeaconChainState = {
 	chainId: ChainId
-	
+
 	// Current state
-	currentEpoch: Epoch
-	currentSlot: Slot
-	finalizedEpoch: Epoch
-	justifiedEpoch: Epoch
-	
+	currentEpoch: EpochNumber
+	currentSlot: SlotNumber
+	finalizedEpoch: EpochNumber
+	justifiedEpoch: EpochNumber
+
 	// Validators
 	activeValidators: number
 	totalValidators: number
 	queuedValidators: number
 	exitingValidators: number
-	
+
 	// Network metrics
 	participationRate: Percentage
-	networkBalance: Gwei
-	totalStaked: Gwei
-	
+	networkBalance: NativeCurrencyAmount
+	totalStaked: NativeCurrencyAmount
+
 	// Recent performance
 	recentBlocks: {
 		proposed: number
 		missed: number
 		orphaned: number
 	}
-	
+
 	recentAttestations: {
 		included: number
 		missed: number
@@ -382,29 +418,29 @@ export type BeaconChainState = {
 export type BeaconFilter = {
 	// Entity filters
 	entities?: BeaconEntity[]
-	
+
 	// Time filters
 	epochRange?: {
-		from: Epoch
-		to: Epoch
+		from: EpochNumber
+		to: EpochNumber
 	}
 	slotRange?: {
-		from: Slot
-		to: Slot
+		from: SlotNumber
+		to: SlotNumber
 	}
-	
+
 	// Validator filters
 	validatorIndices?: number[]
 	validatorAddresses?: Address[]
-	
+
 	// Status filters
 	statuses?: string[]
 	isFinalized?: boolean
-	
+
 	// Performance filters
 	minParticipationRate?: Percentage
 	maxInclusionDelay?: number
-	
+
 	// Pagination
 	limit?: number
 	offset?: number

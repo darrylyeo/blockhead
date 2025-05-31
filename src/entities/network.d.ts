@@ -1,8 +1,7 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
-import type { Address, Hash } from './scalars'
-import type { Timestamp } from './types'
+import type { ChainId } from './chain'
+import type { Address, Hash, Timestamp } from './scalars'
 
-export type ChainId = number
 export type NetworkId = string
 
 export enum NetworkType {
@@ -58,35 +57,35 @@ export type Network<_NetworkType extends NetworkType = NetworkType> = {
 	name: string
 	shortName?: string
 	slug?: string
-	
+
 	// Network properties
 	type: _NetworkType
 	consensus: ConsensusType
 	status: NetworkStatus
 	isTestnet: boolean
 	isDeprecated?: boolean
-	
+
 	// Parent/child relationships
 	parentChainId?: ChainId
 	parentNetworkId?: NetworkId
 	childChainIds?: ChainId[]
-	
+
 	// Native currency
 	nativeCurrency: NetworkAsset
 	wrappedNativeToken?: Address
-	
+
 	// Gas configuration
 	gasToken?: NetworkAsset // For L2s with different gas tokens
 	eip1559?: boolean
 	baseFeePerGas?: string
 	priorityFeePerGas?: string
-	
+
 	// Network parameters
 	blockTime: number // seconds
 	blockGasLimit: string
 	finalityBlocks?: number
 	confirmationsRequired?: number
-	
+
 	// Genesis
 	genesisBlock?: {
 		hash: Hash
@@ -95,11 +94,11 @@ export type Network<_NetworkType extends NetworkType = NetworkType> = {
 		difficulty?: string
 		nonce?: string
 	}
-	
+
 	// Deployment
 	deploymentBlock?: number
 	deploymentTimestamp?: Timestamp
-	
+
 	// RPCs and infrastructure
 	rpcUrls: {
 		default: string[]
@@ -108,24 +107,24 @@ export type Network<_NetworkType extends NetworkType = NetworkType> = {
 		websocket?: string[]
 		archive?: string[]
 	}
-	
+
 	// Block explorers
-	blockExplorers: Array<{
+	blockExplorers: {
 		name: string
 		url: string
 		apiUrl?: string
 		apiKey?: string
 		standard?: 'etherscan' | 'blockscout' | 'custom'
-	}>
-	
+	}[]
+
 	// Bridges
-	bridges?: Array<{
+	bridges?: {
 		name: string
 		url: string
 		contractAddress?: Address
 		targetChainId: ChainId
-	}>
-	
+	}[]
+
 	// Contracts
 	contracts?: {
 		multicall?: Address
@@ -137,11 +136,11 @@ export type Network<_NetworkType extends NetworkType = NetworkType> = {
 		create2Factory?: Address
 		deterministicDeployment?: Address
 	}
-	
+
 	// Icons and branding
 	iconUrl?: string
 	iconBackground?: string
-	
+
 	// Features
 	features?: {
 		eip155: boolean
@@ -151,15 +150,15 @@ export type Network<_NetworkType extends NetworkType = NetworkType> = {
 		accountAbstraction?: boolean
 		flashbots?: boolean
 	}
-	
+
 	// Hard forks
-	hardforks?: Array<{
+	hardforks?: {
 		name: string
 		blockNumber: number
 		timestamp?: Timestamp
 		eips?: number[]
-	}>
-	
+	}[]
+
 	// Network statistics
 	stats?: {
 		latestBlock: number
@@ -169,22 +168,22 @@ export type Network<_NetworkType extends NetworkType = NetworkType> = {
 		averageBlockTime?: number
 		tps?: number // transactions per second
 		gasPrice?: string
-		
+
 		// PoW specific
 		hashRate?: string
 		difficulty?: string
-		
+
 		// PoS specific
 		totalStaked?: string
 		validatorCount?: number
 		apr?: number
 	}
-	
+
 	// Documentation
 	infoUrl?: string
 	documentation?: string
 	faucets?: string[]
-	
+
 	// Custom metadata
 	metadata?: Record<string, any>
 } & (
@@ -200,18 +199,18 @@ export type Network<_NetworkType extends NetworkType = NetworkType> = {
 				stateRoot?: Hash
 				dataAvailability?: 'onchain' | 'offchain' | 'celestia' | 'eigenda'
 				withdrawalPeriod?: number // seconds
-				
+
 				// L2 specific parameters
 				l1GasPrice?: string
 				l2GasPrice?: string
 				compressionRatio?: number
 				batchSize?: number
-				
+
 				// Security model
 				fraudProofWindow?: number
 				validityProofFrequency?: number
 			}
-			
+
 			// L2 costs
 			l2Costs?: {
 				l1DataCost: string
@@ -228,7 +227,7 @@ export type Network<_NetworkType extends NetworkType = NetworkType> = {
 				bridgeType: 'federated' | 'decentralized' | 'hybrid'
 				validators?: Address[]
 				checkpointInterval?: number
-				
+
 				// Security parameters
 				requiredValidators?: number
 				validatorRotation?: boolean
@@ -242,7 +241,7 @@ export type Network<_NetworkType extends NetworkType = NetworkType> = {
 				resetsEnabled?: boolean
 				faucetUrl?: string
 				faucetAmount?: string
-				
+
 				// Test parameters
 				acceleratedBlocks?: boolean
 				debugMode?: boolean
@@ -256,7 +255,7 @@ export type Network<_NetworkType extends NetworkType = NetworkType> = {
 				accessControl: 'permissioned' | 'permissionless'
 				nodeWhitelist?: Address[]
 				adminNodes?: Address[]
-				
+
 				// Privacy features
 				privateTransactions?: boolean
 				encryptedState?: boolean
@@ -270,7 +269,7 @@ export type Network<_NetworkType extends NetworkType = NetworkType> = {
 				parentNetwork: NetworkId
 				subnetId: string
 				validators: Address[]
-				
+
 				// Subnet parameters
 				minValidators: number
 				stakingToken?: Address
@@ -285,23 +284,23 @@ export type NetworkActivity = {
 	networkId: NetworkId
 	chainId: ChainId
 	timestamp: Timestamp
-	
+
 	// Block data
 	blockNumber: number
 	blockHash: Hash
 	blockTime: number
-	
+
 	// Transactions
 	transactionCount: number
 	failedTransactionCount?: number
 	internalTransactionCount?: number
-	
+
 	// Gas metrics
 	gasUsed: string
 	gasLimit: string
 	baseFeePerGas?: string
 	gasPrice?: string
-	
+
 	// Network health
 	isHealthy: boolean
 	propagationTime?: number
@@ -314,15 +313,15 @@ export type NetworkGasPrice = {
 	networkId: NetworkId
 	chainId: ChainId
 	timestamp: Timestamp
-	
+
 	// Legacy gas
 	gasPrice?: string
-	
+
 	// EIP-1559
 	baseFeePerGas?: string
 	maxPriorityFeePerGas?: string
 	maxFeePerGas?: string
-	
+
 	// Recommendations
 	slow?: {
 		gasPrice?: string
@@ -342,7 +341,7 @@ export type NetworkGasPrice = {
 		maxFeePerGas?: string
 		estimatedTime?: number
 	}
-	
+
 	// Percentiles
 	percentiles?: Record<number, string> // e.g., { 10: "1", 50: "5", 90: "10" }
 }
@@ -352,27 +351,27 @@ export type NetworkNode = {
 	id: string
 	networkId: NetworkId
 	chainId: ChainId
-	
+
 	// Node info
 	name?: string
 	version?: string
 	client?: 'geth' | 'erigon' | 'nethermind' | 'besu' | 'openethereum' | 'other'
-	
+
 	// Connection
 	endpoint?: string
 	isPublic: boolean
 	requiresAuth?: boolean
-	
+
 	// Capabilities
 	isArchive?: boolean
 	tracingEnabled?: boolean
 	debugEnabled?: boolean
-	
+
 	// Performance
 	syncStatus?: 'synced' | 'syncing' | 'not-synced'
 	latestBlock?: number
 	peerCount?: number
-	
+
 	// Location
 	region?: string
 	provider?: string
@@ -383,22 +382,22 @@ export type NetworkUpgrade = {
 	name: string
 	networkId: NetworkId
 	chainId: ChainId
-	
+
 	// Activation
 	blockNumber?: number
 	timestamp?: Timestamp
 	epoch?: number
-	
+
 	// Changes
 	eips?: number[]
 	features?: string[]
 	breakingChanges?: boolean
-	
+
 	// Description
 	description?: string
 	proposalUrl?: string
 	discussionUrl?: string
-	
+
 	// Status
 	status: 'proposed' | 'scheduled' | 'activated' | 'rejected'
 }
@@ -406,7 +405,7 @@ export type NetworkUpgrade = {
 export type NetworkComparison = {
 	// Comparison data
 	networks: NetworkId[]
-	
+
 	// Metrics
 	metrics: {
 		tps: Record<NetworkId, number>
@@ -415,10 +414,10 @@ export type NetworkComparison = {
 		finalityTime: Record<NetworkId, number>
 		decentralization: Record<NetworkId, number> // score 0-100
 	}
-	
+
 	// Features
 	features: Record<NetworkId, string[]>
-	
+
 	// Costs
 	transactionCost: Record<NetworkId, number> // in USD
 	deploymentCost: Record<NetworkId, number> // in USD

@@ -1,15 +1,14 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
 import type { Actor, ActorType } from './actor'
-import type { Address, Hash } from './scalars'
-import type { ChainId } from './network'
-import type { Timestamp, BlockNumber, TokenAmount, USDAmount, Percentage, BasisPoints } from './types'
+import type { BlockNumber } from './block'
+import type { ChainId } from './chain'
+import type { Address, BasisPoints, Hash, Percentage, Timestamp, TokenAmount, UsdAmount } from './scalars'
 
 // ABI and function types
 export type ABIType = 'function' | 'constructor' | 'event' | 'error' | 'fallback' | 'receive'
 export type StateMutability = 'pure' | 'view' | 'nonpayable' | 'payable'
 export type ABIParameterType = string // 'uint256', 'address', 'string', etc.
 
-// Generic ABI parameter type
 export type ABIParameter<
 	T extends ABIParameterType = ABIParameterType,
 	Components = any[]
@@ -21,7 +20,6 @@ export type ABIParameter<
 	indexed?: boolean // For events
 }
 
-// Generic ABI element base type
 export type ABIElement<
 	Type extends ABIType = ABIType,
 	P = {}
@@ -39,12 +37,12 @@ export type ABIFunction<
 	stateMutability: SM
 	inputs: Inputs
 	outputs: Outputs
-	
+
 	// Function metadata
 	selector: string // 4-byte function selector
 	signature: string // Human readable signature
 	gasEstimate?: string
-	
+
 	// Documentation
 	notice?: string
 	dev?: string
@@ -58,11 +56,11 @@ export type ABIEvent<
 	name: string
 	inputs: Inputs
 	anonymous?: boolean
-	
+
 	// Event metadata
 	signature: Hash // Event signature hash
 	topic0: Hash // Same as signature
-	
+
 	// Documentation
 	notice?: string
 	dev?: string
@@ -74,7 +72,7 @@ export type ABIError<
 > = ABIElement<'error', {
 	name: string
 	inputs: Inputs
-	
+
 	// Error metadata
 	selector: string // 4-byte error selector
 	signature: string
@@ -98,17 +96,16 @@ export type ABIFallback<
 // Union type for all ABI elements
 export type AnyABIElement = ABIFunction | ABIEvent | ABIError | ABIConstructor | ABIFallback
 
-// Generic contract ABI type
 export type ContractABI<
 	Elements extends AnyABIElement[] = AnyABIElement[]
 > = {
 	abi: Elements
-	
+
 	// Function lookups
 	functions: Record<string, ABIFunction> // name -> function
 	events: Record<string, ABIEvent> // name -> event
 	errors: Record<string, ABIError> // name -> error
-	
+
 	// Selectors
 	functionSelectors: Record<string, ABIFunction> // selector -> function
 	eventTopics: Record<Hash, ABIEvent> // topic0 -> event
@@ -128,11 +125,11 @@ export type ContractSource<
 		language: Language
 		settings: Settings
 	}
-	
+
 	verificationMethod: VerificationMethod
 	verifiedAt: number
 	verifiedBy: VerifiedBy
-	
+
 	license?: string
 	libraries?: Record<string, Address>
 }
@@ -145,16 +142,16 @@ export type ContractDeployment<
 	deployBlock: number
 	deployTimestamp: number
 	deployer: Address
-	
+
 	constructorArgs?: string
 	gasUsed: string
 	gasPrice: string
 	deploymentCost: string
-	
+
 	creationType: CreationType
 	salt?: Hash
 	factory?: Address
-	
+
 	isProxy: boolean
 	implementation?: Address
 	admin?: Address
@@ -247,26 +244,29 @@ export type ContractInterface = {
 	type: 'function' | 'event' | 'constructor' | 'fallback' | 'receive'
 	signature: string
 	selector?: Hash
-	inputs?: Array<{
+	inputs?: {
 		name: string
 		type: string
 		indexed?: boolean
-	}>
-	outputs?: Array<{
+	}[]
+	outputs?: {
 		name: string
 		type: string
-	}>
+	}[]
 	stateMutability?: 'pure' | 'view' | 'nonpayable' | 'payable'
 }
 
-export type Contract<_ContractStandard extends ContractStandard = ContractStandard> = (
+export type Contract<
+	_ContractStandard extends ContractStandard = ContractStandard,
+	_ContractCategory extends ContractCategory = ContractCategory
+> = (
 	& {
 		// Contract identification
 		address: Address
 		chainId: ChainId
-		standard: _ContractStandard
-		category: ContractCategory
-		
+		standards: _ContractStandard[]
+		categories: _ContractCategory[]
+
 		// Contract metadata
 		name?: string
 		version?: string
@@ -274,17 +274,17 @@ export type Contract<_ContractStandard extends ContractStandard = ContractStanda
 		sourceCode?: string
 		compilerVersion?: string
 		optimizationEnabled?: boolean
-		
+
 		// Deployment information
 		deploymentTransaction: Hash
 		deploymentBlock: BlockNumber
 		deploymentTimestamp: Timestamp
-		
+
 		// Contract interface
 		abi?: ContractInterface[]
 		functions: ContractInterface[]
 		events: ContractInterface[]
-		
+
 		// Verification status
 		verification: {
 			isVerified: boolean
@@ -292,50 +292,50 @@ export type Contract<_ContractStandard extends ContractStandard = ContractStanda
 			verifiedAt?: Timestamp
 			sourcifyMatch?: 'perfect' | 'partial' | 'none'
 			securityScore?: number
-			
-			auditReports?: Array<{
+
+			auditReports?: {
 				auditor: string
 				date: Timestamp
 				reportUrl: string
 				score?: number
-				findings: Array<{
+				findings: {
 					severity: 'critical' | 'high' | 'medium' | 'low' | 'informational'
 					title: string
 					description: string
-				}>
-			}>
+				}[]
+			}[]
 		}
-		
+
 		// Usage statistics
 		statistics: {
 			transactionCount: number
 			internalTransactionCount: number
 			uniqueCallers: number
-			
+
 			// Activity metrics
 			dailyActiveUsers: number
 			weeklyActiveUsers: number
 			monthlyActiveUsers: number
-			
+
 			// Function usage
 			functionCalls: Record<string, {
 				count: number
 				percentage: Percentage
 				averageGasUsed: number
 			}>
-			
+
 			// Economic metrics
 			totalValueReceived: TokenAmount
 			totalValueSent: TokenAmount
 			totalFeesGenerated: TokenAmount
 			averageTransactionValue: TokenAmount
 		}
-		
+
 		// Risk assessment
 		risk: {
 			riskLevel: 'low' | 'medium' | 'high' | 'critical'
 			riskFactors: string[]
-			
+
 			// Security analysis
 			hasRenounceOwnership: boolean
 			hasMultiSig: boolean
@@ -343,240 +343,213 @@ export type Contract<_ContractStandard extends ContractStandard = ContractStanda
 			hasEmergencyPause: boolean
 			hasUpgradeability: boolean
 			hasExternalDependencies: boolean
-			
+
 			// Compliance flags
 			blacklistedFunctions: string[]
 			suspiciousPatterns: string[]
 			complianceIssues: string[]
 		}
 	}
+)
+// Conditional fields for each standard
+& (
+	_ContractStandard extends ContractStandard.Erc20 ? {
+		// ERC20 specific data
+		tokenData: {
+			name: string
+			symbol: string
+			decimals: number
+			totalSupply: TokenAmount
 
-	& (
-		_ContractStandard extends ContractStandard.Erc20 ?
-			{
-				// ERC20 specific data
-				tokenData: {
-					name: string
-					symbol: string
-					decimals: number
-					totalSupply: TokenAmount
-					
-					// Token mechanics
-					isMintable: boolean
-					isBurnable: boolean
-					hasTransferTax: boolean
-					hasReflection: boolean
-					hasAntiWhale: boolean
-					
-					// Distribution
-					holderCount: number
-					topHolderPercentage: Percentage
-					liquidityLocked: boolean
-				}
+			// Token mechanics
+			isMintable: boolean
+			isBurnable: boolean
+			hasTransferTax: boolean
+			hasReflection: boolean
+			hasAntiWhale: boolean
+
+			// Distribution
+			holderCount: number
+			topHolderPercentage: Percentage
+			liquidityLocked: boolean
+		}
+	} : {}
+)
+& (
+	_ContractStandard extends ContractStandard.Erc721 ? {
+		// ERC721 specific data
+		nftData: {
+			name: string
+			symbol: string
+			totalSupply: TokenAmount
+			baseURI?: string
+
+			// Collection info
+			maxSupply?: number
+			mintPrice?: TokenAmount
+			royaltyPercentage?: Percentage
+
+			// Minting mechanics
+			isMintable: boolean
+			publicMint: boolean
+			whitelistMint: boolean
+
+			// Market data
+			floorPrice?: TokenAmount
+			totalVolume?: TokenAmount
+			uniqueOwners: number
+		}
+	} : {}
+)
+& (
+	_ContractStandard extends ContractStandard.Erc1155 ? {
+		// ERC1155 specific data
+		multiTokenData: {
+			name?: string
+			uri: string
+			tokenCount: number
+
+			// Token tracking
+			tokenTypes: {
+				fungible: number
+				nonFungible: number
+				semiFungible: number
 			}
 
-		: _ContractStandard extends ContractStandard.Erc721 ?
-			{
-				// ERC721 specific data
-				nftData: {
-					name: string
-					symbol: string
-					totalSupply: TokenAmount
-					baseURI?: string
-					
-					// Collection info
-					maxSupply?: number
-					mintPrice?: TokenAmount
-					royaltyPercentage?: Percentage
-					
-					// Minting mechanics
-					isMintable: boolean
-					publicMint: boolean
-					whitelistMint: boolean
-					
-					// Market data
-					floorPrice?: TokenAmount
-					totalVolume?: TokenAmount
-					uniqueOwners: number
-				}
+			// Batch operations
+			supportsBatchTransfer: boolean
+			supportsBatchMint: boolean
+		}
+	} : {}
+)
+& (
+	_ContractStandard extends ContractStandard.Erc1967 ? {
+		// Proxy specific data
+		proxyData: {
+			proxyType: 'transparent' | 'uups' | 'beacon' | 'diamond' | 'minimal'
+			implementation?: Address
+			admin?: Address
+			beacon?: Address
+			slots?: Record<string, Hash>
+
+			// Upgrade mechanics
+			isUpgradable: boolean
+			upgradeHistory?: {
+				timestamp: Timestamp
+				oldImplementation: Address
+				newImplementation: Address
+			}[]
+		}
+	} : {}
+)
+& (
+	_ContractStandard extends ContractStandard.Custom ? {
+		// Custom contract data
+		customData: {
+			contractType: string
+			protocolName?: string
+			protocolVersion?: string
+			features: string[]
+
+			// Custom properties
+			properties: Record<string, any>
+		}
+	} : {}
+)
+// Conditional fields for each category
+& (
+	_ContractCategory extends ContractCategory.Defi ? {
+		// DeFi protocol specific features
+		defiFeatures?: {
+			protocolType: 'dex' | 'lending' | 'yield' | 'derivatives' | 'insurance'
+			tvl?: TokenAmount
+			apr?: Percentage
+			fees?: {
+				tradingFee?: BasisPoints
+				protocolFee?: BasisPoints
+				performanceFee?: BasisPoints
 			}
+		}
+	} : {}
+)
+& (
+	_ContractCategory extends ContractCategory.Governance ? {
+		// Governance features
+		governance?: {
+			hasOwner: boolean
+			isMultiOwner: boolean
+			hasPermissions: boolean
+			isPausable: boolean
+			isUpgradable: boolean
 
-		: _ContractStandard extends ContractStandard.Erc1155 ?
-			{
-				// ERC1155 specific data
-				multiTokenData: {
-					name?: string
-					uri: string
-					tokenCount: number
-					
-					// Token tracking
-					tokenTypes: {
-						fungible: number
-						nonFungible: number
-						semiFungible: number
-					}
-					
-					// Batch operations
-					supportsBatchTransfer: boolean
-					supportsBatchMint: boolean
-				}
+			roles?: {
+				role: string
+				members: Address[]
+				permissions: string[]
+			}[]
+
+			timelock?: {
+				delay: number
+				proposalThreshold: TokenAmount
+				executionThreshold: number
 			}
+		}
+	} : {}
+)
+& {
+	$contractActor?: PartialExceptOneOf<Actor<ActorType.Contract>,
+		| 'address'
+	>
 
-		: _ContractStandard extends ContractStandard.Erc1967 ?
-			{
-				// Proxy specific data
-				proxyData: {
-					proxyType: 'transparent' | 'uups' | 'beacon' | 'diamond' | 'minimal'
-					implementation?: Address
-					admin?: Address
-					beacon?: Address
-					slots?: Record<string, Hash>
-					
-					// Upgrade mechanics
-					isUpgradable: boolean
-					upgradeHistory?: Array<{
-						timestamp: Timestamp
-						oldImplementation: Address
-						newImplementation: Address
-					}>
-				}
-			}
+	$deployer?: PartialExceptOneOf<Actor,
+		| 'address'
+	>
 
-		: _ContractStandard extends ContractStandard.Custom ?
-			{
-				// Custom contract data
-				customData: {
-					contractType: string
-					protocolName?: string
-					protocolVersion?: string
-					features: string[]
-					
-					// Custom properties
-					properties: Record<string, any>
-				}
-			}
+	$owner?: PartialExceptOneOf<Actor,
+		| 'address'
+	>
 
-		:
-			{}
-	)
+	$admin?: PartialExceptOneOf<Actor,
+		| 'address'
+	>
 
-	& (
-		category extends ContractCategory.Defi ?
-			{
-				// DeFi protocol specific features
-				defiFeatures?: {
-					protocolType: 'dex' | 'lending' | 'yield' | 'derivatives' | 'insurance'
-					tvl?: TokenAmount
-					apr?: Percentage
-					fees?: {
-						tradingFee?: BasisPoints
-						protocolFee?: BasisPoints
-						performanceFee?: BasisPoints
-					}
-				}
-			}
+	$implementation?: PartialExceptOneOf<Contract,
+		| 'address'
+	>
 
-		: category extends ContractCategory.Governance ?
-			{
-				// Governance features
-				governance?: {
-					hasOwner: boolean
-					isMultiOwner: boolean
-					hasPermissions: boolean
-					isPausable: boolean
-					isUpgradable: boolean
-					
-					roles?: Array<{
-						role: string
-						members: Address[]
-						permissions: string[]
-					}>
-					
-					timelock?: {
-						delay: number
-						proposalThreshold: TokenAmount
-						executionThreshold: number
-					}
-				}
-			}
+	$beacon?: PartialExceptOneOf<Contract,
+		| 'address'
+	>
 
-		:
-			{}
-	)
+	$factory?: PartialExceptOneOf<Actor<ActorType.Contract>,
+		| 'address'
+	>
 
-	& {
-		// --
-		// Entity References (using PartialExceptOneOf)
-		contractActor?: PartialExceptOneOf<Actor<ActorType.Contract>,
-			| 'address'
-			| 'type'
-		>
-		
-		deployer?: PartialExceptOneOf<Actor,
-			| 'address'
-			| 'type'
-		>
-		
-		owner?: PartialExceptOneOf<Actor,
-			| 'address'
-			| 'type'
-		>
-		
-		admin?: PartialExceptOneOf<Actor,
-			| 'address'
-			| 'type'
-		>
-		
-		implementation?: PartialExceptOneOf<Contract,
-			| 'address'
-			| 'standard'
-		>
-		
-		beacon?: PartialExceptOneOf<Contract,
-			| 'address'
-			| 'standard'
-		>
-		
-		factory?: PartialExceptOneOf<Actor<ActorType.Contract>,
-			| 'address'
-			| 'type'
-		>
-		
-		createdContracts?: PartialExceptOneOf<Contract,
-			| 'address'
-			| 'deploymentTimestamp'
-		>[]
-		
-		relatedContracts?: PartialExceptOneOf<Contract,
-			| 'address'
-			| 'category'
-		>[]
-		
-		dependsOn?: PartialExceptOneOf<Contract,
-			| 'address'
-			| 'standard'
-		>[]
-		
-		dependents?: PartialExceptOneOf<Contract,
-			| 'address'
-			| 'standard'
-		>[]
-		
-		frequentCallers?: PartialExceptOneOf<Actor,
-			| 'address'
-			| 'type'
-		>[]
-		
-		recentTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
-			| 'transactionId'
-			| 'type'
-			| 'timestamp'
-		>[]
-		
-		events?: PartialExceptOneOf<import('./event').Event,
-			| 'id'
-			| 'emitter'
-			| 'topics'
-		>[]
-	}
-) 
+	$createdContracts?: PartialExceptOneOf<Contract,
+		| 'address'
+	>[]
+
+	$relatedContracts?: PartialExceptOneOf<Contract,
+		| 'address'
+	>[]
+
+	$dependsOn?: PartialExceptOneOf<Contract,
+		| 'address'
+	>[]
+
+	$dependents?: PartialExceptOneOf<Contract,
+		| 'address'
+	>[]
+
+	$frequentCallers?: PartialExceptOneOf<Actor,
+		| 'address'
+	>[]
+
+	$recentTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
+		| 'id'
+	>[]
+
+	$events?: PartialExceptOneOf<import('./event').Event,
+		| 'id'
+	>[]
+} 

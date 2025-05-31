@@ -1,20 +1,9 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
 import type { Actor } from './actor'
-import type { Address, Hash } from './scalars'
-import type { ChainId } from './network'
-import type { TokenStandard, AnyToken } from './token'
-import type { Timestamp, NativeCurrencyAmount, BlockNumber, TransactionId, TokenAmount, USDAmount, Percentage, BasisPoints } from './types'
-
-// Balance types based on asset standards
-export enum BalanceStandard {
-	Native = 'Native', // Native blockchain currency
-	Erc20 = 'Erc20', // Fungible tokens
-	Erc721 = 'Erc721', // Non-fungible tokens (ownership)
-	Erc1155 = 'Erc1155', // Multi-token standard
-	Lp = 'Lp', // Liquidity provider tokens
-	Staked = 'Staked', // Staked/locked assets
-	Vesting = 'Vesting' // Vesting schedule balances
-}
+import type { BlockNumber } from './block'
+import type { ChainId } from './chain'
+import type { Address, BasisPoints, Hash, NativeCurrencyAmount, Percentage, Timestamp, TokenAmount, UsdAmount } from './scalars'
+import type { TokenStandard } from './token'
 
 export enum BalanceType {
 	Available = 'Available', // Freely transferable
@@ -38,49 +27,44 @@ export enum BalanceCategory {
 	Bridge = 'Bridge' // Bridge contract
 }
 
-// Generic balance type with standard-specific fields
-export type Balance<_BalanceStandard extends BalanceStandard = BalanceStandard> = (
+export type Balance<
+	_TokenStandard extends TokenStandard = TokenStandard,
+	_BalanceType extends BalanceType = BalanceType
+> = (
 	& {
 		// Balance identification
 		id: string
 		chainId: ChainId
-		standard: _BalanceStandard
-		type: BalanceType
+		standard: _TokenStandard
+		types: _BalanceType[]
 		category: BalanceCategory
-		
-		// Owner identification
-		owner: Address
-		
+
 		// Balance amounts
 		balance: TokenAmount
-		balanceFormatted: string
-		balanceUsd?: USDAmount
-		
-		// Asset identification
-		asset: Address // Token contract or zero address for native
-		
+		balanceUsd?: UsdAmount
+
 		// Position in blockchain
 		blockNumber: BlockNumber
 		timestamp: Timestamp
-		
+
 		// Balance metadata
 		isActive: boolean
 		lastActivity?: Timestamp
 		transactionCount?: number
-		
+
 		// Change tracking
 		changeAmount?: TokenAmount
 		changePercentage?: Percentage
 		changePeriod?: '1h' | '24h' | '7d' | '30d'
-		
+
 		// Balance history
-		historicalData?: Array<{
+		historicalData?: {
 			timestamp: Timestamp
 			balance: TokenAmount
-			balanceUsd?: USDAmount
+			balanceUsd?: UsdAmount
 			blockNumber: BlockNumber
-		}>
-		
+		}[]
+
 		// Risk and security
 		riskLevel?: 'low' | 'medium' | 'high' | 'critical'
 		securityFlags?: string[]
@@ -88,137 +72,180 @@ export type Balance<_BalanceStandard extends BalanceStandard = BalanceStandard> 
 	}
 
 	& (
-		_BalanceStandard extends BalanceStandard.Native ?
+		_BalanceType extends BalanceType.Locked ?
+			{
+				lockedData: {
+					unlockTime?: Timestamp
+					lockDuration?: number
+					lockContract?: Address
+					lockReason?: string
+				}
+			}
+		: _BalanceType extends BalanceType.Staked ?
+			{
+				stakedData: {
+					stakingContract: Address
+					stakingProtocol: string
+					stakingApr?: Percentage
+					stakingRewards?: TokenAmount
+				}
+			}
+		: _BalanceType extends BalanceType.Vesting ?
+			{
+				vestingData: {
+					vestingSchedule: {
+						timestamp: Timestamp
+						amount: TokenAmount
+						isClaimable: boolean
+					}[]
+					cliffPeriod?: number
+					vestingDuration: number
+				}
+			}
+		: _BalanceType extends BalanceType.Collateral ?
+			{
+				collateralData: {
+					loanProtocol: string
+					collateralizationRatio: Percentage
+					liquidationThreshold: Percentage
+					borrowedAmount?: TokenAmount
+				}
+			}
+		: {}
+	)
+
+	& (
+		_TokenStandard extends TokenStandard.Native ?
 			{
 				// Native currency balance data
 				nativeData: {
 					symbol: string
 					decimals: number
 					networkName: string
-					
+
 					// Gas balance context
 					availableForGas: TokenAmount
 					reservedForGas?: TokenAmount
-					
+
 					// Staking context
 					totalStaked?: TokenAmount
 					stakingRewards?: TokenAmount
-					unstakingQueue?: Array<{
+					unstakingQueue?: {
 						amount: TokenAmount
 						availableAt: Timestamp
-					}>
-					
+					}[]
+
 					// Validator context (if staking)
 					validatorAddress?: Address
 					delegationRewards?: TokenAmount
 					commission?: Percentage
-					
+
 					// Network participation
 					governanceVotes?: number
 					proposalParticipation?: Percentage
 				}
 			}
 
-		: _BalanceStandard extends BalanceStandard.Erc20 ?
+		: _TokenStandard extends TokenStandard.Erc20 ?
 			{
 				// ERC20 token balance data
 				erc20Data: {
 					name: string
 					symbol: string
 					decimals: number
-					
+
 					// Token context
 					totalSupply?: TokenAmount
 					holderRank?: number
 					holderPercentage?: Percentage
-					
+
 					// Liquidity context
 					liquidityAvailable: boolean
-					liquidityPools?: Array<{
+					liquidityPools?: {
 						pool: Address
 						liquidity: TokenAmount
 						apr?: Percentage
-					}>
-					
+					}[]
+
 					// DeFi positions
-					defiPositions?: Array<{
+					defiPositions?: {
 						protocol: string
 						type: 'lending' | 'borrowing' | 'farming' | 'staking'
 						amount: TokenAmount
 						apy?: Percentage
 						healthFactor?: number
-					}>
-					
+					}[]
+
 					// Approval tracking
-					allowances?: Array<{
+					allowances?: {
 						spender: Address
 						amount: TokenAmount
 						isUnlimited: boolean
 						lastUsed?: Timestamp
-					}>
+					}[]
 				}
 			}
 
-		: _BalanceStandard extends BalanceStandard.Erc721 ?
+		: _TokenStandard extends TokenStandard.Erc721 ?
 			{
 				// NFT ownership data
 				nftData: {
 					tokenIds: string[]
 					collectionName: string
 					collectionSymbol: string
-					
+
 					// Collection context
 					totalSupply?: number
 					ownershipPercentage?: Percentage
-					floorPrice?: USDAmount
-					
+					floorPrice?: UsdAmount
+
 					// Individual NFT data
-					nfts: Array<{
+					nfts: {
 						tokenId: string
 						name?: string
 						description?: string
 						image?: string
-						attributes?: Array<{
+						attributes?: {
 							trait_type: string
 							value: string | number
 							rarity?: Percentage
-						}>
-						
+						}[]
+
 						// Market data
-						lastSalePrice?: USDAmount
-						estimatedValue?: USDAmount
+						lastSalePrice?: UsdAmount
+						estimatedValue?: UsdAmount
 						isListed?: boolean
-						listingPrice?: USDAmount
-						
+						listingPrice?: UsdAmount
+
 						// Utility
 						isStaked?: boolean
 						stakingRewards?: TokenAmount
 						gameUtility?: boolean
-					}>
-					
+					}[]
+
 					// Portfolio metrics
-					totalValue: USDAmount
+					totalValue: UsdAmount
 					averageHoldingTime: number
 					realizationRate?: Percentage
 				}
 			}
 
-		: _BalanceStandard extends BalanceStandard.Erc1155 ?
+		: _TokenStandard extends TokenStandard.Erc1155 ?
 			{
 				// Multi-token balance data
 				multiTokenData: {
-					tokenBalances: Array<{
+					tokenBalances: {
 						tokenId: string
 						balance: TokenAmount
 						name?: string
 						description?: string
 						image?: string
 						isFungible: boolean
-						
+
 						// Market data
-						unitPrice?: USDAmount
-						totalValue?: USDAmount
-						
+						unitPrice?: UsdAmount
+						totalValue?: UsdAmount
+
 						// Game context
 						gameAsset?: {
 							assetType: string
@@ -226,147 +253,14 @@ export type Balance<_BalanceStandard extends BalanceStandard = BalanceStandard> 
 							level?: number
 							stats?: Record<string, number>
 						}
-					}>
-					
+					}[]
+
 					// Collection summary
 					uniqueTokens: number
 					totalTokens: TokenAmount
-					fungibleValue: USDAmount
-					nftValue: USDAmount
-					totalValue: USDAmount
-				}
-			}
-
-		: _BalanceStandard extends BalanceStandard.Lp ?
-			{
-				// Liquidity provider token data
-				lpData: {
-					protocol: string
-					poolAddress: Address
-					
-					// Pool composition
-					token0: {
-						address: Address
-						symbol: string
-						reserve: TokenAmount
-						value: USDAmount
-					}
-					token1: {
-						address: Address
-						symbol: string
-						reserve: TokenAmount
-						value: USDAmount
-					}
-					
-					// LP position metrics
-					poolShare: Percentage
-					totalValueLocked: USDAmount
-					
-					// Yield metrics
-					apr: Percentage
-					fees24h: USDAmount
-					accruedFees: USDAmount
-					
-					// Impermanent loss tracking
-					impermanentLoss: USDAmount
-					impermanentLossPercentage: Percentage
-					
-					// LP rewards
-					rewards?: Array<{
-						token: Address
-						symbol: string
-						amount: TokenAmount
-						value: USDAmount
-					}>
-				}
-			}
-
-		: _BalanceStandard extends BalanceStandard.Staked ?
-			{
-				// Staked asset data
-				stakedData: {
-					stakingContract: Address
-					stakingProtocol: string
-					
-					// Staking mechanics
-					stakingType: 'flexible' | 'fixed' | 'locked' | 'validator'
-					stakingPeriod?: number // seconds
-					lockEndTime?: Timestamp
-					
-					// Staking rewards
-					accruedRewards: TokenAmount
-					rewardRate: Percentage
-					lastRewardClaim?: Timestamp
-					totalRewardsClaimed: TokenAmount
-					
-					// Validator context (for PoS staking)
-					validator?: {
-						address: Address
-						name?: string
-						commission: Percentage
-						performance: Percentage
-						isActive: boolean
-					}
-					
-					// Unstaking queue
-					unstakingRequests?: Array<{
-						amount: TokenAmount
-						requestedAt: Timestamp
-						availableAt: Timestamp
-						status: 'pending' | 'processing' | 'available'
-					}>
-					
-					// Slashing risk
-					slashingRisk: 'low' | 'medium' | 'high'
-					hasBeenSlashed: boolean
-					slashingHistory?: Array<{
-						timestamp: Timestamp
-						amount: TokenAmount
-						reason: string
-					}>
-				}
-			}
-
-		: _BalanceStandard extends BalanceStandard.Vesting ?
-			{
-				// Vesting schedule data
-				vestingData: {
-					vestingContract: Address
-					
-					// Vesting schedule
-					totalAllocation: TokenAmount
-					vestedAmount: TokenAmount
-					claimedAmount: TokenAmount
-					remainingAmount: TokenAmount
-					
-					// Vesting timeline
-					startTime: Timestamp
-					endTime: Timestamp
-					cliffPeriod?: number
-					vestingPeriod: number
-					releaseSchedule: 'linear' | 'cliff' | 'staged' | 'custom'
-					
-					// Next vesting events
-					nextVesting?: {
-						timestamp: Timestamp
-						amount: TokenAmount
-					}
-					
-					// Vesting milestones
-					milestones?: Array<{
-						timestamp: Timestamp
-						percentage: Percentage
-						amount: TokenAmount
-						isReached: boolean
-						isClaimed: boolean
-					}>
-					
-					// Acceleration triggers
-					accelerationEvents?: Array<{
-						trigger: string
-						percentage: Percentage
-						isTriggered: boolean
-					}>
+					fungibleValue: UsdAmount
+					nftValue: UsdAmount
+					totalValue: UsdAmount
 				}
 			}
 
@@ -375,70 +269,52 @@ export type Balance<_BalanceStandard extends BalanceStandard = BalanceStandard> 
 	)
 
 	& {
-		// --
-		// Entity References (using PartialExceptOneOf)
-		ownerActor?: PartialExceptOneOf<Actor,
+		$owner?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
 		>
-		
+
 		// Asset reference
-		token?: PartialExceptOneOf<import('./token').Token,
+		$asset?: PartialExceptOneOf<import('./token').Token,
 			| 'address'
-			| 'standard'
-			| 'metadata'
 		>
-		
+
 		// For DeFi balances
-		protocol?: PartialExceptOneOf<import('./app').App,
-			| 'address'
-			| 'category'
+		$protocol?: PartialExceptOneOf<import('./app').App,
 			| 'name'
 		>
-		
+
 		// For LP tokens
-		liquidityPool?: PartialExceptOneOf<import('./app').LiquidityPool,
+		$liquidityPool?: PartialExceptOneOf<import('./app').LiquidityPool,
 			| 'address'
-			| 'tokens'
-			| 'tvl'
 		>
-		
+
 		// For staked balances
-		stakingContract?: PartialExceptOneOf<import('./contract').Contract,
+		$stakingContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
-			| 'standard'
 		>
-		
-		validator?: PartialExceptOneOf<Actor,
+
+		$validator?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
 		>
-		
+
 		// For vesting balances
-		vestingContract?: PartialExceptOneOf<import('./contract').Contract,
+		$vestingContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
-			| 'standard'
 		>
-		
+
 		// Balance history
-		relatedBalances?: PartialExceptOneOf<Balance,
+		$relatedBalances?: PartialExceptOneOf<Balance,
 			| 'id'
-			| 'standard'
-			| 'timestamp'
 		>[]
-		
+
 		// Associated transactions
-		recentTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
+		$recentTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'transactionId'
-			| 'type'
-			| 'timestamp'
 		>[]
-		
+
 		// Associated transfers
-		recentTransfers?: PartialExceptOneOf<import('./transfer').Transfer,
+		$recentTransfers?: PartialExceptOneOf<import('./transfer').Transfer,
 			| 'id'
-			| 'type'
-			| 'timestamp'
 		>[]
 	}
 )
@@ -448,36 +324,36 @@ export type BalancePortfolio = {
 	owner: Address
 	chainId: ChainId
 	timestamp: Timestamp
-	
+
 	// Aggregated metrics
-	totalValueUsd: USDAmount
+	totalValueUsd: UsdAmount
 	totalAssets: number
 	activePositions: number
-	
+
 	// Asset distribution
-	assetAllocation: Array<{
-		standard: BalanceStandard
+	assetAllocation: {
+		standard: TokenStandard
 		percentage: Percentage
-		value: USDAmount
-	}>
-	
+		value: UsdAmount
+	}[]
+
 	// Category distribution
-	categoryAllocation: Array<{
+	categoryAllocation: {
 		category: BalanceCategory
 		percentage: Percentage
-		value: USDAmount
-	}>
-	
+		value: UsdAmount
+	}[]
+
 	// Risk metrics
 	diversificationScore: number
 	riskScore: number
 	liquidityScore: number
-	
+
 	// Performance tracking
 	performance24h: Percentage
 	performance7d: Percentage
 	performance30d: Percentage
-	
+
 	// Individual balances
 	balances: Balance[]
 }
@@ -487,35 +363,35 @@ export type Portfolio = {
 	id: string
 	holder: Address
 	chainId: ChainId
-	
+
 	// Portfolio overview
-	totalValue: USDAmount
+	totalValue: UsdAmount
 	totalBalances: number
 	lastUpdated: Timestamp
-	
+
 	// Asset breakdown
-	byStandard: Record<BalanceStandard, {
+	byStandard: Record<TokenStandard, {
 		count: number
-		value: USDAmount
+		value: UsdAmount
 		percentage: Percentage
 	}>
-	
+
 	byType: Record<BalanceType, {
 		count: number
-		value: USDAmount
+		value: UsdAmount
 		percentage: Percentage
 	}>
-	
+
 	// Top holdings
-	topHoldings: Array<{
+	topHoldings: {
 		tokenAddress: Address
 		symbol: string
 		balance: TokenAmount
-		value: USDAmount
+		value: UsdAmount
 		percentage: Percentage
 		priceChange24h: Percentage
-	}>
-	
+	}[]
+
 	// Portfolio analytics
 	analytics: {
 		diversificationScore: Percentage
@@ -523,7 +399,7 @@ export type Portfolio = {
 		totalReturn: Percentage
 		volatility: Percentage
 		sharpeRatio?: number
-		
+
 		assetAllocation: {
 			tokens: Percentage
 			nfts: Percentage
@@ -531,7 +407,7 @@ export type Portfolio = {
 			staking: Percentage
 			other: Percentage
 		}
-		
+
 		riskMetrics: {
 			portfolioRisk: 'low' | 'medium' | 'high' | 'critical'
 			liquidityRisk: Percentage
@@ -539,226 +415,40 @@ export type Portfolio = {
 			concentrationRisk: Percentage
 		}
 	}
-	
+
 	// Performance tracking
 	performance: {
-		dailyChange: USDAmount
-		weeklyChange: USDAmount
-		monthlyChange: USDAmount
-		allTimeHigh: USDAmount
-		allTimeLow: USDAmount
-		
+		dailyChange: UsdAmount
+		weeklyChange: UsdAmount
+		monthlyChange: UsdAmount
+		allTimeHigh: UsdAmount
+		allTimeLow: UsdAmount
+
 		bestPerformer: {
 			tokenAddress: Address
 			symbol: string
 			change: Percentage
 		}
-		
+
 		worstPerformer: {
 			tokenAddress: Address
 			symbol: string
 			change: Percentage
 		}
 	}
-	
+
 	// Yield tracking
 	yield: {
-		totalYieldEarned: USDAmount
-		dailyYield: USDAmount
-		weeklyYield: USDAmount
-		monthlyYield: USDAmount
+		totalYieldEarned: UsdAmount
+		dailyYield: UsdAmount
+		weeklyYield: UsdAmount
+		monthlyYield: UsdAmount
 		yieldApy: Percentage
-		
-		yieldSources: Array<{
+
+		yieldSources: {
 			source: string
-			amount: USDAmount
+			amount: UsdAmount
 			apy: Percentage
-		}>
+		}[]
 	}
 }
-
-export type BalanceHistory = {
-	holder: Address
-	tokenAddress: Address
-	chainId: ChainId
-	
-	// Historical data points
-	history: Array<{
-		timestamp: Timestamp
-		blockNumber: BlockNumber
-		balance: TokenAmount
-		balanceUsd?: USDAmount
-		transactionHash?: Hash
-		changeType: 'increase' | 'decrease' | 'no-change'
-		changeAmount?: TokenAmount
-	}>
-	
-	// Analytics
-	analytics: {
-		averageBalance: TokenAmount
-		maxBalance: TokenAmount
-		minBalance: TokenAmount
-		balanceVolatility: Percentage
-		
-		holdingPattern: 'accumulating' | 'distributing' | 'holding' | 'trading'
-		averageHoldingPeriod: number
-		
-		transactionFrequency: number
-		averageTransactionSize: TokenAmount
-		
-		growthRate: Percentage
-		compoundGrowthRate: Percentage
-	}
-	
-	// Significant events
-	significantEvents: Array<{
-		timestamp: Timestamp
-		eventType: 'large-purchase' | 'large-sale' | 'first-acquisition' | 'milestone'
-		description: string
-		impact: Percentage
-		transactionHash?: Hash
-	}>
-}
-
-export type BalanceFilter = {
-	// Basic filters
-	standards?: BalanceStandard[]
-	types?: BalanceType[]
-	category?: BalanceCategory[]
-	holders?: Address[]
-	tokens?: Address[]
-	
-	// Value filters
-	minBalance?: TokenAmount
-	maxBalance?: TokenAmount
-	minBalanceUsd?: USDAmount
-	maxBalanceUsd?: USDAmount
-	
-	// Activity filters
-	minTransactions?: number
-	maxTransactions?: number
-	lastActivityRange?: {
-		from: Timestamp
-		to: Timestamp
-	}
-	
-	// Portfolio filters
-	minPortfolioValue?: USDAmount
-	maxPortfolioValue?: USDAmount
-	diversificationRange?: {
-		min: Percentage
-		max: Percentage
-	}
-	
-	// Risk filters
-	riskLevels?: Array<'low' | 'medium' | 'high' | 'critical'>
-	liquidityRisks?: Array<'low' | 'medium' | 'high' | 'critical'>
-	
-	// Status filters
-	isActive?: boolean
-	isVerified?: boolean
-	hasRewards?: boolean
-	isStaked?: boolean
-	isLocked?: boolean
-	
-	// Pagination and sorting
-	limit?: number
-	offset?: number
-	orderBy?: 'balance' | 'balanceUsd' | 'lastUpdated' | 'transactionCount'
-	orderDirection?: 'asc' | 'desc'
-}
-
-export type BalanceAnalytics = {
-	chainId: ChainId
-	timeframe: 'OneHour' | 'OneDay' | 'SevenDays' | 'ThirtyDays'
-	
-	// Overall metrics
-	totalBalances: number
-	totalHolders: number
-	totalValue: USDAmount
-	averageBalance: USDAmount
-	
-	// Standard distribution
-	byStandard: Record<BalanceStandard, {
-		balanceCount: number
-		holderCount: number
-		totalValue: USDAmount
-		averageBalance: USDAmount
-		percentage: Percentage
-	}>
-	
-	// Type distribution
-	byType: Record<BalanceType, {
-		balanceCount: number
-		totalValue: USDAmount
-		percentage: Percentage
-	}>
-	
-	// Holder analytics
-	holderAnalytics: {
-		newHolders: number
-		activeHolders: number
-		holderGrowthRate: Percentage
-		
-		holderDistribution: {
-			whales: number
-			dolphins: number
-			fish: number
-			dust: number
-		}
-		
-		concentrationMetrics: {
-			top1Percentage: Percentage
-			top10Percentage: Percentage
-			top100Percentage: Percentage
-			giniCoefficient: Percentage
-		}
-	}
-	
-	// Activity metrics
-	activityMetrics: {
-		totalTransactions: number
-		activeBalances: number
-		averageTransactionsPerBalance: number
-		transactionGrowthRate: Percentage
-		
-		balanceChanges: {
-			increased: number
-			decreased: number
-			unchanged: number
-		}
-	}
-	
-	// Value flows
-	valueFlows: {
-		totalInflowValue: USDAmount
-		totalOutflowValue: USDAmount
-		netFlow: USDAmount
-		
-		topInflowTokens: Array<{
-			tokenAddress: Address
-			symbol: string
-			inflowValue: USDAmount
-		}>
-		
-		topOutflowTokens: Array<{
-			tokenAddress: Address
-			symbol: string
-			outflowValue: USDAmount
-		}>
-	}
-	
-	// Risk assessment
-	riskAssessment: {
-		overallRisk: 'low' | 'medium' | 'high' | 'critical'
-		concentrationRisk: Percentage
-		liquidityRisk: Percentage
-		volatilityRisk: Percentage
-		
-		riskFactors: Array<{
-			factor: string
-			impact: 'low' | 'medium' | 'high'
-			description: string
-		}>
-	}
-} 

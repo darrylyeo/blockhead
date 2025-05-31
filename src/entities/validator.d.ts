@@ -1,12 +1,10 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
-import type { Address, Hash } from './scalars'
-import type { ChainId } from './network'
-import type { Timestamp } from './types'
+import type { ChainId } from './chain'
+import type { Address, Hash, NativeCurrencyAmount, Timestamp } from './scalars'
 
 export type ValidatorIndex = number
-export type Epoch = number
-export type Slot = number
-export type Gwei = string
+export type EpochNumber = bigint
+export type SlotNumber = bigint
 
 export enum ValidatorStatus {
 	Pending = 'Pending', // Waiting to be activated
@@ -40,63 +38,63 @@ export type Validator = {
 	pubkey: string
 	withdrawalCredentials: string
 	chainId: ChainId
-	
+
 	// Status
 	status: ValidatorStatus
-	activationEpoch?: Epoch
-	activationEligibilityEpoch?: Epoch
-	exitEpoch?: Epoch
-	withdrawableEpoch?: Epoch
-	
+	activationEpoch?: EpochNumber
+	activationEligibilityEpoch?: EpochNumber
+	exitEpoch?: EpochNumber
+	withdrawableEpoch?: EpochNumber
+
 	// Balances
-	balance: Gwei
-	effectiveBalance: Gwei
-	withdrawnAmount?: Gwei
-	
+	balance: NativeCurrencyAmount
+	effectiveBalance: NativeCurrencyAmount
+	withdrawnAmount?: NativeCurrencyAmount
+
 	// Performance
 	performance: ValidatorPerformance
 	effectiveness: number // 0-100%
 	attestationSuccessRate: number
 	proposalSuccessRate?: number
 	syncCommitteeSuccessRate?: number
-	
+
 	// Rewards & Penalties
-	totalRewards: Gwei
-	totalPenalties: Gwei
-	rewardsLastEpoch?: Gwei
-	penaltiesLastEpoch?: Gwei
-	
+	totalRewards: NativeCurrencyAmount
+	totalPenalties: NativeCurrencyAmount
+	rewardsLastEpoch?: NativeCurrencyAmount
+	penaltiesLastEpoch?: NativeCurrencyAmount
+
 	// Slashing
 	slashed: boolean
 	slashingReason?: SlashingReason
-	slashingEpoch?: Epoch
-	slashingPenalty?: Gwei
-	
+	slashingEpoch?: EpochNumber
+	slashingPenalty?: NativeCurrencyAmount
+
 	// Operator information
 	operatorAddress?: Address
 	feeRecipient?: Address
 	graffiti?: string
-	
+
 	// Client information
 	clientName?: string
 	clientVersion?: string
-	
+
 	// Pool information
 	isPoolValidator?: boolean
 	poolName?: string
 	poolAddress?: Address
 	poolFee?: number // percentage
-	
+
 	// Mev
-	mevRewards?: Gwei
+	mevRewards?: NativeCurrencyAmount
 	mevBlocksProposed?: number
-	
+
 	// Activity
-	lastAttestationSlot?: Slot
-	lastProposalSlot?: Slot
+	lastAttestationSlot?: SlotNumber
+	lastProposalSlot?: SlotNumber
 	missedAttestations?: number
 	missedProposals?: number
-	
+
 	// Timestamps
 	createdAt: Timestamp
 	lastActiveAt?: Timestamp
@@ -108,21 +106,21 @@ export type ValidatorDeposit = {
 	index: number
 	pubkey: string
 	withdrawalCredentials: string
-	
+
 	// Deposit data
-	amount: Gwei
+	amount: NativeCurrencyAmount
 	signature: string
 	depositDataRoot: Hash
-	
+
 	// Transaction
 	transactionHash: Hash
 	blockNumber: number
 	timestamp: Timestamp
 	from: Address
-	
+
 	// Merkle proof
 	proof?: string[]
-	
+
 	// Status
 	included: boolean
 	validatorIndex?: ValidatorIndex
@@ -130,38 +128,38 @@ export type ValidatorDeposit = {
 
 export type ValidatorAttestation = {
 	// Attestation identification
-	slot: Slot
+	slot: SlotNumber
 	committeeIndex: number
 	validatorIndex: ValidatorIndex
-	
+
 	// Attestation data
 	beaconBlockRoot: Hash
 	source: {
-		epoch: Epoch
+		epoch: EpochNumber
 		root: Hash
 	}
 	target: {
-		epoch: Epoch
+		epoch: EpochNumber
 		root: Hash
 	}
-	
+
 	// Performance
 	inclusionDelay?: number
-	reward?: Gwei
+	reward?: NativeCurrencyAmount
 	missed: boolean
 }
 
 export type ValidatorProposal = {
 	// Proposal identification
-	slot: Slot
+	slot: SlotNumber
 	proposerIndex: ValidatorIndex
 	blockRoot: Hash
-	
+
 	// Block data
 	parentRoot: Hash
 	stateRoot: Hash
 	randaoReveal: string
-	
+
 	// Execution payload
 	executionPayload?: {
 		blockHash: Hash
@@ -172,12 +170,12 @@ export type ValidatorProposal = {
 		gasLimit: string
 		baseFeePerGas: string
 	}
-	
+
 	// Rewards
-	blockReward: Gwei
-	executionReward?: Gwei
-	mevReward?: Gwei
-	
+	blockReward: NativeCurrencyAmount
+	executionReward?: NativeCurrencyAmount
+	mevReward?: NativeCurrencyAmount
+
 	// Status
 	missed: boolean
 	orphaned: boolean
@@ -187,8 +185,8 @@ export type ValidatorSlashing = {
 	// Slashing identification
 	index: number
 	validatorIndex: ValidatorIndex
-	epoch: Epoch
-	
+	epoch: EpochNumber
+
 	// Slashing details
 	reason: SlashingReason
 	evidence: {
@@ -197,16 +195,16 @@ export type ValidatorSlashing = {
 		blockHeader1?: any
 		blockHeader2?: any
 	}
-	
+
 	// Penalties
-	penalty: Gwei
-	effectiveBalanceBefore: Gwei
-	effectiveBalanceAfter: Gwei
-	
+	penalty: NativeCurrencyAmount
+	effectiveBalanceBefore: NativeCurrencyAmount
+	effectiveBalanceAfter: NativeCurrencyAmount
+
 	// Whistleblower
 	whistleblowerIndex?: ValidatorIndex
-	whistleblowerReward?: Gwei
-	
+	whistleblowerReward?: NativeCurrencyAmount
+
 	// Transaction
 	blockNumber: number
 	timestamp: Timestamp
@@ -216,26 +214,26 @@ export type ValidatorSync = {
 	// Sync committee participation
 	validatorIndex: ValidatorIndex
 	period: number
-	slot: Slot
-	
+	slot: SlotNumber
+
 	// Performance
 	participated: boolean
-	reward?: Gwei
-	penalty?: Gwei
+	reward?: NativeCurrencyAmount
+	penalty?: NativeCurrencyAmount
 }
 
 export type ValidatorQueue = {
 	// Queue type
 	type: 'activation' | 'exit' | 'withdrawal'
-	
+
 	// Queue data
-	validators: Array<{
+	validators: {
 		index: ValidatorIndex
 		pubkey: string
 		position: number
 		estimatedTime?: Timestamp
-	}>
-	
+	}[]
+
 	// Queue stats
 	totalInQueue: number
 	processingRate: number // validators per epoch
@@ -244,21 +242,21 @@ export type ValidatorQueue = {
 
 export type ValidatorSet = {
 	// Set identification
-	epoch: Epoch
-	slot: Slot
-	
+	epoch: EpochNumber
+	slot: SlotNumber
+
 	// Validators
 	activeValidators: ValidatorIndex[]
 	totalValidators: number
-	
+
 	// Balances
-	totalBalance: Gwei
-	totalEffectiveBalance: Gwei
-	
+	totalBalance: NativeCurrencyAmount
+	totalEffectiveBalance: NativeCurrencyAmount
+
 	// Performance
 	participationRate: number
-	averageBalance: Gwei
-	
+	averageBalance: NativeCurrencyAmount
+
 	// Changes
 	activated: ValidatorIndex[]
 	exited: ValidatorIndex[]
@@ -268,41 +266,41 @@ export type ValidatorSet = {
 export type ValidatorRewards = {
 	// Rewards identification
 	validatorIndex: ValidatorIndex
-	epoch: Epoch
-	
+	epoch: EpochNumber
+
 	// Reward breakdown
-	attestationReward: Gwei
-	proposalReward?: Gwei
-	syncCommitteeReward?: Gwei
-	
+	attestationReward: NativeCurrencyAmount
+	proposalReward?: NativeCurrencyAmount
+	syncCommitteeReward?: NativeCurrencyAmount
+
 	// Penalties
-	attestationPenalty?: Gwei
-	inactivityPenalty?: Gwei
-	
+	attestationPenalty?: NativeCurrencyAmount
+	inactivityPenalty?: NativeCurrencyAmount
+
 	// Net
-	netReward: Gwei
-	
+	netReward: NativeCurrencyAmount
+
 	// APR calculation
 	apr?: number
-	effectiveBalance: Gwei
+	effectiveBalance: NativeCurrencyAmount
 }
 
 export type ValidatorWithdrawal = {
 	// Withdrawal identification
 	index: number
 	validatorIndex: ValidatorIndex
-	
+
 	// Withdrawal data
 	address: Address
-	amount: Gwei
-	
+	amount: NativeCurrencyAmount
+
 	// Type
 	isFullWithdrawal: boolean
 	isPartialWithdrawal: boolean
-	
+
 	// Execution
-	slot: Slot
-	epoch: Epoch
+	slot: SlotNumber
+	epoch: EpochNumber
 	blockNumber: number
 	timestamp: Timestamp
 	transactionHash?: Hash

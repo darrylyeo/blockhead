@@ -1,8 +1,10 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
 import type { Actor } from './actor'
-import type { Address, Hash } from './scalars'
-import type { ChainId } from './network'
-import type { Timestamp, BlockNumber, TokenAmount, UsdAmount, Percentage, BasisPoints } from './types'
+import type { BlockNumber } from './block'
+import type { ChainId } from './chain'
+import type { Address, BasisPoints, Hash, Percentage, Timestamp, TokenAmount, UsdAmount } from './scalars'
+
+export type StorageId = string
 
 // Storage access patterns
 export enum StorageAccessType {
@@ -52,45 +54,43 @@ export enum StorageGranularity {
 	State = 'State' // Global state
 }
 
-// Generic storage type with operation-specific fields
 export type Storage<_T extends StorageOperation = StorageOperation> = (
 	& {
 		// Storage identification
-		id: string
+		id: StorageId
 		chainId: ChainId
 		operation: _T
 		context: StorageContext
 		granularity: StorageGranularity
-		
+
 		// Storage location
-		contractAddress: Address
 		storageSlot: Hash
-		
+
 		// Position in blockchain
 		blockNumber: BlockNumber
 		transactionIndex?: number
 		traceIndex?: number
-		
+
 		// Timing
 		timestamp: Timestamp
-		
+
 		// Gas context
 		gasUsed?: TokenAmount
 		gasCost?: TokenAmount
-		
+
 		// Storage values
 		value: Hash
-		
+
 		// Access patterns
 		isWarmAccess?: boolean
 		accessCount?: number
 		lastAccessedAt?: Timestamp
-		
+
 		// Storage metadata
 		slotType?: 'mapping' | 'array' | 'struct' | 'simple' | 'proxy' | 'admin'
 		dataType?: string
 		encoding?: 'direct' | 'packed' | 'hashed' | 'compressed'
-		
+
 		// Security context
 		isAdmin?: boolean
 		isProxy?: boolean
@@ -106,11 +106,11 @@ export type Storage<_T extends StorageOperation = StorageOperation> = (
 					readValue: Hash
 					previousReads?: number
 					cacheHit?: boolean
-					
+
 					// Performance metrics
 					accessLatency?: number
 					cacheLevel?: 'l1' | 'l2' | 'disk' | 'network'
-					
+
 					// Value interpretation
 					decodedValue?: any
 					valueType?: string
@@ -125,19 +125,19 @@ export type Storage<_T extends StorageOperation = StorageOperation> = (
 					previousValue: Hash
 					newValue: Hash
 					valueDelta?: Hash
-					
+
 					// Write context
 					isFirstWrite?: boolean
 					writeCount?: number
-					
+
 					// Change tracking
 					changeType: 'increment' | 'decrement' | 'replace' | 'zero' | 'append'
 					changeSize?: number
-					
+
 					// Optimization flags
 					isRefund?: boolean
 					refundAmount?: TokenAmount
-					
+
 					// Decoded values
 					decodedPrevious?: any
 					decodedNew?: any
@@ -149,63 +149,58 @@ export type Storage<_T extends StorageOperation = StorageOperation> = (
 	)
 
 	& {
-		// --
-		// Entity References (using PartialExceptOneOf)
-		contract?: PartialExceptOneOf<import('./contract').Contract,
+		$contract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
-			| 'standard'
-			| 'metadata'
+			| 'standards'
 		>
-		
-		block?: PartialExceptOneOf<import('./block').Block,
-			| 'number'
-			| 'hash'
+
+		$block?: PartialExceptOneOf<import('./block').Block,
+			| 'blockNumber'
+			| 'blockHash'
 			| 'timestamp'
 		>
-		
-		transaction?: PartialExceptOneOf<import('./transaction').Transaction,
-			| 'transactionId'
-			| 'type'
+
+		$transaction?: PartialExceptOneOf<import('./transaction').Transaction,
+			| 'id'
+			| 'format'
 			| 'status'
 		>
-		
+
 		// Trace context
-		trace?: PartialExceptOneOf<import('./trace').Trace,
+		$trace?: PartialExceptOneOf<import('./trace').Trace,
 			| 'id'
-			| 'type'
+			| 'format'
 			| 'traceAddress'
 		>
-		
+
 		// Storage accessor
-		accessor?: PartialExceptOneOf<Actor,
+		$accessor?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'type'
+			| 'format'
 		>
-		
+
 		// Related storage operations
-		relatedOperations?: PartialExceptOneOf<Storage,
+		$relatedOperations?: PartialExceptOneOf<Storage,
 			| 'id'
 			| 'operation'
 			| 'timestamp'
 		>[]
-		
+
 		// Storage dependencies
-		dependencies?: PartialExceptOneOf<Storage,
+		$dependencies?: PartialExceptOneOf<Storage,
 			| 'id'
 			| 'storageSlot'
 			| 'operation'
 		>[]
-		
+
 		// Associated events
-		events?: PartialExceptOneOf<import('./event').Event,
+		$events?: PartialExceptOneOf<import('./event').Event,
 			| 'id'
 			| 'category'
 			| 'timestamp'
 		>[]
 	}
 )
-
-export type AnyStorage = Storage<StorageOperation>
 
 // Storage analytics
 export enum StorageAnalyticsTimeframe {
@@ -218,12 +213,12 @@ export enum StorageAnalyticsTimeframe {
 export type StorageAnalytics = {
 	chainId: ChainId
 	timeframe: StorageAnalyticsTimeframe
-	
+
 	// Operation metrics
 	totalOperations: number
 	totalGasUsed: TokenAmount
 	averageGasPerOperation: TokenAmount
-	
+
 	// Operation breakdown
 	byOperation: Record<StorageOperation, {
 		count: number
@@ -231,29 +226,29 @@ export type StorageAnalytics = {
 		gasUsed: TokenAmount
 		averageGas: TokenAmount
 	}>
-	
+
 	// Context breakdown
 	byContext: Record<StorageContext, {
 		count: number
 		gasUsed: TokenAmount
 		averageLatency?: number
 	}>
-	
+
 	// Access patterns
 	accessPatterns: {
 		warmAccesses: number
 		coldAccesses: number
 		warmAccessRate: Percentage
 		cacheEfficiency: Percentage
-		
-		hotSlots: Array<{
+
+		hotSlots: {
 			contractAddress: Address
 			slot: Hash
 			accessCount: number
 			lastAccessed: Timestamp
-		}>
+		}[]
 	}
-	
+
 	// Storage efficiency
 	efficiency: {
 		storageRefunds: TokenAmount
@@ -261,16 +256,16 @@ export type StorageAnalytics = {
 		redundantReads: number
 		optimizationPotential: Percentage
 	}
-	
+
 	// Top contracts by storage activity
-	topContracts: Array<{
+	topContracts: {
 		address: Address
 		operationCount: number
 		gasUsed: TokenAmount
 		uniqueSlots: number
 		efficiency: Percentage
-	}>
-	
+	}[]
+
 	// Storage growth
 	growth: {
 		newSlots: number
@@ -286,40 +281,40 @@ export type StorageFilter = {
 	contexts?: StorageContext[]
 	contracts?: Address[]
 	slots?: Hash[]
-	
+
 	// Access filters
 	isWarmAccess?: boolean
 	accessCountRange?: {
 		min: number
 		max: number
 	}
-	
+
 	// Gas filters
 	minGas?: TokenAmount
 	maxGas?: TokenAmount
 	hasRefund?: boolean
-	
+
 	// Value filters
 	hasValueChange?: boolean
 	isNonZeroValue?: boolean
 	valuePatterns?: Hash[]
-	
+
 	// Security filters
 	isAdmin?: boolean
 	isProxy?: boolean
 	isCritical?: boolean
-	riskLevels?: Array<'low' | 'medium' | 'high' | 'critical'>
-	
+	riskLevels?: ('low' | 'medium' | 'high' | 'critical')[]
+
 	// Time range
 	fromTimestamp?: Timestamp
 	toTimestamp?: Timestamp
 	fromBlock?: BlockNumber
 	toBlock?: BlockNumber
-	
+
 	// Performance filters
 	maxLatency?: number
-	cacheLevel?: Array<'l1' | 'l2' | 'disk' | 'network'>
-	
+	cacheLevel?: ('l1' | 'l2' | 'disk' | 'network')[]
+
 	// Pagination and sorting
 	limit?: number
 	offset?: number
@@ -330,41 +325,41 @@ export type StorageFilter = {
 export type StorageSnapshot = {
 	id: string
 	chainId: ChainId
-	
+
 	// Snapshot metadata
 	blockNumber: BlockNumber
 	stateRoot: Hash
 	timestamp: Timestamp
 	snapshotType: 'full' | 'incremental' | 'differential'
-	
+
 	// Storage data
-	storageData: Array<{
+	storageData: {
 		contractAddress: Address
 		storageSlots: Record<Hash, Hash>
 		slotCount: number
 		storageSize: number
-	}>
-	
+	}[]
+
 	// Snapshot metrics
 	totalContracts: number
 	totalSlots: number
 	totalStorageSize: number
 	compressionRatio?: Percentage
-	
+
 	// Generation metadata
 	generationTime: number
 	generationCost?: TokenAmount
 	generationMethod: 'iterative' | 'merkle' | 'witness' | 'parallel'
-	
+
 	// Verification data
 	isVerified: boolean
 	verificationMethod?: 'merkle-proof' | 'state-proof' | 'witness'
 	verificationRoot?: Hash
-	
+
 	// Snapshot relationships
 	parentSnapshot?: string
 	childSnapshots?: string[]
-	
+
 	// Usage statistics
 	accessCount: number
 	lastAccessed: Timestamp
@@ -374,39 +369,39 @@ export type StorageSnapshot = {
 export type StorageProof = {
 	id: string
 	chainId: ChainId
-	
+
 	// Proof target
 	targetContract: Address
 	targetSlot: Hash
 	targetValue: Hash
 	targetBlock: BlockNumber
-	
+
 	// Proof data
 	proofType: 'merkle' | 'witness' | 'inclusion' | 'non-inclusion'
 	proof: Hash[]
 	proofSize: number
-	
+
 	// Verification context
 	stateRoot: Hash
 	storageRoot: Hash
 	accountProof?: Hash[]
-	
+
 	// Proof generation
 	generatedAt: Timestamp
 	generationTime: number
 	generationMethod: 'rpc' | 'local' | 'cached' | 'precomputed'
-	
+
 	// Verification status
 	isValid: boolean
 	verifiedAt?: Timestamp
 	verificationTime?: number
 	verificationMethod?: string
-	
+
 	// Proof optimization
 	isOptimized: boolean
 	optimizationLevel?: number
 	compressionUsed?: string
-	
+
 	// Usage tracking
 	usageCount: number
 	lastUsed?: Timestamp
@@ -416,43 +411,43 @@ export type StorageProof = {
 export type StorageLayout = {
 	contractAddress: Address
 	chainId: ChainId
-	
+
 	// Layout metadata
 	layoutVersion: string
 	compilerVersion?: string
 	optimizationEnabled?: boolean
-	
+
 	// Storage variables
-	variables: Array<{
+	variables: {
 		name: string
 		type: string
 		slot: number
 		offset: number
 		size: number
-		
+
 		// Type information
 		isMapping?: boolean
 		isArray?: boolean
 		isStruct?: boolean
 		isPacked?: boolean
-		
+
 		// Access patterns
 		isConstant?: boolean
 		isImmutable?: boolean
 		visibility?: 'public' | 'private' | 'internal'
-		
+
 		// Value tracking
 		currentValue?: Hash
 		defaultValue?: Hash
 		lastModified?: Timestamp
-	}>
-	
+	}[]
+
 	// Layout statistics
 	totalSlots: number
 	usedSlots: number
 	utilization: Percentage
 	packingEfficiency: Percentage
-	
+
 	// Gas optimization
 	gasOptimization: {
 		currentCost: TokenAmount
@@ -460,36 +455,36 @@ export type StorageLayout = {
 		potentialSavings?: TokenAmount
 		optimizationSuggestions: string[]
 	}
-	
+
 	// Layout validation
 	isValid: boolean
-	conflicts?: Array<{
+	conflicts?: {
 		variable1: string
 		variable2: string
 		conflict: 'overlap' | 'type-mismatch' | 'size-conflict'
-	}>
-	
+	}[]
+
 	// Layout evolution
-	versions: Array<{
+	versions: {
 		version: string
 		deployedAt: BlockNumber
-		changes: Array<{
+		changes: {
 			variable: string
 			changeType: 'added' | 'removed' | 'moved' | 'resized'
 			oldSlot?: number
 			newSlot?: number
-		}>
-	}>
+		}[]
+	}[]
 }
 
 export type StorageOptimization = {
 	id: string
 	contractAddress: Address
 	chainId: ChainId
-	
+
 	// Optimization strategy
 	strategy: 'packing' | 'reordering' | 'compression' | 'caching' | 'lazy-loading'
-	
+
 	// Current state analysis
 	currentLayout: {
 		totalSlots: number
@@ -497,7 +492,7 @@ export type StorageOptimization = {
 		wastedSpace: number
 		gasPerAccess: TokenAmount
 	}
-	
+
 	// Optimization proposal
 	proposedLayout: {
 		totalSlots: number
@@ -506,14 +501,14 @@ export type StorageOptimization = {
 		gasPerAccess: TokenAmount
 		packingImprovements: number
 	}
-	
+
 	// Optimization benefits
 	benefits: {
 		gasReduction: TokenAmount
 		gasReductionPercent: Percentage
 		storageReduction: number
 		accessSpeedUp: Percentage
-		
+
 		costSavings: {
 			perRead: TokenAmount
 			perWrite: TokenAmount
@@ -521,22 +516,22 @@ export type StorageOptimization = {
 			annually?: TokenAmount
 		}
 	}
-	
+
 	// Implementation details
 	implementation: {
 		complexity: 'low' | 'medium' | 'high'
 		breakingChanges: boolean
 		migrationRequired: boolean
 		migrationCost?: TokenAmount
-		
-		steps: Array<{
+
+		steps: {
 			step: string
 			description: string
 			gasRequired?: TokenAmount
 			riskLevel: 'low' | 'medium' | 'high'
-		}>
+		}[]
 	}
-	
+
 	// Optimization validation
 	validation: {
 		functionalityPreserved: boolean
@@ -550,44 +545,44 @@ export type StorageMonitor = {
 	id: string
 	name: string
 	chainId: ChainId
-	
+
 	// Monitoring configuration
-	targets: Array<{
+	targets: {
 		contractAddress: Address
 		slots?: Hash[]
 		operations?: StorageOperation[]
 		contexts?: StorageContext[]
-	}>
-	
+	}[]
+
 	// Alert conditions
-	alerts: Array<{
+	alerts: {
 		type: 'unusual-activity' | 'gas-spike' | 'value-change' | 'access-pattern' | 'security-risk'
 		condition: string
 		threshold?: number | string
 		isActive: boolean
 		severity: 'info' | 'warning' | 'critical'
-	}>
-	
+	}[]
+
 	// Monitoring metrics
 	metrics: {
 		operationsTracked: number
 		alertsTriggered: number
 		falsePositives: number
 		averageResponseTime: number
-		
+
 		detectionAccuracy: Percentage
 		coveragePercent: Percentage
 	}
-	
+
 	// Historical data
-	history: Array<{
+	history: {
 		timestamp: Timestamp
 		metric: string
 		value: number | string
 		alert?: boolean
 		anomaly?: boolean
-	}>
-	
+	}[]
+
 	// Notification settings
 	notifications: {
 		webhook?: string
@@ -596,7 +591,7 @@ export type StorageMonitor = {
 		telegram?: string
 		realtime: boolean
 	}
-	
+
 	// Monitor status
 	isActive: boolean
 	lastCheck: Timestamp
