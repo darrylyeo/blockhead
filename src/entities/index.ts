@@ -66,3 +66,20 @@ export type Entity<_EntityType extends EntityType = EntityType> = (
 	:
 		never
 )
+
+export const getEntityId = {
+	[EntityType.Actor]: (entity: Entity<EntityType.Actor>) => `${entity.chainId}:${entity.address}`,
+	[EntityType.App]: (entity: Entity<EntityType.App>) => `${entity.slug}`,
+	[EntityType.Balance]: (entity: Entity<EntityType.Balance>) => `${entity.chainId}:${entity.id}`,
+	[EntityType.Block]: (entity: Entity<EntityType.Block>) => `${entity.chainId}:${entity.blockNumber || entity.blockHash}`,
+	[EntityType.Contract]: (entity: Entity<EntityType.Contract>) => `${entity.chainId}:${entity.address}`,
+	[EntityType.Event]: (entity: Entity<EntityType.Event>) => `${entity.chainId}:${entity.id}`,
+	[EntityType.Network]: (entity: Entity<EntityType.Network>) => `${entity.chainId}`,
+	[EntityType.Nft]: (entity: Entity<EntityType.Nft>) => `${entity.chainId}:${entity.contractAddress}:${entity.tokenId}`,
+	[EntityType.Storage]: (entity: Entity<EntityType.Storage>) => `${entity.chainId}:${entity.id}`,
+	[EntityType.Token]: (entity: Entity<EntityType.Token>) => `${entity.chainId}:${entity.address}`,
+	[EntityType.Trace]: (entity: Entity<EntityType.Trace>) => `${entity.chainId}:${entity.id}`,
+	[EntityType.Transaction]: (entity: Entity<EntityType.Transaction>) => `${entity.chainId}:${entity.id}`,
+	[EntityType.Transfer]: (entity: Entity<EntityType.Transfer>) => `${entity.chainId}:${entity.id}`,
+	[EntityType.Validator]: (entity: Entity<EntityType.Validator>) => `${entity.chainId}:${entity.index}`,
+} as const satisfies { [key in EntityType]: (entity: Entity<key>) => string }
