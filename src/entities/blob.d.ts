@@ -1,7 +1,8 @@
-import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf.js'
-import type { Address, Hash, Actor } from './address.js'
-import type { ChainId } from './chain.js'
-import type { Timestamp, BlockNumber, TokenAmount, USDAmount, Percentage, BasisPoints } from './types.js'
+import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
+import type { Actor } from './actor'
+import type { Address, Hash } from './scalars'
+import type { ChainId } from './network'
+import type { Timestamp, BlockNumber, TokenAmount, USDAmount, Percentage, BasisPoints } from './types'
 
 // Blob types based on EIP-4844
 export enum BlobType {
@@ -182,13 +183,13 @@ export type Blob<_T extends BlobType = BlobType> = (
 	& {
 		// --
 		// Entity References (using PartialExceptOneOf)
-		block?: PartialExceptOneOf<import('./block.js').Block,
+		block?: PartialExceptOneOf<import('./block').Block,
 			| 'number'
 			| 'hash'
 			| 'timestamp'
 		>
 		
-		transaction?: PartialExceptOneOf<import('./transaction.js').Transaction,
+		transaction?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'transactionId'
 			| 'type'
 			| 'status'
@@ -227,7 +228,7 @@ export type Blob<_T extends BlobType = BlobType> = (
 		>[]
 		
 		// Associated transactions (for rollup data)
-		includedTransactions?: PartialExceptOneOf<import('./transaction.js').Transaction,
+		includedTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'transactionId'
 			| 'type'
 			| 'timestamp'
@@ -235,139 +236,7 @@ export type Blob<_T extends BlobType = BlobType> = (
 	}
 )
 
-// Convenience type aliases
-export type StandardBlob = Blob<BlobType.Standard>
-export type SidecarBlob = Blob<BlobType.Sidecar>
-export type CommitmentBlob = Blob<BlobType.Commitment>
-export type ProofBlob = Blob<BlobType.Proof>
-
 export type AnyBlob = Blob<BlobType>
-
-// Blob analytics
-export enum BlobAnalyticsTimeframe {
-	OneHour = 'OneHour',
-	OneDay = 'OneDay',
-	SevenDays = 'SevenDays',
-	ThirtyDays = 'ThirtyDays'
-}
-
-export type BlobAnalytics = {
-	chainId: ChainId
-	timeframe: BlobAnalyticsTimeframe
-	
-	// Volume metrics
-	totalBlobs: number
-	totalSize: number // bytes
-	averageBlobSize: number
-	compressionEfficiency: Percentage
-	
-	// Type breakdown
-	byType: Record<BlobType, {
-		count: number
-		totalSize: number
-		percentage: Percentage
-	}>
-	
-	// Usage breakdown
-	byUsage: Record<BlobUsage, {
-		count: number
-		totalSize: number
-		percentage: Percentage
-		averageSize: number
-	}>
-	
-	// Status distribution
-	byStatus: Record<BlobStatus, {
-		count: number
-		percentage: Percentage
-	}>
-	
-	// Economics
-	economics: {
-		totalBlobFees: TokenAmount
-		averageFeePerBlob: TokenAmount
-		averageFeePerByte: TokenAmount
-		baseFeeVariation: Percentage
-		
-		feeEfficiency: {
-			underpriced: number
-			optimized: number
-			overpriced: number
-		}
-	}
-	
-	// Network performance
-	networkPerformance: {
-		averageLatency: number
-		averagePropagationTime: number
-		inclusionRate: Percentage
-		expirationRate: Percentage
-		
-		performanceBySize: Array<{
-			sizeRange: string
-			averageLatency: number
-			inclusionRate: Percentage
-		}>
-	}
-	
-	// Data availability
-	dataAvailability: {
-		availabilityRate: Percentage
-		averageRetentionPeriod: number
-		accessPatterns: {
-			hot: number
-			warm: number
-			cold: number
-		}
-	}
-}
-
-export type BlobFilter = {
-	// Basic filters
-	types?: BlobType[]
-	statuses?: BlobStatus[]
-	usages?: BlobUsage[]
-	submitters?: Address[]
-	
-	// Size filters
-	minSize?: number
-	maxSize?: number
-	sizeRange?: {
-		min: number
-		max: number
-	}
-	
-	// Fee filters
-	minFee?: TokenAmount
-	maxFee?: TokenAmount
-	feeEfficiency?: Array<'underpriced' | 'optimized' | 'overpriced'>
-	
-	// Time range
-	fromTimestamp?: Timestamp
-	toTimestamp?: Timestamp
-	fromBlock?: BlockNumber
-	toBlock?: BlockNumber
-	
-	// Status filters
-	isVerified?: boolean
-	isAvailable?: boolean
-	hasExpired?: boolean
-	
-	// Performance filters
-	maxLatency?: number
-	minCompressionRatio?: Percentage
-	
-	// Content filters
-	contentTypes?: string[]
-	tags?: string[]
-	hasMetadata?: boolean
-	
-	// Pagination and sorting
-	limit?: number
-	offset?: number
-	orderBy?: 'timestamp' | 'size' | 'fee' | 'latency' | 'blockNumber'
-	orderDirection?: 'asc' | 'desc'
-}
 
 export type BlobBundle = {
 	id: string
@@ -397,12 +266,6 @@ export type BlobBundle = {
 	submittedAt: Timestamp
 	includedAt?: Timestamp
 	finalizedAt?: Timestamp
-	bundleLatency?: number
-	
-	// Bundle performance
-	inclusionRate: Percentage
-	verificationTime?: number
-	networkEfficiency: Percentage
 	
 	// Bundle status
 	status: 'pending' | 'included' | 'finalized' | 'failed'
@@ -412,114 +275,4 @@ export type BlobBundle = {
 	bundler?: Address
 	rollupOperator?: Address
 	includedInBlocks?: BlockNumber[]
-}
-
-export type BlobMarket = {
-	chainId: ChainId
-	
-	// Market conditions
-	currentBaseFee: TokenAmount
-	targetBlobGasUsage: number
-	actualBlobGasUsage: number
-	utilizationRate: Percentage
-	
-	// Fee dynamics
-	feeHistory: Array<{
-		blockNumber: BlockNumber
-		timestamp: Timestamp
-		baseFee: TokenAmount
-		blobGasUsed: number
-		blobCount: number
-	}>
-	
-	// Market metrics
-	metrics: {
-		averageFee24h: TokenAmount
-		medianFee24h: TokenAmount
-		feeVolatility: Percentage
-		demandTrend: 'increasing' | 'decreasing' | 'stable'
-		
-		priceElasticity: {
-			feeIncrease: Percentage
-			demandDecrease: Percentage
-			elasticity: number
-		}
-	}
-	
-	// Capacity analysis
-	capacity: {
-		maxBlobsPerBlock: number
-		averageBlobsPerBlock: number
-		peakUtilization: Percentage
-		capacityUtilization: Percentage
-		
-		bottlenecks: Array<{
-			constraint: 'gas-limit' | 'bandwidth' | 'verification' | 'storage'
-			impact: Percentage
-			mitigation?: string
-		}>
-	}
-	
-	// Market participants
-	participants: {
-		activeSubmitters: number
-		topSubmitters: Array<{
-			submitter: Address
-			blobCount: number
-			totalSize: number
-			marketShare: Percentage
-		}>
-		
-		submitterTypes: Record<BlobUsage, {
-			count: number
-			volume: number
-			averageFee: TokenAmount
-		}>
-	}
-}
-
-export type BlobOptimization = {
-	id: string
-	blobId: string
-	
-	// Optimization strategy
-	strategy: 'compression' | 'batching' | 'scheduling' | 'encoding' | 'fragmentation'
-	
-	// Optimization results
-	originalSize: number
-	optimizedSize: number
-	sizeReduction: Percentage
-	
-	originalFee: TokenAmount
-	optimizedFee: TokenAmount
-	feeReduction: Percentage
-	
-	// Performance impact
-	latencyIncrease?: number
-	verificationOverhead?: number
-	storageEfficiency?: Percentage
-	
-	// Optimization parameters
-	parameters: {
-		compressionLevel?: number
-		batchSize?: number
-		schedulingWindow?: number
-		encodingScheme?: string
-		fragmentCount?: number
-	}
-	
-	// Quality metrics
-	qualityMetrics: {
-		lossiness: 'lossless' | 'lossy'
-		fidelity?: Percentage
-		recoverability: Percentage
-		errorRate?: Percentage
-	}
-	
-	// Trade-offs
-	tradeOffs: {
-		sizeVsLatency: number
-		costVsQuality: number
-		speedVsEfficiency: number
-	}
 } 

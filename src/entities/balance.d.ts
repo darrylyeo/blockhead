@@ -1,16 +1,17 @@
-import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf.js'
-import type { Address, Hash, Actor } from './address.js'
-import type { ChainId } from './chain.js'
-import type { TokenStandard, AnyToken } from './token.js'
-import type { Timestamp, NativeCurrencyAmount, BlockNumber, TransactionId, TokenAmount, USDAmount, Percentage, BasisPoints } from './types.js'
+import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
+import type { Actor } from './actor'
+import type { Address, Hash } from './scalars'
+import type { ChainId } from './network'
+import type { TokenStandard, AnyToken } from './token'
+import type { Timestamp, NativeCurrencyAmount, BlockNumber, TransactionId, TokenAmount, USDAmount, Percentage, BasisPoints } from './types'
 
 // Balance types based on asset standards
 export enum BalanceStandard {
 	Native = 'Native', // Native blockchain currency
-	ERC20 = 'ERC20', // Fungible tokens
-	ERC721 = 'ERC721', // Non-fungible tokens (ownership)
-	ERC1155 = 'ERC1155', // Multi-token standard
-	LP = 'LP', // Liquidity provider tokens
+	Erc20 = 'Erc20', // Fungible tokens
+	Erc721 = 'Erc721', // Non-fungible tokens (ownership)
+	Erc1155 = 'Erc1155', // Multi-token standard
+	Lp = 'Lp', // Liquidity provider tokens
 	Staked = 'Staked', // Staked/locked assets
 	Vesting = 'Vesting' // Vesting schedule balances
 }
@@ -29,21 +30,21 @@ export enum BalanceType {
 export enum BalanceCategory {
 	Wallet = 'Wallet', // EOA wallet balance
 	Contract = 'Contract', // Contract balance
-	DeFi = 'DeFi', // DeFi protocol balance
-	CEX = 'CEX', // Centralized exchange
+	Defi = 'Defi', // DeFi protocol balance
+	Cex = 'Cex', // Centralized exchange
 	Gaming = 'Gaming', // Gaming platform
-	DAO = 'DAO', // DAO treasury
+	Dao = 'Dao', // DAO treasury
 	Multisig = 'Multisig', // Multisig wallet
 	Bridge = 'Bridge' // Bridge contract
 }
 
 // Generic balance type with standard-specific fields
-export type Balance<_S extends BalanceStandard = BalanceStandard> = (
+export type Balance<_BalanceStandard extends BalanceStandard = BalanceStandard> = (
 	& {
 		// Balance identification
 		id: string
 		chainId: ChainId
-		standard: _S
+		standard: _BalanceStandard
 		type: BalanceType
 		category: BalanceCategory
 		
@@ -53,7 +54,7 @@ export type Balance<_S extends BalanceStandard = BalanceStandard> = (
 		// Balance amounts
 		balance: TokenAmount
 		balanceFormatted: string
-		balanceUSD?: USDAmount
+		balanceUsd?: USDAmount
 		
 		// Asset identification
 		asset: Address // Token contract or zero address for native
@@ -76,7 +77,7 @@ export type Balance<_S extends BalanceStandard = BalanceStandard> = (
 		historicalData?: Array<{
 			timestamp: Timestamp
 			balance: TokenAmount
-			balanceUSD?: USDAmount
+			balanceUsd?: USDAmount
 			blockNumber: BlockNumber
 		}>
 		
@@ -87,7 +88,7 @@ export type Balance<_S extends BalanceStandard = BalanceStandard> = (
 	}
 
 	& (
-		_S extends BalanceStandard.Native ?
+		_BalanceStandard extends BalanceStandard.Native ?
 			{
 				// Native currency balance data
 				nativeData: {
@@ -118,7 +119,7 @@ export type Balance<_S extends BalanceStandard = BalanceStandard> = (
 				}
 			}
 
-		: _S extends BalanceStandard.ERC20 ?
+		: _BalanceStandard extends BalanceStandard.Erc20 ?
 			{
 				// ERC20 token balance data
 				erc20Data: {
@@ -158,7 +159,7 @@ export type Balance<_S extends BalanceStandard = BalanceStandard> = (
 				}
 			}
 
-		: _S extends BalanceStandard.ERC721 ?
+		: _BalanceStandard extends BalanceStandard.Erc721 ?
 			{
 				// NFT ownership data
 				nftData: {
@@ -202,7 +203,7 @@ export type Balance<_S extends BalanceStandard = BalanceStandard> = (
 				}
 			}
 
-		: _S extends BalanceStandard.ERC1155 ?
+		: _BalanceStandard extends BalanceStandard.Erc1155 ?
 			{
 				// Multi-token balance data
 				multiTokenData: {
@@ -236,7 +237,7 @@ export type Balance<_S extends BalanceStandard = BalanceStandard> = (
 				}
 			}
 
-		: _S extends BalanceStandard.LP ?
+		: _BalanceStandard extends BalanceStandard.Lp ?
 			{
 				// Liquidity provider token data
 				lpData: {
@@ -280,7 +281,7 @@ export type Balance<_S extends BalanceStandard = BalanceStandard> = (
 				}
 			}
 
-		: _S extends BalanceStandard.Staked ?
+		: _BalanceStandard extends BalanceStandard.Staked ?
 			{
 				// Staked asset data
 				stakedData: {
@@ -326,7 +327,7 @@ export type Balance<_S extends BalanceStandard = BalanceStandard> = (
 				}
 			}
 
-		: _S extends BalanceStandard.Vesting ?
+		: _BalanceStandard extends BalanceStandard.Vesting ?
 			{
 				// Vesting schedule data
 				vestingData: {
@@ -382,28 +383,28 @@ export type Balance<_S extends BalanceStandard = BalanceStandard> = (
 		>
 		
 		// Asset reference
-		token?: PartialExceptOneOf<import('./token.js').Token,
+		token?: PartialExceptOneOf<import('./token').Token,
 			| 'address'
 			| 'standard'
 			| 'metadata'
 		>
 		
 		// For DeFi balances
-		protocol?: PartialExceptOneOf<import('./app.js').App,
+		protocol?: PartialExceptOneOf<import('./app').App,
 			| 'address'
 			| 'category'
 			| 'name'
 		>
 		
 		// For LP tokens
-		liquidityPool?: PartialExceptOneOf<import('./app.js').LiquidityPool,
+		liquidityPool?: PartialExceptOneOf<import('./app').LiquidityPool,
 			| 'address'
 			| 'tokens'
 			| 'tvl'
 		>
 		
 		// For staked balances
-		stakingContract?: PartialExceptOneOf<import('./contract.js').Contract,
+		stakingContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
 			| 'standard'
 		>
@@ -414,7 +415,7 @@ export type Balance<_S extends BalanceStandard = BalanceStandard> = (
 		>
 		
 		// For vesting balances
-		vestingContract?: PartialExceptOneOf<import('./contract.js').Contract,
+		vestingContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
 			| 'standard'
 		>
@@ -427,14 +428,14 @@ export type Balance<_S extends BalanceStandard = BalanceStandard> = (
 		>[]
 		
 		// Associated transactions
-		recentTransactions?: PartialExceptOneOf<import('./transaction.js').Transaction,
+		recentTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'transactionId'
 			| 'type'
 			| 'timestamp'
 		>[]
 		
 		// Associated transfers
-		recentTransfers?: PartialExceptOneOf<import('./transfer.js').Transfer,
+		recentTransfers?: PartialExceptOneOf<import('./transfer').Transfer,
 			| 'id'
 			| 'type'
 			| 'timestamp'
@@ -449,7 +450,7 @@ export type BalancePortfolio = {
 	timestamp: Timestamp
 	
 	// Aggregated metrics
-	totalValueUSD: USDAmount
+	totalValueUsd: USDAmount
 	totalAssets: number
 	activePositions: number
 	
@@ -480,17 +481,6 @@ export type BalancePortfolio = {
 	// Individual balances
 	balances: Balance[]
 }
-
-// Convenience type aliases
-export type NativeBalance = Balance<BalanceStandard.Native>
-export type ERC20Balance = Balance<BalanceStandard.ERC20>
-export type ERC721Balance = Balance<BalanceStandard.ERC721>
-export type ERC1155Balance = Balance<BalanceStandard.ERC1155>
-export type LPBalance = Balance<BalanceStandard.LP>
-export type StakedBalance = Balance<BalanceStandard.Staked>
-export type VestingBalance = Balance<BalanceStandard.Vesting>
-
-export type AnyBalance = Balance<BalanceStandard>
 
 // Portfolio aggregation
 export type Portfolio = {
@@ -577,7 +567,7 @@ export type Portfolio = {
 		dailyYield: USDAmount
 		weeklyYield: USDAmount
 		monthlyYield: USDAmount
-		yieldAPY: Percentage
+		yieldApy: Percentage
 		
 		yieldSources: Array<{
 			source: string
@@ -597,7 +587,7 @@ export type BalanceHistory = {
 		timestamp: Timestamp
 		blockNumber: BlockNumber
 		balance: TokenAmount
-		balanceUSD?: USDAmount
+		balanceUsd?: USDAmount
 		transactionHash?: Hash
 		changeType: 'increase' | 'decrease' | 'no-change'
 		changeAmount?: TokenAmount
@@ -641,8 +631,8 @@ export type BalanceFilter = {
 	// Value filters
 	minBalance?: TokenAmount
 	maxBalance?: TokenAmount
-	minBalanceUSD?: USDAmount
-	maxBalanceUSD?: USDAmount
+	minBalanceUsd?: USDAmount
+	maxBalanceUsd?: USDAmount
 	
 	// Activity filters
 	minTransactions?: number
@@ -674,7 +664,7 @@ export type BalanceFilter = {
 	// Pagination and sorting
 	limit?: number
 	offset?: number
-	orderBy?: 'balance' | 'balanceUSD' | 'lastUpdated' | 'transactionCount'
+	orderBy?: 'balance' | 'balanceUsd' | 'lastUpdated' | 'transactionCount'
 	orderDirection?: 'asc' | 'desc'
 }
 

@@ -1,7 +1,8 @@
-import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf.js'
-import type { Address, Hash, Actor } from './address.js'
-import type { ChainId } from './chain.js'
-import type { Timestamp, BlockNumber, TokenAmount, USDAmount, Percentage, BasisPoints } from './types.js'
+import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
+import type { Actor } from './actor'
+import type { Address, Hash } from './scalars'
+import type { ChainId } from './network'
+import type { Timestamp, BlockNumber, TokenAmount, UsdAmount, Percentage, BasisPoints } from './types'
 
 // Storage access patterns
 export enum StorageAccessType {
@@ -150,26 +151,26 @@ export type Storage<_T extends StorageOperation = StorageOperation> = (
 	& {
 		// --
 		// Entity References (using PartialExceptOneOf)
-		contract?: PartialExceptOneOf<import('./contract.js').Contract,
+		contract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
 			| 'standard'
 			| 'metadata'
 		>
 		
-		block?: PartialExceptOneOf<import('./block.js').Block,
+		block?: PartialExceptOneOf<import('./block').Block,
 			| 'number'
 			| 'hash'
 			| 'timestamp'
 		>
 		
-		transaction?: PartialExceptOneOf<import('./transaction.js').Transaction,
+		transaction?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'transactionId'
 			| 'type'
 			| 'status'
 		>
 		
 		// Trace context
-		trace?: PartialExceptOneOf<import('./trace.js').Trace,
+		trace?: PartialExceptOneOf<import('./trace').Trace,
 			| 'id'
 			| 'type'
 			| 'traceAddress'
@@ -196,21 +197,13 @@ export type Storage<_T extends StorageOperation = StorageOperation> = (
 		>[]
 		
 		// Associated events
-		events?: PartialExceptOneOf<import('./event.js').Event,
+		events?: PartialExceptOneOf<import('./event').Event,
 			| 'id'
 			| 'category'
 			| 'timestamp'
 		>[]
 	}
 )
-
-// Convenience type aliases
-export type StorageRead = Storage<StorageOperation.Read>
-export type StorageWrite = Storage<StorageOperation.Write>
-export type StorageCreate = Storage<StorageOperation.Create>
-export type StorageDelete = Storage<StorageOperation.Delete>
-export type WarmStorageRead = Storage<StorageOperation.WarmRead>
-export type ColdStorageRead = Storage<StorageOperation.ColdRead>
 
 export type AnyStorage = Storage<StorageOperation>
 

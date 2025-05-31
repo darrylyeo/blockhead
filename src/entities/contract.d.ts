@@ -1,7 +1,8 @@
-import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf.js'
-import type { Address, Hash, Actor, ActorType } from './address.js'
-import type { ChainId } from './chain.js'
-import type { Timestamp, BlockNumber, TokenAmount, USDAmount, Percentage, BasisPoints } from './types.js'
+import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
+import type { Actor, ActorType } from './actor'
+import type { Address, Hash } from './scalars'
+import type { ChainId } from './network'
+import type { Timestamp, BlockNumber, TokenAmount, USDAmount, Percentage, BasisPoints } from './types'
 
 // ABI and function types
 export type ABIType = 'function' | 'constructor' | 'event' | 'error' | 'fallback' | 'receive'
@@ -211,64 +212,22 @@ export type ContractMetadata<
 	extensions?: Extensions
 }
 
-// Contract interface type for common patterns
-export type ContractInterface<
-	Standard extends string = string,
-	Methods extends string[] = string[]
-> = {
-	standard: Standard
-	requiredMethods: Methods
-	optionalMethods?: string[]
-	events?: string[]
-	errors?: string[]
-}
-
-// Common contract interfaces
-export type ERC20Interface = ContractInterface<'ERC-20', [
-	'totalSupply',
-	'balanceOf',
-	'transfer',
-	'transferFrom',
-	'approve',
-	'allowance'
-]>
-
-export type ERC721Interface = ContractInterface<'ERC-721', [
-	'balanceOf',
-	'ownerOf',
-	'safeTransferFrom',
-	'transferFrom',
-	'approve',
-	'getApproved',
-	'setApprovalForAll',
-	'isApprovedForAll'
-]>
-
-export type ERC1155Interface = ContractInterface<'ERC-1155', [
-	'balanceOf',
-	'balanceOfBatch',
-	'setApprovalForAll',
-	'isApprovedForAll',
-	'safeTransferFrom',
-	'safeBatchTransferFrom'
-]>
-
 export enum ContractStandard {
-	ERC20 = 'ERC20',
-	ERC721 = 'ERC721',
-	ERC1155 = 'ERC1155',
-	ERC4626 = 'ERC4626',
-	ERC1967 = 'ERC1967', // Proxy Standard
-	ERC2535 = 'ERC2535', // Diamond Standard
-	ERC4337 = 'ERC4337', // Account Abstraction
-	ERC6551 = 'ERC6551', // Token Bound Accounts
+	Erc20 = 'Erc20',
+	Erc721 = 'Erc721',
+	Erc1155 = 'Erc1155',
+	Erc4626 = 'Erc4626',
+	Erc1967 = 'Erc1967', // Proxy Standard
+	Erc2535 = 'Erc2535', // Diamond Standard
+	Erc4337 = 'Erc4337', // Account Abstraction
+	Erc6551 = 'Erc6551', // Token Bound Accounts
 	Custom = 'Custom'
 }
 
 export enum ContractCategory {
 	Token = 'Token',
-	NFT = 'NFT',
-	DeFi = 'DeFi',
+	Nft = 'Nft',
+	Defi = 'Defi',
 	Gaming = 'Gaming',
 	Governance = 'Governance',
 	Infrastructure = 'Infrastructure',
@@ -300,12 +259,12 @@ export type ContractInterface = {
 	stateMutability?: 'pure' | 'view' | 'nonpayable' | 'payable'
 }
 
-export type Contract<_S extends ContractStandard = ContractStandard> = (
+export type Contract<_ContractStandard extends ContractStandard = ContractStandard> = (
 	& {
 		// Contract identification
 		address: Address
 		chainId: ChainId
-		standard: _S
+		standard: _ContractStandard
 		category: ContractCategory
 		
 		// Contract metadata
@@ -393,7 +352,7 @@ export type Contract<_S extends ContractStandard = ContractStandard> = (
 	}
 
 	& (
-		_S extends ContractStandard.ERC20 ?
+		_ContractStandard extends ContractStandard.Erc20 ?
 			{
 				// ERC20 specific data
 				tokenData: {
@@ -416,7 +375,7 @@ export type Contract<_S extends ContractStandard = ContractStandard> = (
 				}
 			}
 
-		: _S extends ContractStandard.ERC721 ?
+		: _ContractStandard extends ContractStandard.Erc721 ?
 			{
 				// ERC721 specific data
 				nftData: {
@@ -442,7 +401,7 @@ export type Contract<_S extends ContractStandard = ContractStandard> = (
 				}
 			}
 
-		: _S extends ContractStandard.ERC1155 ?
+		: _ContractStandard extends ContractStandard.Erc1155 ?
 			{
 				// ERC1155 specific data
 				multiTokenData: {
@@ -463,7 +422,7 @@ export type Contract<_S extends ContractStandard = ContractStandard> = (
 				}
 			}
 
-		: _S extends ContractStandard.ERC1967 ?
+		: _ContractStandard extends ContractStandard.Erc1967 ?
 			{
 				// Proxy specific data
 				proxyData: {
@@ -483,7 +442,7 @@ export type Contract<_S extends ContractStandard = ContractStandard> = (
 				}
 			}
 
-		: _S extends ContractStandard.Custom ?
+		: _ContractStandard extends ContractStandard.Custom ?
 			{
 				// Custom contract data
 				customData: {
@@ -502,7 +461,7 @@ export type Contract<_S extends ContractStandard = ContractStandard> = (
 	)
 
 	& (
-		category extends ContractCategory.DeFi ?
+		category extends ContractCategory.Defi ?
 			{
 				// DeFi protocol specific features
 				defiFeatures?: {
@@ -548,7 +507,7 @@ export type Contract<_S extends ContractStandard = ContractStandard> = (
 	& {
 		// --
 		// Entity References (using PartialExceptOneOf)
-		contractActor?: PartialExceptOneOf<Actor<ActorType.Contract | ActorType.Token | ActorType.Proxy | ActorType.Factory>,
+		contractActor?: PartialExceptOneOf<Actor<ActorType.Contract>,
 			| 'address'
 			| 'type'
 		>
@@ -578,7 +537,7 @@ export type Contract<_S extends ContractStandard = ContractStandard> = (
 			| 'standard'
 		>
 		
-		factory?: PartialExceptOneOf<Actor<ActorType.Factory>,
+		factory?: PartialExceptOneOf<Actor<ActorType.Contract>,
 			| 'address'
 			| 'type'
 		>
@@ -608,13 +567,13 @@ export type Contract<_S extends ContractStandard = ContractStandard> = (
 			| 'type'
 		>[]
 		
-		recentTransactions?: PartialExceptOneOf<import('./transaction.js').Transaction,
+		recentTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'transactionId'
 			| 'type'
 			| 'timestamp'
 		>[]
 		
-		events?: PartialExceptOneOf<import('./event.js').Event,
+		events?: PartialExceptOneOf<import('./event').Event,
 			| 'id'
 			| 'emitter'
 			| 'topics'

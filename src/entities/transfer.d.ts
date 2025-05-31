@@ -1,14 +1,15 @@
-import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf.js'
-import type { Address, Hash, Actor } from './address.js'
-import type { ChainId } from './chain.js'
-import type { Timestamp, BlockNumber, TokenAmount, USDAmount, Percentage, BasisPoints } from './types.js'
+import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
+import type { Actor } from './actor'
+import type { Address, Hash } from './scalars'
+import type { ChainId } from './network'
+import type { Timestamp, BlockNumber, TokenAmount, UsdAmount, Percentage, BasisPoints } from './types'
 
 // Transfer types based on token standards
 export enum TransferStandard {
 	Native = 'Native', // Native currency (ETH, MATIC, etc.)
-	ERC20 = 'ERC20', // Fungible tokens
-	ERC721 = 'ERC721', // Non-fungible tokens
-	ERC1155 = 'ERC1155', // Multi-token standard
+	Erc20 = 'Erc20', // Fungible tokens
+	Erc721 = 'Erc721', // Non-fungible tokens
+	Erc1155 = 'Erc1155', // Multi-token standard
 	Internal = 'Internal' // Internal transactions/traces
 }
 
@@ -17,7 +18,7 @@ export enum TransferCategory {
 	Mint = 'Mint', // Token creation
 	Burn = 'Burn', // Token destruction
 	Trade = 'Trade', // Marketplace trade
-	Swap = 'Swap', // DEX swap
+	Swap = 'Swap', // Dex swap
 	Bridge = 'Bridge', // Cross-chain bridge
 	Airdrop = 'Airdrop', // Token distribution
 	Reward = 'Reward', // Staking/farming reward
@@ -27,23 +28,21 @@ export enum TransferCategory {
 
 // Generic transfer type with standard and category-specific fields
 export type Transfer<
-	_S extends TransferStandard = TransferStandard,
-	_C extends TransferCategory = TransferCategory
+	_Standard extends TransferStandard = TransferStandard,
+	_Category extends TransferCategory = TransferCategory
 > = (
 	& {
 		// Transfer identification
 		id: string
 		chainId: ChainId
-		standard: _S
-		category: _C
+		standard: _Standard
+		category: _Category
 		
 		// Transfer parties
-		from: Address
-		to: Address
+		from: Actor
+		to: Actor
 		
 		// Position in blockchain
-		blockNumber: BlockNumber
-		transactionIndex: number
 		logIndex?: number // For token transfers
 		
 		// Timing
@@ -65,17 +64,31 @@ export type Transfer<
 			method?: string
 			purpose?: string
 		}
+
+		block: PartialExceptOneOf<import('./block').Block,
+			| 'number'
+			| 'hash'
+			| 'timestamp'
+		>
+		indexInBlock: number
+
+		transaction: PartialExceptOneOf<import('./transaction').Transaction,
+			| 'transactionId'
+			| 'type'
+			| 'status'
+		>
+		indexInTransaction: number
 	}
 
 	& (
-		_S extends TransferStandard.Native ?
+		_Standard extends TransferStandard.Native ?
 			{
 				// Native currency transfer data
 				nativeData: {
 					amount: TokenAmount
 					amountFormatted: string
 					symbol: string
-					amountUsd?: USDAmount
+					amountUsd?: UsdAmount
 					
 					// Network specific
 					networkName: string
@@ -87,7 +100,7 @@ export type Transfer<
 				}
 			}
 
-		: _S extends TransferStandard.ERC20 ?
+		: _Standard extends TransferStandard.Erc20 ?
 			{
 				// ERC20 token transfer data
 				tokenData: {
@@ -97,20 +110,20 @@ export type Transfer<
 					symbol: string
 					name: string
 					decimals: number
-					amountUsd?: USDAmount
+					amountUsd?: UsdAmount
 					
 					// Price information
-					pricePerToken?: USDAmount
+					pricePerToken?: UsdAmount
 					priceSource?: string
 					
 					// Token metadata
-					logoURI?: string
+					logoUri?: string
 					isVerified?: boolean
 					tokenType?: 'standard' | 'stablecoin' | 'wrapped' | 'governance' | 'defi'
 				}
 			}
 
-		: _S extends TransferStandard.ERC721 ?
+		: _Standard extends TransferStandard.Erc721 ?
 			{
 				// NFT transfer data
 				nftData: {
@@ -137,8 +150,8 @@ export type Transfer<
 					
 					// Market data
 					lastSalePrice?: TokenAmount
-					estimatedValue?: USDAmount
-					floorPrice?: USDAmount
+					estimatedValue?: UsdAmount
+					floorPrice?: UsdAmount
 					rarityRank?: number
 					
 					// Marketplace context
@@ -150,7 +163,7 @@ export type Transfer<
 				}
 			}
 
-		: _S extends TransferStandard.ERC1155 ?
+		: _Standard extends TransferStandard.Erc1155 ?
 			{
 				// Multi-token transfer data
 				multiTokenData: {
@@ -180,16 +193,16 @@ export type Transfer<
 						decimals?: number
 						
 						// Market data
-						pricePerToken?: USDAmount
-						totalValue?: USDAmount
+						pricePerToken?: UsdAmount
+						totalValue?: UsdAmount
 					}>
 					
 					// Aggregate value
-					totalValueUsd?: USDAmount
+					totalValueUsd?: UsdAmount
 				}
 			}
 
-		: _S extends TransferStandard.Internal ?
+		: _Standard extends TransferStandard.Internal ?
 			{
 				// Internal transfer data
 				internalData: {
@@ -221,14 +234,14 @@ export type Transfer<
 	)
 
 	& (
-		_C extends TransferCategory.Trade ?
+		_Category extends TransferCategory.Trade ?
 			{
 				// Trade specific data
 				tradeData: {
 					marketplace: string
 					marketplaceAddress: Address
 					salePrice: TokenAmount
-					salePriceUsd: USDAmount
+					salePriceUsd: UsdAmount
 					
 					// Fees
 					marketplaceFee?: TokenAmount
@@ -246,9 +259,9 @@ export type Transfer<
 				}
 			}
 
-		: _C extends TransferCategory.Swap ?
+		: _Category extends TransferCategory.Swap ?
 			{
-				// DEX swap data
+				// Dex swap data
 				swapData: {
 					dexName: string
 					dexAddress: Address
@@ -276,7 +289,7 @@ export type Transfer<
 				}
 			}
 
-		: _C extends TransferCategory.Bridge ?
+		: _Category extends TransferCategory.Bridge ?
 			{
 				// Cross-chain bridge data
 				bridgeData: {
@@ -291,7 +304,7 @@ export type Transfer<
 					
 					// Bridge fees
 					bridgeFee: TokenAmount
-					bridgeFeeUsd?: USDAmount
+					bridgeFeeUsd?: UsdAmount
 					
 					// Timing
 					estimatedArrival?: Timestamp
@@ -302,7 +315,7 @@ export type Transfer<
 				}
 			}
 
-		: _C extends TransferCategory.Airdrop ?
+		: _Category extends TransferCategory.Airdrop ?
 			{
 				// Airdrop specific data
 				airdropData: {
@@ -326,7 +339,7 @@ export type Transfer<
 				}
 			}
 
-		: _C extends TransferCategory.Reward ?
+		: _Category extends TransferCategory.Reward ?
 			{
 				// Reward specific data
 				rewardData: {
@@ -369,30 +382,30 @@ export type Transfer<
 			| 'type'
 		>
 		
-		block?: PartialExceptOneOf<import('./block.js').Block,
+		block?: PartialExceptOneOf<import('./block').Block,
 			| 'number'
 			| 'hash'
 			| 'timestamp'
 		>
 		
-		transaction?: PartialExceptOneOf<import('./transaction.js').Transaction,
+		transaction?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'transactionId'
 			| 'type'
 			| 'status'
 		>
 		
 		// For token transfers
-		tokenContract?: PartialExceptOneOf<import('./token.js').Token,
+		tokenContract?: PartialExceptOneOf<import('./token').Token,
 			| 'address'
 			| 'standard'
 			| 'metadata'
 		>
 		
 		// For NFT transfers
-		nftCollection?: PartialExceptOneOf<import('./token.js').NFTToken,
-			| 'address'
-			| 'metadata'
-			| 'collection'
+		nftCollection?: PartialExceptOneOf<import('./nft').NftCollection,
+			| 'contractAddress'
+			| 'name'
+			| 'category'
 		>
 		
 		// For DeFi transfers
@@ -426,7 +439,7 @@ export type Transfer<
 		>[]
 		
 		// Associated events
-		events?: PartialExceptOneOf<import('./event.js').Event,
+		events?: PartialExceptOneOf<import('./event').Event,
 			| 'id'
 			| 'category'
 			| 'timestamp'
@@ -434,251 +447,4 @@ export type Transfer<
 	}
 )
 
-// Convenience type aliases
-export type NativeTransfer = Transfer<TransferStandard.Native>
-export type ERC20Transfer = Transfer<TransferStandard.ERC20>
-export type NFTTransfer = Transfer<TransferStandard.ERC721>
-export type MultiTokenTransfer = Transfer<TransferStandard.ERC1155>
-export type InternalTransfer = Transfer<TransferStandard.Internal>
-
-export type TradeTransfer = Transfer<TransferStandard, TransferCategory.Trade>
-export type SwapTransfer = Transfer<TransferStandard, TransferCategory.Swap>
-export type BridgeTransfer = Transfer<TransferStandard, TransferCategory.Bridge>
-export type AirdropTransfer = Transfer<TransferStandard, TransferCategory.Airdrop>
-export type RewardTransfer = Transfer<TransferStandard, TransferCategory.Reward>
-
-export type AnyTransfer = Transfer<TransferStandard, TransferCategory>
-
-// Transfer analytics
-export enum TransferAnalyticsTimeframe {
-	OneHour = 'OneHour',
-	OneDay = 'OneDay',
-	SevenDays = 'SevenDays',
-	ThirtyDays = 'ThirtyDays'
-}
-
-export type TransferAnalytics = {
-	chainId: ChainId
-	timeframe: TransferAnalyticsTimeframe
-	
-	// Volume metrics
-	totalTransfers: number
-	totalVolume: USDAmount
-	averageTransferValue: USDAmount
-	medianTransferValue: USDAmount
-	
-	// Standard breakdown
-	byStandard: Record<TransferStandard, {
-		count: number
-		volume: USDAmount
-		percentage: Percentage
-		growth: Percentage
-	}>
-	
-	// Category breakdown
-	byCategory: Record<TransferCategory, {
-		count: number
-		volume: USDAmount
-		percentage: Percentage
-		averageValue: USDAmount
-	}>
-	
-	// Top transfers
-	topTransfers: Array<{
-		id: string
-		standard: TransferStandard
-		category: TransferCategory
-		value: USDAmount
-		timestamp: Timestamp
-	}>
-	
-	// Network activity
-	networkActivity: {
-		uniqueSenders: number
-		uniqueReceivers: number
-		uniqueTokens: number
-		crossProtocolTransfers: number
-	}
-	
-	// Trends
-	trends: {
-		volumeTrend: 'increasing' | 'decreasing' | 'stable'
-		countTrend: 'increasing' | 'decreasing' | 'stable'
-		averageValueTrend: 'increasing' | 'decreasing' | 'stable'
-	}
-}
-
-export type TransferFilter = {
-	// Basic filters
-	from?: Address[]
-	to?: Address[]
-	involving?: Address[] // Either from or to
-	tokens?: Address[]
-	
-	// Standards and categories
-	standards?: TransferStandard[]
-	categories?: TransferCategory[]
-	
-	// Value filters
-	minValue?: USDAmount
-	maxValue?: USDAmount
-	minAmount?: TokenAmount
-	maxAmount?: TokenAmount
-	
-	// Time range
-	fromTimestamp?: Timestamp
-	toTimestamp?: Timestamp
-	fromBlock?: BlockNumber
-	toBlock?: BlockNumber
-	
-	// Protocol filters
-	protocols?: string[]
-	marketplaces?: string[]
-	
-	// Advanced filters
-	riskLevel?: Array<'low' | 'medium' | 'high' | 'critical'>
-	hasUsdValue?: boolean
-	isInternal?: boolean
-	
-	// Pagination and sorting
-	limit?: number
-	offset?: number
-	orderBy?: 'timestamp' | 'value' | 'amount' | 'blockNumber'
-	orderDirection?: 'asc' | 'desc'
-}
-
-export type TransferBatch = {
-	id: string
-	chainId: ChainId
-	
-	// Batch metadata
-	batchType: 'airdrop' | 'multi-send' | 'marketplace' | 'bridge' | 'custom'
-	totalTransfers: number
-	
-	// Aggregated data
-	totalValue: USDAmount
-	totalGasUsed: number
-	totalGasCost: TokenAmount
-	
-	// Timing
-	startTimestamp: Timestamp
-	endTimestamp: Timestamp
-	duration: number
-	
-	// Batch composition
-	standardBreakdown: Record<TransferStandard, number>
-	categoryBreakdown: Record<TransferCategory, number>
-	
-	// Optimization metrics
-	gasEfficiency: number
-	costSavings?: TokenAmount
-	optimizationUsed?: string[]
-	
-	// Status
-	isComplete: boolean
-	successfulTransfers: number
-	failedTransfers: number
-	
-	// Entity references
-	transfers: string[] // Transfer IDs
-	initiator?: Address
-	protocol?: string
-}
-
-export type TransferPattern = {
-	id: string
-	name: string
-	description: string
-	
-	// Pattern definition
-	pattern: {
-		sequence: Array<{
-			standard?: TransferStandard
-			category?: TransferCategory
-			conditions: Record<string, any>
-			timeWindow?: number
-		}>
-		
-		// Pattern rules
-		exactOrder: boolean
-		allowGaps: boolean
-		maxTimeSpan: number
-		minOccurrences: number
-	}
-	
-	// Pattern detection
-	isActive: boolean
-	confidence: Percentage
-	severity: 'info' | 'warning' | 'critical'
-	
-	// Analytics
-	detectionCount: number
-	lastDetected?: Timestamp
-	falsePositiveRate?: Percentage
-	
-	// Examples
-	examples: Array<{
-		transfers: string[]
-		detectedAt: Timestamp
-		confidence: Percentage
-		risk: 'low' | 'medium' | 'high' | 'critical'
-	}>
-}
-
-export type TransferFlow = {
-	id: string
-	chainId: ChainId
-	
-	// Flow metadata
-	flowType: 'chain' | 'circular' | 'fan-out' | 'fan-in' | 'hub'
-	depth: number
-	totalTransfers: number
-	
-	// Flow analysis
-	entry: Address
-	exit?: Address
-	intermediaries: Address[]
-	
-	// Volume tracking
-	totalVolume: USDAmount
-	volumeByHop: USDAmount[]
-	averageHopValue: USDAmount
-	
-	// Timing analysis
-	startTime: Timestamp
-	endTime: Timestamp
-	totalDuration: number
-	averageHopTime: number
-	
-	// Flow efficiency
-	directPath?: {
-		possible: boolean
-		savings: USDAmount
-		gasEfficiency: Percentage
-	}
-	
-	// Risk assessment
-	riskLevel: 'low' | 'medium' | 'high' | 'critical'
-	riskFactors: string[]
-	
-	// Pattern indicators
-	isStructured: boolean
-	isSuspicious: boolean
-	isMixing: boolean
-	isLaundering?: boolean
-	
-	// Flow visualization
-	graph: {
-		nodes: Array<{
-			address: Address
-			type: string
-			volume: USDAmount
-		}>
-		edges: Array<{
-			from: Address
-			to: Address
-			transferId: string
-			weight: USDAmount
-		}>
-	}
-} 
+export type AnyTransfer = Transfer<TransferStandard, TransferCategory> 

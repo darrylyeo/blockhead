@@ -1,7 +1,8 @@
-import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf.js'
-import type { Address, Hash, Actor } from './address.js'
-import type { ChainId } from './chain.js'
-import type { Timestamp, BlockNumber, TokenAmount, USDAmount, Percentage, BasisPoints } from './types.js'
+import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
+import type { Actor } from './actor'
+import type { Address, Hash } from './scalars'
+import type { ChainId } from './network'
+import type { Timestamp, BlockNumber, TokenAmount, UsdAmount, Percentage, BasisPoints } from './types'
 
 // Transaction types based on EIP standards
 export enum TransactionType {
@@ -29,22 +30,22 @@ export enum TransactionCategory {
 	ContractCall = 'ContractCall', // Contract interaction
 	ContractCreation = 'ContractCreation', // Contract deployment
 	TokenTransfer = 'TokenTransfer', // ERC token transfer
-	DeFi = 'DeFi', // DeFi protocol interaction
-	NFT = 'NFT', // NFT transaction
+	Defi = 'Defi', // DeFi protocol interaction
+	Nft = 'Nft', // NFT transaction
 	Gaming = 'Gaming', // Gaming transaction
-	DAO = 'DAO', // DAO governance
+	Dao = 'Dao', // DAO governance
 	Bridge = 'Bridge', // Cross-chain bridge
-	MEV = 'MEV' // MEV extraction
+	Mev = 'Mev' // MEV extraction
 }
 
 // Generic transaction type with type-specific fields
-export type Transaction<_T extends TransactionType = TransactionType> = (
+export type Transaction<_TransactionType extends TransactionType = TransactionType> = (
 	& {
 		// Transaction identification
 		transactionId: string
 		hash: Hash
 		chainId: ChainId
-		type: _T
+		type: _TransactionType
 		status: TransactionStatus
 		category: TransactionCategory
 		
@@ -98,7 +99,7 @@ export type Transaction<_T extends TransactionType = TransactionType> = (
 	}
 
 	& (
-		_T extends TransactionType.Legacy ?
+		_TransactionType extends TransactionType.Legacy ?
 			{
 				// Legacy transaction data (pre-EIP-2718)
 				legacyData: {
@@ -119,7 +120,7 @@ export type Transaction<_T extends TransactionType = TransactionType> = (
 				}
 			}
 
-		: _T extends TransactionType.AccessList ?
+		: _TransactionType extends TransactionType.AccessList ?
 			{
 				// EIP-2930 access list transaction data
 				accessListData: {
@@ -146,7 +147,7 @@ export type Transaction<_T extends TransactionType = TransactionType> = (
 				}
 			}
 
-		: _T extends TransactionType.DynamicFee ?
+		: _TransactionType extends TransactionType.DynamicFee ?
 			{
 				// EIP-1559 dynamic fee transaction data
 				dynamicFeeData: {
@@ -176,7 +177,7 @@ export type Transaction<_T extends TransactionType = TransactionType> = (
 				}
 			}
 
-		: _T extends TransactionType.BlobCarrying ?
+		: _TransactionType extends TransactionType.BlobCarrying ?
 			{
 				// EIP-4844 blob transaction data
 				blobData: {
@@ -205,7 +206,7 @@ export type Transaction<_T extends TransactionType = TransactionType> = (
 				}
 			}
 
-		: _T extends TransactionType.Deposit ?
+		: _TransactionType extends TransactionType.Deposit ?
 			{
 				// L2 deposit transaction data
 				depositData: {
@@ -233,7 +234,7 @@ export type Transaction<_T extends TransactionType = TransactionType> = (
 				}
 			}
 
-		: _T extends TransactionType.Withdrawal ?
+		: _TransactionType extends TransactionType.Withdrawal ?
 			{
 				// L2 withdrawal transaction data
 				withdrawalData: {
@@ -265,7 +266,7 @@ export type Transaction<_T extends TransactionType = TransactionType> = (
 				}
 			}
 
-		: _T extends TransactionType.Internal ?
+		: _TransactionType extends TransactionType.Internal ?
 			{
 				// Internal transaction data (from traces)
 				internalData: {
@@ -291,7 +292,7 @@ export type Transaction<_T extends TransactionType = TransactionType> = (
 				}
 			}
 
-		: _T extends TransactionType.System ?
+		: _TransactionType extends TransactionType.System ?
 			{
 				// System transaction data
 				systemData: {
@@ -324,7 +325,7 @@ export type Transaction<_T extends TransactionType = TransactionType> = (
 	& {
 		// --
 		// Entity References (using PartialExceptOneOf)
-		block?: PartialExceptOneOf<import('./block.js').Block,
+		block?: PartialExceptOneOf<import('./block').Block,
 			| 'number'
 			| 'hash'
 			| 'timestamp'
@@ -342,14 +343,14 @@ export type Transaction<_T extends TransactionType = TransactionType> = (
 		>
 		
 		// For contract interactions
-		targetContract?: PartialExceptOneOf<import('./contract.js').Contract,
+		targetContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
 			| 'standard'
 			| 'metadata'
 		>
 		
 		// For contract creation
-		createdContract?: PartialExceptOneOf<import('./contract.js').Contract,
+		createdContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
 			| 'standard'
 			| 'deploymentTimestamp'
@@ -377,35 +378,35 @@ export type Transaction<_T extends TransactionType = TransactionType> = (
 		>
 		
 		// Associated events
-		events?: PartialExceptOneOf<import('./event.js').Event,
+		events?: PartialExceptOneOf<import('./event').Event,
 			| 'id'
 			| 'category'
 			| 'timestamp'
 		>[]
 		
 		// Associated transfers
-		transfers?: PartialExceptOneOf<import('./transfer.js').Transfer,
+		transfers?: PartialExceptOneOf<import('./transfer').Transfer,
 			| 'id'
 			| 'category'
 			| 'timestamp'
 		>[]
 		
 		// Associated traces
-		traces?: PartialExceptOneOf<import('./trace.js').Trace,
+		traces?: PartialExceptOneOf<import('./trace').Trace,
 			| 'id'
 			| 'type'
 			| 'timestamp'
 		>[]
 		
 		// For blob transactions
-		blobs?: PartialExceptOneOf<import('./blob.js').Blob,
+		blobs?: PartialExceptOneOf<import('./blob').Blob,
 			| 'id'
 			| 'blobHash'
 			| 'size'
 		>[]
 		
 		// For bridge transactions
-		bridgeContract?: PartialExceptOneOf<import('./contract.js').Contract,
+		bridgeContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
 			| 'standard'
 		>
@@ -425,473 +426,4 @@ export type Transaction<_T extends TransactionType = TransactionType> = (
 	}
 )
 
-// Convenience type aliases
-export type LegacyTransaction = Transaction<TransactionType.Legacy>
-export type AccessListTransaction = Transaction<TransactionType.AccessList>
-export type DynamicFeeTransaction = Transaction<TransactionType.DynamicFee>
-export type BlobTransaction = Transaction<TransactionType.BlobCarrying>
-export type DepositTransaction = Transaction<TransactionType.Deposit>
-export type WithdrawalTransaction = Transaction<TransactionType.Withdrawal>
-export type InternalTransaction = Transaction<TransactionType.Internal>
-export type SystemTransaction = Transaction<TransactionType.System>
-
-export type AnyTransaction = Transaction<TransactionType>
-
-// Transaction analytics
-export enum TransactionAnalyticsTimeframe {
-	OneHour = 'OneHour',
-	OneDay = 'OneDay',
-	SevenDays = 'SevenDays',
-	ThirtyDays = 'ThirtyDays'
-}
-
-export type TransactionAnalytics = {
-	chainId: ChainId
-	timeframe: TransactionAnalyticsTimeframe
-	
-	// Volume metrics
-	totalTransactions: number
-	totalValue: TokenAmount
-	totalFees: TokenAmount
-	averageTransactionValue: TokenAmount
-	averageFee: TokenAmount
-	
-	// Type breakdown
-	byType: Record<TransactionType, {
-		count: number
-		percentage: Percentage
-		volume: TokenAmount
-		averageFee: TokenAmount
-	}>
-	
-	// Status distribution
-	byStatus: Record<TransactionStatus, {
-		count: number
-		percentage: Percentage
-	}>
-	
-	// Category breakdown
-	byCategory: Record<TransactionCategory, {
-		count: number
-		volume: TokenAmount
-		averageSize: number
-		successRate: Percentage
-	}>
-	
-	// Gas analysis
-	gasAnalysis: {
-		totalGasUsed: TokenAmount
-		averageGasPrice: TokenAmount
-		gasUtilization: Percentage
-		gasEfficiency: Percentage
-		
-		gasPriceDistribution: {
-			p10: TokenAmount
-			p25: TokenAmount
-			p50: TokenAmount
-			p75: TokenAmount
-			p90: TokenAmount
-			p95: TokenAmount
-			p99: TokenAmount
-		}
-	}
-	
-	// Network activity
-	networkActivity: {
-		uniqueSenders: number
-		uniqueReceivers: number
-		newAddresses: number
-		activeContracts: number
-		
-		transactionFrequency: Array<{
-			hour: number
-			count: number
-			volume: TokenAmount
-			averageFee: TokenAmount
-		}>
-	}
-	
-	// Success metrics
-	successMetrics: {
-		overallSuccessRate: Percentage
-		failureReasons: Array<{
-			reason: string
-			count: number
-			percentage: Percentage
-		}>
-		
-		averageConfirmationTime: number
-		mempoolMetrics: {
-			averageWaitTime: number
-			dropRate: Percentage
-			replacementRate: Percentage
-		}
-	}
-}
-
-export type TransactionFilter = {
-	// Basic filters
-	types?: TransactionType[]
-	statuses?: TransactionStatus[]
-	categories?: TransactionCategory[]
-	from?: Address[]
-	to?: Address[]
-	involving?: Address[]
-	
-	// Value filters
-	minValue?: TokenAmount
-	maxValue?: TokenAmount
-	hasValue?: boolean
-	
-	// Gas filters
-	minGas?: TokenAmount
-	maxGas?: TokenAmount
-	minGasPrice?: TokenAmount
-	maxGasPrice?: TokenAmount
-	gasEfficiencyRange?: {
-		min: Percentage
-		max: Percentage
-	}
-	
-	// Size filters
-	minSize?: number
-	maxSize?: number
-	
-	// Time range
-	fromTimestamp?: Timestamp
-	toTimestamp?: Timestamp
-	fromBlock?: BlockNumber
-	toBlock?: BlockNumber
-	
-	// Status filters
-	isSuccess?: boolean
-	hasError?: boolean
-	isReplacement?: boolean
-	
-	// Contract filters
-	hasCallData?: boolean
-	createsContract?: boolean
-	contractAddresses?: Address[]
-	
-	// Advanced filters
-	hasAccessList?: boolean
-	hasBlobData?: boolean
-	isInternal?: boolean
-	functionSelectors?: Hash[]
-	
-	// Pagination and sorting
-	limit?: number
-	offset?: number
-	orderBy?: 'timestamp' | 'value' | 'gasUsed' | 'gasPrice' | 'blockNumber'
-	orderDirection?: 'asc' | 'desc'
-}
-
-export type TransactionPool = {
-	chainId: ChainId
-	
-	// Pool state
-	totalTransactions: number
-	totalValue: TokenAmount
-	memoryUsage: number // bytes
-	
-	// Transaction distribution
-	byType: Record<TransactionType, number>
-	byCategory: Record<TransactionCategory, number>
-	
-	// Fee market
-	feeMarket: {
-		pendingTransactions: number
-		queuedTransactions: number
-		
-		gasPrice: {
-			min: TokenAmount
-			max: TokenAmount
-			average: TokenAmount
-			median: TokenAmount
-		}
-		
-		priorityFee: {
-			min: TokenAmount
-			max: TokenAmount
-			average: TokenAmount
-			median: TokenAmount
-		}
-		
-		// Fee recommendations
-		feeRecommendations: {
-			slow: TokenAmount
-			standard: TokenAmount
-			fast: TokenAmount
-			instant: TokenAmount
-		}
-	}
-	
-	// Pool performance
-	performance: {
-		inclusionRate: Percentage
-		averageWaitTime: number
-		dropRate: Percentage
-		
-		// Congestion analysis
-		congestionLevel: 'low' | 'medium' | 'high' | 'critical'
-		estimatedClearTime: number
-		
-		// Pool efficiency
-		throughput: number // tx/second
-		utilization: Percentage
-	}
-	
-	// Top transactions
-	highestValue: Array<{
-		hash: Hash
-		value: TokenAmount
-		gasPrice: TokenAmount
-		from: Address
-		to?: Address
-	}>
-	
-	highestFee: Array<{
-		hash: Hash
-		gasPrice: TokenAmount
-		maxFeePerGas?: TokenAmount
-		gasLimit: TokenAmount
-		from: Address
-	}>
-	
-	// Pool health
-	health: {
-		memoryPressure: Percentage
-		processingDelay: number
-		networkLatency: number
-		
-		// Issues
-		issues: Array<{
-			type: 'memory' | 'processing' | 'network' | 'consensus'
-			severity: 'low' | 'medium' | 'high' | 'critical'
-			description: string
-			count: number
-		}>
-	}
-}
-
-export type TransactionTrace = {
-	transactionHash: Hash
-	chainId: ChainId
-	
-	// Trace metadata
-	executionTime: number
-	gasUsed: TokenAmount
-	traceCount: number
-	maxDepth: number
-	
-	// Execution flow
-	executionFlow: Array<{
-		step: number
-		traceAddress: number[]
-		from: Address
-		to?: Address
-		value: TokenAmount
-		gasUsed: TokenAmount
-		depth: number
-		isSuccess: boolean
-		error?: string
-	}>
-	
-	// Call tree
-	callTree: {
-		root: {
-			address: Address
-			children: Array<{
-				address: Address
-				callType: string
-				gasUsed: TokenAmount
-				value: TokenAmount
-				children?: any[]
-			}>
-		}
-	}
-	
-	// State changes
-	stateChanges: {
-		balanceChanges: Array<{
-			address: Address
-			before: TokenAmount
-			after: TokenAmount
-			delta: TokenAmount
-		}>
-		
-		storageChanges: Array<{
-			address: Address
-			slot: Hash
-			before: Hash
-			after: Hash
-		}>
-		
-		codeChanges: Array<{
-			address: Address
-			operation: 'create' | 'destroy'
-			size?: number
-		}>
-		
-		nonceChanges: Array<{
-			address: Address
-			before: number
-			after: number
-		}>
-	}
-	
-	// Value flows
-	valueFlows: Array<{
-		from: Address
-		to: Address
-		value: TokenAmount
-		transferType: 'call' | 'create' | 'suicide' | 'fee'
-	}>
-	
-	// Gas analysis
-	gasAnalysis: {
-		gasBreakdown: Array<{
-			operation: string
-			gasUsed: TokenAmount
-			percentage: Percentage
-		}>
-		
-		gasEfficiency: Percentage
-		wastedGas?: TokenAmount
-		refunds: TokenAmount
-	}
-}
-
-export type TransactionSimulation = {
-	transactionHash?: Hash
-	chainId: ChainId
-	
-	// Simulation input
-	simulationInput: {
-		from: Address
-		to?: Address
-		value: TokenAmount
-		gasLimit: TokenAmount
-		gasPrice: TokenAmount
-		data?: string
-		
-		// Simulation context
-		blockNumber?: BlockNumber
-		timestamp?: Timestamp
-		difficulty?: string
-	}
-	
-	// Simulation results
-	results: {
-		isSuccess: boolean
-		gasUsed: TokenAmount
-		gasRemaining: TokenAmount
-		returnData?: string
-		error?: string
-		revertReason?: string
-		
-		// Execution trace
-		trace?: Array<{
-			op: string
-			pc: number
-			depth: number
-			gas: TokenAmount
-			gasCost: TokenAmount
-			stack: string[]
-			memory: string[]
-		}>
-	}
-	
-	// Impact analysis
-	impact: {
-		stateChanges: number
-		contractsAffected: Address[]
-		eventsGenerated: number
-		
-		// Economic impact
-		valueTransferred: TokenAmount
-		feeCost: TokenAmount
-		gasEfficiency: Percentage
-		
-		// Risk assessment
-		riskLevel: 'low' | 'medium' | 'high' | 'critical'
-		riskFactors: string[]
-	}
-	
-	// Recommendations
-	recommendations: {
-		gasOptimization?: {
-			recommendedGasLimit: TokenAmount
-			potentialSavings: TokenAmount
-		}
-		
-		feeOptimization?: {
-			recommendedGasPrice: TokenAmount
-			estimatedWaitTime: number
-		}
-		
-		securityWarnings?: Array<{
-			type: string
-			severity: 'info' | 'warning' | 'error'
-			message: string
-		}>
-	}
-}
-
-export type TransactionBundle = {
-	id: string
-	chainId: ChainId
-	
-	// Bundle metadata
-	transactionCount: number
-	totalValue: TokenAmount
-	totalGas: TokenAmount
-	bundleSize: number // bytes
-	
-	// Bundle composition
-	transactions: Hash[]
-	bundleType: 'mev' | 'atomic' | 'batch' | 'flashloan'
-	
-	// Bundle execution
-	isAtomic: boolean
-	executionOrder: number[]
-	dependencies: Array<{
-		from: number
-		to: number
-		type: 'value' | 'state' | 'nonce'
-	}>
-	
-	// Bundle economics
-	totalRevenue?: TokenAmount
-	totalCost: TokenAmount
-	netProfit?: TokenAmount
-	profitability?: Percentage
-	
-	// MEV analysis
-	mevData?: {
-		mevType: 'arbitrage' | 'sandwich' | 'liquidation' | 'frontrun' | 'backrun'
-		extractedValue: TokenAmount
-		victimTransactions?: Hash[]
-		profitMargin: Percentage
-	}
-	
-	// Bundle performance
-	performance: {
-		inclusionProbability: Percentage
-		estimatedBlockInclusion?: number
-		gasEfficiency: Percentage
-		
-		// Simulation results
-		simulationSuccess: boolean
-		simulationGasUsed?: TokenAmount
-		simulationErrors?: string[]
-	}
-	
-	// Competition analysis
-	competition?: {
-		competingBundles: number
-		bidPrice?: TokenAmount
-		marketPosition: number
-		winProbability: Percentage
-	}
-} 
+export type AnyTransaction = Transaction<TransactionType> 

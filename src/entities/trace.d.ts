@@ -1,7 +1,8 @@
-import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf.js'
-import type { Address, Hash, Actor } from './address.js'
-import type { ChainId } from './chain.js'
-import type { Timestamp, BlockNumber, TokenAmount, USDAmount, Percentage, BasisPoints } from './types.js'
+import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
+import type { Actor } from './actor'
+import type { Address, Hash } from './scalars'
+import type { ChainId } from './network'
+import type { Timestamp, BlockNumber, TokenAmount, UsdAmount, Percentage, BasisPoints } from './types'
 
 // Trace types based on EVM execution
 export enum TraceType {
@@ -224,13 +225,13 @@ export type Trace<_T extends TraceType = TraceType> = (
 	& {
 		// --
 		// Entity References (using PartialExceptOneOf)
-		block?: PartialExceptOneOf<import('./block.js').Block,
+		block?: PartialExceptOneOf<import('./block').Block,
 			| 'number'
 			| 'hash'
 			| 'timestamp'
 		>
 		
-		transaction?: PartialExceptOneOf<import('./transaction.js').Transaction,
+		transaction?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'transactionId'
 			| 'type'
 			| 'status'
@@ -253,14 +254,14 @@ export type Trace<_T extends TraceType = TraceType> = (
 			| 'type'
 		>
 		
-		createdContract?: PartialExceptOneOf<import('./contract.js').Contract,
+		createdContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
 			| 'standard'
 			| 'deploymentTimestamp'
 		>
 		
 		// For self-destruct traces
-		selfDestructContract?: PartialExceptOneOf<import('./contract.js').Contract,
+		selfDestructContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
 			| 'standard'
 		>
@@ -295,13 +296,13 @@ export type Trace<_T extends TraceType = TraceType> = (
 		>[]
 		
 		// Associated events and transfers
-		events?: PartialExceptOneOf<import('./event.js').Event,
+		events?: PartialExceptOneOf<import('./event').Event,
 			| 'id'
 			| 'category'
 			| 'timestamp'
 		>[]
 		
-		transfers?: PartialExceptOneOf<import('./transfer.js').Transfer,
+		transfers?: PartialExceptOneOf<import('./transfer').Transfer,
 			| 'id'
 			| 'category'
 			| 'timestamp'
@@ -309,392 +310,4 @@ export type Trace<_T extends TraceType = TraceType> = (
 	}
 )
 
-// Convenience type aliases
-export type CallTrace = Trace<TraceType.Call>
-export type CreateTrace = Trace<TraceType.Create>
-export type Create2Trace = Trace<TraceType.Create2>
-export type SelfDestructTrace = Trace<TraceType.SelfDestruct>
-export type RewardTrace = Trace<TraceType.Reward>
-export type GenesisTrace = Trace<TraceType.Genesis>
-
-export type AnyTrace = Trace<TraceType>
-
-// Trace analytics
-export enum TraceAnalyticsTimeframe {
-	OneHour = 'OneHour',
-	OneDay = 'OneDay',
-	SevenDays = 'SevenDays',
-	ThirtyDays = 'ThirtyDays'
-}
-
-export type TraceAnalytics = {
-	chainId: ChainId
-	timeframe: TraceAnalyticsTimeframe
-	
-	// Execution metrics
-	totalTraces: number
-	totalGasUsed: TokenAmount
-	averageGasPerTrace: TokenAmount
-	gasEfficiency: Percentage
-	
-	// Type breakdown
-	byType: Record<TraceType, {
-		count: number
-		percentage: Percentage
-		gasUsed: TokenAmount
-		successRate: Percentage
-	}>
-	
-	// Call type breakdown (for call traces)
-	byCallType: Record<CallType, {
-		count: number
-		percentage: Percentage
-		averageGas: TokenAmount
-		failureRate: Percentage
-	}>
-	
-	// Contract activity
-	contractActivity: {
-		contractCalls: number
-		contractCreations: number
-		contractDestructions: number
-		uniqueContracts: number
-		
-		topContracts: Array<{
-			address: Address
-			callCount: number
-			gasUsed: TokenAmount
-			successRate: Percentage
-		}>
-	}
-	
-	// Error analysis
-	errorAnalysis: {
-		totalErrors: number
-		errorRate: Percentage
-		
-		topErrors: Array<{
-			error: string
-			count: number
-			percentage: Percentage
-		}>
-		
-		revertReasons: Array<{
-			reason: string
-			count: number
-			gasWasted: TokenAmount
-		}>
-	}
-	
-	// Depth analysis
-	depthAnalysis: {
-		averageDepth: number
-		maxDepth: number
-		
-		byDepth: Record<number, {
-			count: number
-			successRate: Percentage
-			averageGas: TokenAmount
-		}>
-	}
-	
-	// Value flows
-	valueFlows: {
-		totalValueTransferred: TokenAmount
-		internalTransfers: number
-		contractCreationValue: TokenAmount
-		rewardsDistributed: TokenAmount
-	}
-}
-
-export type TraceFilter = {
-	// Basic filters
-	types?: TraceType[]
-	callTypes?: CallType[]
-	from?: Address[]
-	to?: Address[]
-	involving?: Address[]
-	
-	// Status filters
-	isSuccess?: boolean
-	hasError?: boolean
-	errorTypes?: string[]
-	
-	// Value filters
-	minValue?: TokenAmount
-	maxValue?: TokenAmount
-	hasValue?: boolean
-	
-	// Gas filters
-	minGas?: TokenAmount
-	maxGas?: TokenAmount
-	gasEfficiencyRange?: {
-		min: Percentage
-		max: Percentage
-	}
-	
-	// Depth filters
-	minDepth?: number
-	maxDepth?: number
-	exactDepth?: number
-	
-	// Time range
-	fromTimestamp?: Timestamp
-	toTimestamp?: Timestamp
-	fromBlock?: BlockNumber
-	toBlock?: BlockNumber
-	
-	// Function filters
-	methodSignatures?: Hash[]
-	methodNames?: string[]
-	
-	// Advanced filters
-	isPrecompile?: boolean
-	isLibraryCall?: boolean
-	hasRevertReason?: boolean
-	
-	// Pagination and sorting
-	limit?: number
-	offset?: number
-	orderBy?: 'timestamp' | 'gasUsed' | 'value' | 'depth' | 'blockNumber'
-	orderDirection?: 'asc' | 'desc'
-}
-
-export type TraceTree = {
-	id: string
-	chainId: ChainId
-	rootTrace: string
-	
-	// Tree structure
-	nodes: Array<{
-		traceId: string
-		parentId?: string
-		children: string[]
-		depth: number
-		
-		// Node data
-		type: TraceType
-		from?: Address
-		to?: Address
-		value: TokenAmount
-		gasUsed: TokenAmount
-		isSuccess: boolean
-		
-		// Position
-		traceAddress: number[]
-		subtraces: number
-	}>
-	
-	// Tree metrics
-	totalNodes: number
-	maxDepth: number
-	successfulNodes: number
-	failedNodes: number
-	
-	// Execution summary
-	totalGasUsed: TokenAmount
-	totalValue: TokenAmount
-	executionTime: number
-	
-	// Path analysis
-	executionPaths: Array<{
-		path: string[]
-		gasUsed: TokenAmount
-		isSuccessful: boolean
-		valueFlow: TokenAmount
-	}>
-	
-	// Contract interactions
-	contractInteractions: Array<{
-		contract: Address
-		interactionCount: number
-		gasSpent: TokenAmount
-		methods: string[]
-	}>
-}
-
-export type TracePattern = {
-	id: string
-	name: string
-	description: string
-	
-	// Pattern definition
-	pattern: {
-		sequence: Array<{
-			type?: TraceType
-			callType?: CallType
-			conditions: Record<string, any>
-			timeWindow?: number
-		}>
-		
-		// Pattern matching rules
-		exactOrder: boolean
-		allowGaps: boolean
-		maxTimeSpan: number
-		minOccurrences: number
-	}
-	
-	// Pattern detection
-	isActive: boolean
-	confidence: Percentage
-	severity: 'info' | 'warning' | 'critical'
-	
-	// Analytics
-	detectionCount: number
-	lastDetected?: Timestamp
-	averageGasUsed: TokenAmount
-	
-	// Examples
-	examples: Array<{
-		traces: string[]
-		detectedAt: Timestamp
-		confidence: Percentage
-		gasUsed: TokenAmount
-		contracts: Address[]
-	}>
-}
-
-export type TraceExecution = {
-	id: string
-	chainId: ChainId
-	
-	// Execution metadata
-	rootFunction: string
-	totalTraces: number
-	executionResult: 'success' | 'revert' | 'out-of-gas' | 'invalid'
-	
-	// Resource consumption
-	gasLimit: TokenAmount
-	gasUsed: TokenAmount
-	gasRemaining: TokenAmount
-	gasPrice: TokenAmount
-	totalCost: TokenAmount
-	
-	// State changes
-	stateChanges: {
-		balanceChanges: Array<{
-			address: Address
-			before: TokenAmount
-			after: TokenAmount
-			delta: TokenAmount
-		}>
-		
-		storageChanges: Array<{
-			address: Address
-			slot: Hash
-			before: Hash
-			after: Hash
-		}>
-		
-		codeChanges: Array<{
-			address: Address
-			operation: 'deploy' | 'destroy'
-			size?: number
-		}>
-		
-		nonceChanges: Array<{
-			address: Address
-			before: number
-			after: number
-		}>
-	}
-	
-	// Execution flow
-	callStack: Array<{
-		depth: number
-		from: Address
-		to: Address
-		function: string
-		gasUsed: TokenAmount
-		returnValue?: string
-	}>
-	
-	// Performance metrics
-	performance: {
-		averageGasPerTrace: TokenAmount
-		gasEfficiency: Percentage
-		executionTime: number
-		bottlenecks: Array<{
-			trace: string
-			gasUsage: TokenAmount
-			percentage: Percentage
-		}>
-	}
-	
-	// Error analysis
-	errors: Array<{
-		trace: string
-		error: string
-		gasWasted: TokenAmount
-		errorContext: {
-			depth: number
-			function: string
-			inputs: string
-		}
-	}>
-}
-
-export type TraceDebugger = {
-	// Execution context
-	transactionHash: Hash
-	blockNumber: BlockNumber
-	traceIndex: number
-	
-	// Debug information
-	debugTrace: Array<{
-		step: number
-		opcode: string
-		gas: TokenAmount
-		gasCost: TokenAmount
-		stack: string[]
-		memory: string[]
-		storage: Record<Hash, Hash>
-		
-		// Program counter and depth
-		pc: number
-		depth: number
-		
-		// Error information
-		error?: string
-		
-		// State changes at this step
-		stateChanges?: {
-			balanceChanges?: Record<Address, TokenAmount>
-			storageChanges?: Record<Address, Record<Hash, Hash>>
-		}
-	}>
-	
-	// Debug capabilities
-	breakpoints: number[]
-	watchedAddresses: Address[]
-	watchedStorageSlots: Array<{
-		address: Address
-		slot: Hash
-	}>
-	
-	// Debug analysis
-	analysis: {
-		gasHotspots: Array<{
-			step: number
-			opcode: string
-			gasUsed: TokenAmount
-			percentage: Percentage
-		}>
-		
-		memoryGrowth: Array<{
-			step: number
-			memorySize: number
-			growth: number
-		}>
-		
-		stackDepthAnalysis: {
-			maxDepth: number
-			averageDepth: number
-			depthChanges: Array<{
-				step: number
-				depth: number
-				change: number
-			}>
-		}
-	}
-} 
+export type AnyTrace = Trace<TraceType> 
