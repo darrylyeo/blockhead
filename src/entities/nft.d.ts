@@ -1,5 +1,5 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
-import type { ChainId } from './chain'
+import type { ChainId } from './network'
 import type { Address, Hash, Timestamp } from './scalars'
 
 export type TokenId = string | number

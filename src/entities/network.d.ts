@@ -1,7 +1,7 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
-import type { ChainId } from './chain'
 import type { Address, Hash, Timestamp } from './scalars'
 
+export type ChainId = number
 export type NetworkId = string
 
 export enum NetworkType {

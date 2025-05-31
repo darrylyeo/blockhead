@@ -1,5 +1,5 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
-import type { ChainId } from './chain'
+import type { ChainId } from './network'
 import type { Address, BasisPoints, BlockNumber, Hash, Percentage, Timestamp } from './scalars'
 import type { EpochNumber, NativeCurrencyAmount, SlotNumber } from './validator'
 

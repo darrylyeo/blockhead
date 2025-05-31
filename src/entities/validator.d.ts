@@ -1,5 +1,5 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
-import type { ChainId } from './chain'
+import type { ChainId } from './network'
 import type { Address, Hash, NativeCurrencyAmount, Timestamp } from './scalars'
 
 export type ValidatorIndex = number

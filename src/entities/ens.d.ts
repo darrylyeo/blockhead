@@ -1,6 +1,6 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
 import type { Actor } from './actor'
-import type { ChainId } from './chain'
+import type { ChainId } from './network'
 import type { Address, Hash, Timestamp } from './scalars'
 
 export type ENSNodeId = Hash

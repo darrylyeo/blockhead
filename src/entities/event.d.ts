@@ -1,7 +1,7 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
 import type { Actor } from './actor'
 import type { BlockNumber } from './block'
-import type { ChainId } from './chain'
+import type { ChainId } from './network'
 import type { Address, BasisPoints, Hash, Percentage, Timestamp, TokenAmount, UsdAmount } from './scalars'
 
 export type EventId = string
