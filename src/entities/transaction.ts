@@ -169,7 +169,8 @@ export type Transaction<
 	$blobs?: PartialExceptOneOf<import('./blob').Blob,
 		| 'id'
 	>[]
-}\n& {
+}
+& {
 	// Internal transaction data (present when executionContext is 'Internal')
 	internalData?: {
 		parentTransactionHash: Hash
@@ -531,7 +532,8 @@ export type Transaction<
 			}
 		}
 	: {}
-)\n& (
+)
+& (
 	_TransactionTag extends TransactionTag.Bridge ?
 		{
 			// For bridge transactions
@@ -558,7 +560,8 @@ export type Transaction<
 			}
 		}
 	: {}
-)\n& (
+)
+& (
 	_TransactionTag extends TransactionTag.ContractCall ?
 		{
 			// For contract interactions
