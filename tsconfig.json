@@ -15,6 +15,11 @@
 				"name": "gql.tada/ts-plugin",
 				"schemas": [
 					{
+						"name": "blockhead.vision",
+						"schema": "./src/state/graphql/schema.graphql",
+						"tadaOutputLocation": "./src/state/graphql/api.d.ts"
+					},
+					{
 						"name": "blockscout",
 						"schema": "https://eth.blockscout.com/api/v1/graphql",
 						"tadaOutputLocation": "./src/api/blockscout/graphql/api.d.ts"

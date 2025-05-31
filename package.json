@@ -108,6 +108,7 @@
 		"generate:openapi-typescript:1inch:traces": "openapi-typescript https://portal.1inch.dev/api/swagger-docs/traces/v1/chain/1/swagger-json -o ./src/api/1inch/traces/api.d.ts"
 	},
 	"devDependencies": {
+		"@magidoc/rollup-plugin-gql-schema": "^6.2.0",
 		"@sveltejs/adapter-static": "^3.0.8",
 		"@sveltejs/kit": "^2.16.0",
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
@@ -119,6 +120,8 @@
 	},
 	"dependencies": {
 		"@dotenvx/dotenvx": "^1.0.1",
+		"@urql/exchange-graphcache": "^7.2.3",
+		"@urql/svelte": "^4.2.3",
 		"gql.tada": "^1.8.10"
 	}
 }

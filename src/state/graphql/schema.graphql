@@ -1,0 +1,1430 @@
+# Example fragments that clients can use to avoid repetition
+
+# Base actor fields that all actor types share
+fragment BaseActorFields on Actor {
+	type
+	address
+	chainId
+	labels
+	balance
+	balanceUsd
+	firstSeenAt
+	lastActiveAt
+	transactionCount
+	internalTransactionCount
+	riskLevel
+	securityScore
+	auditReports
+}
+
+# Base contract fields that all contract actors share
+fragment BaseContractFields on Actor {
+	...BaseActorFields
+	...on ContractActor {
+		bytecode
+		creationTransaction
+		creationBlock
+		bytecodeSize
+		hasSource
+		verificationDate
+		verificationMethod
+		contractTags
+		standards
+		proxyType
+		isUpgradable
+		protocolName
+		protocolVersion
+		protocolRole
+	}
+}
+
+# Base token fields that all token types share
+fragment BaseTokenFields on Token {
+	address
+	chainId
+	standard
+	types
+	metadata {
+		address
+		chainId
+		name
+		symbol
+		decimals
+		logoUri
+		tags
+	}
+	decimals
+	totalSupply
+	maxSupply
+	mechanics {
+		isMintable
+		isBurnable
+		isPausable
+		hasPermissions
+		isUpgradable
+		transferTax
+		burnRate
+		reflectionRate
+		inflationRate
+	}
+	verification {
+		isVerified
+		verificationSource
+		securityScore
+		auditReports {
+			auditor
+			date
+			reportUrl
+			score
+		}
+		riskLevel
+		riskFactors
+	}
+	holderCount
+}
+
+# Base ERC20 fields that ERC20-based tokens share
+fragment BaseErc20Fields on Token {
+	...BaseTokenFields
+	...on Erc20Token {
+		name
+		symbol
+		mintable
+		burnable
+		pausable
+		upgradeable
+		permit
+		flashMintable
+		deflationary
+		rebasable
+		taxToken
+	}
+}
+
+# Scalars
+scalar Address
+scalar Hash
+scalar BigInt
+scalar DateTime
+scalar TokenAmount
+scalar UsdAmount
+scalar Percentage
+scalar BasisPoints
+
+# Base entity types
+enum EntityType {
+	Actor
+	App
+	Balance
+	Block
+	Contract
+	Event
+	Network
+	Nft
+	Storage
+	Token
+	Trace
+	Transaction
+	Transfer
+	Validator
+}
+
+# Actor types and enums
+enum ActorType {
+	Eoa
+	Contract
+}
+
+enum ContractTag {
+	System
+	Multisig
+	Proxy
+	Factory
+	Token
+	Exchange
+	Bridge
+	Oracle
+	Governance
+	Treasury
+	Registry
+	Router
+	Vault
+	Staking
+	Dao
+	Marketplace
+	Launchpad
+}
+
+enum ProxyType {
+	Eip1967
+	Eip1822
+	Eip897
+	Beacon
+	Diamond
+	Minimal
+	Clone
+}
+
+# Token types and enums
+enum TokenStandard {
+	Native
+	Erc20
+	Erc721
+	Erc1155
+	Erc4626
+}
+
+enum TokenType {
+	Utility
+	Governance
+	Stablecoin
+	Wrapped
+	Synthetic
+	Rebasing
+	Deflationary
+	Yield
+	Lp
+	Receipt
+	Collectible
+	Art
+	Gaming
+	Membership
+	Identity
+}
+
+# Transaction types and enums
+enum TransactionFormat {
+	Type0Legacy
+	Type1AccessList
+	Type2DynamicFee
+	Type3Blob
+}
+
+enum TransactionStatus {
+	Pending
+	Included
+	Confirmed
+	Failed
+	Dropped
+}
+
+enum TransactionCategory {
+	Transfer
+	TokenTransfer
+	ContractCall
+	ContractCreation
+	Defi
+}
+
+# Transfer types and enums
+enum TransferStandard {
+	Native
+	Erc20
+	Erc721
+	Erc1155
+}
+
+enum TransferCategory {
+	Transfer
+	Mint
+	Burn
+}
+
+# Balance types and enums
+enum BalanceType {
+	Available
+	Locked
+	Staked
+	Delegated
+	Vesting
+	Escrow
+	Collateral
+	Pending
+}
+
+enum BalanceCategory {
+	Wallet
+	Contract
+	Defi
+	Cex
+	Gaming
+	Dao
+	Multisig
+	Bridge
+}
+
+# Block types and enums
+enum BlockRole {
+	Canonical
+	Uncle
+	Orphaned
+	Pending
+}
+
+enum BlockStatus {
+	Pending
+	Confirmed
+	Finalized
+	Reorged
+}
+
+enum ConsensusType {
+	Pow
+	Pos
+	Poa
+	PoaClique
+	PoaBor
+	PoaIbft
+	PoaAura
+	Tendermint
+	Layer2Sequencer
+	Rollup
+}
+
+# Contract types and enums
+enum ContractStandard {
+	Custom
+	Erc20
+	Erc721
+	Erc1155
+	Erc4626
+	Erc1967
+	Erc2535
+	Erc4337
+	Erc6551
+}
+
+enum ContractCategory {
+	Token
+	Nft
+	Defi
+	Gaming
+	Governance
+	Infrastructure
+	Bridge
+	Oracle
+	Identity
+	Storage
+	Proxy
+	Factory
+	Multisig
+	Account
+	Utility
+}
+
+# Event types and enums
+enum EventCategory {
+	Transfer
+	Approval
+	Mint
+	Burn
+	Swap
+	Liquidity
+	Lending
+	Staking
+	Governance
+	Bridge
+	Oracle
+	System
+	Custom
+}
+
+enum EventSeverity {
+	Info
+	Warning
+	Error
+	Critical
+}
+
+# NFT types and enums
+enum NftStandard {
+	Erc721
+	Erc1155
+	Erc998
+	Erc4907
+	Erc5192
+	CryptoKitties
+	CryptoPunks
+	Ens
+	Other
+}
+
+enum NftCategory {
+	Art
+	Collectible
+	Gaming
+	Utility
+	Domain
+	Music
+	Video
+	Photography
+	Sports
+	VirtualWorlds
+	Membership
+	Identity
+	Other
+}
+
+enum NftRarity {
+	Common
+	Uncommon
+	Rare
+	Epic
+	Legendary
+	Mythic
+	Unique
+}
+
+# Network types and enums
+enum NetworkType {
+	Mainnet
+	Testnet
+	Devnet
+	Layer2
+	Sidechain
+	PrivateNetwork
+	Rollup
+	Subnet
+}
+
+enum NetworkStatus {
+	Active
+	Deprecated
+	Maintenance
+	Halted
+	Beta
+	Alpha
+}
+
+enum RollupType {
+	Optimistic
+	ZKRollup
+	Validium
+	Plasma
+	StateChannel
+}
+
+# Complex types
+
+type ActorLabel {
+	name: String!
+	source: String!
+	verified: Boolean!
+}
+
+type AuditReport {
+	auditor: String!
+	date: BigInt!
+	reportUrl: String!
+	score: Int
+}
+
+type TokenMetadata {
+	address: Address!
+	chainId: Int!
+	name: String!
+	symbol: String!
+	decimals: Int!
+	logoUri: String
+	tags: [String!]!
+}
+
+type TokenMechanics {
+	isMintable: Boolean!
+	isBurnable: Boolean!
+	isPausable: Boolean!
+	hasPermissions: Boolean!
+	isUpgradable: Boolean!
+	transferTax: Percentage
+	burnRate: Percentage
+	reflectionRate: Percentage
+	inflationRate: Percentage
+}
+
+type TokenVerification {
+	isVerified: Boolean!
+	verificationSource: String
+	securityScore: Int
+	auditReports: [AuditReport!]
+	riskLevel: String!
+	riskFactors: [String!]!
+}
+
+type ContractVerification {
+	isVerified: Boolean!
+	verificationService: String
+	verifiedAt: BigInt
+	sourcifyMatch: String
+	securityScore: Int
+	auditReports: [AuditReport!]
+}
+
+type ContractInterface {
+	name: String!
+	type: String!
+	signature: String!
+	selector: Hash
+	inputs: [ABIParameter!]
+	outputs: [ABIParameter!]
+	stateMutability: String
+}
+
+type ABIParameter {
+	name: String!
+	type: String!
+	indexed: Boolean
+}
+
+type ContractStatistics {
+	transactionCount: Int!
+	internalTransactionCount: Int!
+	uniqueCallers: Int!
+	dailyActiveUsers: Int!
+	weeklyActiveUsers: Int!
+	monthlyActiveUsers: Int!
+	totalValueReceived: TokenAmount!
+	totalValueSent: TokenAmount!
+	totalFeesGenerated: TokenAmount!
+	averageTransactionValue: TokenAmount!
+}
+
+type ContractRisk {
+	riskLevel: String!
+	riskFactors: [String!]!
+	hasRenounceOwnership: Boolean!
+	hasMultiSig: Boolean!
+	hasTimelock: Boolean!
+	hasEmergencyPause: Boolean!
+	hasUpgradeability: Boolean!
+	hasExternalDependencies: Boolean!
+	blacklistedFunctions: [String!]!
+	suspiciousPatterns: [String!]!
+	complianceIssues: [String!]!
+}
+
+type NftAttribute {
+	traitType: String!
+	value: String!
+	displayType: String
+	maxValue: Int
+	rarity: Percentage
+}
+
+type NftMetadata {
+	name: String
+	description: String
+	image: String
+	imagePreview: String
+	imageThumbnail: String
+	imageOriginal: String
+	animationUrl: String
+	animationOriginal: String
+	externalUrl: String
+	backgroundColor: String
+	attributes: [NftAttribute!]
+	tokenUri: String
+	metadataUri: String
+	contractUri: String
+}
+
+type BlockCharacteristics {
+	isGenesis: Boolean!
+	isEmpty: Boolean!
+	isFork: Boolean!
+	isMerge: Boolean!
+	isShanghai: Boolean!
+	isCancun: Boolean!
+	isDencun: Boolean!
+	hasUncles: Boolean!
+	hasReorg: Boolean!
+	hasBlobs: Boolean!
+	hasBeaconRoots: Boolean!
+	hasWithdrawals: Boolean!
+}
+
+type TransferTokenData {
+	tokenAddress: Address!
+	amount: String!
+	amountFormatted: String!
+	symbol: String!
+	name: String!
+	decimals: Int!
+	amountUsd: UsdAmount
+}
+
+type TransferNftData {
+	tokenAddress: Address!
+	tokenId: String!
+	collectionName: String!
+	collectionSymbol: String!
+}
+
+# Actor interface and implementations
+interface Actor {
+	type: ActorType!
+	address: Address!
+	chainId: Int!
+	labels: [ActorLabel!]
+	balance: TokenAmount
+	balanceUsd: UsdAmount
+	firstSeenAt: BigInt
+	lastActiveAt: BigInt
+	transactionCount: Int
+	internalTransactionCount: Int
+	riskLevel: String
+	securityScore: Int
+	auditReports: [AuditReport!]
+}
+
+type EoaActor implements Actor {
+	type: ActorType!
+	address: Address!
+	chainId: Int!
+	labels: [ActorLabel!]
+	balance: TokenAmount
+	balanceUsd: UsdAmount
+	firstSeenAt: BigInt
+	lastActiveAt: BigInt
+	transactionCount: Int
+	internalTransactionCount: Int
+	riskLevel: String
+	securityScore: Int
+	auditReports: [AuditReport!]
+	
+	# EOA specific fields
+	nonce: Int
+	ensName: String
+	ensAvatar: String
+	ensReverse: String
+	isVerified: Boolean
+	tags: [String!]
+	averageGasPrice: String
+	preferredGasLimit: String
+}
+
+type ContractActor implements Actor {
+	type: ActorType!
+	address: Address!
+	chainId: Int!
+	labels: [ActorLabel!]
+	balance: TokenAmount
+	balanceUsd: UsdAmount
+	firstSeenAt: BigInt
+	lastActiveAt: BigInt
+	transactionCount: Int
+	internalTransactionCount: Int
+	riskLevel: String
+	securityScore: Int
+	auditReports: [AuditReport!]
+	
+	# Contract specific fields
+	bytecode: Hash
+	creationTransaction: Hash
+	creationBlock: Int
+	bytecodeSize: Int
+	hasSource: Boolean
+	verificationDate: BigInt
+	verificationMethod: String
+	contractTags: [ContractTag!]
+	standards: [ContractStandard!]
+	proxyType: ProxyType
+	isUpgradable: Boolean
+	protocolName: String
+	protocolVersion: String
+	protocolRole: String
+}
+
+# Alternative approach: Composition over inheritance
+type ActorSpecialization {
+	eoa: EoaSpecialization
+	contract: ContractSpecialization
+	multisig: MultisigSpecialization
+	factory: FactorySpecialization
+	token: TokenSpecialization
+	exchange: ExchangeSpecialization
+	bridge: BridgeSpecialization
+	oracle: OracleSpecialization
+}
+
+type EoaSpecialization {
+	nonce: Int
+	ensName: String
+	ensAvatar: String
+	ensReverse: String
+	isVerified: Boolean
+	tags: [String!]
+	averageGasPrice: String
+	preferredGasLimit: String
+}
+
+type ContractSpecialization {
+	bytecode: Hash
+	creationTransaction: Hash
+	creationBlock: Int
+	bytecodeSize: Int
+	hasSource: Boolean
+	verificationDate: BigInt
+	verificationMethod: String
+	contractTags: [ContractTag!]
+	standards: [ContractStandard!]
+	proxyType: ProxyType
+	isUpgradable: Boolean
+	protocolName: String
+	protocolVersion: String
+	protocolRole: String
+}
+
+type MultisigSpecialization {
+	signers: [Address!]
+	threshold: Int
+	multisigType: String
+}
+
+type FactorySpecialization {
+	deploymentPattern: String
+	deploymentsCount: Int
+	deploySalt: Hash
+}
+
+type TokenSpecialization {
+	tokenStandard: String
+	symbol: String
+	name: String
+	decimals: Int
+	totalSupply: String
+}
+
+type ExchangeSpecialization {
+	exchangeType: String
+	version: String
+}
+
+type BridgeSpecialization {
+	bridgeType: String
+	sourceChains: [Int!]
+	targetChains: [Int!]
+	bridgeVersion: String
+	securityModel: String
+}
+
+type OracleSpecialization {
+	oracleType: String
+	dataFeeds: [String!]
+	updateFrequency: Int
+	aggregationMethod: String
+}
+
+# Composition-based Actor (alternative to interface inheritance)
+type ActorComposed {
+	# Base fields (no repetition needed)
+	type: ActorType!
+	address: Address!
+	chainId: Int!
+	labels: [ActorLabel!]
+	balance: TokenAmount
+	balanceUsd: UsdAmount
+	firstSeenAt: BigInt
+	lastActiveAt: BigInt
+	transactionCount: Int
+	internalTransactionCount: Int
+	riskLevel: String
+	securityScore: Int
+	auditReports: [AuditReport!]
+	
+	# Specialized fields (only present when relevant)
+	specialization: ActorSpecialization
+}
+
+# Token interface and implementations (keeping original structure for comparison)
+interface Token {
+	address: Address!
+	chainId: Int!
+	standard: TokenStandard!
+	types: [TokenType!]!
+	metadata: TokenMetadata!
+	decimals: Int!
+	totalSupply: TokenAmount
+	maxSupply: TokenAmount
+	mechanics: TokenMechanics
+	verification: TokenVerification!
+	holderCount: Int
+}
+
+type NativeToken implements Token {
+	address: Address!
+	chainId: Int!
+	standard: TokenStandard!
+	types: [TokenType!]!
+	metadata: TokenMetadata!
+	decimals: Int!
+	totalSupply: TokenAmount
+	maxSupply: TokenAmount
+	mechanics: TokenMechanics
+	verification: TokenVerification!
+	holderCount: Int
+	
+	# Native specific fields
+	networkName: String!
+	consensusType: String!
+	blockTime: Int!
+	gasTokenUsage: Boolean!
+	issuanceModel: String!
+	annualInflation: Percentage
+}
+
+type Erc20Token implements Token {
+	address: Address!
+	chainId: Int!
+	standard: TokenStandard!
+	types: [TokenType!]!
+	metadata: TokenMetadata!
+	decimals: Int!
+	totalSupply: TokenAmount
+	maxSupply: TokenAmount
+	mechanics: TokenMechanics
+	verification: TokenVerification!
+	holderCount: Int
+	
+	# ERC20 specific fields
+	name: String!
+	symbol: String!
+	mintable: Boolean!
+	burnable: Boolean!
+	pausable: Boolean!
+	upgradeable: Boolean!
+	permit: Boolean!
+	flashMintable: Boolean!
+	deflationary: Boolean!
+	rebasable: Boolean!
+	taxToken: Boolean!
+}
+
+# Alternative composition approach for tokens
+type TokenSpecializationData {
+	native: NativeTokenData
+	erc20: Erc20TokenData
+	stablecoin: StablecoinTokenData
+	governance: GovernanceTokenData
+	yield: YieldTokenData
+	lp: LpTokenData
+	gaming: GamingTokenData
+}
+
+type NativeTokenData {
+	networkName: String!
+	consensusType: String!
+	blockTime: Int!
+	gasTokenUsage: Boolean!
+	issuanceModel: String!
+	annualInflation: Percentage
+}
+
+type Erc20TokenData {
+	name: String!
+	symbol: String!
+	mintable: Boolean!
+	burnable: Boolean!
+	pausable: Boolean!
+	upgradeable: Boolean!
+	permit: Boolean!
+	flashMintable: Boolean!
+	deflationary: Boolean!
+	rebasable: Boolean!
+	taxToken: Boolean!
+}
+
+type StablecoinTokenData {
+	peggingMechanism: String!
+	targetPeg: UsdAmount!
+	collateralRatio: Percentage
+	depegEvents: Int!
+	maxDepegPercentage: Percentage!
+	stabilityFee: Percentage
+}
+
+type GovernanceTokenData {
+	votingWeight: Percentage!
+	proposalThreshold: TokenAmount!
+	quorumThreshold: Percentage!
+	votingPeriod: Int!
+	timelockDelay: Int!
+	activeProposals: Int!
+	totalProposals: Int!
+	voterParticipation: Percentage!
+}
+
+type YieldTokenData {
+	underlyingAsset: Address!
+	currentApy: Percentage!
+	totalValueLocked: TokenAmount!
+	compoundingFrequency: Int!
+	managementFee: Percentage!
+	performanceFee: Percentage!
+	withdrawalFee: Percentage
+}
+
+type LpTokenData {
+	dexProtocol: String!
+	poolAddress: Address!
+	token0: Address!
+	token1: Address!
+	poolFee: BasisPoints!
+	totalValueLocked: TokenAmount!
+	volume24h: UsdAmount!
+	apr: Percentage!
+	impermanentLossRisk: Percentage!
+	poolVolatility: Percentage!
+}
+
+type GamingTokenData {
+	gameTitle: String!
+	gameGenre: String!
+	utilityInGame: [String!]!
+	earnMechanics: [String!]!
+	stakingRewards: Boolean!
+	governanceRights: Boolean!
+}
+
+# Composition-based Token (alternative)
+type TokenComposed {
+	# Base fields (no repetition)
+	address: Address!
+	chainId: Int!
+	standard: TokenStandard!
+	types: [TokenType!]!
+	metadata: TokenMetadata!
+	decimals: Int!
+	totalSupply: TokenAmount
+	maxSupply: TokenAmount
+	mechanics: TokenMechanics
+	verification: TokenVerification!
+	holderCount: Int
+	
+	# Specialized data (only present when relevant)
+	specialization: TokenSpecializationData
+}
+
+# Continue with remaining interface implementations for comparison...
+# (keeping the rest of the original schema for now)
+
+# Balance interface and implementations
+interface Balance {
+	id: String!
+	chainId: Int!
+	standard: TokenStandard!
+	types: [BalanceType!]!
+	category: BalanceCategory!
+	balance: TokenAmount!
+	balanceUsd: UsdAmount
+	blockNumber: BigInt!
+	timestamp: BigInt!
+	isActive: Boolean!
+	lastActivity: BigInt
+	transactionCount: Int
+	changeAmount: TokenAmount
+	changePercentage: Percentage
+	changePeriod: String
+	riskLevel: String
+	securityFlags: [String!]
+	isVerified: Boolean
+}
+
+type NativeBalance implements Balance {
+	id: String!
+	chainId: Int!
+	standard: TokenStandard!
+	types: [BalanceType!]!
+	category: BalanceCategory!
+	balance: TokenAmount!
+	balanceUsd: UsdAmount
+	blockNumber: BigInt!
+	timestamp: BigInt!
+	isActive: Boolean!
+	lastActivity: BigInt
+	transactionCount: Int
+	changeAmount: TokenAmount
+	changePercentage: Percentage
+	changePeriod: String
+	riskLevel: String
+	securityFlags: [String!]
+	isVerified: Boolean
+	
+	# Native specific fields
+	symbol: String!
+	decimals: Int!
+	networkName: String!
+	availableForGas: TokenAmount!
+	reservedForGas: TokenAmount
+	totalStaked: TokenAmount
+	stakingRewards: TokenAmount
+	validatorAddress: Address
+	delegationRewards: TokenAmount
+	commission: Percentage
+	governanceVotes: Int
+	proposalParticipation: Percentage
+}
+
+type Erc20Balance implements Balance {
+	id: String!
+	chainId: Int!
+	standard: TokenStandard!
+	types: [BalanceType!]!
+	category: BalanceCategory!
+	balance: TokenAmount!
+	balanceUsd: UsdAmount
+	blockNumber: BigInt!
+	timestamp: BigInt!
+	isActive: Boolean!
+	lastActivity: BigInt
+	transactionCount: Int
+	changeAmount: TokenAmount
+	changePercentage: Percentage
+	changePeriod: String
+	riskLevel: String
+	securityFlags: [String!]
+	isVerified: Boolean
+	
+	# ERC20 specific fields
+	name: String!
+	symbol: String!
+	decimals: Int!
+	totalSupply: TokenAmount
+	holderRank: Int
+	holderPercentage: Percentage
+	liquidityAvailable: Boolean!
+}
+
+# Event interface and implementations
+interface Event {
+	id: String!
+	chainId: Int!
+	category: EventCategory!
+	severity: EventSeverity!
+	blockNumber: BigInt!
+	blockHash: Hash!
+	transactionHash: Hash!
+	transactionIndex: Int!
+	logIndex: Int!
+	topics: [Hash!]!
+	data: String!
+	eventSignature: String
+	eventName: String
+	removed: Boolean!
+	timestamp: BigInt!
+	decodedData: String
+	decodedTopics: String
+	gasUsed: TokenAmount
+	gasPrice: TokenAmount
+	effectiveGasPrice: TokenAmount
+}
+
+type TransferEvent implements Event {
+	id: String!
+	chainId: Int!
+	category: EventCategory!
+	severity: EventSeverity!
+	blockNumber: BigInt!
+	blockHash: Hash!
+	transactionHash: Hash!
+	transactionIndex: Int!
+	logIndex: Int!
+	topics: [Hash!]!
+	data: String!
+	eventSignature: String
+	eventName: String
+	removed: Boolean!
+	timestamp: BigInt!
+	decodedData: String
+	decodedTopics: String
+	gasUsed: TokenAmount
+	gasPrice: TokenAmount
+	effectiveGasPrice: TokenAmount
+	
+	# Transfer specific fields
+	transferType: String!
+	from: Address!
+	to: Address!
+	tokenAddress: Address
+	tokenSymbol: String
+	amount: TokenAmount
+	tokenId: String
+	tokenIds: [String!]
+	amounts: [TokenAmount!]
+	valueUsd: UsdAmount
+	pricePerToken: UsdAmount
+	isInternal: Boolean
+	isMint: Boolean
+	isBurn: Boolean
+	transferFee: TokenAmount
+	taxAmount: TokenAmount
+	netAmount: TokenAmount
+}
+
+type SwapEvent implements Event {
+	id: String!
+	chainId: Int!
+	category: EventCategory!
+	severity: EventSeverity!
+	blockNumber: BigInt!
+	blockHash: Hash!
+	transactionHash: Hash!
+	transactionIndex: Int!
+	logIndex: Int!
+	topics: [Hash!]!
+	data: String!
+	eventSignature: String
+	eventName: String
+	removed: Boolean!
+	timestamp: BigInt!
+	decodedData: String
+	decodedTopics: String
+	gasUsed: TokenAmount
+	gasPrice: TokenAmount
+	effectiveGasPrice: TokenAmount
+	
+	# Swap specific fields
+	swapType: String!
+	sender: Address!
+	recipient: Address!
+	tokenIn: Address!
+	tokenOut: Address!
+	amountIn: TokenAmount!
+	amountOut: TokenAmount!
+	tokenInSymbol: String
+	tokenOutSymbol: String
+	tokenInDecimals: Int
+	tokenOutDecimals: Int
+	priceImpact: Percentage
+	executionPrice: Float
+	spotPrice: Float
+	slippage: Percentage
+	amountInUsd: UsdAmount
+	amountOutUsd: UsdAmount
+	poolAddress: Address
+	poolFee: BasisPoints
+	route: [Address!]
+	isPrivate: Boolean
+	hasAntiMev: Boolean
+}
+
+type ApprovalEvent implements Event {
+	id: String!
+	chainId: Int!
+	category: EventCategory!
+	severity: EventSeverity!
+	blockNumber: BigInt!
+	blockHash: Hash!
+	transactionHash: Hash!
+	transactionIndex: Int!
+	logIndex: Int!
+	topics: [Hash!]!
+	data: String!
+	eventSignature: String
+	eventName: String
+	removed: Boolean!
+	timestamp: BigInt!
+	decodedData: String
+	decodedTopics: String
+	gasUsed: TokenAmount
+	gasPrice: TokenAmount
+	effectiveGasPrice: TokenAmount
+	
+	# Approval specific fields
+	owner: Address!
+	spender: Address!
+	tokenAddress: Address!
+	tokenSymbol: String
+	amount: TokenAmount
+	tokenId: String
+	approved: Boolean
+	isUnlimited: Boolean
+	previousAllowance: TokenAmount
+	expirationTime: BigInt
+	riskLevel: String
+	spenderType: String
+}
+
+# Other main entity types (keeping original structure for now)
+type Transaction {
+	id: Hash!
+	chainId: Int!
+	format: TransactionFormat!
+	status: TransactionStatus!
+	categories: [TransactionCategory!]!
+	isSuccess: Boolean!
+	timestamp: BigInt
+	from: Address!
+	to: Address
+	value: TokenAmount
+	nonce: Int!
+	blockNumber: BigInt
+	transactionIndex: Int
+	gasLimit: TokenAmount
+	gasUsed: TokenAmount
+	gasPrice: TokenAmount
+	maxFeePerGas: TokenAmount
+	maxPriorityFeePerGas: TokenAmount
+	baseFeePerGas: TokenAmount
+	input: String
+	error: String
+	revertReason: String
+}
+
+type Transfer {
+	id: String!
+	chainId: Int!
+	standard: TransferStandard!
+	category: TransferCategory!
+	blockNumber: BigInt!
+	indexInBlock: Int!
+	indexInTransaction: Int!
+	timestamp: BigInt!
+	transactionHash: Hash!
+	blockHash: Hash
+	from: Address!
+	to: Address
+	
+	# Token transfer data
+	tokenData: TransferTokenData
+	
+	# NFT transfer data
+	nftData: TransferNftData
+}
+
+type Block {
+	blockNumber: BigInt!
+	blockHash: Hash!
+	chainId: Int!
+	role: BlockRole!
+	status: BlockStatus!
+	characteristics: BlockCharacteristics!
+	consensusType: ConsensusType!
+	timestamp: BigInt!
+	parentHash: Hash!
+	stateRoot: Hash!
+	transactionsRoot: Hash!
+	receiptsRoot: Hash!
+	size: Int!
+	gasLimit: TokenAmount!
+	gasUsed: TokenAmount!
+	gasUsedPercentage: Percentage!
+	transactionCount: Int!
+	internalTransactionCount: Int
+	baseFeePerGas: TokenAmount
+	burntFees: TokenAmount
+	minerReward: TokenAmount
+	minedAt: BigInt!
+	receivedAt: BigInt
+	propagationTime: Int
+	difficulty: String
+	totalDifficulty: String
+	nonce: String
+	extraData: String
+	confirmations: Int
+	isFinalized: Boolean
+	chainTipDistance: Int
+}
+
+type Contract {
+	address: Address!
+	chainId: Int!
+	standards: [ContractStandard!]!
+	categories: [ContractCategory!]!
+	name: String
+	version: String
+	bytecode: Hash!
+	sourceCode: String
+	compilerVersion: String
+	optimizationEnabled: Boolean
+	deploymentTransaction: Hash!
+	deploymentBlock: BigInt!
+	deploymentTimestamp: BigInt!
+	abi: [ContractInterface!]
+	functions: [ContractInterface!]!
+	events: [ContractInterface!]!
+	verification: ContractVerification!
+	statistics: ContractStatistics!
+	risk: ContractRisk!
+}
+
+type Nft {
+	standard: NftStandard!
+	categories: [NftCategory!]!
+	contractAddress: Address!
+	tokenId: String!
+	chainId: Int!
+	metadata: NftMetadata!
+	rarity: NftRarity
+	rarityScore: Float
+	rarityRank: Int
+	totalSupply: Int
+	circulatingSupply: Int
+	burned: Boolean
+	mintedAt: BigInt
+	mintTransaction: Hash
+	mintPrice: String
+	createdAt: BigInt!
+	updatedAt: BigInt!
+	lastTransferAt: BigInt
+	isVerified: Boolean
+	verificationSource: String
+	isFlagged: Boolean
+	flagReason: String
+	
+	# ERC721 specific
+	tokenUri: String
+	approved: Address
+	
+	# ERC1155 specific
+	balance: String
+	uri: String
+	totalHolders: Int
+}
+
+type Network {
+	id: String!
+	chainId: Int!
+	name: String!
+	shortName: String
+	slug: String
+	type: NetworkType!
+	consensus: String!
+	status: NetworkStatus!
+	isTestnet: Boolean!
+	isDeprecated: Boolean
+	parentChainId: Int
+	parentNetworkId: String
+	childChainIds: [Int!]
+	blockTime: Int!
+	blockGasLimit: TokenAmount!
+	finalityBlocks: Int
+	confirmationsRequired: Int
+	eip1559: Boolean
+	baseFeePerGas: TokenAmount
+	priorityFeePerGas: TokenAmount
+	iconUrl: String
+	iconBackground: String
+	infoUrl: String
+	documentation: String
+}
+
+type Trace {
+	id: String!
+	chainId: Int!
+	type: String!
+	transactionHash: Hash!
+	traceAddress: [Int!]!
+	subtraces: Int!
+	timestamp: BigInt!
+	blockNumber: BigInt!
+	blockHash: Hash!
+	from: Address!
+	to: Address
+	value: TokenAmount
+	gas: TokenAmount
+	gasUsed: TokenAmount
+	input: String
+	output: String
+	error: String
+	callType: String
+	revertReason: String
+	isError: Boolean!
+	isSuccess: Boolean!
+	depth: Int!
+	isInternal: Boolean!
+	isDelegate: Boolean!
+	isStatic: Boolean!
+	isCreate: Boolean!
+	parentTrace: String
+	childTraces: [String!]
+}
+
+type Storage {
+	id: String!
+	chainId: Int!
+	contractAddress: Address!
+	storageSlot: Hash!
+	value: Hash!
+	blockNumber: BigInt!
+	timestamp: BigInt!
+	isActive: Boolean!
+	dataType: String
+	humanReadableValue: String
+	associatedFunction: String
+	accessCount: Int
+	lastAccessed: BigInt
+}
+
+type Validator {
+	index: Int!
+	address: Address!
+	chainId: Int!
+	pubkey: String!
+	status: String!
+	balance: TokenAmount!
+	effectiveBalance: TokenAmount!
+	slashed: Boolean!
+	activationEligibilityEpoch: BigInt
+	activationEpoch: BigInt
+	exitEpoch: BigInt
+	withdrawableEpoch: BigInt
+	withdrawalCredentials: Hash!
+	lastAttestationSlot: BigInt
+	lastProposalSlot: BigInt
+}
+
+type App {
+	name: String!
+	slug: String!
+	icon: String
+	colors: [String!]
+	links: [String!]
+}
+
+# Union types for polymorphic returns
+union ActorResult = EoaActor | ContractActor
+union TokenResult = NativeToken | Erc20Token
+union BalanceResult = NativeBalance | Erc20Balance
+union EventResult = TransferEvent | SwapEvent | ApprovalEvent
+
+# Alternative: Single types with composition
+union ActorResultComposed = ActorComposed
+union TokenResultComposed = TokenComposed
+
+# Global entities union for cross-chain queries
+union Entity = Block | Transaction | Transfer | TransferEvent | SwapEvent | ApprovalEvent | Contract | NativeToken | Erc20Token | NativeBalance | Erc20Balance | EoaActor | ContractActor | Nft | Network | Trace | Storage | Validator
+
+# Query type
+type Query {
+	# Interface-based queries (current approach)
+	actor(address: Address!, chainId: Int!): ActorResult
+	token(address: Address!, chainId: Int!): TokenResult
+	balance(address: Address!, chainId: Int!, tokenAddress: Address): BalanceResult
+	event(id: String!, chainId: Int!): EventResult
+	
+	# Composition-based queries (alternative approach)
+	actorComposed(address: Address!, chainId: Int!): ActorComposed
+	tokenComposed(address: Address!, chainId: Int!): TokenComposed
+	
+	# Global entities query for cross-chain data
+	entities(
+		chainIds: [Int!]
+		types: [EntityType!]
+		limit: Int = 100
+		offset: Int = 0
+		startTimestamp: BigInt
+		endTimestamp: BigInt
+	): [Entity!]!
+	
+	# Other entities
+	transaction(hash: Hash!, chainId: Int!): Transaction
+	transfer(id: String!, chainId: Int!): Transfer
+	block(identifier: String!, chainId: Int!): Block
+	contract(address: Address!, chainId: Int!): Contract
+	nft(contractAddress: Address!, tokenId: String!, chainId: Int!): Nft
+	network(chainId: Int!): Network
+	trace(id: String!, chainId: Int!): Trace
+	storage(contractAddress: Address!, storageSlot: Hash!, chainId: Int!): Storage
+	validator(index: Int!, chainId: Int!): Validator
+	app(slug: String!): App
+}
