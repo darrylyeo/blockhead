@@ -15,11 +15,17 @@ export const query = <
 ) => {
 	const client = getContextClient()
 
-	const store = queryStore({
-		client,
-		query,
-		variables,
-	})
+	const wrappedResult = $derived(
+		fromStore(
+			queryStore({
+				client,
+				query,
+				variables,
+			})
+		)
+	)
 
-	return fromStore(store)
+	const result = $derived(wrappedResult.current)
+
+	return result
 }
