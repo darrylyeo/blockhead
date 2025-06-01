@@ -148,3 +148,86 @@ export const createClient = (apiKey: string = publicEnv.PUBLIC_ONEINCH_API_KEY) 
 		return response.json()
 	},
 })
+
+
+// Queries
+export const balances = {
+	1: fetcher.path('/v1.2/1/balances/{walletAddress}').method('get').create(),
+	137: fetcher.path('/v1.2/137/balances/{walletAddress}').method('get').create(),
+	42161: fetcher.path('/v1.2/42161/balances/{walletAddress}').method('get').create(),
+	56: fetcher.path('/v1.2/56/balances/{walletAddress}').method('get').create(),
+	43114: fetcher.path('/v1.2/43114/balances/{walletAddress}').method('get').create(),
+	250: fetcher.path('/v1.2/250/balances/{walletAddress}').method('get').create(),
+	100: fetcher.path('/v1.2/100/balances/{walletAddress}').method('get').create(),
+	10: fetcher.path('/v1.2/10/balances/{walletAddress}').method('get').create(),
+	501: fetcher.path('/v1.2/501/balances/{account}').method('get').create(),
+}
+
+export const swap = {
+	1: {
+		quote: fetcher.path('/v6.0/1/quote').method('get').create(),
+		swap: fetcher.path('/v6.0/1/swap').method('get').create(),
+		tokens: fetcher.path('/v6.0/1/tokens').method('get').create(),
+	},
+	137: {
+		quote: fetcher.path('/v6.0/137/quote').method('get').create(),
+		swap: fetcher.path('/v6.0/137/swap').method('get').create(),
+		tokens: fetcher.path('/v6.0/137/tokens').method('get').create(),
+	},
+	42161: {
+		quote: fetcher.path('/v6.0/42161/quote').method('get').create(),
+		swap: fetcher.path('/v6.0/42161/swap').method('get').create(),
+		tokens: fetcher.path('/v6.0/42161/tokens').method('get').create(),
+	},
+	56: {
+		quote: fetcher.path('/v6.0/56/quote').method('get').create(),
+		swap: fetcher.path('/v6.0/56/swap').method('get').create(),
+		tokens: fetcher.path('/v6.0/56/tokens').method('get').create(),
+	},
+	43114: {
+		quote: fetcher.path('/v6.0/43114/quote').method('get').create(),
+		swap: fetcher.path('/v6.0/43114/swap').method('get').create(),
+		tokens: fetcher.path('/v6.0/43114/tokens').method('get').create(),
+	},
+	250: {
+		quote: fetcher.path('/v6.0/250/quote').method('get').create(),
+		swap: fetcher.path('/v6.0/250/swap').method('get').create(),
+		tokens: fetcher.path('/v6.0/250/tokens').method('get').create(),
+	},
+	100: {
+		quote: fetcher.path('/v6.0/100/quote').method('get').create(),
+		swap: fetcher.path('/v6.0/100/swap').method('get').create(),
+		tokens: fetcher.path('/v6.0/100/tokens').method('get').create(),
+	},
+	10: {
+		quote: fetcher.path('/v6.0/10/quote').method('get').create(),
+		swap: fetcher.path('/v6.0/10/swap').method('get').create(),
+		tokens: fetcher.path('/v6.0/10/tokens').method('get').create(),
+	},
+}
+
+export const gasPrices = {
+	1: fetcher.path('/v1.6/1').method('get').create(),
+	137: fetcher.path('/v1.6/137').method('get').create(),
+	42161: fetcher.path('/v1.6/42161').method('get').create(),
+	56: fetcher.path('/v1.6/56').method('get').create(),
+	43114: fetcher.path('/v1.6/43114').method('get').create(),
+	250: fetcher.path('/v1.6/250').method('get').create(),
+	100: fetcher.path('/v1.6/100').method('get').create(),
+	10: fetcher.path('/v1.6/10').method('get').create(),
+	501: fetcher.path('/v1.6/501').method('get').create(),
+}
+
+export const spotPrices = {
+	1: fetcher.path('/v1.1/1').method('get').create(),
+	137: fetcher.path('/v1.1/137').method('get').create(),
+	42161: fetcher.path('/v1.1/42161').method('get').create(),
+	56: fetcher.path('/v1.1/56').method('get').create(),
+	43114: fetcher.path('/v1.1/43114').method('get').create(),
+	250: fetcher.path('/v1.1/250').method('get').create(),
+	100: fetcher.path('/v1.1/100').method('get').create(),
+	10: fetcher.path('/v1.1/10').method('get').create(),
+	501: fetcher.path('/v1.1/501').method('get').create(),
+}
+
+export const getTokenPriceHistory = fetcher.path('/v1.0/chart/line/{token0}/{token1}/{period}/{chainId}').method('get').create()
