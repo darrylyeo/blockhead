@@ -27,9 +27,9 @@ importers:
       '@magidoc/rollup-plugin-gql-schema':
         specifier: ^6.2.0
         version: 6.2.0
-      '@sveltejs/adapter-static':
-        specifier: ^3.0.8
-        version: 3.0.8(@sveltejs/kit@2.21.1(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.33.10)(vite@6.3.5(@types/node@22.15.28)))(svelte@5.33.10)(vite@6.3.5(@types/node@22.15.28)))
+      '@sveltejs/adapter-auto':
+        specifier: ^6.0.1
+        version: 6.0.1(@sveltejs/kit@2.21.1(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.33.10)(vite@6.3.5(@types/node@22.15.28)))(svelte@5.33.10)(vite@6.3.5(@types/node@22.15.28)))
       '@sveltejs/kit':
         specifier: ^2.16.0
         version: 2.21.1(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.33.10)(vite@6.3.5(@types/node@22.15.28)))(svelte@5.33.10)(vite@6.3.5(@types/node@22.15.28))
@@ -435,8 +435,8 @@ packages:
     peerDependencies:
       acorn: ^8.9.0
 
-  '@sveltejs/adapter-static@3.0.8':
-    resolution: {integrity: sha512-YaDrquRpZwfcXbnlDsSrBQNCChVOT9MGuSg+dMAyfsAa1SmiAhrA5jUYUiIMC59G92kIbY/AaQOWcBdq+lh+zg==}
+  '@sveltejs/adapter-auto@6.0.1':
+    resolution: {integrity: sha512-mcWud3pYGPWM2Pphdj8G9Qiq24nZ8L4LB7coCUckUEy5Y7wOWGJ/enaZ4AtJTcSm5dNK1rIkBRoqt+ae4zlxcQ==}
     peerDependencies:
       '@sveltejs/kit': ^2.0.0
 
@@ -1366,7 +1366,7 @@ snapshots:
     dependencies:
       acorn: 8.14.1
 
-  '@sveltejs/adapter-static@3.0.8(@sveltejs/kit@2.21.1(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.33.10)(vite@6.3.5(@types/node@22.15.28)))(svelte@5.33.10)(vite@6.3.5(@types/node@22.15.28)))':
+  '@sveltejs/adapter-auto@6.0.1(@sveltejs/kit@2.21.1(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.33.10)(vite@6.3.5(@types/node@22.15.28)))(svelte@5.33.10)(vite@6.3.5(@types/node@22.15.28)))':
     dependencies:
       '@sveltejs/kit': 2.21.1(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.33.10)(vite@6.3.5(@types/node@22.15.28)))(svelte@5.33.10)(vite@6.3.5(@types/node@22.15.28))
 
