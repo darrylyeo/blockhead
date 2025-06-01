@@ -2,6 +2,10 @@
 import { EntityType, getEntityId } from '$/entities'
 
 
+// Functions
+import { fetch } from './fetch'
+
+
 // gql.tada
 import { initGraphQLTada } from 'gql.tada'
 import type { introspection } from './api.d.ts'
@@ -21,7 +25,7 @@ export const graphql = initGraphQLTada<{
 
 
 // urql
-import { createClient } from '@urql/svelte'
+import { createClient, fetchExchange } from '@urql/svelte'
 import schema from './schema.json'
 import { cacheExchange, type KeyGenerator } from '@urql/exchange-graphcache'
 
@@ -56,5 +60,8 @@ export const client = createClient({
 				ApprovalEvent: getEntityId[EntityType.Event] as unknown as KeyGenerator,
 			},
 		}),
+		fetchExchange,
 	],
+	fetch,
+	requestPolicy: 'cache-first',
 })
