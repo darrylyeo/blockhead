@@ -166,7 +166,7 @@
 	</section>
 {/if}
 
-{#if latest10BlocksQuery}
+<!-- {#if latest10BlocksQuery}
 	<section>
 		<h2>Latest 10 Blocks</h2>
 		{#if latest10BlocksQuery.data?.Entities && Array.isArray(latest10BlocksQuery.data.Entities)}
@@ -183,7 +183,7 @@
 			<p>Loading latest blocks...</p>
 		{/if}
 	</section>
-{/if}
+{/if} -->
 
 
 {@render children()}

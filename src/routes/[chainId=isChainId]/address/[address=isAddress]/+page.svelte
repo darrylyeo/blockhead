@@ -25,7 +25,66 @@
 						address: $address
 						chainId: $chainId
 					) {
-						...Actor_Fragment
+						__typename
+						type
+						address
+						chainId
+						# labels {
+						# 	name
+						# 	source
+						# 	verified
+						# }
+						balance
+						balanceUsd
+						# firstSeenAt
+						# lastActiveAt
+						# transactionCount
+						# internalTransactionCount
+						# riskLevel
+						# securityScore
+						# auditReports {
+						# 	auditor
+						# 	date
+						# 	reportUrl
+						# 	score
+						# }
+						# transactions(limit: 10) {
+						# 	id
+						# 	timestamp
+						# 	value
+						# 	gasUsed
+						# 	isSuccess
+						# 	status
+						# 	categories
+						# 	from
+						# 	to
+						# }
+						# ... on Actor_Eoa {
+						# 	nonce
+						# 	ensName
+						# 	ensAvatar
+						# 	ensReverse
+						# 	isVerified
+						# 	tags
+						# 	averageGasPrice
+						# 	preferredGasLimit
+						# }
+						... on Actor_Contract {
+							bytecode
+							creationTransaction
+							creationBlock
+							bytecodeSize
+							hasSource
+							verificationDate
+							verificationMethod
+							contractTags
+							standards
+							proxyType
+							isUpgradable
+							protocolName
+							protocolVersion
+							protocolRole
+						}
 					}
 				}
 			`),

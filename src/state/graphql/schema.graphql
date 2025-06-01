@@ -255,6 +255,7 @@ type Actor_Contract implements Actor_Base {
 union Actor = Actor_Eoa | Actor_Contract
 
 fragment Actor_Fragment on Actor {
+	__typename
 	type
 	address
 	chainId
@@ -330,6 +331,7 @@ type App {
 }
 
 fragment App_Fragment on App {
+	__typename
 	slug
 	name
 	icon
@@ -559,6 +561,7 @@ type Balance_Erc1155 implements Balance_Base {
 union Balance = Balance_Native | Balance_Erc20 | Balance_Erc721 | Balance_Erc1155
 
 fragment Balance_Fragment on Balance {
+	__typename
 	id
 	chainId
 	standard
@@ -896,6 +899,7 @@ type Block_Pending implements Block_Base {
 union Block = Block_Canonical | Block_Uncle | Block_Orphaned | Block_Pending
 
 fragment Block_Fragment on Block {
+	__typename
 	chainId
 	blockNumber
 	blockHash
@@ -1038,6 +1042,7 @@ type Contract {
 }
 
 fragment Contract_Fragment on Contract {
+	__typename
 	address
 	chainId
 	standards
@@ -1302,6 +1307,7 @@ type Event_Custom implements Event_Base {
 union Event = Event_Transfer | Event_Swap | Event_Approval | Event_Custom
 
 fragment Event_Fragment on Event {
+	__typename
 	id
 	chainId
 	category
@@ -1427,6 +1433,7 @@ type Network {
 }
 
 fragment Network_Fragment on Network {
+	__typename
 	chainId
 	name
 	status
@@ -1519,6 +1526,7 @@ type Nft {
 }
 
 fragment Nft_Fragment on Nft {
+	__typename
 	contractAddress
 	tokenId
 	chainId
@@ -1602,6 +1610,7 @@ type Storage {
 }
 
 fragment Storage_Fragment on Storage {
+	__typename
 	id
 	chainId
 	operation
@@ -1842,6 +1851,7 @@ type Token_Erc1155 implements Token_Base {
 union Token = Token_Native | Token_Erc20 | Token_Erc721 | Token_Erc1155
 
 fragment Token_Fragment on Token {
+	__typename
 	address
 	chainId
 	standard
@@ -1978,6 +1988,7 @@ type Trace {
 }
 
 fragment Trace_Fragment on Trace {
+	__typename
 	id
 	chainId
 	transactionHash
@@ -2063,6 +2074,7 @@ type Transaction {
 }
 
 fragment Transaction_Fragment on Transaction {
+	__typename
 	id
 	chainId
 	format
@@ -2152,6 +2164,7 @@ type Transfer {
 }
 
 fragment Transfer_Fragment on Transfer {
+	__typename
 	id
 	chainId
 	standard
@@ -2200,6 +2213,7 @@ type Validator {
 }
 
 fragment Validator_Fragment on Validator {
+	__typename
 	index
 	chainId
 	pubkey
@@ -2218,7 +2232,7 @@ fragment Validator_Fragment on Validator {
 # =============================================================================
 
 type Query {
-	Entities(
+	entities(
 		chainIds: [Int!]
 		types: [EntityType!]
 		limit: Int = 100
@@ -2227,18 +2241,18 @@ type Query {
 		endTimestamp: BigInt
 	): [Entity!]!
 
-	Actor(address: Address!, chainId: Int!): Actor
-	App(slug: String!): App
-	Balance(address: Address!, chainId: Int!, tokenAddress: Address): Balance
-	Block(identifier: String!, chainId: Int!): Block
-	Contract(address: Address!, chainId: Int!): Contract
-	Event(id: String!, chainId: Int!): Event
-	Network(chainId: Int!): Network
-	Nft(contractAddress: Address!, tokenId: String!, chainId: Int!): Nft
-	Storage(contractAddress: Address!, storageSlot: Hash!, chainId: Int!): Storage
-	Token(address: Address!, chainId: Int!): Token
-	Trace(id: String!, chainId: Int!): Trace
-	Transaction(hash: Hash!, chainId: Int!): Transaction
-	Transfer(id: String!, chainId: Int!): Transfer
-	Validator(index: Int!, chainId: Int!): Validator
+	actor(address: Address!, chainId: Int!): Actor
+	app(slug: String!): App
+	balance(address: Address!, chainId: Int!, tokenAddress: Address): Balance
+	block(identifier: String!, chainId: Int!): Block
+	contract(address: Address!, chainId: Int!): Contract
+	event(id: String!, chainId: Int!): Event
+	network(chainId: Int!): Network
+	nft(contractAddress: Address!, tokenId: String!, chainId: Int!): Nft
+	storage(contractAddress: Address!, storageSlot: Hash!, chainId: Int!): Storage
+	token(address: Address!, chainId: Int!): Token
+	trace(id: String!, chainId: Int!): Trace
+	transaction(hash: Hash!, chainId: Int!): Transaction
+	transfer(id: String!, chainId: Int!): Transfer
+	validator(index: Int!, chainId: Int!): Validator
 }
