@@ -28,13 +28,13 @@
 			<dd>{transfer.chainId}</dd>
 
 			<dt>Category</dt>
-			<dd class="category {transfer.category.toLowerCase()}">{transfer.category}</dd>
+			<dd class="category {transfer.category?.toLowerCase()}">{transfer.category}</dd>
 
 			<dt>Standard</dt>
 			<dd>{transfer.standard}</dd>
 
 			<dt>Classification</dt>
-			<dd class="classification {transfer.classification.toLowerCase()}">{transfer.classification}</dd>
+			<dd class="classification {transfer.classification?.toLowerCase()}">{transfer.classification}</dd>
 
 			<dt>Context</dt>
 			<dd>{transfer.context}</dd>
@@ -42,7 +42,7 @@
 			<dt>Timestamp</dt>
 			<dd>
 				<time datetime={new Date(transfer.timestamp * 1000).toISOString()}>
-					{new Date(transfer.timestamp * 1000).toLocaleString()}
+					{new Date(transfer.timestamp * 1000)?.toLocaleString()}
 				</time>
 			</dd>
 
@@ -53,7 +53,7 @@
 			<dd><a href="/address/{transfer.to}">{transfer.to}</a></dd>
 
 			<dt>Block Number</dt>
-			<dd><a href="/block/{transfer.blockNumber}">{transfer.blockNumber.toLocaleString()}</a></dd>
+			<dd><a href="/block/{transfer.blockNumber}">{transfer.blockNumber?.toLocaleString()}</a></dd>
 
 			<dt>Transaction Hash</dt>
 			<dd><a href="/transaction/{transfer.transactionHash}">{transfer.transactionHash}</a></dd>
@@ -69,7 +69,7 @@
 				<dd><a href="/address/{transfer.operator}">{transfer.operator}</a></dd>
 			{/if}
 
-			{#if transfer.isSuccess !== undefined}
+			{#if transfer.isSuccess !== undefined && transfer.isSuccess !== null}
 				<dt>Success</dt>
 				<dd class="status {transfer.isSuccess ? 'success' : 'failed'}">
 					{transfer.isSuccess ? 'Yes' : 'No'}
@@ -78,7 +78,7 @@
 
 			{#if transfer.gasUsed}
 				<dt>Gas Used</dt>
-				<dd>{transfer.gasUsed.toLocaleString()}</dd>
+				<dd>{transfer.gasUsed?.toLocaleString()}</dd>
 			{/if}
 
 			{#if transfer.gasPrice}
@@ -93,7 +93,7 @@
 
 			{#if transfer.feeUsd}
 				<dt>Transaction Fee (USD)</dt>
-				<dd>${transfer.feeUsd.toLocaleString()}</dd>
+				<dd>${transfer.feeUsd?.toLocaleString()}</dd>
 			{/if}
 		</dl>
 	</EntitySection>
@@ -118,7 +118,7 @@
 
 				{#if transfer.nativeData.valueUsd}
 					<dt>Value (USD)</dt>
-					<dd>${transfer.nativeData.valueUsd.toLocaleString()}</dd>
+					<dd>${transfer.nativeData.valueUsd?.toLocaleString()}</dd>
 				{/if}
 
 				{#if transfer.nativeData.price}
@@ -154,7 +154,7 @@
 
 				{#if transfer.erc20Data.valueUsd}
 					<dt>Value (USD)</dt>
-					<dd>${transfer.erc20Data.valueUsd.toLocaleString()}</dd>
+					<dd>${transfer.erc20Data.valueUsd?.toLocaleString()}</dd>
 				{/if}
 
 				{#if transfer.erc20Data.price}
@@ -276,7 +276,7 @@
 
 				{#if transfer.nftData.valueUsd}
 					<dt>Estimated Value (USD)</dt>
-					<dd>${transfer.nftData.valueUsd.toLocaleString()}</dd>
+					<dd>${transfer.nftData.valueUsd?.toLocaleString()}</dd>
 				{/if}
 
 				{#if transfer.nftData.salePrice}
@@ -307,21 +307,21 @@
 				<dd>{transfer.multiTokenData.tokenId}</dd>
 
 				<dt>Amount</dt>
-				<dd>{transfer.multiTokenData.amount.toLocaleString()}</dd>
+				<dd>{transfer.multiTokenData.amount?.toLocaleString()}</dd>
 
 				{#if transfer.multiTokenData.tokenUri}
 					<dt>Token URI</dt>
 					<dd><a href={transfer.multiTokenData.tokenUri} target="_blank" rel="noopener noreferrer">{transfer.multiTokenData.tokenUri}</a></dd>
 				{/if}
 
-				{#if transfer.multiTokenData.isFungible !== undefined}
+				{#if transfer.multiTokenData.isFungible !== undefined && transfer.multiTokenData.isFungible !== null}
 					<dt>Fungible</dt>
 					<dd>{transfer.multiTokenData.isFungible ? 'Yes' : 'No'}</dd>
 				{/if}
 
 				{#if transfer.multiTokenData.valueUsd}
 					<dt>Total Value (USD)</dt>
-					<dd>${transfer.multiTokenData.valueUsd.toLocaleString()}</dd>
+					<dd>${transfer.multiTokenData.valueUsd?.toLocaleString()}</dd>
 				{/if}
 
 				{#if transfer.multiTokenData.unitPrice}
@@ -331,12 +331,12 @@
 
 				{#if transfer.multiTokenData.balanceAfter}
 					<dt>Recipient Balance After</dt>
-					<dd>{transfer.multiTokenData.balanceAfter.toLocaleString()}</dd>
+					<dd>{transfer.multiTokenData.balanceAfter?.toLocaleString()}</dd>
 				{/if}
 
 				{#if transfer.multiTokenData.totalSupplyAfter}
 					<dt>Total Supply After</dt>
-					<dd>{transfer.multiTokenData.totalSupplyAfter.toLocaleString()}</dd>
+					<dd>{transfer.multiTokenData.totalSupplyAfter?.toLocaleString()}</dd>
 				{/if}
 			</dl>
 
@@ -396,12 +396,12 @@
 
 				{#if transfer.dexData.liquidity}
 					<dt>Pool Liquidity</dt>
-					<dd>${transfer.dexData.liquidity.toLocaleString()}</dd>
+					<dd>${transfer.dexData.liquidity?.toLocaleString()}</dd>
 				{/if}
 
 				{#if transfer.dexData.volume24h}
 					<dt>24h Volume</dt>
-					<dd>${transfer.dexData.volume24h.toLocaleString()}</dd>
+					<dd>${transfer.dexData.volume24h?.toLocaleString()}</dd>
 				{/if}
 			</dl>
 		</EntitySection>
@@ -544,7 +544,7 @@
 
 				{#if transfer.batchData.totalValueUsd}
 					<dt>Total Value (USD)</dt>
-					<dd>${transfer.batchData.totalValueUsd.toLocaleString()}</dd>
+					<dd>${transfer.batchData.totalValueUsd?.toLocaleString()}</dd>
 				{/if}
 
 				<dt>Unique Recipients</dt>
@@ -598,7 +598,7 @@
 
 				{#if transfer.aggregatedData.totalValueUsd}
 					<dt>Total Value (USD)</dt>
-					<dd>${transfer.aggregatedData.totalValueUsd.toLocaleString()}</dd>
+					<dd>${transfer.aggregatedData.totalValueUsd?.toLocaleString()}</dd>
 				{/if}
 
 				{#if transfer.aggregatedData.patterns && transfer.aggregatedData.patterns.length > 0}
@@ -657,7 +657,7 @@
 				<summary><h3>Block</h3></summary>
 				<a href="/block/{transfer._block.blockNumber ?? transfer._block.blockHash}">
 					{#if transfer._block.blockNumber}
-						Block #{transfer._block.blockNumber.toLocaleString()}
+						Block #{transfer._block.blockNumber?.toLocaleString()}
 					{:else}
 						{transfer._block.blockHash}
 					{/if}

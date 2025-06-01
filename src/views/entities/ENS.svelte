@@ -145,7 +145,7 @@
 										).toISOString()}
 										>{new Date(
 											transfer.timestamp * 1000,
-										).toLocaleString()}</time
+										)?.toLocaleString()}</time
 									></td
 								>
 								<td
@@ -174,7 +174,7 @@
 			<dt>Registered At</dt>
 			<dd>
 				<time datetime={new Date(ens.registeredAt * 1000).toISOString()}
-					>{new Date(ens.registeredAt * 1000).toLocaleString()}</time
+					>{new Date(ens.registeredAt * 1000)?.toLocaleString()}</time
 				>
 			</dd>
 
@@ -183,7 +183,7 @@
 				<dd>
 					<time
 						datetime={new Date(ens.expiresAt * 1000).toISOString()}
-						>{new Date(ens.expiresAt * 1000).toLocaleString()}</time
+						>{new Date(ens.expiresAt * 1000)?.toLocaleString()}</time
 					>
 				</dd>
 			{/if}
@@ -193,7 +193,7 @@
 				<dd>
 					<time
 						datetime={new Date(ens.renewedAt * 1000).toISOString()}
-						>{new Date(ens.renewedAt * 1000).toLocaleString()}</time
+						>{new Date(ens.renewedAt * 1000)?.toLocaleString()}</time
 					>
 				</dd>
 			{/if}
@@ -254,7 +254,7 @@
 										>{addr.updatedAt
 											? new Date(
 													addr.updatedAt * 1000,
-												).toLocaleString()
+												)?.toLocaleString()
 											: '-'}</td
 									>
 								</tr>
@@ -288,7 +288,7 @@
 										>{text.updatedAt
 											? new Date(
 													text.updatedAt * 1000,
-												).toLocaleString()
+												)?.toLocaleString()
 											: '-'}</td
 									>
 								</tr>
@@ -395,12 +395,12 @@
 				<dd>{ens.tokenId}</dd>
 			{/if}
 
-			{#if ens.wrapped !== undefined}
+			{#if ens.wrapped !== undefined && ens.wrapped !== null}
 				<dt>Wrapped</dt>
 				<dd>{ens.wrapped ? 'Yes' : 'No'}</dd>
 			{/if}
 
-			{#if ens.fuses !== undefined}
+			{#if ens.fuses !== undefined && ens.fuses !== null}
 				<dt>Fuses</dt>
 				<dd>{ens.fuses}</dd>
 			{/if}
@@ -412,7 +412,7 @@
 		entityType="ens-market"
 	>
 		<dl>
-			{#if ens.isListed !== undefined}
+			{#if ens.isListed !== undefined && ens.isListed !== null}
 				<dt>Listed</dt>
 				<dd>{ens.isListed ? 'Yes' : 'No'}</dd>
 			{/if}
@@ -434,7 +434,7 @@
 						datetime={new Date(ens.lastSaleAt * 1000).toISOString()}
 						>{new Date(
 							ens.lastSaleAt * 1000,
-						).toLocaleString()}</time
+						)?.toLocaleString()}</time
 					>
 				</dd>
 			{/if}

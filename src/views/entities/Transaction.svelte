@@ -73,7 +73,7 @@
 					).toISOString()}
 					>{new Date(
 						transaction.timestamp * 1000,
-					).toLocaleString()}</time
+					)?.toLocaleString()}</time
 				>
 			</dd>
 
@@ -86,7 +86,7 @@
 						).toISOString()}
 						>{new Date(
 							transaction.submittedAt * 1000,
-						).toLocaleString()}</time
+						)?.toLocaleString()}</time
 					>
 				</dd>
 			{/if}
@@ -100,7 +100,7 @@
 						).toISOString()}
 						>{new Date(
 							transaction.confirmedAt * 1000,
-						).toLocaleString()}</time
+						)?.toLocaleString()}</time
 					>
 				</dd>
 			{/if}
@@ -172,7 +172,7 @@
 				</dd>
 			{/if}
 
-			{#if transaction.transactionIndex !== undefined}
+			{#if transaction.transactionIndex !== undefined && transaction.transactionIndex !== null}
 				<dt>Transaction Index</dt>
 				<dd>{transaction.transactionIndex}</dd>
 			{/if}
@@ -650,7 +650,7 @@
 							>{new Date(
 								transaction.withdrawalData.challengePeriodEnd *
 									1000,
-							).toLocaleString()}</time
+							)?.toLocaleString()}</time
 						>
 					</dd>
 				{/if}
@@ -669,7 +669,7 @@
 							).toISOString()}
 							>{new Date(
 								transaction.withdrawalData.finalizedAt * 1000,
-							).toLocaleString()}</time
+							)?.toLocaleString()}</time
 						>
 					</dd>
 				{/if}
@@ -881,7 +881,7 @@
 							).toISOString()}
 							>{new Date(
 								transaction.block.timestamp * 1000,
-							).toLocaleString()}</time
+							)?.toLocaleString()}</time
 						>
 					</dd>
 				{/if}
@@ -973,7 +973,7 @@
 							>{new Date(
 								transaction.createdContract
 									.deploymentTimestamp * 1000,
-							).toLocaleString()}</time
+							)?.toLocaleString()}</time
 						>
 					</dd>
 				{/if}
@@ -1036,7 +1036,7 @@
 							).toISOString()}
 							>{new Date(
 								transaction.replacedBy.timestamp * 1000,
-							).toLocaleString()}</time
+							)?.toLocaleString()}</time
 						>
 					</dd>
 				{/if}
@@ -1203,7 +1203,7 @@
 							).toISOString()}
 							>{new Date(
 								transaction.l1Transaction.timestamp * 1000,
-							).toLocaleString()}</time
+							)?.toLocaleString()}</time
 						>
 					</dd>
 				{/if}
@@ -1238,7 +1238,7 @@
 							).toISOString()}
 							>{new Date(
 								transaction.l2Transaction.timestamp * 1000,
-							).toLocaleString()}</time
+							)?.toLocaleString()}</time
 						>
 					</dd>
 				{/if}

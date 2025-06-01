@@ -54,14 +54,14 @@
 		entityType="actor-balance"
 	>
 		<dl>
-			{#if actor.balance !== undefined}
+			{#if actor.balance !== undefined && actor.balance !== null}
 				<dt>Balance</dt>
 				<dd>{actor.balance} Wei</dd>
 			{/if}
 
-			{#if actor.balanceUsd !== undefined}
+			{#if actor.balanceUsd !== undefined && actor.balanceUsd !== null && actor.balanceUsd !== null}
 				<dt>Balance USD</dt>
-				<dd>${actor.balanceUsd.toLocaleString()}</dd>
+				<dd>${actor.balanceUsd?.toLocaleString()}</dd>
 			{/if}
 		</dl>
 	</EntitySection>
@@ -71,7 +71,7 @@
 		entityType="actor-activity"
 	>
 		<dl>
-			{#if actor.firstSeenAt !== undefined}
+			{#if actor.firstSeenAt !== undefined && actor.firstSeenAt !== null}
 				<dt>First Seen</dt>
 				<dd>
 					<time
@@ -80,12 +80,12 @@
 						).toISOString()}
 						>{new Date(
 							actor.firstSeenAt * 1000,
-						).toLocaleString()}</time
+						)?.toLocaleString()}</time
 					>
 				</dd>
 			{/if}
 
-			{#if actor.lastActiveAt !== undefined}
+			{#if actor.lastActiveAt !== undefined && actor.lastActiveAt !== null}
 				<dt>Last Active</dt>
 				<dd>
 					<time
@@ -94,19 +94,19 @@
 						).toISOString()}
 						>{new Date(
 							actor.lastActiveAt * 1000,
-						).toLocaleString()}</time
+						)?.toLocaleString()}</time
 					>
 				</dd>
 			{/if}
 
-			{#if actor.transactionCount !== undefined}
+			{#if actor.transactionCount !== undefined && actor.transactionCount !== null && actor.transactionCount !== null}
 				<dt>Transaction Count</dt>
-				<dd>{actor.transactionCount.toLocaleString()}</dd>
+				<dd>{actor.transactionCount?.toLocaleString()}</dd>
 			{/if}
 
-			{#if actor.internalTransactionCount !== undefined}
+			{#if actor.internalTransactionCount !== undefined && actor.internalTransactionCount !== null && actor.internalTransactionCount !== null}
 				<dt>Internal Transaction Count</dt>
-				<dd>{actor.internalTransactionCount.toLocaleString()}</dd>
+				<dd>{actor.internalTransactionCount?.toLocaleString()}</dd>
 			{/if}
 		</dl>
 	</EntitySection>
@@ -121,7 +121,7 @@
 				<dd class="risk-level {actor.riskLevel}">{actor.riskLevel}</dd>
 			{/if}
 
-			{#if actor.securityScore !== undefined}
+			{#if actor.securityScore !== undefined && actor.securityScore !== null}
 				<dt>Security Score</dt>
 				<dd>{actor.securityScore}/100</dd>
 			{/if}
@@ -136,7 +136,7 @@
 							<strong>{audit.auditor}</strong> - {new Date(
 								audit.date * 1000,
 							).toLocaleDateString()}
-							{#if audit.score !== undefined}
+							{#if audit.score !== undefined && audit.score !== null}
 								(Score: {audit.score}/100)
 							{/if}
 							{#if audit.reportUrl}
@@ -155,12 +155,12 @@
 			entityType="actor-eoa"
 		>
 			<dl>
-				{#if 'nonce' in actor && actor.nonce !== undefined}
+				{#if 'nonce' in actor && actor.nonce !== undefined && actor.nonce !== null}
 					<dt>Nonce</dt>
 					<dd>{actor.nonce}</dd>
 				{/if}
 
-				{#if 'isVerified' in actor && actor.isVerified !== undefined}
+				{#if 'isVerified' in actor && actor.isVerified !== undefined && actor.isVerified !== null}
 					<dt>Verified</dt>
 					<dd>{actor.isVerified ? 'Yes' : 'No'}</dd>
 				{/if}
@@ -240,22 +240,22 @@
 					<dd><a href="/transaction/{actor.creationTransaction}">{actor.creationTransaction}</a></dd>
 				{/if}
 
-				{#if 'creationBlock' in actor && actor.creationBlock}
+				{#if 'creationBlock' in actor && actor.creationBlock && actor.creationBlock !== null}
 					<dt>Creation Block</dt>
-					<dd><a href="/block/{actor.creationBlock}">{actor.creationBlock.toLocaleString()}</a></dd>
+					<dd><a href="/block/{actor.creationBlock}">{actor.creationBlock?.toLocaleString()}</a></dd>
 				{/if}
 
-				{#if 'isVerified' in actor && actor.isVerified !== undefined}
+				{#if 'isVerified' in actor && actor.isVerified !== undefined && actor.isVerified !== null}
 					<dt>Verified</dt>
 					<dd>{actor.isVerified ? 'Yes' : 'No'}</dd>
 				{/if}
 
-				{#if 'bytecodeSize' in actor && actor.bytecodeSize}
+				{#if 'bytecodeSize' in actor && actor.bytecodeSize && actor.bytecodeSize !== null}
 					<dt>Bytecode Size</dt>
-					<dd>{actor.bytecodeSize.toLocaleString()} bytes</dd>
+					<dd>{actor.bytecodeSize?.toLocaleString()} bytes</dd>
 				{/if}
 
-				{#if 'hasSource' in actor && actor.hasSource !== undefined}
+				{#if 'hasSource' in actor && actor.hasSource !== undefined && actor.hasSource !== null}
 					<dt>Has Source</dt>
 					<dd>{actor.hasSource ? 'Yes' : 'No'}</dd>
 				{/if}
@@ -264,7 +264,7 @@
 					<dt>Verification Date</dt>
 					<dd>
 						<time datetime={new Date(actor.verificationDate * 1000).toISOString()}>
-							{new Date(actor.verificationDate * 1000).toLocaleString()}
+							{new Date(actor.verificationDate * 1000)?.toLocaleString()}
 						</time>
 					</dd>
 				{/if}
@@ -304,7 +304,7 @@
 						<dt>Proxy Type</dt>
 						<dd>{actor.proxyType}</dd>
 
-						{#if 'isUpgradable' in actor && actor.isUpgradable !== undefined}
+						{#if 'isUpgradable' in actor && actor.isUpgradable !== undefined && actor.isUpgradable !== null}
 							<dt>Upgradable</dt>
 							<dd>{actor.isUpgradable ? 'Yes' : 'No'}</dd>
 						{/if}
@@ -316,7 +316,7 @@
 									{#each actor.upgradeHistory as upgrade}
 										<li>
 											<time datetime={new Date(upgrade.timestamp * 1000).toISOString()}>
-												{new Date(upgrade.timestamp * 1000).toLocaleString()}
+												{new Date(upgrade.timestamp * 1000)?.toLocaleString()}
 											</time>
 											- From <a href="/address/{upgrade.oldImplementation}">{upgrade.oldImplementation}</a>
 											to <a href="/address/{upgrade.newImplementation}">{upgrade.newImplementation}</a>
@@ -392,9 +392,9 @@
 						<dd>{actor.deploymentPattern}</dd>
 					{/if}
 
-					{#if 'deploymentsCount' in actor && actor.deploymentsCount}
+					{#if 'deploymentsCount' in actor && actor.deploymentsCount && actor.deploymentsCount !== null}
 						<dt>Deployments Count</dt>
-						<dd>{actor.deploymentsCount.toLocaleString()}</dd>
+						<dd>{actor.deploymentsCount?.toLocaleString()}</dd>
 					{/if}
 
 					{#if 'deploySalt' in actor && actor.deploySalt}
@@ -426,7 +426,7 @@
 						<dd>{actor.name}</dd>
 					{/if}
 
-					{#if 'decimals' in actor && actor.decimals !== undefined}
+					{#if 'decimals' in actor && actor.decimals !== undefined && actor.decimals !== null}
 						<dt>Decimals</dt>
 						<dd>{actor.decimals}</dd>
 					{/if}
@@ -664,9 +664,10 @@
 
 	code {
 		font-family: monospace;
-		background: #f4f4f4;
+		background: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
 		padding: 2px 4px;
 		border-radius: 3px;
+		white-space: pre-wrap;
 	}
 
 	details {

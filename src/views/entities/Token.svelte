@@ -52,7 +52,7 @@
 				<dt>Deployed At</dt>
 				<dd>
 					<time datetime={new Date(token.deployedAt * 1000).toISOString()}>
-						{new Date(token.deployedAt * 1000).toLocaleString()}
+						{new Date(token.deployedAt * 1000)?.toLocaleString()}
 					</time>
 				</dd>
 			{/if}
@@ -170,17 +170,17 @@
 
 			{#if token.holderCount !== null}
 				<dt>Holder Count</dt>
-				<dd>{token.holderCount.toLocaleString()}</dd>
+				<dd>{token.holderCount?.toLocaleString()}</dd>
 			{/if}
 
 			{#if token.transferCount !== null}
 				<dt>Transfer Count</dt>
-				<dd>{token.transferCount.toLocaleString()}</dd>
+				<dd>{token.transferCount?.toLocaleString()}</dd>
 			{/if}
 
 			{#if token.marketCap !== null}
 				<dt>Market Cap</dt>
-				<dd>${token.marketCap.toLocaleString()}</dd>
+				<dd>${token.marketCap?.toLocaleString()}</dd>
 			{/if}
 
 			{#if token.price !== null}
@@ -190,7 +190,7 @@
 
 			{#if token.volume24h !== null}
 				<dt>24h Volume</dt>
-				<dd>${token.volume24h.toLocaleString()}</dd>
+				<dd>${token.volume24h?.toLocaleString()}</dd>
 			{/if}
 
 			{#if token.priceChange24h !== null}
@@ -737,7 +737,7 @@
 				<dd>{token.lpTokenData.totalValueLocked}</dd>
 
 				<dt>24h Volume</dt>
-				<dd>${token.lpTokenData.volume24h.toLocaleString()}</dd>
+				<dd>${token.lpTokenData.volume24h?.toLocaleString()}</dd>
 
 				<dt>APR</dt>
 				<dd>{token.lpTokenData.apr}%</dd>

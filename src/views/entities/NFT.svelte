@@ -61,7 +61,7 @@
 				<dt>Minted At</dt>
 				<dd>
 					<time datetime={new Date(nft.mintedAt * 1000).toISOString()}
-						>{new Date(nft.mintedAt * 1000).toLocaleString()}</time
+						>{new Date(nft.mintedAt * 1000)?.toLocaleString()}</time
 					>
 				</dd>
 			{/if}
@@ -119,7 +119,7 @@
 										).toISOString()}
 										>{new Date(
 											transfer.timestamp * 1000,
-										).toLocaleString()}</time
+										)?.toLocaleString()}</time
 									></td
 								>
 								<td
@@ -233,27 +233,27 @@
 				<dd>{nft.rarity}</dd>
 			{/if}
 
-			{#if nft.rarityScore !== undefined}
+			{#if nft.rarityScore !== undefined && nft.rarityScore !== null}
 				<dt>Rarity Score</dt>
 				<dd>{nft.rarityScore}</dd>
 			{/if}
 
-			{#if nft.rarityRank !== undefined}
+			{#if nft.rarityRank !== undefined && nft.rarityRank !== null}
 				<dt>Rarity Rank</dt>
 				<dd>#{nft.rarityRank}</dd>
 			{/if}
 
-			{#if nft.totalSupply !== undefined}
+			{#if nft.totalSupply !== undefined && nft.totalSupply !== null}
 				<dt>Total Supply</dt>
-				<dd>{nft.totalSupply.toLocaleString()}</dd>
+				<dd>{nft.totalSupply?.toLocaleString()}</dd>
 			{/if}
 
-			{#if nft.circulatingSupply !== undefined}
+			{#if nft.circulatingSupply !== undefined && nft.circulatingSupply !== null}
 				<dt>Circulating Supply</dt>
-				<dd>{nft.circulatingSupply.toLocaleString()}</dd>
+				<dd>{nft.circulatingSupply?.toLocaleString()}</dd>
 			{/if}
 
-			{#if nft.burned !== undefined}
+			{#if nft.burned !== undefined && nft.burned !== null}
 				<dt>Burned</dt>
 				<dd>{nft.burned ? 'Yes' : 'No'}</dd>
 			{/if}
@@ -265,7 +265,7 @@
 		entityType="nft-trading"
 	>
 		<dl>
-			{#if nft.isListed !== undefined}
+			{#if nft.isListed !== undefined && nft.isListed !== null}
 				<dt>Listed</dt>
 				<dd>{nft.isListed ? 'Yes' : 'No'}</dd>
 			{/if}
@@ -287,7 +287,7 @@
 						datetime={new Date(nft.lastSaleAt * 1000).toISOString()}
 						>{new Date(
 							nft.lastSaleAt * 1000,
-						).toLocaleString()}</time
+						)?.toLocaleString()}</time
 					>
 				</dd>
 			{/if}
@@ -359,9 +359,9 @@
 					</dd>
 				{/if}
 
-				{#if nft.totalHolders !== undefined}
+				{#if nft.totalHolders !== undefined && nft.totalHolders !== null}
 					<dt>Total Holders</dt>
-					<dd>{nft.totalHolders.toLocaleString()}</dd>
+					<dd>{nft.totalHolders?.toLocaleString()}</dd>
 				{/if}
 			</dl>
 		</EntitySection>
@@ -388,7 +388,7 @@
 							).toISOString()}
 							>{new Date(
 								nft.expiryDate * 1000,
-							).toLocaleString()}</time
+							)?.toLocaleString()}</time
 						>
 					</dd>
 				{/if}
@@ -424,17 +424,17 @@
 				<dt>Game ID</dt>
 				<dd>{nft.gameData.gameId}</dd>
 
-				{#if nft.gameData.level !== undefined}
+				{#if nft.gameData.level !== undefined && nft.gameData.level !== null}
 					<dt>Level</dt>
 					<dd>{nft.gameData.level}</dd>
 				{/if}
 
-				{#if nft.gameData.experience !== undefined}
+				{#if nft.gameData.experience !== undefined && nft.gameData.experience !== null}
 					<dt>Experience</dt>
-					<dd>{nft.gameData.experience.toLocaleString()}</dd>
+					<dd>{nft.gameData.experience?.toLocaleString()}</dd>
 				{/if}
 
-				{#if nft.gameData.equipped !== undefined}
+				{#if nft.gameData.equipped !== undefined && nft.gameData.equipped !== null}
 					<dt>Equipped</dt>
 					<dd>{nft.gameData.equipped ? 'Yes' : 'No'}</dd>
 				{/if}

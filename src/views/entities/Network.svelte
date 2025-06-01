@@ -446,21 +446,21 @@
 		>
 			<dl>
 				<dt>Latest Block</dt>
-				<dd>{network.stats.latestBlock.toLocaleString()}</dd>
+				<dd>{network.stats.latestBlock?.toLocaleString()}</dd>
 
 				{#if network.stats.totalTransactions}
 					<dt>Total Transactions</dt>
-					<dd>{network.stats.totalTransactions.toLocaleString()}</dd>
+					<dd>{network.stats.totalTransactions?.toLocaleString()}</dd>
 				{/if}
 
 				{#if network.stats.totalAddresses}
 					<dt>Total Addresses</dt>
-					<dd>{network.stats.totalAddresses.toLocaleString()}</dd>
+					<dd>{network.stats.totalAddresses?.toLocaleString()}</dd>
 				{/if}
 
 				{#if network.stats.totalContracts}
 					<dt>Total Contracts</dt>
-					<dd>{network.stats.totalContracts.toLocaleString()}</dd>
+					<dd>{network.stats.totalContracts?.toLocaleString()}</dd>
 				{/if}
 
 				{#if network.stats.averageBlockTime}
@@ -485,7 +485,7 @@
 
 				{#if network.stats.validatorCount}
 					<dt>Validator Count</dt>
-					<dd>{network.stats.validatorCount.toLocaleString()}</dd>
+					<dd>{network.stats.validatorCount?.toLocaleString()}</dd>
 				{/if}
 
 				{#if network.stats.apr}

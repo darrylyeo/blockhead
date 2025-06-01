@@ -33,7 +33,7 @@
 			<dd>{event.category}</dd>
 
 			<dt>Severity</dt>
-			<dd class="severity {event.severity.toLowerCase()}">{event.severity}</dd>
+			<dd class="severity {event.severity?.toLowerCase()}">{event.severity}</dd>
 
 			<dt>Block Number</dt>
 			<dd><a href="/block/{event.blockNumber}">{event.blockNumber}</a></dd>
@@ -51,7 +51,7 @@
 			<dd>{event.logIndex}</dd>
 
 			<dt>Timestamp</dt>
-			<dd><time datetime={new Date(event.timestamp * 1000).toISOString()}>{new Date(event.timestamp * 1000).toLocaleString()}</time></dd>
+			<dd><time datetime={new Date(event.timestamp * 1000).toISOString()}>{new Date(event.timestamp * 1000)?.toLocaleString()}</time></dd>
 
 			{#if event.eventSignature}
 				<dt>Event Signature</dt>
@@ -151,7 +151,7 @@
 
 				{#if event.transferData.valueUsd}
 					<dt>Value (USD)</dt>
-					<dd>${event.transferData.valueUsd.toLocaleString()}</dd>
+					<dd>${event.transferData.valueUsd?.toLocaleString()}</dd>
 				{/if}
 
 				{#if event.transferData.isInternal !== null}
@@ -246,12 +246,12 @@
 
 				<dt>Amount In</dt>
 				<dd>{event.swapData.amountIn}
-					{#if event.swapData.amountInUsd} (${event.swapData.amountInUsd.toLocaleString()}){/if}
+					{#if event.swapData.amountInUsd} (${event.swapData.amountInUsd?.toLocaleString()}){/if}
 				</dd>
 
 				<dt>Amount Out</dt>
 				<dd>{event.swapData.amountOut}
-					{#if event.swapData.amountOutUsd} (${event.swapData.amountOutUsd.toLocaleString()}){/if}
+					{#if event.swapData.amountOutUsd} (${event.swapData.amountOutUsd?.toLocaleString()}){/if}
 				</dd>
 
 				{#if event.swapData.priceImpact}
@@ -321,7 +321,7 @@
 
 				{#if event.liquidityData.totalValueUsd}
 					<dt>Total Value (USD)</dt>
-					<dd>${event.liquidityData.totalValueUsd.toLocaleString()}</dd>
+					<dd>${event.liquidityData.totalValueUsd?.toLocaleString()}</dd>
 				{/if}
 
 				{#if event.liquidityData.tokenId}
@@ -364,7 +364,7 @@
 
 				{#if event.stakingData.unlockTime}
 					<dt>Unlock Time</dt>
-					<dd><time datetime={new Date(event.stakingData.unlockTime * 1000).toISOString()}>{new Date(event.stakingData.unlockTime * 1000).toLocaleString()}</time></dd>
+					<dd><time datetime={new Date(event.stakingData.unlockTime * 1000).toISOString()}>{new Date(event.stakingData.unlockTime * 1000)?.toLocaleString()}</time></dd>
 				{/if}
 			</dl>
 		</EntitySection>

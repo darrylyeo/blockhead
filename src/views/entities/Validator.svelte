@@ -52,22 +52,22 @@
 		entityType="validator-lifecycle"
 	>
 		<dl>
-			{#if validator.activationEpoch !== undefined}
+			{#if validator.activationEpoch !== undefined && validator.activationEpoch !== null}
 				<dt>Activation Epoch</dt>
 				<dd>{validator.activationEpoch}</dd>
 			{/if}
 
-			{#if validator.activationEligibilityEpoch !== undefined}
+			{#if validator.activationEligibilityEpoch !== undefined && validator.activationEligibilityEpoch !== null}
 				<dt>Activation Eligibility Epoch</dt>
 				<dd>{validator.activationEligibilityEpoch}</dd>
 			{/if}
 
-			{#if validator.exitEpoch !== undefined}
+			{#if validator.exitEpoch !== undefined && validator.exitEpoch !== null}
 				<dt>Exit Epoch</dt>
 				<dd>{validator.exitEpoch}</dd>
 			{/if}
 
-			{#if validator.withdrawableEpoch !== undefined}
+			{#if validator.withdrawableEpoch !== undefined && validator.withdrawableEpoch !== null}
 				<dt>Withdrawable Epoch</dt>
 				<dd>{validator.withdrawableEpoch}</dd>
 			{/if}
@@ -106,22 +106,22 @@
 			<dt>Attestation Success Rate</dt>
 			<dd>{validator.attestationSuccessRate}%</dd>
 
-			{#if validator.proposalSuccessRate !== undefined}
+			{#if validator.proposalSuccessRate !== undefined && validator.proposalSuccessRate !== null}
 				<dt>Proposal Success Rate</dt>
 				<dd>{validator.proposalSuccessRate}%</dd>
 			{/if}
 
-			{#if validator.syncCommitteeSuccessRate !== undefined}
+			{#if validator.syncCommitteeSuccessRate !== undefined && validator.syncCommitteeSuccessRate !== null}
 				<dt>Sync Committee Success Rate</dt>
 				<dd>{validator.syncCommitteeSuccessRate}%</dd>
 			{/if}
 
-			{#if validator.missedAttestations !== undefined}
+			{#if validator.missedAttestations !== undefined && validator.missedAttestations !== null}
 				<dt>Missed Attestations</dt>
 				<dd>{validator.missedAttestations}</dd>
 			{/if}
 
-			{#if validator.missedProposals !== undefined}
+			{#if validator.missedProposals !== undefined && validator.missedProposals !== null}
 				<dt>Missed Proposals</dt>
 				<dd>{validator.missedProposals}</dd>
 			{/if}
@@ -154,7 +154,7 @@
 				<dd>{validator.mevRewards} Gwei</dd>
 			{/if}
 
-			{#if validator.mevBlocksProposed !== undefined}
+			{#if validator.mevBlocksProposed !== undefined && validator.mevBlocksProposed !== null}
 				<dt>MEV Blocks Proposed</dt>
 				<dd>{validator.mevBlocksProposed}</dd>
 			{/if}
@@ -172,7 +172,7 @@
 					<dd>{validator.slashingReason}</dd>
 				{/if}
 
-				{#if validator.slashingEpoch !== undefined}
+				{#if validator.slashingEpoch !== undefined && validator.slashingEpoch !== null}
 					<dt>Slashing Epoch</dt>
 					<dd>{validator.slashingEpoch}</dd>
 				{/if}
@@ -240,7 +240,7 @@
 					</dd>
 				{/if}
 
-				{#if validator.poolFee !== undefined}
+				{#if validator.poolFee !== undefined && validator.poolFee !== null}
 					<dt>Pool Fee</dt>
 					<dd>{validator.poolFee}%</dd>
 				{/if}
@@ -253,12 +253,12 @@
 		entityType="validator-activity"
 	>
 		<dl>
-			{#if validator.lastAttestationSlot !== undefined}
+			{#if validator.lastAttestationSlot !== undefined && validator.lastAttestationSlot !== null}
 				<dt>Last Attestation Slot</dt>
 				<dd>{validator.lastAttestationSlot}</dd>
 			{/if}
 
-			{#if validator.lastProposalSlot !== undefined}
+			{#if validator.lastProposalSlot !== undefined && validator.lastProposalSlot !== null}
 				<dt>Last Proposal Slot</dt>
 				<dd>{validator.lastProposalSlot}</dd>
 			{/if}
@@ -271,7 +271,7 @@
 					).toISOString()}
 					>{new Date(
 						validator.createdAt * 1000,
-					).toLocaleString()}</time
+					)?.toLocaleString()}</time
 				>
 			</dd>
 
@@ -284,7 +284,7 @@
 						).toISOString()}
 						>{new Date(
 							validator.lastActiveAt * 1000,
-						).toLocaleString()}</time
+						)?.toLocaleString()}</time
 					>
 				</dd>
 			{/if}
@@ -297,7 +297,7 @@
 					).toISOString()}
 					>{new Date(
 						validator.updatedAt * 1000,
-					).toLocaleString()}</time
+					)?.toLocaleString()}</time
 				>
 			</dd>
 		</dl>

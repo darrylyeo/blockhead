@@ -4,6 +4,9 @@
 	import { route, routes } from '$/ROUTES'
 	import type { Routes } from '$/ROUTES'
 
+	// Components
+	import DatasourcePicker from '$/components/DatasourcePicker.svelte'
+
 	// Chain name mapping
 	const chainNames: Record<string, string> = {
 		'1': 'Ethereum',
@@ -418,6 +421,7 @@
 	</div>
 
 	<div class="static-links">
+		<DatasourcePicker />
 		<a href="/timeline" class="nav-link">Timeline</a>
 		
 		<div class="chains-dropdown">

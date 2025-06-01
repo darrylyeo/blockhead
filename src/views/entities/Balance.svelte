@@ -47,26 +47,26 @@
 
 			{#if balance.balanceUsd}
 				<dt>Balance USD</dt>
-				<dd>${balance.balanceUsd.toLocaleString()}</dd>
+				<dd>${balance.balanceUsd?.toLocaleString()}</dd>
 			{/if}
 
 			<dt>Block Number</dt>
-			<dd><a href="/block/{balance.blockNumber}">{balance.blockNumber.toLocaleString()}</a></dd>
+			<dd><a href="/block/{balance.blockNumber}">{balance.blockNumber?.toLocaleString()}</a></dd>
 
 			<dt>Timestamp</dt>
-			<dd><time datetime={new Date(balance.timestamp * 1000).toISOString()}>{new Date(balance.timestamp * 1000).toLocaleString()}</time></dd>
+			<dd><time datetime={new Date(balance.timestamp * 1000).toISOString()}>{new Date(balance.timestamp * 1000)?.toLocaleString()}</time></dd>
 
 			<dt>Active</dt>
 			<dd>{balance.isActive ? 'Yes' : 'No'}</dd>
 
 			{#if balance.lastActivity}
 				<dt>Last Activity</dt>
-				<dd><time datetime={new Date(balance.lastActivity * 1000).toISOString()}>{new Date(balance.lastActivity * 1000).toLocaleString()}</time></dd>
+				<dd><time datetime={new Date(balance.lastActivity * 1000).toISOString()}>{new Date(balance.lastActivity * 1000)?.toLocaleString()}</time></dd>
 			{/if}
 
 			{#if balance.transactionCount}
 				<dt>Transaction Count</dt>
-				<dd>{balance.transactionCount.toLocaleString()}</dd>
+				<dd>{balance.transactionCount?.toLocaleString()}</dd>
 			{/if}
 		</dl>
 	</EntitySection>
@@ -99,17 +99,17 @@
 					<li>
 						<dl>
 							<dt>Timestamp</dt>
-							<dd><time datetime={new Date(data.timestamp * 1000).toISOString()}>{new Date(data.timestamp * 1000).toLocaleString()}</time></dd>
+							<dd><time datetime={new Date(data.timestamp * 1000).toISOString()}>{new Date(data.timestamp * 1000)?.toLocaleString()}</time></dd>
 
 							<dt>Block Number</dt>
-							<dd><a href="/block/{data.blockNumber}">{data.blockNumber.toLocaleString()}</a></dd>
+							<dd><a href="/block/{data.blockNumber}">{data.blockNumber?.toLocaleString()}</a></dd>
 
 							<dt>Balance</dt>
 							<dd>{data.balance}</dd>
 
 							{#if data.balanceUsd}
 								<dt>Balance USD</dt>
-								<dd>${data.balanceUsd.toLocaleString()}</dd>
+								<dd>${data.balanceUsd?.toLocaleString()}</dd>
 							{/if}
 						</dl>
 					</li>
@@ -118,7 +118,7 @@
 		</EntitySection>
 	{/if}
 
-	{#if balance.riskLevel || balance.securityFlags || balance.isVerified !== undefined}
+	{#if balance.riskLevel || balance.securityFlags || balance.isVerified !== undefined && balance.isVerified !== null}
 		<EntitySection title="Security & Risk" entityType="balance-security">
 			<dl>
 				{#if balance.riskLevel}
@@ -137,7 +137,7 @@
 					</dd>
 				{/if}
 
-				{#if balance.isVerified !== undefined}
+				{#if balance.isVerified !== undefined && balance.isVerified !== null}
 					<dt>Verified</dt>
 					<dd>{balance.isVerified ? 'Yes' : 'No'}</dd>
 				{/if}
@@ -151,7 +151,7 @@
 			<dl>
 				{#if balance.lockedData.unlockTime}
 					<dt>Unlock Time</dt>
-					<dd><time datetime={new Date(balance.lockedData.unlockTime * 1000).toISOString()}>{new Date(balance.lockedData.unlockTime * 1000).toLocaleString()}</time></dd>
+					<dd><time datetime={new Date(balance.lockedData.unlockTime * 1000).toISOString()}>{new Date(balance.lockedData.unlockTime * 1000)?.toLocaleString()}</time></dd>
 				{/if}
 
 				{#if balance.lockedData.lockDuration}
@@ -329,7 +329,7 @@
 									<td>{entry.amount}</td>
 									<td>
 										<time datetime={new Date(entry.availableAt * 1000).toISOString()}>
-											{new Date(entry.availableAt * 1000).toLocaleString()}
+											{new Date(entry.availableAt * 1000)?.toLocaleString()}
 										</time>
 									</td>
 								</tr>
@@ -480,7 +480,7 @@
 
 				{#if balance.nftData.totalSupply}
 					<dt>Total Supply</dt>
-					<dd>{balance.nftData.totalSupply.toLocaleString()}</dd>
+					<dd>{balance.nftData.totalSupply?.toLocaleString()}</dd>
 				{/if}
 
 				{#if balance.nftData.ownershipPercentage}
@@ -490,11 +490,11 @@
 
 				{#if balance.nftData.floorPrice}
 					<dt>Floor Price</dt>
-					<dd>${balance.nftData.floorPrice.toLocaleString()}</dd>
+					<dd>${balance.nftData.floorPrice?.toLocaleString()}</dd>
 				{/if}
 
 				<dt>Total Value</dt>
-				<dd>${balance.nftData.totalValue.toLocaleString()}</dd>
+				<dd>${balance.nftData.totalValue?.toLocaleString()}</dd>
 
 				<dt>Average Holding Time</dt>
 				<dd>{Math.round(balance.nftData.averageHoldingTime / 86400)} days</dd>
@@ -533,17 +533,17 @@
 
 								{#if nft.lastSalePrice}
 									<dt>Last Sale Price</dt>
-									<dd>${nft.lastSalePrice.toLocaleString()}</dd>
+									<dd>${nft.lastSalePrice?.toLocaleString()}</dd>
 								{/if}
 
 								{#if nft.estimatedValue}
 									<dt>Estimated Value</dt>
-									<dd>${nft.estimatedValue.toLocaleString()}</dd>
+									<dd>${nft.estimatedValue?.toLocaleString()}</dd>
 								{/if}
 
 								{#if nft.isListed}
 									<dt>Listed</dt>
-									<dd>Yes {#if nft.listingPrice}at ${nft.listingPrice.toLocaleString()}{/if}</dd>
+									<dd>Yes {#if nft.listingPrice}at ${nft.listingPrice?.toLocaleString()}{/if}</dd>
 								{/if}
 
 								{#if nft.isStaked}
@@ -597,13 +597,13 @@
 				<dd>{balance.multiTokenData.totalTokens}</dd>
 
 				<dt>Fungible Value</dt>
-				<dd>${balance.multiTokenData.fungibleValue.toLocaleString()}</dd>
+				<dd>${balance.multiTokenData.fungibleValue?.toLocaleString()}</dd>
 
 				<dt>NFT Value</dt>
-				<dd>${balance.multiTokenData.nftValue.toLocaleString()}</dd>
+				<dd>${balance.multiTokenData.nftValue?.toLocaleString()}</dd>
 
 				<dt>Total Value</dt>
-				<dd>${balance.multiTokenData.totalValue.toLocaleString()}</dd>
+				<dd>${balance.multiTokenData.totalValue?.toLocaleString()}</dd>
 			</dl>
 
 			{#if balance.multiTokenData.tokenBalances && balance.multiTokenData.tokenBalances.length > 0}
@@ -640,12 +640,12 @@
 
 								{#if token.unitPrice}
 									<dt>Unit Price</dt>
-									<dd>${token.unitPrice.toLocaleString()}</dd>
+									<dd>${token.unitPrice?.toLocaleString()}</dd>
 								{/if}
 
 								{#if token.totalValue}
 									<dt>Total Value</dt>
-									<dd>${token.totalValue.toLocaleString()}</dd>
+									<dd>${token.totalValue?.toLocaleString()}</dd>
 								{/if}
 							</dl>
 

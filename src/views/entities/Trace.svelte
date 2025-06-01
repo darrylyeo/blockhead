@@ -68,7 +68,7 @@
 						).toISOString()}
 						>{new Date(
 							trace.timestamp * 1000,
-						).toLocaleString()}</time
+						)?.toLocaleString()}</time
 					>
 				</dd>
 			{/if}
@@ -455,7 +455,7 @@
 					<dd>{trace.rewardData.blockMined}</dd>
 				{/if}
 
-				{#if trace.rewardData.unclePosition !== undefined}
+				{#if trace.rewardData.unclePosition !== undefined && trace.rewardData.unclePosition !== null}
 					<dt>Uncle Position</dt>
 					<dd>{trace.rewardData.unclePosition}</dd>
 				{/if}
@@ -465,12 +465,12 @@
 					<dd>{trace.rewardData.uncleReward} ETH</dd>
 				{/if}
 
-				{#if trace.rewardData.epoch !== undefined}
+				{#if trace.rewardData.epoch !== undefined && trace.rewardData.epoch !== null}
 					<dt>Epoch</dt>
 					<dd>{trace.rewardData.epoch}</dd>
 				{/if}
 
-				{#if trace.rewardData.validatorIndex !== undefined}
+				{#if trace.rewardData.validatorIndex !== undefined && trace.rewardData.validatorIndex !== null}
 					<dt>Validator Index</dt>
 					<dd>{trace.rewardData.validatorIndex}</dd>
 				{/if}

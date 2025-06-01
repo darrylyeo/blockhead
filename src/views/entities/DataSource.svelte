@@ -45,12 +45,12 @@
 			<dt>Status</dt>
 			<dd>{datasource.status}</dd>
 
-			{#if datasource.healthScore !== undefined}
+			{#if datasource.healthScore !== undefined && datasource.healthScore !== null}
 				<dt>Health Score</dt>
 				<dd>{datasource.healthScore}%</dd>
 			{/if}
 
-			{#if datasource.uptime !== undefined}
+			{#if datasource.uptime !== undefined && datasource.uptime !== null}
 				<dt>Uptime</dt>
 				<dd>{datasource.uptime}%</dd>
 			{/if}
@@ -107,12 +107,12 @@
 		entityType="datasource-performance"
 	>
 		<dl>
-			{#if datasource.averageResponseTime !== undefined}
+			{#if datasource.averageResponseTime !== undefined && datasource.averageResponseTime !== null}
 				<dt>Average Response Time</dt>
 				<dd>{datasource.averageResponseTime}ms</dd>
 			{/if}
 
-			{#if datasource.successRate !== undefined}
+			{#if datasource.successRate !== undefined && datasource.successRate !== null}
 				<dt>Success Rate</dt>
 				<dd>{datasource.successRate}%</dd>
 			{/if}
@@ -140,7 +140,7 @@
 									>{limit.resetAt
 										? new Date(
 												limit.resetAt * 1000,
-											).toLocaleString()
+											)?.toLocaleString()
 										: '-'}</td
 								>
 							</tr>
@@ -157,27 +157,27 @@
 	>
 		{#if datasource.capabilities}
 			<dl>
-				{#if datasource.capabilities.archive !== undefined}
+				{#if datasource.capabilities.archive !== undefined && datasource.capabilities.archive !== null}
 					<dt>Archive Node</dt>
 					<dd>{datasource.capabilities.archive ? 'Yes' : 'No'}</dd>
 				{/if}
 
-				{#if datasource.capabilities.realtime !== undefined}
+				{#if datasource.capabilities.realtime !== undefined && datasource.capabilities.realtime !== null}
 					<dt>Real-time</dt>
 					<dd>{datasource.capabilities.realtime ? 'Yes' : 'No'}</dd>
 				{/if}
 
-				{#if datasource.capabilities.batch !== undefined}
+				{#if datasource.capabilities.batch !== undefined && datasource.capabilities.batch !== null}
 					<dt>Batch Requests</dt>
 					<dd>{datasource.capabilities.batch ? 'Yes' : 'No'}</dd>
 				{/if}
 
-				{#if datasource.capabilities.filtering !== undefined}
+				{#if datasource.capabilities.filtering !== undefined && datasource.capabilities.filtering !== null}
 					<dt>Filtering</dt>
 					<dd>{datasource.capabilities.filtering ? 'Yes' : 'No'}</dd>
 				{/if}
 
-				{#if datasource.capabilities.pagination !== undefined}
+				{#if datasource.capabilities.pagination !== undefined && datasource.capabilities.pagination !== null}
 					<dt>Pagination</dt>
 					<dd>{datasource.capabilities.pagination ? 'Yes' : 'No'}</dd>
 				{/if}
@@ -209,17 +209,17 @@
 					<dd><code>{datasource.wsEndpoint}</code></dd>
 				{/if}
 
-				{#if datasource.maxBatchSize !== undefined}
+				{#if datasource.maxBatchSize !== undefined && datasource.maxBatchSize !== null}
 					<dt>Max Batch Size</dt>
 					<dd>{datasource.maxBatchSize}</dd>
 				{/if}
 
-				{#if datasource.archiveNode !== undefined}
+				{#if datasource.archiveNode !== undefined && datasource.archiveNode !== null}
 					<dt>Archive Node</dt>
 					<dd>{datasource.archiveNode ? 'Yes' : 'No'}</dd>
 				{/if}
 
-				{#if datasource.tracingEnabled !== undefined}
+				{#if datasource.tracingEnabled !== undefined && datasource.tracingEnabled !== null}
 					<dt>Tracing Enabled</dt>
 					<dd>{datasource.tracingEnabled ? 'Yes' : 'No'}</dd>
 				{/if}
@@ -295,17 +295,17 @@
 			entityType="datasource-graphql"
 		>
 			<dl>
-				{#if datasource.introspectionEnabled !== undefined}
+				{#if datasource.introspectionEnabled !== undefined && datasource.introspectionEnabled !== null}
 					<dt>Introspection Enabled</dt>
 					<dd>{datasource.introspectionEnabled ? 'Yes' : 'No'}</dd>
 				{/if}
 
-				{#if datasource.playgroundEnabled !== undefined}
+				{#if datasource.playgroundEnabled !== undefined && datasource.playgroundEnabled !== null}
 					<dt>Playground Enabled</dt>
 					<dd>{datasource.playgroundEnabled ? 'Yes' : 'No'}</dd>
 				{/if}
 
-				{#if datasource.maxQueryDepth !== undefined}
+				{#if datasource.maxQueryDepth !== undefined && datasource.maxQueryDepth !== null}
 					<dt>Max Query Depth</dt>
 					<dd>{datasource.maxQueryDepth}</dd>
 				{/if}
@@ -335,7 +335,7 @@
 				<dt>Network</dt>
 				<dd>{datasource.network}</dd>
 
-				{#if datasource.startBlock !== undefined}
+				{#if datasource.startBlock !== undefined && datasource.startBlock !== null}
 					<dt>Start Block</dt>
 					<dd>{datasource.startBlock}</dd>
 				{/if}
@@ -416,7 +416,7 @@
 					).toISOString()}
 					>{new Date(
 						datasource.createdAt * 1000,
-					).toLocaleString()}</time
+					)?.toLocaleString()}</time
 				>
 			</dd>
 
@@ -428,7 +428,7 @@
 					).toISOString()}
 					>{new Date(
 						datasource.updatedAt * 1000,
-					).toLocaleString()}</time
+					)?.toLocaleString()}</time
 				>
 			</dd>
 
@@ -441,7 +441,7 @@
 						).toISOString()}
 						>{new Date(
 							datasource.lastCheckedAt * 1000,
-						).toLocaleString()}</time
+						)?.toLocaleString()}</time
 					>
 				</dd>
 			{/if}

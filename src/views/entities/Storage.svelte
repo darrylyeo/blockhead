@@ -51,52 +51,52 @@
 	<EntitySection title="Position & Timing" entityType="storage-position">
 		<dl>
 			<dt>Block Number</dt>
-			<dd><a href="/block/{storage.blockNumber}">{storage.blockNumber.toLocaleString()}</a></dd>
+			<dd><a href="/block/{storage.blockNumber}">{storage.blockNumber?.toLocaleString()}</a></dd>
 			
-			{#if storage.transactionIndex !== undefined}
+			{#if storage.transactionIndex !== undefined && storage.transactionIndex !== null}
 				<dt>Transaction Index</dt>
 				<dd>{storage.transactionIndex}</dd>
 			{/if}
 			
-			{#if storage.traceIndex !== undefined}
+			{#if storage.traceIndex !== undefined && storage.traceIndex !== null}
 				<dt>Trace Index</dt>
 				<dd>{storage.traceIndex}</dd>
 			{/if}
 			
 			<dt>Timestamp</dt>
-			<dd>{new Date(storage.timestamp * 1000).toLocaleString()}</dd>
+			<dd>{new Date(storage.timestamp * 1000)?.toLocaleString()}</dd>
 		</dl>
 	</EntitySection>
 
 	<EntitySection title="Gas Information" entityType="storage-gas">
 		<dl>
-			{#if storage.gasUsed !== undefined}
+			{#if storage.gasUsed !== undefined && storage.gasUsed !== null}
 				<dt>Gas Used</dt>
-				<dd>{storage.gasUsed.toLocaleString()}</dd>
+				<dd>{storage.gasUsed?.toLocaleString()}</dd>
 			{/if}
 			
-			{#if storage.gasCost !== undefined}
+			{#if storage.gasCost !== undefined && storage.gasCost !== null}
 				<dt>Gas Cost</dt>
-				<dd>{storage.gasCost.toLocaleString()}</dd>
+				<dd>{storage.gasCost?.toLocaleString()}</dd>
 			{/if}
 		</dl>
 	</EntitySection>
 
 	<EntitySection title="Access Patterns" entityType="storage-access">
 		<dl>
-			{#if storage.isWarmAccess !== undefined}
+			{#if storage.isWarmAccess !== undefined && storage.isWarmAccess !== null}
 				<dt>Is Warm Access</dt>
 				<dd>{storage.isWarmAccess}</dd>
 			{/if}
 			
-			{#if storage.accessCount !== undefined}
+			{#if storage.accessCount !== undefined && storage.accessCount !== null}
 				<dt>Access Count</dt>
-				<dd>{storage.accessCount.toLocaleString()}</dd>
+				<dd>{storage.accessCount?.toLocaleString()}</dd>
 			{/if}
 			
-			{#if storage.lastAccessedAt !== undefined}
+			{#if storage.lastAccessedAt !== undefined && storage.lastAccessedAt !== null}
 				<dt>Last Accessed At</dt>
-				<dd>{new Date(storage.lastAccessedAt * 1000).toLocaleString()}</dd>
+				<dd>{new Date(storage.lastAccessedAt * 1000)?.toLocaleString()}</dd>
 			{/if}
 		</dl>
 	</EntitySection>
@@ -122,17 +122,17 @@
 
 	<EntitySection title="Security Context" entityType="storage-security">
 		<dl>
-			{#if storage.isAdmin !== undefined}
+			{#if storage.isAdmin !== undefined && storage.isAdmin !== null}
 				<dt>Is Admin</dt>
 				<dd>{storage.isAdmin}</dd>
 			{/if}
 			
-			{#if storage.isProxy !== undefined}
+			{#if storage.isProxy !== undefined && storage.isProxy !== null}
 				<dt>Is Proxy</dt>
 				<dd>{storage.isProxy}</dd>
 			{/if}
 			
-			{#if storage.isCritical !== undefined}
+			{#if storage.isCritical !== undefined && storage.isCritical !== null}
 				<dt>Is Critical</dt>
 				<dd>{storage.isCritical}</dd>
 			{/if}
@@ -151,17 +151,17 @@
 					<dt>Read Value</dt>
 					<dd>{storage.readData.readValue}</dd>
 					
-					{#if storage.readData.previousReads !== undefined}
+					{#if storage.readData.previousReads !== undefined && storage.readData.previousReads !== null}
 						<dt>Previous Reads</dt>
-						<dd>{storage.readData.previousReads.toLocaleString()}</dd>
+						<dd>{storage.readData.previousReads?.toLocaleString()}</dd>
 					{/if}
 					
-					{#if storage.readData.cacheHit !== undefined}
+					{#if storage.readData.cacheHit !== undefined && storage.readData.cacheHit !== null}
 						<dt>Cache Hit</dt>
 						<dd>{storage.readData.cacheHit}</dd>
 					{/if}
 					
-					{#if storage.readData.accessLatency !== undefined}
+					{#if storage.readData.accessLatency !== undefined && storage.readData.accessLatency !== null}
 						<dt>Access Latency</dt>
 						<dd>{storage.readData.accessLatency}ms</dd>
 					{/if}
@@ -176,13 +176,13 @@
 						<dd>{storage.readData.valueType}</dd>
 					{/if}
 					
-					{#if storage.readData.isDefault !== undefined}
+					{#if storage.readData.isDefault !== undefined && storage.readData.isDefault !== null}
 						<dt>Is Default</dt>
 						<dd>{storage.readData.isDefault}</dd>
 					{/if}
 				</dl>
 				
-				{#if storage.readData.decodedValue !== undefined}
+				{#if storage.readData.decodedValue !== undefined && storage.readData.decodedValue !== null}
 					<details>
 						<summary><h3>Decoded Value</h3></summary>
 						<pre>{JSON.stringify(storage.readData.decodedValue, null, 2)}</pre>
@@ -209,28 +209,28 @@
 						<dd>{storage.writeData.valueChange}</dd>
 					{/if}
 					
-					{#if storage.writeData.writeCount !== undefined}
+					{#if storage.writeData.writeCount !== undefined && storage.writeData.writeCount !== null}
 						<dt>Write Count</dt>
-						<dd>{storage.writeData.writeCount.toLocaleString()}</dd>
+						<dd>{storage.writeData.writeCount?.toLocaleString()}</dd>
 					{/if}
 					
-					{#if storage.writeData.dirtyFlag !== undefined}
+					{#if storage.writeData.dirtyFlag !== undefined && storage.writeData.dirtyFlag !== null}
 						<dt>Dirty Flag</dt>
 						<dd>{storage.writeData.dirtyFlag}</dd>
 					{/if}
 					
-					{#if storage.writeData.compressionRatio !== undefined}
+					{#if storage.writeData.compressionRatio !== undefined && storage.writeData.compressionRatio !== null}
 						<dt>Compression Ratio</dt>
 						<dd>{storage.writeData.compressionRatio.toFixed(2)}</dd>
 					{/if}
 					
-					{#if storage.writeData.isOptimized !== undefined}
+					{#if storage.writeData.isOptimized !== undefined && storage.writeData.isOptimized !== null}
 						<dt>Is Optimized</dt>
 						<dd>{storage.writeData.isOptimized}</dd>
 					{/if}
 				</dl>
 				
-				{#if storage.writeData.decodedValue !== undefined}
+				{#if storage.writeData.decodedValue !== undefined && storage.writeData.decodedValue !== null}
 					<details>
 						<summary><h3>Decoded Value</h3></summary>
 						<pre>{JSON.stringify(storage.writeData.decodedValue, null, 2)}</pre>

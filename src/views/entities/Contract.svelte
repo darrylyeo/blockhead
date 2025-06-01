@@ -99,14 +99,14 @@
 			<dt>Deployment Block</dt>
 			<dd>
 				<a href="/block/{contract.deploymentBlock}"
-					>{contract.deploymentBlock.toLocaleString()}</a
+					>{contract.deploymentBlock?.toLocaleString()}</a
 				>
 			</dd>
 
 			<dt>Deployment Timestamp</dt>
 			<dd>
 				<time datetime={new Date(contract.deploymentTimestamp * 1000).toISOString()}>
-					{new Date(contract.deploymentTimestamp * 1000).toLocaleString()}
+					{new Date(contract.deploymentTimestamp * 1000)?.toLocaleString()}
 				</time>
 			</dd>
 		</dl>
@@ -191,7 +191,7 @@
 				<dt>Verified At</dt>
 				<dd>
 					<time datetime={new Date(contract.verification.verifiedAt * 1000).toISOString()}>
-						{new Date(contract.verification.verifiedAt * 1000).toLocaleString()}
+						{new Date(contract.verification.verifiedAt * 1000)?.toLocaleString()}
 					</time>
 				</dd>
 			{/if}
@@ -268,22 +268,22 @@
 	>
 		<dl>
 			<dt>Transaction Count</dt>
-			<dd>{contract.statistics.transactionCount.toLocaleString()}</dd>
+			<dd>{contract.statistics.transactionCount?.toLocaleString()}</dd>
 
 			<dt>Internal Transaction Count</dt>
-			<dd>{contract.statistics.internalTransactionCount.toLocaleString()}</dd>
+			<dd>{contract.statistics.internalTransactionCount?.toLocaleString()}</dd>
 
 			<dt>Unique Callers</dt>
-			<dd>{contract.statistics.uniqueCallers.toLocaleString()}</dd>
+			<dd>{contract.statistics.uniqueCallers?.toLocaleString()}</dd>
 
 			<dt>Daily Active Users</dt>
-			<dd>{contract.statistics.dailyActiveUsers.toLocaleString()}</dd>
+			<dd>{contract.statistics.dailyActiveUsers?.toLocaleString()}</dd>
 
 			<dt>Weekly Active Users</dt>
-			<dd>{contract.statistics.weeklyActiveUsers.toLocaleString()}</dd>
+			<dd>{contract.statistics.weeklyActiveUsers?.toLocaleString()}</dd>
 
 			<dt>Monthly Active Users</dt>
-			<dd>{contract.statistics.monthlyActiveUsers.toLocaleString()}</dd>
+			<dd>{contract.statistics.monthlyActiveUsers?.toLocaleString()}</dd>
 
 			<dt>Total Value Received</dt>
 			<dd>{contract.statistics.totalValueReceived}</dd>
@@ -314,9 +314,9 @@
 						{#each Object.entries(contract.statistics.functionCalls) as [functionName, stats]}
 							<tr>
 								<td>{functionName}</td>
-								<td>{stats.count.toLocaleString()}</td>
+								<td>{stats.count?.toLocaleString()}</td>
 								<td>{stats.percentage.toFixed(2)}%</td>
-								<td>{stats.averageGasUsed.toLocaleString()}</td>
+								<td>{stats.averageGasUsed?.toLocaleString()}</td>
 							</tr>
 						{/each}
 					</tbody>
@@ -417,7 +417,7 @@
 				<dd>{contract.tokenData.totalSupply}</dd>
 
 				<dt>Holder Count</dt>
-				<dd>{contract.tokenData.holderCount.toLocaleString()}</dd>
+				<dd>{contract.tokenData.holderCount?.toLocaleString()}</dd>
 
 				<dt>Top Holder Percentage</dt>
 				<dd>{contract.tokenData.topHolderPercentage}%</dd>
@@ -459,7 +459,7 @@
 				<dd>{contract.nftData.totalSupply}</dd>
 
 				<dt>Unique Owners</dt>
-				<dd>{contract.nftData.uniqueOwners.toLocaleString()}</dd>
+				<dd>{contract.nftData.uniqueOwners?.toLocaleString()}</dd>
 
 				{#if contract.nftData.maxSupply}
 					<dt>Max Supply</dt>
@@ -518,7 +518,7 @@
 				<dd><code>{contract.multiTokenData.uri}</code></dd>
 
 				<dt>Token Count</dt>
-				<dd>{contract.multiTokenData.tokenCount.toLocaleString()}</dd>
+				<dd>{contract.multiTokenData.tokenCount?.toLocaleString()}</dd>
 
 				<dt>Fungible Tokens</dt>
 				<dd>{contract.multiTokenData.tokenTypes.fungible}</dd>
@@ -604,7 +604,7 @@
 								<tr>
 									<td>
 										<time datetime={new Date(upgrade.timestamp * 1000).toISOString()}>
-											{new Date(upgrade.timestamp * 1000).toLocaleString()}
+											{new Date(upgrade.timestamp * 1000)?.toLocaleString()}
 										</time>
 									</td>
 									<td><a href="/contract/{upgrade.oldImplementation}">{upgrade.oldImplementation}</a></td>
