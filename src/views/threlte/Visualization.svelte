@@ -130,11 +130,185 @@
 		}
 	]
 	
+	// Generate preloaded historical data
+	function generateHistoricalData() {
+		const entities = []
+		let idCounter = 1
+		const baseTime = Date.now() / 1000
+		const baseBlockNumber = 18499970
+		
+		// Generate 30 blocks going back in time
+		for (let i = 0; i < 30; i++) {
+			// Blocks are ~12 seconds apart (Ethereum average)
+			const blockTime = baseTime - (i * 12) - Math.random() * 6
+			const blockNumber = baseBlockNumber + (29 - i)
+			const transactionCount = Math.floor(Math.random() * 150) + 30
+			const isFeatured = Math.random() < 0.15
+			
+			// Create block
+			const block = {
+				id: String(idCounter++),
+				type: 'block',
+				timestamp: blockTime,
+				blockNumber,
+				color: '#4CAF50',
+				label: `Block ${blockNumber}`,
+				featured: isFeatured,
+				transactionCount,
+				isNew: false
+			}
+			entities.push(block)
+			
+			// Generate transactions for this block
+			const numTxs = Math.floor(Math.random() * 6) + 2 // 2-8 transactions to show
+			for (let j = 0; j < numTxs; j++) {
+				const txTime = blockTime + Math.random() * 2
+				const value = (Math.random() * 20).toFixed(3)
+				const isTxFeatured = Math.random() < 0.12
+				const isSuccess = Math.random() < 0.96
+				
+				const transaction = {
+					id: String(idCounter++),
+					type: 'transaction',
+					timestamp: txTime,
+					blockNumber,
+					color: '#2196F3',
+					label: isTxFeatured ? `${value} ETH` : 'TX',
+					featured: isTxFeatured,
+					value: `${value} ETH`,
+					status: isSuccess ? 'success' : 'failed',
+					isNew: false
+				}
+				entities.push(transaction)
+				
+				// Generate some actors (addresses)
+				if (Math.random() < 0.3) {
+					const isContract = Math.random() < 0.2
+					const actorTypes = isContract ? 
+						['DEX Contract', 'Lending Pool', 'Token Contract', 'Multisig'] :
+						['Whale', 'Bot', 'Trader', 'EOA']
+					const actorType = actorTypes[Math.floor(Math.random() * actorTypes.length)]
+					
+					const actor = {
+						id: String(idCounter++),
+						type: 'actor',
+						timestamp: txTime + 0.1,
+						blockNumber,
+						color: isContract ? '#FF6B35' : '#00BCD4',
+						label: actorType,
+						featured: actorType.includes('Whale') || actorType.includes('DEX'),
+						isContract,
+						isNew: false
+					}
+					entities.push(actor)
+				}
+				
+				// Generate transfers
+				if (Math.random() < 0.4) {
+					const tokens = [
+						{ symbol: 'USDC', color: '#2775CA' },
+						{ symbol: 'USDT', color: '#26A17B' },
+						{ symbol: 'DAI', color: '#F5AC37' },
+						{ symbol: 'WETH', color: '#627EEA' },
+						{ symbol: 'LINK', color: '#375BD2' },
+						{ symbol: 'UNI', color: '#FF007A' },
+						{ symbol: 'AAVE', color: '#B6509E' }
+					]
+					const tokenData = tokens[Math.floor(Math.random() * tokens.length)]
+					const amount = Math.floor(Math.random() * 10000) + 100
+					const isFeatured = amount > 5000
+					
+					const transfer = {
+						id: String(idCounter++),
+						type: 'transfer',
+						timestamp: txTime + 0.05,
+						blockNumber,
+						color: tokenData.color,
+						label: `${tokenData.symbol}`,
+						featured: isFeatured,
+						value: `${amount} ${tokenData.symbol}`,
+						isNew: false
+					}
+					entities.push(transfer)
+				}
+				
+				// Generate events
+				if (Math.random() < 0.25) {
+					const events = ['Swap', 'Mint', 'Burn', 'Transfer', 'Approval', 'Deposit', 'Withdraw']
+					const eventName = events[Math.floor(Math.random() * events.length)]
+					
+					const event = {
+						id: String(idCounter++),
+						type: 'event',
+						timestamp: txTime + 0.02,
+						blockNumber,
+						color: '#FFEB3B',
+						label: eventName,
+						featured: Math.random() < 0.1,
+						eventName,
+						isNew: false
+					}
+					entities.push(event)
+				}
+			}
+			
+			// Occasionally add tokens and contracts at block level
+			if (Math.random() < 0.15) {
+				const tokens = [
+					{ name: 'USDC', symbol: 'USDC', color: '#2775CA' },
+					{ name: 'Tether', symbol: 'USDT', color: '#26A17B' },
+					{ name: 'Dai', symbol: 'DAI', color: '#F5AC37' },
+					{ name: 'Wrapped Ether', symbol: 'WETH', color: '#627EEA' },
+					{ name: 'Chainlink', symbol: 'LINK', color: '#375BD2' }
+				]
+				const tokenData = tokens[Math.floor(Math.random() * tokens.length)]
+				
+				const token = {
+					id: String(idCounter++),
+					type: 'token',
+					timestamp: blockTime + 1,
+					blockNumber,
+					color: tokenData.color,
+					label: tokenData.symbol,
+					featured: Math.random() < 0.2,
+					symbol: tokenData.symbol,
+					name: tokenData.name,
+					isNew: false
+				}
+				entities.push(token)
+			}
+			
+			if (Math.random() < 0.08) {
+				const contracts = ['Uniswap V3', 'Compound', 'Aave', 'MakerDAO', 'Curve Finance']
+				const contractName = contracts[Math.floor(Math.random() * contracts.length)]
+				
+				const contract = {
+					id: String(idCounter++),
+					type: 'contract',
+					timestamp: blockTime + 0.5,
+					blockNumber,
+					color: '#FF9800',
+					label: contractName,
+					featured: false,
+					name: contractName,
+					isNew: false
+				}
+				entities.push(contract)
+			}
+		}
+		
+		return { entities, nextId: idCounter, nextBlockNumber: baseBlockNumber + 30 }
+	}
+	
+	// Initialize with historical data
+	const historicalData = generateHistoricalData()
+	const preloadedEntities = historicalData.entities
+	
 	// Props
 	let {
 		chainId = 1,
 		compact = false,
-		entities = mockEntities
+		entities = preloadedEntities
 	}: {
 		chainId?: number
 		compact?: boolean
@@ -147,8 +321,9 @@
 	let autoScroll = $state(true)
 	let selectedEntity = $state<any | null>(null)
 	let liveEntities = $state([...entities])
-	let currentBlockNumber = $state(18500001)
-	let entityIdCounter = $state(11)
+	let currentBlockNumber = $state(historicalData.nextBlockNumber)
+	let entityIdCounter = $state(historicalData.nextId)
+	let lastCleanupTime = $state(0)
 	
 	// Block generation timer
 	let blockGenerationInterval: NodeJS.Timeout | null = null
@@ -158,7 +333,7 @@
 		if (typeof window !== 'undefined') {
 			blockGenerationInterval = setInterval(() => {
 				generateNewBlock()
-			}, 3000) // Every 3 seconds
+			}, 5000) // Every 5 seconds instead of 3
 			
 			return () => {
 				if (blockGenerationInterval) {
@@ -171,8 +346,8 @@
 	// Generate a new block with transactions
 	function generateNewBlock() {
 		const now = Date.now() / 1000
-		const transactionCount = Math.floor(Math.random() * 200) + 50 // 50-250 transactions
-		const isFeatured = Math.random() < 0.3 // 30% chance of being featured
+		const transactionCount = Math.floor(Math.random() * 100) + 20 // 20-120 transactions (reduced)
+		const isFeatured = Math.random() < 0.2 // 20% chance of being featured
 		
 		// Create the block
 		const newBlock = {
@@ -187,15 +362,15 @@
 			isNew: true // Mark as new for visual effects
 		}
 		
-		// Create transactions for this block
+		// Create fewer transactions for performance
 		const newTransactions = []
-		const numTxsToShow = Math.min(transactionCount, Math.floor(Math.random() * 8) + 2) // Show 2-10 transactions
+		const numTxsToShow = Math.min(transactionCount, Math.floor(Math.random() * 4) + 1) // Show 1-5 transactions only
 		
 		for (let i = 0; i < numTxsToShow; i++) {
-			const txFeatured = Math.random() < 0.1 // 10% chance
+			const txFeatured = Math.random() < 0.15 // 15% chance
 			const isSuccess = Math.random() < 0.95 // 95% success rate
-			const value = (Math.random() * 10).toFixed(3)
-			const txOffset = Math.random() * 2 // Spread transactions within 2 seconds of block
+			const value = (Math.random() * 10).toFixed(2)
+			const txOffset = Math.random() * 1 // Spread transactions within 1 second of block
 			
 			const transaction = {
 				id: String(entityIdCounter++),
@@ -203,7 +378,7 @@
 				timestamp: now + txOffset,
 				blockNumber: currentBlockNumber,
 				color: '#2196F3',
-				label: txFeatured ? `Large TX (${value} ETH)` : `TX ${i + 1}`,
+				label: txFeatured ? `${value} ETH` : `TX`,
 				featured: txFeatured,
 				value: `${value} ETH`,
 				status: isSuccess ? 'success' : 'failed',
@@ -212,70 +387,68 @@
 			
 			newTransactions.push(transaction)
 			
-			// Sometimes add a transfer or event for this transaction
-			if (Math.random() < 0.4) { // 40% chance
-				if (Math.random() < 0.7) { // 70% transfer, 30% event
-					const transfer = {
-						id: String(entityIdCounter++),
-						type: 'transfer',
-						timestamp: now + txOffset + 0.1,
-						blockNumber: currentBlockNumber,
-						color: '#FF44AA',
-						label: `${Math.random() < 0.5 ? 'USDC' : 'USDT'} Transfer`,
-						featured: false,
-						value: `${(Math.random() * 10000).toFixed(0)} ${Math.random() < 0.5 ? 'USDC' : 'USDT'}`,
-						isNew: true
-					}
-					newTransactions.push(transfer)
-				} else {
-					const event = {
-						id: String(entityIdCounter++),
-						type: 'event',
-						timestamp: now + txOffset + 0.1,
-						blockNumber: currentBlockNumber,
-						color: '#FFEB3B',
-						label: ['Swap', 'Mint', 'Burn', 'Approval'][Math.floor(Math.random() * 4)],
-						featured: Math.random() < 0.2,
-						eventName: 'DeFi Event',
-						isNew: true
-					}
-					newTransactions.push(event)
+			// Rarely add transfers/events for performance
+			if (Math.random() < 0.2 && i === 0) { // Only 20% chance and only for first transaction
+				const transfer = {
+					id: String(entityIdCounter++),
+					type: 'transfer',
+					timestamp: now + txOffset + 0.1,
+					blockNumber: currentBlockNumber,
+					color: '#FF44AA',
+					label: 'Transfer',
+					featured: false,
+					value: `${(Math.random() * 1000).toFixed(0)} USDC`,
+					isNew: true
 				}
+				newTransactions.push(transfer)
 			}
 		}
 		
 		// Add new entities to the live array
 		liveEntities = [newBlock, ...newTransactions, ...liveEntities]
 		
-		// Clean up old entities (keep last 200 entities for performance)
-		if (liveEntities.length > 200) {
-			liveEntities = liveEntities.slice(0, 200)
+		// Aggressive cleanup for performance - keep only last 50 entities
+		if (liveEntities.length > 50) {
+			liveEntities = liveEntities.slice(0, 50)
 		}
 		
-		// Remove "new" flag after 5 seconds
+		// Remove "new" flag after 3 seconds
 		setTimeout(() => {
-			liveEntities = liveEntities.map(entity => ({
-				...entity,
-				isNew: entity.id === newBlock.id || newTransactions.some(tx => tx.id === entity.id) ? false : entity.isNew
-			}))
-		}, 5000)
+			// Only update if entities still exist and have the new flag
+			const entitiesToUpdate = [newBlock.id, ...newTransactions.map(tx => tx.id)]
+			const hasNewEntities = liveEntities.some(entity => 
+				entitiesToUpdate.includes(entity.id) && entity.isNew
+			)
+			
+			if (hasNewEntities) {
+				liveEntities = liveEntities.map(entity => 
+					entitiesToUpdate.includes(entity.id) 
+						? { ...entity, isNew: false }
+						: entity
+				)
+			}
+		}, 3000)
 		
 		// Increment block number
 		currentBlockNumber++
 		
-		console.log(`Generated block ${newBlock.blockNumber} with ${newTransactions.length} entities`)
+		console.log(`Generated block ${newBlock.blockNumber} with ${newTransactions.length} entities (total: ${liveEntities.length})`)
 	}
-	
-	// Clean up old entities based on time window
-	$effect(() => {
-		const cutoffTime = currentTime - timeWindow
-		liveEntities = liveEntities.filter(entity => entity.timestamp > cutoffTime - 60) // Keep some buffer
-	})
 	
 	// Animation loop
 	useTask(() => {
 		if (autoScroll) {
 			currentTime = Date.now() / 1000
+			
+			// Clean up old entities only every 2 seconds to avoid excessive updates
+			if (currentTime - lastCleanupTime > 2) {
+				const cutoffTime = currentTime - (compact ? 30 : 120)
+				const filteredEntities = liveEntities.filter(entity => entity.timestamp > cutoffTime)
+				if (filteredEntities.length !== liveEntities.length) {
+					liveEntities = filteredEntities
+					lastCleanupTime = currentTime
+				}
+			}
 		}
 	})
 	
@@ -305,13 +478,13 @@
 		}
 		switch (type) {
 			case 'block': return 0
-			case 'transaction': return 3
-			case 'transfer': return 4
-			case 'contract': return 6
-			case 'token': return 7
-			case 'actor': return 9
-			case 'event': return 10
-			default: return 15
+			case 'transaction': return 2
+			case 'transfer': return 3
+			case 'actor': return 4
+			case 'contract': return 5
+			case 'token': return 6
+			case 'event': return 7
+			default: return 8
 		}
 	}
 	
@@ -358,80 +531,72 @@
 
 <T.PerspectiveCamera
 	makeDefault
-	position={compact ? [0, 5, 10] : [0, 15, 25]}
-	fov={compact ? 40 : 60}
+	position={compact ? [0, 4, 8] : [0, 12, 20]}
+	fov={compact ? 50 : 65}
 >
 	{#if !compact}
 		<OrbitControls
 			enableDamping
-			dampingFactor={0.05}
+			dampingFactor={0.1}
 			enableZoom
-			enablePan
+			enablePan={false}
 			enableRotate
 			autoRotate={false}
-			minDistance={5}
-			maxDistance={100}
-			minPolarAngle={0}
-			maxPolarAngle={Math.PI}
-			target={[0, 5, 0]}
+			minDistance={8}
+			maxDistance={40}
+			target={[0, 3, 0]}
 		/>
 	{/if}
 </T.PerspectiveCamera>
 
-<T.AmbientLight intensity={compact ? 0.3 : 0.5} />
+<T.AmbientLight intensity={compact ? 0.4 : 0.6} />
 <T.DirectionalLight 
-	position={[10, 10, 5]} 
-	intensity={compact ? 0.5 : 1} 
+	position={[5, 8, 3]} 
+	intensity={compact ? 0.3 : 0.5} 
 />
 
-<!-- Grid -->
+<!-- Simplified grid -->
 {#if !compact}
 	<Grid
-		sectionColor="#888"
-		cellColor="#666"
-		sectionSize={10}
+		sectionColor="#555"
+		cellColor="#333"
+		sectionSize={5}
 		cellSize={1}
-		gridSize={[100, 100]}
-		position.y={-0.5}
+		gridSize={[30, 30]}
+		position.y={-0.2}
 	/>
 {/if}
 
 <!-- Time axis labels -->
 {#if !compact}
-	{#each Array(10) as _, i}
+	{#each Array(5) as _, i}
 		{@const timeOffset = i * 30}
 		{@const time = currentTime - timeOffset}
 		<Text
 			text={new Date(time * 1000).toLocaleTimeString()}
-			fontSize={0.5}
+			fontSize={0.4}
 			position={[-timeOffset * 0.1, -1, -8]}
-			color="#888"
+			color="#666"
 		/>
 	{/each}
 {/if}
 
-<!-- Entity type labels -->
+<!-- Entity type labels - simplified -->
 {#if !compact}
-	<Text text="Blocks" fontSize={0.8} position={[5, 0, -8]} color="#4CAF50" />
-	<Text text="Transactions" fontSize={0.8} position={[5, 3, -8]} color="#2196F3" />
-	<Text text="Transfers" fontSize={0.8} position={[5, 4, -8]} color="#FF44AA" />
-	<Text text="Contracts" fontSize={0.8} position={[5, 6, -8]} color="#FF9800" />
-	<Text text="Tokens" fontSize={0.8} position={[5, 7, -8]} color="#9C27B0" />
-	<Text text="Actors" fontSize={0.8} position={[5, 9, -8]} color="#00BCD4" />
-	<Text text="Events" fontSize={0.8} position={[5, 10, -8]} color="#FFEB3B" />
+	<Text text="Blocks" fontSize={0.6} position={[3, 0, -6]} color="#4CAF50" />
+	<Text text="Transactions" fontSize={0.6} position={[3, 2, -6]} color="#2196F3" />
+	<Text text="Transfers" fontSize={0.6} position={[3, 3, -6]} color="#FF44AA" />
+	<Text text="Actors" fontSize={0.6} position={[3, 4, -6]} color="#00BCD4" />
+	<Text text="Contracts" fontSize={0.6} position={[3, 5, -6]} color="#FF9800" />
+	<Text text="Tokens" fontSize={0.6} position={[3, 6, -6]} color="#9C27B0" />
+	<Text text="Events" fontSize={0.6} position={[3, 7, -6]} color="#FFEB3B" />
 	
 	<!-- Live generation status -->
 	<Text 
-		text={`Live: Block ${currentBlockNumber - 1} | ${liveEntities.length} entities`}
-		fontSize={0.6} 
-		position={[5, 12, -8]} 
+		text={`Block ${currentBlockNumber - 1} | ${liveEntities.length} entities`}
+		fontSize={0.5} 
+		position={[3, 9, -6]} 
 		color="#FFF" 
-	/>
-	<Text 
-		text="🟢 Generating blocks every 3s"
-		fontSize={0.4} 
-		position={[5, 11.3, -8]} 
-		color="#4CAF50" 
 	/>
 {/if}
 
@@ -444,14 +609,14 @@
 	
 	{#if visible}
 		<T.Group position={[x, y, z]}>
-			<!-- Highlight ring for featured entities -->
+			<!-- Simple highlight for featured entities only -->
 			{#if entity.featured && !compact}
 				<T.Mesh>
-					<T.RingGeometry args={[size * 1.2, size * 1.5, 16]} />
+					<T.RingGeometry args={[size * 1.1, size * 1.3, 8]} />
 					<T.MeshBasicMaterial
 						color={color}
 						transparent
-						opacity={0.3}
+						opacity={0.4}
 						side={THREE.DoubleSide}
 					/>
 				</T.Mesh>
@@ -465,7 +630,7 @@
 				on:pointerenter={(e) => {
 					if (!compact) {
 						e.stopPropagation()
-						e.object.scale.setScalar(1.2)
+						e.object.scale.setScalar(1.1)
 						document.body.style.cursor = 'pointer'
 					}
 				}}
@@ -480,72 +645,37 @@
 				{#if entity.type === 'block'}
 					<T.BoxGeometry args={[size, size, size]} />
 				{:else if entity.type === 'transaction'}
-					<T.ConeGeometry args={[size * 0.3, size * 2, 6]} />
+					<T.SphereGeometry args={[size * 0.7, 8, 8]} />
 				{:else if entity.type === 'transfer'}
-					<T.ConeGeometry args={[size * 0.3, size * 2, 6]} />
-				{:else if entity.type === 'contract'}
-					<T.CylinderGeometry args={[size, size, size * 2, 8]} />
-				{:else if entity.type === 'token'}
-					<T.CylinderGeometry args={[size, size, size * 0.3, 6]} />
-				{:else if entity.type === 'actor'}
-					<T.SphereGeometry args={[size, 16, 16]} />
-				{:else if entity.type === 'event'}
-					<T.OctahedronGeometry args={[size]} />
+					<T.SphereGeometry args={[size * 0.5, 6, 6]} />
 				{:else}
-					<T.IcosahedronGeometry args={[size]} />
+					<T.SphereGeometry args={[size * 0.6, 6, 6]} />
 				{/if}
 				
 				<T.MeshStandardMaterial
 					color={color}
 					emissive={color}
-					emissiveIntensity={compact ? 0.1 : 0.2}
-					metalness={0.5}
-					roughness={0.5}
-					opacity={compact ? 0.6 : (entity.featured ? 1 : 0.8)}
-					transparent={compact || !entity.featured}
+					emissiveIntensity={compact ? 0.1 : (entity.isNew ? 0.4 : 0.15)}
+					metalness={0.3}
+					roughness={0.7}
 				/>
 			</T.Mesh>
 			
 			<!-- Status indicator for failed transactions -->
-			{#if entity.status === 'failed'}
-				<T.Mesh position={[size + 0.3, 0, 0]}>
-					<T.SphereGeometry args={[0.1, 8, 8]} />
+			{#if entity.status === 'failed' && !compact}
+				<T.Mesh position={[size + 0.2, 0, 0]}>
+					<T.SphereGeometry args={[0.08, 6, 6]} />
 					<T.MeshBasicMaterial color="#FF0000" />
 				</T.Mesh>
 			{/if}
 			
-			<!-- Label -->
-			{#if !compact || entity.type === 'block'}
+			<!-- Minimal labels - only for featured/new entities -->
+			{#if (!compact && (entity.featured || entity.isNew)) || (compact && entity.type === 'block')}
 				<Text
 					text={entity.label}
-					fontSize={compact ? 0.2 : (entity.featured ? 0.4 : 0.3)}
-					position={[0, size + (compact ? 0.3 : 0.5), 0]}
+					fontSize={compact ? 0.15 : 0.25}
+					position={[0, size + 0.3, 0]}
 					color={entity.featured ? '#FFF' : color}
-					anchorX="center"
-					anchorY="bottom"
-					opacity={compact ? 0.6 : 1}
-				/>
-			{/if}
-			
-			<!-- Timestamp -->
-			{#if !compact}
-				<Text
-					text={formatTimestamp(entity.timestamp)}
-					fontSize={0.2}
-					position={[0, size + 0.2, 0]}
-					color="#666"
-					anchorX="center"
-					anchorY="bottom"
-				/>
-			{/if}
-			
-			<!-- Featured indicator -->
-			{#if entity.featured && !compact}
-				<Text
-					text="⭐"
-					fontSize={0.5}
-					position={[0, size + 1, 0]}
-					color="#FFD700"
 					anchorX="center"
 					anchorY="bottom"
 				/>
