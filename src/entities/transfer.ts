@@ -354,12 +354,10 @@ export type Transfer<
 	& {
 		_from?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'format'
 		>
 
 		_to?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'format'
 		>
 
 		_block?: PartialExceptOneOf<import('./block').Block,
@@ -370,7 +368,6 @@ export type Transfer<
 
 		_transaction?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'id'
-			| 'format'
 			| 'status'
 		>
 
@@ -390,13 +387,11 @@ export type Transfer<
 		// For DeFi transfers
 		_protocolActor?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'format'
 		>
 
 		// For marketplace trades
 		_marketplaceActor?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'format'
 		>
 
 		// Related transfers

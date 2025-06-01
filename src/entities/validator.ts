@@ -1,10 +1,6 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
 import type { ChainId } from './network'
-import type { Address, Hash, NativeCurrencyAmount, Timestamp } from './scalars'
-
-export type ValidatorIndex = number
-export type EpochNumber = bigint
-export type SlotNumber = bigint
+import type { Address, Hash, NativeCurrencyAmount, Timestamp, ValidatorIndex, EpochNumber, SlotNumber } from './scalars'
 
 export enum ValidatorStatus {
 	Pending = 'Pending', // Waiting to be activated

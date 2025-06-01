@@ -2,8 +2,11 @@
 import type { Actor } from './actor'
 import type { App } from './app'
 import type { Balance } from './balance'
+import type { AnyBeaconEntity } from './beacon'
+import type { Blob } from './blob'
 import type { Block } from './block'
 import type { Contract } from './contract'
+import type { ENSDomain } from './ens'
 import type { Event } from './event'
 import type { Network } from './network'
 import type { Nft } from './nft'
@@ -18,11 +21,11 @@ export enum EntityType {
 	Actor = 'Actor',
 	App = 'App',
 	Balance = 'Balance',
-	// Beacon = 'Beacon',
-	// Blob = 'Blob',
+	Beacon = 'Beacon',
+	Blob = 'Blob',
 	Block = 'Block',
 	Contract = 'Contract',
-	// Ens = 'Ens',
+	Ens = 'Ens',
 	Event = 'Event',
 	Network = 'Network',
 	Nft = 'Nft',
@@ -41,10 +44,16 @@ export type Entity<_EntityType extends EntityType = EntityType> = (
 		App
 	: _EntityType extends EntityType.Balance ?
 		Balance
+	: _EntityType extends EntityType.Beacon ?
+		AnyBeaconEntity
+	: _EntityType extends EntityType.Blob ?
+		Blob
 	: _EntityType extends EntityType.Block ?
 		Block
 	: _EntityType extends EntityType.Contract ?
 		Contract
+	: _EntityType extends EntityType.Ens ?
+		ENSDomain
 	: _EntityType extends EntityType.Event ?
 		Event
 	: _EntityType extends EntityType.Network ?
@@ -71,8 +80,11 @@ export const getEntityId = {
 	[EntityType.Actor]: (entity: Entity<EntityType.Actor>) => `${entity.chainId}:${entity.address}`,
 	[EntityType.App]: (entity: Entity<EntityType.App>) => `${entity.slug}`,
 	[EntityType.Balance]: (entity: Entity<EntityType.Balance>) => `${entity.chainId}:${entity.id}`,
+	[EntityType.Beacon]: (entity: Entity<EntityType.Beacon>) => `${entity.chainId}:${entity.id}`,
+	[EntityType.Blob]: (entity: Entity<EntityType.Blob>) => `${entity.chainId}:${entity.id}`,
 	[EntityType.Block]: (entity: Entity<EntityType.Block>) => `${entity.chainId}:${entity.blockNumber ?? entity.blockHash}`,
 	[EntityType.Contract]: (entity: Entity<EntityType.Contract>) => `${entity.chainId}:${entity.address}`,
+	[EntityType.Ens]: (entity: Entity<EntityType.Ens>) => `${entity.chainId}:${entity.name}`,
 	[EntityType.Event]: (entity: Entity<EntityType.Event>) => `${entity.chainId}:${entity.id}`,
 	[EntityType.Network]: (entity: Entity<EntityType.Network>) => `${entity.chainId}`,
 	[EntityType.Nft]: (entity: Entity<EntityType.Nft>) => `${entity.chainId}:${entity.contractAddress}:${entity.tokenId}`,

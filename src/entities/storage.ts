@@ -162,21 +162,18 @@ export type Storage<_T extends StorageOperation = StorageOperation> = (
 
 		_transaction?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'id'
-			| 'format'
 			| 'status'
 		>
 
 		// Trace context
 		_trace?: PartialExceptOneOf<import('./trace').Trace,
 			| 'id'
-			| 'format'
 			| 'traceAddress'
 		>
 
 		// Storage accessor
 		_accessor?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'format'
 		>
 
 		// Related storage operations

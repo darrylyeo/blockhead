@@ -1,9 +1,8 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
 import type { Actor } from './actor'
 import type { ChainId } from './network'
-import type { Address, BasisPoints, Hash, Percentage, Timestamp, TokenAmount, UsdAmount } from './scalars'
+import type { Address, BasisPoints, Hash, Percentage, Timestamp, TokenAmount, UsdAmount, BlockNumber } from './scalars'
 
-export type BlockNumber = bigint
 export type BlockHash = Hash
 
 // Block's role in the chain (mutually exclusive)

@@ -109,17 +109,14 @@ export type ENSDomain = {
 } & {
 	_owner?: PartialExceptOneOf<Actor,
 		| 'address'
-		| 'format'
 	>
 
 	_registrant?: PartialExceptOneOf<Actor,
 		| 'address'
-		| 'format'
 	>
 
 	_controller?: PartialExceptOneOf<Actor,
 		| 'address'
-		| 'format'
 	>
 }
 
@@ -141,7 +138,6 @@ export type ENSReverseRecord = {
 } & {
 	_addressActor?: PartialExceptOneOf<Actor,
 		| 'address'
-		| 'format'
 	>
 }
 
@@ -170,12 +166,10 @@ export type ENSSubdomain = {
 } & {
 	_owner?: PartialExceptOneOf<Actor,
 		| 'address'
-		| 'format'
 	>
 
 	_creator?: PartialExceptOneOf<Actor,
 		| 'address'
-		| 'format'
 	>
 }
 
@@ -208,12 +202,10 @@ export type ENSRegistration = {
 } & {
 	_registrant?: PartialExceptOneOf<Actor,
 		| 'address'
-		| 'format'
 	>
 
 	_controller?: PartialExceptOneOf<Actor,
 		| 'address'
-		| 'format'
 	>
 }
 
@@ -274,11 +266,9 @@ export type ENSActivity = {
 } & {
 	_from?: PartialExceptOneOf<Actor,
 		| 'address'
-		| 'format'
 	>
 
 	_to?: PartialExceptOneOf<Actor,
 		| 'address'
-		| 'format'
 	>
 } 

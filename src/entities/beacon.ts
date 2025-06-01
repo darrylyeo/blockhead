@@ -1,20 +1,53 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
+import type { Actor } from './actor'
 import type { ChainId } from './network'
-import type { Address, BasisPoints, BlockNumber, Hash, Percentage, Timestamp } from './scalars'
-import type { EpochNumber, NativeCurrencyAmount, SlotNumber } from './validator'
+import type { Address, Hash, NativeCurrencyAmount, Percentage, Timestamp, ValidatorIndex, EpochNumber, SlotNumber, BlockNumber, BasisPoints } from './scalars'
 
+// Core consensus operations
+export enum ConsensusEntity {
+	Block = 'Block',
+	Attestation = 'Attestation',
+	Proposal = 'Proposal'
+}
+
+// Committee and sync operations
+export enum CommitteeEntity {
+	Committee = 'Committee',
+	Sync = 'Sync'
+}
+
+// Validator lifecycle management
+export enum ValidatorLifecycleEntity {
+	Deposit = 'Deposit',
+	Exit = 'Exit',
+	Slashing = 'Slashing'
+}
+
+// Economic operations
+export enum EconomicEntity {
+	Withdrawal = 'Withdrawal',
+	Reward = 'Reward'
+}
+
+// All beacon entities combined (for backwards compatibility)
 export enum BeaconEntity {
 	Block = 'Block',
 	Attestation = 'Attestation',
 	Proposal = 'Proposal',
-	Sync = 'Sync',
 	Committee = 'Committee',
-	Slashing = 'Slashing',
-	Exit = 'Exit',
-	Withdrawal = 'Withdrawal',
+	Sync = 'Sync',
 	Deposit = 'Deposit',
+	Exit = 'Exit',
+	Slashing = 'Slashing',
+	Withdrawal = 'Withdrawal',
 	Reward = 'Reward'
 }
+
+export type BeaconEntityType = 
+	| ConsensusEntity
+	| CommitteeEntity
+	| ValidatorLifecycleEntity
+	| EconomicEntity
 
 export enum BeaconBlockType {
 	Genesis = 'Genesis',
@@ -68,285 +101,249 @@ export enum RewardType {
 	Slashing = 'Slashing'
 }
 
-export type BeaconData<
-	_BeaconEntity extends BeaconEntity = BeaconEntity,
-	_RewardType extends RewardType = RewardType
-> = (
-	& {
-		// Beacon identification
-		id: string
-		chainId: ChainId
-		entity: _BeaconEntity
+// Base beacon entity with common fields
+type BaseBeaconEntity = {
+	id: string
+	chainId: ChainId
+	epoch: EpochNumber
+	slot: SlotNumber
+	timestamp: Timestamp
+	isActive: boolean
+	isFinalized: boolean
+}
 
-		// Position in beacon chain
-		epoch: EpochNumber
-		slot: SlotNumber
-
-		// Timing
+// Consensus entity types
+export type BeaconBlock = BaseBeaconEntity & {
+	entity: ConsensusEntity.Block
+	blockType: BeaconBlockType
+	blockRoot: Hash
+	parentRoot: Hash
+	stateRoot: Hash
+	proposerIndex: ValidatorIndex
+	proposerAddress: Address
+	randaoReveal: string
+	graffiti: string
+	attestations: number
+	deposits: number
+	voluntaryExits: number
+	attesterSlashings: number
+	proposerSlashings: number
+	blockSize: number
+	transactionCount?: number
+	totalDifficulty?: string
+	executionPayload?: {
+		parentHash: Hash
+		feeRecipient: Address
+		stateRoot: Hash
+		receiptsRoot: Hash
+		logsBloom: string
+		prevRandao: string
+		blockNumber: BlockNumber
+		gasLimit: string
+		gasUsed: string
 		timestamp: Timestamp
-
-		// Common metadata
-		isActive: boolean
-		isFinalized: boolean
+		extraData: string
+		baseFeePerGas: string
+		blockHash: Hash
+		transactionsRoot: Hash
+		withdrawalsRoot?: Hash
 	}
+}
 
-	& (
-		_BeaconEntity extends BeaconEntity.Block ?
-			{
-				// Block data
-				blockType: BeaconBlockType
-				blockRoot: Hash
-				parentRoot: Hash
-				stateRoot: Hash
+export type BeaconAttestation = BaseBeaconEntity & {
+	entity: ConsensusEntity.Attestation
+	status: AttestationStatus
+	aggregationBits: string
+	signature: string
+	committeeIndex: number
+	validatorIndices: ValidatorIndex[]
+	sourceEpoch: EpochNumber
+	sourceRoot: Hash
+	targetEpoch: EpochNumber
+	targetRoot: Hash
+	beaconBlockRoot: Hash
+	inclusionSlot?: SlotNumber
+	inclusionIndex?: number
+	inclusionDelay?: number
+}
 
-				// Block metadata
-				proposerIndex: number
-				proposerAddress: Address
-				randaoReveal: string
-				graffiti: string
+export type BeaconProposal = BaseBeaconEntity & {
+	entity: ConsensusEntity.Proposal
+	proposerIndex: ValidatorIndex
+	proposerAddress: Address
+	status: ProposerStatus
+	blockRoot?: Hash
+	signature?: string
+	missedReason?: string
+	slashingEligible?: boolean
+}
 
-				// Block content
-				attestations: number
-				deposits: number
-				voluntaryExits: number
-				attesterSlashings: number
-				proposerSlashings: number
+// Committee entity types
+export type BeaconCommittee = BaseBeaconEntity & {
+	entity: CommitteeEntity.Committee
+	committeeIndex: number
+	validatorIndices: ValidatorIndex[]
+	committeeSize: number
+	targetCommitteeSize: number
+	attestationSlot: SlotNumber
+	attestationShard?: number
+}
 
-				// Execution payload (post-merge)
-				executionPayload?: {
-					parentHash: Hash
-					feeRecipient: Address
-					stateRoot: Hash
-					receiptsRoot: Hash
-					logsBloom: string
-					prevRandao: string
-					blockNumber: BlockNumber
-					gasLimit: string
-					gasUsed: string
-					timestamp: Timestamp
-					extraData: string
-					baseFeePerGas: string
-					blockHash: Hash
-					transactionsRoot: Hash
-					withdrawalsRoot?: Hash
-				}
+export type BeaconSync = BaseBeaconEntity & {
+	entity: CommitteeEntity.Sync
+	syncCommitteeBits: string
+	syncCommitteeSignature: string
+	validatorIndices: ValidatorIndex[]
+	participationRate: Percentage
+	validatorCount: number
+}
 
-				// Metrics
-				blockSize: number
-				transactionCount?: number
-				totalDifficulty?: string
-			}
+// Validator lifecycle entity types
+export type BeaconDeposit = BaseBeaconEntity & {
+	entity: ValidatorLifecycleEntity.Deposit
+	status: DepositStatus
+	pubkey: string
+	withdrawalCredentials: string
+	signature: string
+	amount: NativeCurrencyAmount
+	depositorAddress: Address
+	transactionHash: Hash
+	logIndex: number
+	blockNumber: BlockNumber
+	validatorIndex?: ValidatorIndex
+	activationEpoch?: EpochNumber
+}
 
-		: _BeaconEntity extends BeaconEntity.Attestation ?
-			{
-				// Attestation data
-				status: AttestationStatus
-				aggregationBits: string
-				signature: string
+export type BeaconExit = BaseBeaconEntity & {
+	entity: ValidatorLifecycleEntity.Exit
+	exitType: ExitType
+	validatorIndex: ValidatorIndex
+	validatorAddress: Address
+	exitEpoch: EpochNumber
+	withdrawableEpoch: EpochNumber
+	signature?: string
+	reason?: string
+}
 
-				// Committee info
-				committeeIndex: number
-				validatorIndices: number[]
+export type BeaconSlashing = BaseBeaconEntity & {
+	entity: ValidatorLifecycleEntity.Slashing
+	slashingType: SlashingType
+	whistleblowerIndex?: ValidatorIndex
+	whistleblowerReward?: NativeCurrencyAmount
+	slashedIndices: ValidatorIndex[]
+	slashedAddresses: Address[]
+	totalSlashed: NativeCurrencyAmount
+	attestation1?: {
+		attestingIndices: ValidatorIndex[]
+		data: any
+		signature: string
+	}
+	attestation2?: {
+		attestingIndices: ValidatorIndex[]
+		data: any
+		signature: string
+	}
+	signedHeader1?: any
+	signedHeader2?: any
+}
 
-				// Attestation target
-				sourceEpoch: EpochNumber
-				sourceRoot: Hash
-				targetEpoch: EpochNumber
-				targetRoot: Hash
-				beaconBlockRoot: Hash
+// Economic entity types
+export type BeaconWithdrawal = BaseBeaconEntity & {
+	entity: EconomicEntity.Withdrawal
+	status: WithdrawalStatus
+	validatorIndex: ValidatorIndex
+	validatorAddress: Address
+	withdrawalAddress: Address
+	amount: NativeCurrencyAmount
+	fee?: NativeCurrencyAmount
+	netAmount?: NativeCurrencyAmount
+	withdrawalIndex?: number
+	executionBlockNumber?: BlockNumber
+	executionTransaction?: Hash
+}
 
-				// Inclusion info
-				inclusionSlot?: SlotNumber
-				inclusionIndex?: number
-				inclusionDelay?: number
-			}
+export type BeaconReward = BaseBeaconEntity & {
+	entity: EconomicEntity.Reward
+	rewardType: RewardType
+	validatorIndex: ValidatorIndex
+	validatorAddress: Address
+	amount: NativeCurrencyAmount
+	baseReward?: NativeCurrencyAmount
+	inclusionReward?: NativeCurrencyAmount
+	performance?: Percentage
+	effectiveness?: Percentage
+}
 
-		: _BeaconEntity extends BeaconEntity.Proposal ?
-			{
-				// Proposer data
-				proposerIndex: number
-				proposerAddress: Address
-				status: ProposerStatus
+export type BeaconAttestationReward = BeaconReward & {
+	rewardType: RewardType.Attestation
+	attestationRewardData: {
+		sourceEpoch: EpochNumber
+		targetEpoch: EpochNumber
+		headVote: boolean
+		sourceVote: boolean
+		targetVote: boolean
+		inclusionDelay?: number
+	}
+}
 
-				// Proposal data
-				blockRoot?: Hash
-				signature?: string
+export type BeaconProposalReward = BeaconReward & {
+	rewardType: RewardType.Proposal
+	proposalRewardData: {
+		blockRoot: Hash
+		attestationsIncluded: number
+		syncAggregateIncluded: boolean
+		executionPayloadValue?: NativeCurrencyAmount
+		mevReward?: NativeCurrencyAmount
+	}
+}
 
-				// Missed proposal info
-				missedReason?: string
-				slashingEligible?: boolean
-			}
+export type BeaconSyncReward = BeaconReward & {
+	rewardType: RewardType.Sync
+	syncRewardData: {
+		syncCommitteeIndex: number
+		participationRate: Percentage
+		signatureIncluded: boolean
+	}
+}
 
-		: _BeaconEntity extends BeaconEntity.Sync ?
-			{
-				// Sync committee data
-				syncCommitteeBits: string
-				syncCommitteeSignature: string
-				validatorIndices: number[]
+export type BeaconSlashingReward = BeaconReward & {
+	rewardType: RewardType.Slashing
+	slashingRewardData: {
+		slashedValidatorIndex: ValidatorIndex
+		slashingType: SlashingType
+		whistleblowerShare: NativeCurrencyAmount
+		proposerShare: NativeCurrencyAmount
+	}
+}
 
-				// Participation
-				participationRate: Percentage
-				validatorCount: number
-			}
+// Union types by category
+export type ConsensusBeaconEntity = 
+	| BeaconBlock
+	| BeaconAttestation
+	| BeaconProposal
 
-		: _BeaconEntity extends BeaconEntity.Committee ?
-			{
-				// Committee data
-				committeeIndex: number
-				validatorIndices: number[]
+export type CommitteeBeaconEntity = 
+	| BeaconCommittee
+	| BeaconSync
 
-				// Committee size
-				committeeSize: number
-				targetCommitteeSize: number
+export type ValidatorLifecycleBeaconEntity = 
+	| BeaconDeposit
+	| BeaconExit
+	| BeaconSlashing
 
-				// Duties
-				attestationSlot: SlotNumber
-				attestationShard?: number
-			}
+export type EconomicBeaconEntity = 
+	| BeaconWithdrawal
+	| BeaconAttestationReward
+	| BeaconProposalReward
+	| BeaconSyncReward
+	| BeaconSlashingReward
 
-		: _BeaconEntity extends BeaconEntity.Slashing ?
-			{
-				// Slashing data
-				slashingType: SlashingType
-				whistleblowerIndex?: number
-				whistleblowerReward?: NativeCurrencyAmount
-
-				// Slashed validators
-				slashedIndices: number[]
-				slashedAddresses: Address[]
-				totalSlashed: NativeCurrencyAmount
-
-				// Evidence
-				attestation1?: {
-					attestingIndices: number[]
-					data: any
-					signature: string
-				}
-				attestation2?: {
-					attestingIndices: number[]
-					data: any
-					signature: string
-				}
-
-				// Proposal slashing
-				signedHeader1?: any
-				signedHeader2?: any
-			}
-
-		: _BeaconEntity extends BeaconEntity.Exit ?
-			{
-				// Exit data
-				exitType: ExitType
-				validatorIndex: number
-				validatorAddress: Address
-
-				// Exit timing
-				exitEpoch: EpochNumber
-				withdrawableEpoch: EpochNumber
-
-				// Exit details
-				signature?: string
-				reason?: string
-			}
-
-		: _BeaconEntity extends BeaconEntity.Withdrawal ?
-			{
-				// Withdrawal data
-				status: WithdrawalStatus
-				validatorIndex: number
-				validatorAddress: Address
-				withdrawalAddress: Address
-
-				// Amounts
-				amount: NativeCurrencyAmount
-				fee?: NativeCurrencyAmount
-				netAmount?: NativeCurrencyAmount
-
-				// Processing info
-				withdrawalIndex?: number
-				executionBlockNumber?: BlockNumber
-				executionTransaction?: Hash
-			}
-
-		: _BeaconEntity extends BeaconEntity.Deposit ?
-			{
-				// Deposit data
-				status: DepositStatus
-				pubkey: string
-				withdrawalCredentials: string
-				signature: string
-
-				// Deposit amount
-				amount: NativeCurrencyAmount
-
-				// Source info
-				depositorAddress: Address
-				transactionHash: Hash
-				logIndex: number
-				blockNumber: BlockNumber
-
-				// Validator info
-				validatorIndex?: number
-				activationEpoch?: EpochNumber
-			}
-
-		: _BeaconEntity extends BeaconEntity.Reward ?
-			{
-				// Reward data
-				rewardTypes: _RewardType[]
-				validatorIndex: number
-				validatorAddress: Address
-
-				// Reward amounts
-				amount: NativeCurrencyAmount
-				baseReward?: NativeCurrencyAmount
-				inclusionReward?: NativeCurrencyAmount
-
-				// Performance
-				performance?: Percentage
-				effectiveness?: Percentage
-			} & (
-				_RewardType extends RewardType.Attestation ? {
-					attestationRewardData: {
-						sourceEpoch: EpochNumber
-						targetEpoch: EpochNumber
-						headVote: boolean
-						sourceVote: boolean
-						targetVote: boolean
-						inclusionDelay?: number
-					}
-				}
-				: _RewardType extends RewardType.Proposal ? {
-					proposalRewardData: {
-						blockRoot: Hash
-						attestationsIncluded: number
-						syncAggregateIncluded: boolean
-						executionPayloadValue?: NativeCurrencyAmount
-						mevReward?: NativeCurrencyAmount
-					}
-				}
-				: _RewardType extends RewardType.Sync ? {
-					syncRewardData: {
-						syncCommitteeIndex: number
-						participationRate: Percentage
-						signatureIncluded: boolean
-					}
-				}
-				: _RewardType extends RewardType.Slashing ? {
-					slashingRewardData: {
-						slashedValidatorIndex: number
-						slashingType: SlashingType
-						whistleblowerShare: NativeCurrencyAmount
-						proposerShare: NativeCurrencyAmount
-					}
-				}
-				: {}
-			)
-
-		:
-			{}
-	)
-)
+// All beacon entities combined
+export type AnyBeaconEntity = 
+	| ConsensusBeaconEntity
+	| CommitteeBeaconEntity
+	| ValidatorLifecycleBeaconEntity
+	| EconomicBeaconEntity
 
 // Validator analytics
 export enum ValidatorAnalyticsTimeframe {
@@ -357,26 +354,18 @@ export enum ValidatorAnalyticsTimeframe {
 }
 
 export type ValidatorAnalytics = {
-	validatorIndex: number
+	validatorIndex: ValidatorIndex
 	timeframe: ValidatorAnalyticsTimeframe
-
-	// Performance metrics
 	attestationRate: Percentage
 	proposalRate: Percentage
 	syncCommitteeRate?: Percentage
-
-	// Reward metrics
 	totalRewards: NativeCurrencyAmount
 	attestationRewards: NativeCurrencyAmount
 	proposalRewards: NativeCurrencyAmount
 	syncRewards?: NativeCurrencyAmount
-
-	// Penalty metrics
 	totalPenalties: NativeCurrencyAmount
 	missedAttestations: number
 	missedProposals: number
-
-	// Effectiveness
 	effectiveness: Percentage
 	uptime: Percentage
 	inclusionDelay: number
@@ -384,31 +373,22 @@ export type ValidatorAnalytics = {
 
 export type BeaconChainState = {
 	chainId: ChainId
-
-	// Current state
 	currentEpoch: EpochNumber
 	currentSlot: SlotNumber
 	finalizedEpoch: EpochNumber
 	justifiedEpoch: EpochNumber
-
-	// Validators
 	activeValidators: number
 	totalValidators: number
 	queuedValidators: number
 	exitingValidators: number
-
-	// Network metrics
 	participationRate: Percentage
 	networkBalance: NativeCurrencyAmount
 	totalStaked: NativeCurrencyAmount
-
-	// Recent performance
 	recentBlocks: {
 		proposed: number
 		missed: number
 		orphaned: number
 	}
-
 	recentAttestations: {
 		included: number
 		missed: number
@@ -416,10 +396,11 @@ export type BeaconChainState = {
 }
 
 export type BeaconFilter = {
-	// Entity filters
-	entities?: BeaconEntity[]
-
-	// Time filters
+	entities?: BeaconEntityType[]
+	consensusEntities?: ConsensusEntity[]
+	committeeEntities?: CommitteeEntity[]
+	validatorLifecycleEntities?: ValidatorLifecycleEntity[]
+	economicEntities?: EconomicEntity[]
 	epochRange?: {
 		from: EpochNumber
 		to: EpochNumber
@@ -428,20 +409,12 @@ export type BeaconFilter = {
 		from: SlotNumber
 		to: SlotNumber
 	}
-
-	// Validator filters
-	validatorIndices?: number[]
+	validatorIndices?: ValidatorIndex[]
 	validatorAddresses?: Address[]
-
-	// Status filters
 	statuses?: string[]
 	isFinalized?: boolean
-
-	// Performance filters
 	minParticipationRate?: Percentage
 	maxInclusionDelay?: number
-
-	// Pagination
 	limit?: number
 	offset?: number
 } 

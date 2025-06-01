@@ -1,6 +1,7 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
 import type { ChainId } from './network'
-import type { Address, Hash, Timestamp } from './scalars'
+import type { Address, Hash, Timestamp, TokenAmount, UsdAmount } from './scalars'
+import type { ContractStandard } from './contract'
 
 export enum ActorType {
 	Eoa = 'Eoa', // Externally Owned Account
@@ -46,8 +47,8 @@ export type Actor<
 	}[]
 
 	// Balance information
-	balance?: string // Wei
-	balanceUsd?: number
+	balance?: TokenAmount
+	balanceUsd?: UsdAmount
 
 	// Activity tracking
 	firstSeenAt?: Timestamp
@@ -191,6 +192,9 @@ export type Actor<
 	_implementation?: PartialExceptOneOf<Actor<ActorType.Contract>, 'address'>
 	_admin?: PartialExceptOneOf<Actor, 'address'>
 	_templateContract?: PartialExceptOneOf<Actor<ActorType.Contract>, 'address'>
+
+	// Transactions associated with this actor
+	_transactions?: PartialExceptOneOf<import('./transaction').Transaction, 'id'>[]
 }
 
 // Supporting types

@@ -227,65 +227,54 @@ export type Trace<_T extends TraceType = TraceType> = (
 
 		_transaction?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'id'
-			| 'format'
 			| 'status'
 		>
 
 		// For call traces
 		_fromActor?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'format'
 		>
 
 		_toActor?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'format'
 		>
 
 		// For creation traces
 		_creatorActor?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'format'
 		>
 
 		_createdContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
-			| 'standards'
 			| 'deploymentTimestamp'
 		>
 
 		// For self-destruct traces
 		_selfDestructContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
-			| 'standards'
 		>
 
 		_refundRecipient?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'format'
 		>
 
 		// For reward traces
 		_rewardRecipient?: PartialExceptOneOf<Actor,
 			| 'address'
-			| 'format'
 		>
 
 		// Trace relationships
 		_parentTrace?: PartialExceptOneOf<Trace,
 			| 'id'
-			| 'format'
 		>
 
 		_childTraces?: PartialExceptOneOf<Trace,
 			| 'id'
-			| 'format'
 			| 'traceAddress'
 		>[]
 
 		_relatedTraces?: PartialExceptOneOf<Trace,
 			| 'id'
-			| 'format'
 			| 'timestamp'
 		>[]
 
