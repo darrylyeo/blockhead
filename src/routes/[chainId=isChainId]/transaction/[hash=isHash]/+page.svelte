@@ -1,30 +1,30 @@
 <script lang="ts">
+	// Types/constants
 	import { page } from '$app/state'
+	import type { ChainId } from '$/entities/network'
 	import { query } from '$/lib/graphql.svelte'
 	import { graphql } from '$/state/graphql'
-	import Transaction from '$/views/entities/Transaction.svelte'
-	import type { ChainId } from '$/entities/network'
 
-	const { transactionId } = page.params
+
+	// Components
+	import Transaction from '$/views/entities/Transaction.svelte'
+
+
+	// State
+	const { hash } = page.params
 	const chainId = Number(page.params.chainId)
 
 	const transaction = $derived(
-		query(
-			graphql(`
-				query transaction($hash: Hash!, $chainId: Int!) {
-					transaction(
-						hash: $hash
-						chainId: $chainId
-					) {
-						...Transaction_Fragment
-					}
+		query(graphql(`
+			query transaction($hash: Hash!, $chainId: Int!) {
+				transaction(
+					hash: $hash
+					chainId: $chainId
+				) {
+					...Transaction_Fragment
 				}
-			`),
-			{
-				hash: transactionId as `0x${string}`,
-				chainId
 			}
-		)
+		`), { hash: hash as `0x${string}`, chainId })
 	)
 </script>
 

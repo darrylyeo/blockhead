@@ -1,19 +1,16 @@
 <script lang="ts">
 	// Types/constants
 	import type { Actor } from '$/entities/actor'
-	import { ActorType, ContractTag } from '$/entities/actor'
+	import { ActorType, ContractTag, type ProxyType } from '$/entities/actor'
 	import { EntityType } from '$/entities'
-
 
 	// Props
 	let { actor }: { actor: Actor } = $props()
-
 
 	// Components
 	import Entity from '$/components/Entity.svelte'
 	import EntitySection from '$/components/EntitySection.svelte'
 </script>
-
 
 <Entity
 	type={EntityType.Actor}
@@ -57,12 +54,12 @@
 		entityType="actor-balance"
 	>
 		<dl>
-			{#if actor.balance !== null}
+			{#if actor.balance !== undefined}
 				<dt>Balance</dt>
 				<dd>{actor.balance} Wei</dd>
 			{/if}
 
-			{#if actor.balanceUsd !== null}
+			{#if actor.balanceUsd !== undefined}
 				<dt>Balance USD</dt>
 				<dd>${actor.balanceUsd.toLocaleString()}</dd>
 			{/if}
@@ -74,7 +71,7 @@
 		entityType="actor-activity"
 	>
 		<dl>
-			{#if actor.firstSeenAt !== null}
+			{#if actor.firstSeenAt !== undefined}
 				<dt>First Seen</dt>
 				<dd>
 					<time
@@ -88,7 +85,7 @@
 				</dd>
 			{/if}
 
-			{#if actor.lastActiveAt !== null}
+			{#if actor.lastActiveAt !== undefined}
 				<dt>Last Active</dt>
 				<dd>
 					<time
@@ -102,12 +99,12 @@
 				</dd>
 			{/if}
 
-			{#if actor.transactionCount !== null}
+			{#if actor.transactionCount !== undefined}
 				<dt>Transaction Count</dt>
 				<dd>{actor.transactionCount.toLocaleString()}</dd>
 			{/if}
 
-			{#if actor.internalTransactionCount !== null}
+			{#if actor.internalTransactionCount !== undefined}
 				<dt>Internal Transaction Count</dt>
 				<dd>{actor.internalTransactionCount.toLocaleString()}</dd>
 			{/if}
@@ -124,7 +121,7 @@
 				<dd class="risk-level {actor.riskLevel}">{actor.riskLevel}</dd>
 			{/if}
 
-			{#if actor.securityScore !== null}
+			{#if actor.securityScore !== undefined}
 				<dt>Security Score</dt>
 				<dd>{actor.securityScore}/100</dd>
 			{/if}
@@ -139,7 +136,7 @@
 							<strong>{audit.auditor}</strong> - {new Date(
 								audit.date * 1000,
 							).toLocaleDateString()}
-							{#if audit.score !== null}
+							{#if audit.score !== undefined}
 								(Score: {audit.score}/100)
 							{/if}
 							{#if audit.reportUrl}
@@ -158,14 +155,25 @@
 			entityType="actor-eoa"
 		>
 			<dl>
-				{#if 'nonce' in actor && actor.nonce !== null}
+				{#if 'nonce' in actor && actor.nonce !== undefined}
 					<dt>Nonce</dt>
 					<dd>{actor.nonce}</dd>
 				{/if}
 
-				{#if 'isVerified' in actor && actor.isVerified !== null}
+				{#if 'isVerified' in actor && actor.isVerified !== undefined}
 					<dt>Verified</dt>
 					<dd>{actor.isVerified ? 'Yes' : 'No'}</dd>
+				{/if}
+
+				{#if 'tags' in actor && actor.tags && actor.tags.length > 0}
+					<dt>Tags</dt>
+					<dd>
+						<ul>
+							{#each actor.tags as tag}
+								<li>{tag}</li>
+							{/each}
+						</ul>
+					</dd>
 				{/if}
 			</dl>
 
@@ -199,7 +207,7 @@
 
 			{#if 'averageGasPrice' in actor || 'preferredGasLimit' in actor}
 				<details>
-					<summary><h3>Gas Preferences</h3></summary>
+					<summary><h3>Transaction Patterns</h3></summary>
 					<dl>
 						{#if 'averageGasPrice' in actor && actor.averageGasPrice}
 							<dt>Average Gas Price</dt>
@@ -213,110 +221,57 @@
 					</dl>
 				</details>
 			{/if}
-
-			{#if 'tags' in actor && actor.tags && actor.tags.length > 0}
-				<details>
-					<summary><h3>Tags ({actor.tags.length})</h3></summary>
-					<ul>
-						{#each actor.tags as tag}
-							<li>{tag}</li>
-						{/each}
-					</ul>
-				</details>
-			{/if}
 		</EntitySection>
 	{/if}
 
 	{#if actor.type === ActorType.Contract}
 		<EntitySection
-			title="Contract Basics"
-			entityType="actor-contract-basic"
+			title="Contract Details"
+			entityType="actor-contract"
 		>
 			<dl>
-				{#if 'isVerified' in actor && actor.isVerified !== null}
+				{#if 'bytecode' in actor && actor.bytecode}
+					<dt>Bytecode</dt>
+					<dd><code>{actor.bytecode}</code></dd>
+				{/if}
+
+				{#if 'creationTransaction' in actor && actor.creationTransaction}
+					<dt>Creation Transaction</dt>
+					<dd><a href="/transaction/{actor.creationTransaction}">{actor.creationTransaction}</a></dd>
+				{/if}
+
+				{#if 'creationBlock' in actor && actor.creationBlock}
+					<dt>Creation Block</dt>
+					<dd><a href="/block/{actor.creationBlock}">{actor.creationBlock.toLocaleString()}</a></dd>
+				{/if}
+
+				{#if 'isVerified' in actor && actor.isVerified !== undefined}
 					<dt>Verified</dt>
 					<dd>{actor.isVerified ? 'Yes' : 'No'}</dd>
 				{/if}
 
-				{#if 'hasSource' in actor && actor.hasSource !== null}
-					<dt>Has Source</dt>
-					<dd>{actor.hasSource ? 'Yes' : 'No'}</dd>
+				{#if 'bytecodeSize' in actor && actor.bytecodeSize}
+					<dt>Bytecode Size</dt>
+					<dd>{actor.bytecodeSize.toLocaleString()} bytes</dd>
 				{/if}
 
-				{#if 'bytecodeSize' in actor && actor.bytecodeSize !== null}
-					<dt>Bytecode Size</dt>
-					<dd>{actor.bytecodeSize} bytes</dd>
+				{#if 'hasSource' in actor && actor.hasSource !== undefined}
+					<dt>Has Source</dt>
+					<dd>{actor.hasSource ? 'Yes' : 'No'}</dd>
 				{/if}
 
 				{#if 'verificationDate' in actor && actor.verificationDate}
 					<dt>Verification Date</dt>
 					<dd>
-						<time
-							datetime={new Date(
-								actor.verificationDate * 1000,
-							).toISOString()}
-							>{new Date(
-								actor.verificationDate * 1000,
-							).toLocaleString()}</time
-					>
+						<time datetime={new Date(actor.verificationDate * 1000).toISOString()}>
+							{new Date(actor.verificationDate * 1000).toLocaleString()}
+						</time>
 					</dd>
 				{/if}
 
 				{#if 'verificationMethod' in actor && actor.verificationMethod}
 					<dt>Verification Method</dt>
 					<dd>{actor.verificationMethod}</dd>
-				{/if}
-			</dl>
-
-			{#if 'bytecode' in actor && actor.bytecode}
-				<details>
-					<summary><h3>Bytecode</h3></summary>
-					<code>{actor.bytecode}</code>
-				</details>
-			{/if}
-		</EntitySection>
-
-		<EntitySection
-			title="Contract Deployment"
-			entityType="actor-contract-deployment"
-		>
-			<dl>
-				{#if 'creationTransaction' in actor && actor.creationTransaction}
-					<dt>Creation Transaction</dt>
-					<dd>
-						<a href="/transaction/{actor.creationTransaction}"
-							>{actor.creationTransaction}</a>
-					</dd>
-				{/if}
-
-				{#if 'creationBlock' in actor && actor.creationBlock}
-					<dt>Creation Block</dt>
-					<dd>
-						<a href="/block/{actor.creationBlock}"
-							>{actor.creationBlock.toLocaleString()}</a>
-					</dd>
-				{/if}
-			</dl>
-		</EntitySection>
-
-		<EntitySection
-			title="Contract Classification"
-			entityType="actor-contract-classification"
-		>
-			<dl>
-				{#if 'protocolName' in actor && actor.protocolName}
-					<dt>Protocol Name</dt>
-					<dd>{actor.protocolName}</dd>
-				{/if}
-
-				{#if 'protocolVersion' in actor && actor.protocolVersion}
-					<dt>Protocol Version</dt>
-					<dd>{actor.protocolVersion}</dd>
-				{/if}
-
-				{#if 'protocolRole' in actor && actor.protocolRole}
-					<dt>Protocol Role</dt>
-					<dd>{actor.protocolRole}</dd>
 				{/if}
 			</dl>
 
@@ -333,7 +288,7 @@
 
 			{#if 'standards' in actor && actor.standards && actor.standards.length > 0}
 				<details>
-					<summary><h3>Standards ({actor.standards.length})</h3></summary>
+					<summary><h3>Contract Standards ({actor.standards.length})</h3></summary>
 					<ul>
 						{#each actor.standards as standard}
 							<li>{standard}</li>
@@ -341,61 +296,79 @@
 					</ul>
 				</details>
 			{/if}
-		</EntitySection>
 
-		{#if 'proxyType' in actor && actor.proxyType}
-			<EntitySection
-				title="Proxy Information"
-				entityType="actor-proxy"
-			>
-				<dl>
-					<dt>Proxy Type</dt>
-					<dd>{actor.proxyType}</dd>
+			{#if 'proxyType' in actor && actor.proxyType}
+				<details>
+					<summary><h3>Proxy Details</h3></summary>
+					<dl>
+						<dt>Proxy Type</dt>
+						<dd>{actor.proxyType}</dd>
 
-					{#if 'isUpgradable' in actor && actor.isUpgradable !== null}
-						<dt>Is Upgradable</dt>
-						<dd>{actor.isUpgradable ? 'Yes' : 'No'}</dd>
-					{/if}
-				</dl>
+						{#if 'isUpgradable' in actor && actor.isUpgradable !== undefined}
+							<dt>Upgradable</dt>
+							<dd>{actor.isUpgradable ? 'Yes' : 'No'}</dd>
+						{/if}
 
-				{#if 'upgradeHistory' in actor && actor.upgradeHistory && actor.upgradeHistory.length > 0}
-					<details>
-						<summary><h3>Upgrade History ({actor.upgradeHistory.length})</h3></summary>
-						<table>
-							<thead>
-								<tr>
-									<th>Date</th>
-									<th>From</th>
-									<th>To</th>
-								</tr>
-							</thead>
-							<tbody>
-								{#each actor.upgradeHistory as upgrade}
-									<tr>
-										<td>
+						{#if 'upgradeHistory' in actor && actor.upgradeHistory && actor.upgradeHistory.length > 0}
+							<dt>Upgrade History</dt>
+							<dd>
+								<ul>
+									{#each actor.upgradeHistory as upgrade}
+										<li>
 											<time datetime={new Date(upgrade.timestamp * 1000).toISOString()}>
 												{new Date(upgrade.timestamp * 1000).toLocaleString()}
 											</time>
-										</td>
-										<td>{upgrade.oldImplementation}</td>
-										<td>{upgrade.newImplementation}</td>
-									</tr>
-								{/each}
-							</tbody>
-						</table>
-					</details>
-				{/if}
-			</EntitySection>
-		{/if}
+											- From <a href="/address/{upgrade.oldImplementation}">{upgrade.oldImplementation}</a>
+											to <a href="/address/{upgrade.newImplementation}">{upgrade.newImplementation}</a>
+										</li>
+									{/each}
+								</ul>
+							</dd>
+						{/if}
+					</dl>
+				</details>
+			{/if}
 
-		<!-- Contract Tag-specific sections -->
-		{#if 'signers' in actor && actor.signers && actor.signers.length > 0}
+			{#if 'protocolName' in actor && actor.protocolName}
+				<details>
+					<summary><h3>Protocol Information</h3></summary>
+					<dl>
+						<dt>Protocol Name</dt>
+						<dd>{actor.protocolName}</dd>
+
+						{#if 'protocolVersion' in actor && actor.protocolVersion}
+							<dt>Protocol Version</dt>
+							<dd>{actor.protocolVersion}</dd>
+						{/if}
+
+						{#if 'protocolRole' in actor && actor.protocolRole}
+							<dt>Protocol Role</dt>
+							<dd>{actor.protocolRole}</dd>
+						{/if}
+					</dl>
+				</details>
+			{/if}
+		</EntitySection>
+
+		<!-- Conditional sections for specific contract tags -->
+		{#if 'tags' in actor && actor.tags?.includes(ContractTag.Multisig) && 'signers' in actor}
 			<EntitySection
 				title="Multisig Details"
 				entityType="actor-multisig"
 			>
 				<dl>
-					{#if 'threshold' in actor && actor.threshold !== null}
+					{#if actor.signers && actor.signers.length > 0}
+						<dt>Signers</dt>
+						<dd>
+							<ul>
+								{#each actor.signers as signer}
+									<li><a href="/address/{signer}">{signer}</a></li>
+								{/each}
+							</ul>
+						</dd>
+					{/if}
+
+					{#if 'threshold' in actor && actor.threshold}
 						<dt>Threshold</dt>
 						<dd>{actor.threshold}</dd>
 					{/if}
@@ -404,29 +377,22 @@
 						<dt>Multisig Type</dt>
 						<dd>{actor.multisigType}</dd>
 					{/if}
-
-					<dt>Signers ({actor.signers.length})</dt>
-					<dd>
-						<ul>
-							{#each actor.signers as signer}
-								<li><a href="/actor/{signer}">{signer}</a></li>
-							{/each}
-						</ul>
-					</dd>
 				</dl>
 			</EntitySection>
 		{/if}
 
-		{#if 'deploymentPattern' in actor && actor.deploymentPattern}
+		{#if 'tags' in actor && actor.tags?.includes(ContractTag.Factory) && 'deploymentPattern' in actor}
 			<EntitySection
 				title="Factory Details"
 				entityType="actor-factory"
 			>
 				<dl>
-					<dt>Deployment Pattern</dt>
-					<dd>{actor.deploymentPattern}</dd>
+					{#if 'deploymentPattern' in actor && actor.deploymentPattern}
+						<dt>Deployment Pattern</dt>
+						<dd>{actor.deploymentPattern}</dd>
+					{/if}
 
-					{#if 'deploymentsCount' in actor && actor.deploymentsCount !== null}
+					{#if 'deploymentsCount' in actor && actor.deploymentsCount}
 						<dt>Deployments Count</dt>
 						<dd>{actor.deploymentsCount.toLocaleString()}</dd>
 					{/if}
@@ -439,14 +405,16 @@
 			</EntitySection>
 		{/if}
 
-		{#if 'tokenStandard' in actor && actor.tokenStandard}
+		{#if 'tags' in actor && actor.tags?.includes(ContractTag.Token) && 'tokenStandard' in actor}
 			<EntitySection
 				title="Token Details"
 				entityType="actor-token"
 			>
 				<dl>
-					<dt>Token Standard</dt>
-					<dd>{actor.tokenStandard}</dd>
+					{#if 'tokenStandard' in actor && actor.tokenStandard}
+						<dt>Token Standard</dt>
+						<dd>{actor.tokenStandard}</dd>
+					{/if}
 
 					{#if 'symbol' in actor && actor.symbol}
 						<dt>Symbol</dt>
@@ -458,7 +426,7 @@
 						<dd>{actor.name}</dd>
 					{/if}
 
-					{#if 'decimals' in actor && actor.decimals !== null}
+					{#if 'decimals' in actor && actor.decimals !== undefined}
 						<dt>Decimals</dt>
 						<dd>{actor.decimals}</dd>
 					{/if}
@@ -471,44 +439,65 @@
 			</EntitySection>
 		{/if}
 
-		{#if 'exchangeType' in actor && actor.exchangeType}
+		{#if 'tags' in actor && actor.tags?.includes(ContractTag.Exchange) && 'exchangeType' in actor}
 			<EntitySection
 				title="Exchange Details"
 				entityType="actor-exchange"
 			>
 				<dl>
-					<dt>Exchange Type</dt>
-					<dd>{actor.exchangeType}</dd>
+					{#if 'exchangeType' in actor && actor.exchangeType}
+						<dt>Exchange Type</dt>
+						<dd>{actor.exchangeType}</dd>
+					{/if}
 
 					{#if 'version' in actor && actor.version}
 						<dt>Version</dt>
 						<dd>{actor.version}</dd>
 					{/if}
+
+					{#if 'feeStructure' in actor && actor.feeStructure}
+						<dt>Fee Structure</dt>
+						<dd>
+							Trading Fee: {actor.feeStructure.tradingFee}%,
+							Protocol Fee: {actor.feeStructure.protocolFee}%
+						</dd>
+					{/if}
 				</dl>
-
-				{#if 'feeStructure' in actor && actor.feeStructure}
-					<details>
-						<summary><h3>Fee Structure</h3></summary>
-						<dl>
-							<dt>Trading Fee</dt>
-							<dd>{actor.feeStructure.tradingFee}%</dd>
-
-							<dt>Protocol Fee</dt>
-							<dd>{actor.feeStructure.protocolFee}%</dd>
-						</dl>
-					</details>
-				{/if}
 			</EntitySection>
 		{/if}
 
-		{#if 'bridgeType' in actor && actor.bridgeType}
+		{#if 'tags' in actor && actor.tags?.includes(ContractTag.Bridge) && 'bridgeType' in actor}
 			<EntitySection
 				title="Bridge Details"
 				entityType="actor-bridge"
 			>
 				<dl>
-					<dt>Bridge Type</dt>
-					<dd>{actor.bridgeType}</dd>
+					{#if 'bridgeType' in actor && actor.bridgeType}
+						<dt>Bridge Type</dt>
+						<dd>{actor.bridgeType}</dd>
+					{/if}
+
+					{#if 'sourceChains' in actor && actor.sourceChains && actor.sourceChains.length > 0}
+						<dt>Source Chains</dt>
+						<dd>
+							<ul>
+								{#each actor.sourceChains as chainId}
+									<li>Chain {chainId}</li>
+								{/each}
+							</ul>
+						</dd>
+					{/if}
+
+					{#if 'targetChains' in actor && actor.targetChains && actor.targetChains.length > 0}
+						<dt>Target Chains</dt>
+						<dd>
+							<ul>
+								{#each actor.targetChains as chainId}
+									<li>Chain {chainId}</li>
+								{/each}
+							</ul>
+						</dd>
+					{/if}
 
 					{#if 'bridgeVersion' in actor && actor.bridgeVersion}
 						<dt>Bridge Version</dt>
@@ -520,41 +509,32 @@
 						<dd>{actor.securityModel}</dd>
 					{/if}
 				</dl>
-
-				{#if 'sourceChains' in actor && actor.sourceChains && actor.sourceChains.length > 0}
-					<details>
-						<summary><h3>Source Chains ({actor.sourceChains.length})</h3></summary>
-						<ul>
-							{#each actor.sourceChains as chainId}
-								<li>Chain ID: {chainId}</li>
-							{/each}
-						</ul>
-					</details>
-				{/if}
-
-				{#if 'targetChains' in actor && actor.targetChains && actor.targetChains.length > 0}
-					<details>
-						<summary><h3>Target Chains ({actor.targetChains.length})</h3></summary>
-						<ul>
-							{#each actor.targetChains as chainId}
-								<li>Chain ID: {chainId}</li>
-							{/each}
-						</ul>
-					</details>
-				{/if}
 			</EntitySection>
 		{/if}
 
-		{#if 'oracleType' in actor && actor.oracleType}
+		{#if 'tags' in actor && actor.tags?.includes(ContractTag.Oracle) && 'oracleType' in actor}
 			<EntitySection
 				title="Oracle Details"
 				entityType="actor-oracle"
 			>
 				<dl>
-					<dt>Oracle Type</dt>
-					<dd>{actor.oracleType}</dd>
+					{#if 'oracleType' in actor && actor.oracleType}
+						<dt>Oracle Type</dt>
+						<dd>{actor.oracleType}</dd>
+					{/if}
 
-					{#if 'updateFrequency' in actor && actor.updateFrequency !== null}
+					{#if 'dataFeeds' in actor && actor.dataFeeds && actor.dataFeeds.length > 0}
+						<dt>Data Feeds</dt>
+						<dd>
+							<ul>
+								{#each actor.dataFeeds as feed}
+									<li>{feed}</li>
+								{/each}
+							</ul>
+						</dd>
+					{/if}
+
+					{#if 'updateFrequency' in actor && actor.updateFrequency}
 						<dt>Update Frequency</dt>
 						<dd>{actor.updateFrequency} seconds</dd>
 					{/if}
@@ -564,49 +544,158 @@
 						<dd>{actor.aggregationMethod}</dd>
 					{/if}
 				</dl>
-
-				{#if 'dataFeeds' in actor && actor.dataFeeds && actor.dataFeeds.length > 0}
-					<details>
-						<summary><h3>Data Feeds ({actor.dataFeeds.length})</h3></summary>
-						<ul>
-							{#each actor.dataFeeds as feed}
-								<li>{feed}</li>
-							{/each}
-						</ul>
-					</details>
-				{/if}
 			</EntitySection>
 		{/if}
 	{/if}
 
-	<!-- Entity relationships -->
-	{#if actor.$relatedContracts && actor.$relatedContracts.length > 0}
-		<EntitySection
-			title="Related Contracts"
-			entityType="actor-related"
-		>
-			<ul>
-				{#each actor.$relatedContracts as contract}
-					<li>
-						<a href="/actor/{contract.address}">{contract.address}</a>
-					</li>
-				{/each}
-			</ul>
-		</EntitySection>
-	{/if}
+	<!-- References section -->
+	<EntitySection
+		title="References"
+		entityType="actor-references"
+	>
+		{#if actor._relatedContracts && actor._relatedContracts.length > 0}
+			<details>
+				<summary><h3>Related Contracts ({actor._relatedContracts.length})</h3></summary>
+				<ul>
+					{#each actor._relatedContracts as contract}
+						<li><a href="/address/{contract.address}">{contract.address}</a></li>
+					{/each}
+				</ul>
+			</details>
+		{/if}
 
-	{#if actor.$createdContracts && actor.$createdContracts.length > 0}
-		<EntitySection
-			title="Created Contracts"
-			entityType="actor-created"
-		>
-			<ul>
-				{#each actor.$createdContracts as contract}
-					<li>
-						<a href="/actor/{contract.address}">{contract.address}</a>
-					</li>
-				{/each}
-			</ul>
-		</EntitySection>
-	{/if}
+		{#if actor._createdContracts && actor._createdContracts.length > 0}
+			<details>
+				<summary><h3>Created Contracts ({actor._createdContracts.length})</h3></summary>
+				<ul>
+					{#each actor._createdContracts as contract}
+						<li><a href="/address/{contract.address}">{contract.address}</a></li>
+					{/each}
+				</ul>
+			</details>
+		{/if}
+
+		{#if actor._controlledBy}
+			<details>
+				<summary><h3>Controlled By</h3></summary>
+				<a href="/address/{actor._controlledBy.address}">{actor._controlledBy.address}</a>
+			</details>
+		{/if}
+
+		{#if actor._controls && actor._controls.length > 0}
+			<details>
+				<summary><h3>Controls ({actor._controls.length})</h3></summary>
+				<ul>
+					{#each actor._controls as controlled}
+						<li><a href="/address/{controlled.address}">{controlled.address}</a></li>
+					{/each}
+				</ul>
+			</details>
+		{/if}
+
+		{#if actor._creator}
+			<details>
+				<summary><h3>Creator</h3></summary>
+				<a href="/address/{actor._creator.address}">{actor._creator.address}</a>
+			</details>
+		{/if}
+
+		{#if actor._implementation}
+			<details>
+				<summary><h3>Implementation</h3></summary>
+				<a href="/address/{actor._implementation.address}">{actor._implementation.address}</a>
+			</details>
+		{/if}
+
+		{#if actor._admin}
+			<details>
+				<summary><h3>Admin</h3></summary>
+				<a href="/address/{actor._admin.address}">{actor._admin.address}</a>
+			</details>
+		{/if}
+
+		{#if actor._templateContract}
+			<details>
+				<summary><h3>Template Contract</h3></summary>
+				<a href="/address/{actor._templateContract.address}">{actor._templateContract.address}</a>
+			</details>
+		{/if}
+
+		{#if actor._transactions && actor._transactions.length > 0}
+			<details>
+				<summary><h3>Recent Transactions ({actor._transactions.length})</h3></summary>
+				<ul>
+					{#each actor._transactions.slice(0, 10) as transaction}
+						<li><a href="/transaction/{transaction.id}">{transaction.id}</a></li>
+					{/each}
+					{#if actor._transactions.length > 10}
+						<li>... and {actor._transactions.length - 10} more</li>
+					{/if}
+				</ul>
+			</details>
+		{/if}
+	</EntitySection>
 </Entity>
+
+<style>
+	.risk-level {
+		padding: 2px 6px;
+		border-radius: 4px;
+		color: white;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+
+	.risk-level.low {
+		background-color: green;
+	}
+
+	.risk-level.medium {
+		background-color: orange;
+	}
+
+	.risk-level.high {
+		background-color: red;
+	}
+
+	.risk-level.critical {
+		background-color: darkred;
+	}
+
+	code {
+		font-family: monospace;
+		background: #f4f4f4;
+		padding: 2px 4px;
+		border-radius: 3px;
+	}
+
+	details {
+		margin: 8px 0;
+	}
+
+	summary {
+		cursor: pointer;
+		font-weight: bold;
+		margin: 4px 0;
+	}
+
+	ul {
+		margin: 8px 0;
+		padding-left: 20px;
+	}
+
+	dl {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 8px 16px;
+		margin: 8px 0;
+	}
+
+	dt {
+		font-weight: bold;
+	}
+
+	dd {
+		margin: 0;
+	}
+</style>
