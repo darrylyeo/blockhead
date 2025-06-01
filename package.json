@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "dotenvx run -- vite dev",
-		"build": "dotenvx run -- vite build",
+		"build": "dotenvx run --quiet -f .env -f .env.production -- vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -105,7 +105,26 @@
 		"generate:openapi-typescript:1inch:charts": "openapi-typescript https://portal.1inch.dev/api/swagger-docs/charts/swagger-json -o ./src/api/1inch/charts/api.d.ts",
 		"generate:openapi-typescript:1inch:portfolio": "openapi-typescript https://portal.1inch.dev/api/swagger-docs/portfolio/openapi -o ./src/api/1inch/portfolio/api.d.ts",
 		"generate:openapi-typescript:1inch:token-details": "openapi-typescript https://portal.1inch.dev/api/swagger-docs/token-details/swagger/json -o ./src/api/1inch/token-details/api.d.ts",
-		"generate:openapi-typescript:1inch:traces": "openapi-typescript https://portal.1inch.dev/api/swagger-docs/traces/v1/chain/1/swagger-json -o ./src/api/1inch/traces/api.d.ts"
+		"generate:openapi-typescript:1inch:traces": "openapi-typescript https://portal.1inch.dev/api/swagger-docs/traces/v1/chain/1/swagger-json -o ./src/api/1inch/traces/api.d.ts",
+		"generate:openapi-typescript:1inch:aggregation-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/aggregation-openapi.json -o ./src/api/1inch/aggregation-2/api.d.ts",
+		"generate:openapi-typescript:1inch:balances-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/balances-openapi.json -o ./src/api/1inch/balances-2/api.d.ts",
+		"generate:openapi-typescript:1inch:charts-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/balances-openapi.json -o ./src/api/1inch/charts-2/api.d.ts",
+		"generate:openapi-typescript:1inch:fusion:orders-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/fusion_orders-openapi.json -o ./src/api/1inch/fusion/orders-2/api.d.ts",
+		"generate:openapi-typescript:1inch:fusion:quoter-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/fusion_quoter-openapi.json -o ./src/api/1inch/fusion/quoter-2/api.d.ts",
+		"generate:openapi-typescript:1inch:fusion:relayer-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/fusion_relayer-openapi.json -o ./src/api/1inch/fusion/relayer-2/api.d.ts",
+		"generate:openapi-typescript:1inch:fusion-plus:orders-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/fusionplus_orders-openapi.json -o ./src/api/1inch/fusion-plus/orders-2/api.d.ts",
+		"generate:openapi-typescript:1inch:fusion-plus:quoter-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/fusionplus_quoter-openapi.json -o ./src/api/1inch/fusion-plus/quoter-2/api.d.ts",
+		"generate:openapi-typescript:1inch:fusion-plus:relayer-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/fusionplus_relayer-openapi.json -o ./src/api/1inch/fusion-plus/relayer-2/api.d.ts",
+		"generate:openapi-typescript:1inch:gas-prices-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/gasprices-openapi.json -o ./src/api/1inch/gas-prices-2/api.d.ts",
+		"generate:openapi-typescript:1inch:history-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/history-openapi.json -o ./src/api/1inch/history-2/api.d.ts",
+		"generate:openapi-typescript:1inch:nft-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/nft-openapi.json -o ./src/api/1inch/nft-2/api.d.ts",
+		"generate:openapi-typescript:1inch:orderbook-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/orderbook-openapi.json -o ./src/api/1inch/orderbook-2/api.d.ts",
+		"generate:openapi-typescript:1inch:portfolio-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/portfolio-openapi.json -o ./src/api/1inch/portfolio-2/api.d.ts",
+		"generate:openapi-typescript:1inch:spot-prices-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/spotprices-openapi.json -o ./src/api/1inch/spot-prices-2/api.d.ts",
+		"generate:openapi-typescript:1inch:tokens-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/tokens-openapi.json -o ./src/api/1inch/tokens-2/api.d.ts",
+		"generate:openapi-typescript:1inch:traces-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/traces-openapi.json -o ./src/api/1inch/traces-2/api.d.ts",
+		"generate:openapi-typescript:1inch:tx-broadcast-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/txbroadcast-openapi.json -o ./src/api/1inch/tx-broadcast-2/api.d.ts",
+		"generate:openapi-typescript:1inch:web3-2": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/web3-openapi.json -o ./src/api/1inch/web3-2/api.d.ts"
 	},
 	"devDependencies": {
 		"@magidoc/rollup-plugin-gql-schema": "^6.2.0",
@@ -116,13 +135,18 @@
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
 		"typescript": "^5.0.0",
-		"vite": "^6.2.6"
+		"vite": "^6.2.6",
+		"vite-plugin-kit-routes": "^0.8.4"
 	},
 	"dependencies": {
 		"@dotenvx/dotenvx": "^1.0.1",
+		"@threlte/core": "^8.0.4",
+		"@threlte/extras": "^9.2.1",
+		"@urql/core": "^5.1.1",
 		"@urql/exchange-graphcache": "^7.2.3",
 		"@urql/svelte": "^4.2.3",
 		"gql.tada": "^1.8.10",
+		"three": "^0.177.0",
 		"viem": "^2.30.5"
 	}
 }
