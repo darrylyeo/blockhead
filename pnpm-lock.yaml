@@ -48,6 +48,9 @@ importers:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^5.0.0
         version: 5.0.3(svelte@5.33.10)(vite@6.3.5(@types/node@22.15.28))
+      '@urql/devtools':
+        specifier: ^2.0.3
+        version: 2.0.3(@urql/core@5.1.1(graphql@16.11.0))(graphql@16.11.0)
       openapi-typescript:
         specifier: ^7.8.0
         version: 7.8.0(typescript@5.8.3)
@@ -543,6 +546,12 @@ packages:
 
   '@urql/core@5.1.1':
     resolution: {integrity: sha512-aGh024z5v2oINGD/In6rAtVKTm4VmQ2TxKQBAtk2ZSME5dunZFcjltw4p5ENQg+5CBhZ3FHMzl0Oa+rwqiWqlg==}
+
+  '@urql/devtools@2.0.3':
+    resolution: {integrity: sha512-TktPLiBS9LcBPHD6qcnb8wqOVcg3Bx0iCtvQ80uPpfofwwBGJmqnQTjUdEFU6kwaLOFZULQ9+Uo4831G823mQw==}
+    peerDependencies:
+      '@urql/core': '>= 1.14.0'
+      graphql: '>= 0.11.0'
 
   '@urql/exchange-graphcache@7.2.3':
     resolution: {integrity: sha512-ClxbxlONfcGZOgZQxUIJ2hvy82mwuljQLVd957TgpSDzSCMLWCklWFubnSC5YFvQLR1kZJW+sbhWKd4ZpndF9w==}
@@ -1672,6 +1681,12 @@ snapshots:
       wonka: 6.3.5
     transitivePeerDependencies:
       - graphql
+
+  '@urql/devtools@2.0.3(@urql/core@5.1.1(graphql@16.11.0))(graphql@16.11.0)':
+    dependencies:
+      '@urql/core': 5.1.1(graphql@16.11.0)
+      graphql: 16.11.0
+      wonka: 6.3.5
 
   '@urql/exchange-graphcache@7.2.3(@urql/core@5.1.1(graphql@16.11.0))(graphql@16.11.0)':
     dependencies:
