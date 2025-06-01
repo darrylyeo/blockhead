@@ -83,3 +83,10 @@ export const client = createClient({
 	fetch,
 	requestPolicy: 'cache-first',
 })
+
+// Helper to get current datasource for GraphQL queries
+import { selectedDatasource } from '$/state/datasource.svelte'
+
+export const getDatasourceVariables = () => ({
+	datasource: selectedDatasource.current
+})

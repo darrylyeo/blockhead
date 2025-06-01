@@ -421,7 +421,6 @@
 	</div>
 
 	<div class="static-links">
-		<DatasourcePicker />
 		<a href="/timeline" class="nav-link">Timeline</a>
 		
 		<div class="chains-dropdown">
@@ -450,6 +449,10 @@
 			{/if}
 		</div>
 	</div>
+
+	<hr>
+
+	<DatasourcePicker />
 </nav>
 
 
@@ -641,4 +644,12 @@
 			background: rgba(255, 255, 255, 0.1);
 		}
 	}
-</style> 
+
+	hr {
+		border: none;
+		border-right: 1px solid;
+		height: 1.5em;
+		opacity: 0.25;
+		margin: 0 0.25em;
+	}
+</style>

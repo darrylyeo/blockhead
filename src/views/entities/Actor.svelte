@@ -24,13 +24,19 @@
 	>
 		<dl>
 			<dt>Address</dt>
-			<dd><a href="/actor/{actor.address}">{actor.address}</a></dd>
+			<dd>
+				{#if actor.address}
+					<a href="/actor/{actor.address}">{actor.address}</a>
+				{:else}
+					N/A
+				{/if}
+			</dd>
 
 			<dt>Chain ID</dt>
-			<dd>{actor.chainId}</dd>
+			<dd>{actor.chainId ?? 'N/A'}</dd>
 
 			<dt>Type</dt>
-			<dd>{actor.type}</dd>
+			<dd>{actor.type ?? 'Unknown'}</dd>
 
 			{#if actor.labels && actor.labels.length > 0}
 				<dt>Labels</dt>
@@ -38,7 +44,7 @@
 					<ul>
 						{#each actor.labels as label}
 							<li>
-								<strong>{label.name}</strong>
+								<strong>{label.name ?? 'Unknown'}</strong>
 								{#if label.source} - from {label.source}{/if}
 								{#if label.verified} ✓{/if}
 							</li>
@@ -59,7 +65,7 @@
 				<dd>{actor.balance} Wei</dd>
 			{/if}
 
-			{#if actor.balanceUsd !== undefined && actor.balanceUsd !== null && actor.balanceUsd !== null}
+			{#if actor.balanceUsd !== undefined && actor.balanceUsd !== null}
 				<dt>Balance USD</dt>
 				<dd>${actor.balanceUsd?.toLocaleString()}</dd>
 			{/if}
@@ -99,12 +105,12 @@
 				</dd>
 			{/if}
 
-			{#if actor.transactionCount !== undefined && actor.transactionCount !== null && actor.transactionCount !== null}
+			{#if actor.transactionCount !== undefined && actor.transactionCount !== null}
 				<dt>Transaction Count</dt>
 				<dd>{actor.transactionCount?.toLocaleString()}</dd>
 			{/if}
 
-			{#if actor.internalTransactionCount !== undefined && actor.internalTransactionCount !== null && actor.internalTransactionCount !== null}
+			{#if actor.internalTransactionCount !== undefined && actor.internalTransactionCount !== null}
 				<dt>Internal Transaction Count</dt>
 				<dd>{actor.internalTransactionCount?.toLocaleString()}</dd>
 			{/if}
@@ -133,9 +139,12 @@
 				<ul>
 					{#each actor.auditReports as audit}
 						<li>
-							<strong>{audit.auditor}</strong> - {new Date(
-								audit.date * 1000,
-							).toLocaleDateString()}
+							<strong>{audit.auditor ?? 'Unknown Auditor'}</strong> - 
+							{#if audit.date !== undefined && audit.date !== null}
+								{new Date(audit.date * 1000).toLocaleDateString()}
+							{:else}
+								N/A
+							{/if}
 							{#if audit.score !== undefined && audit.score !== null}
 								(Score: {audit.score}/100)
 							{/if}
@@ -170,7 +179,7 @@
 					<dd>
 						<ul>
 							{#each actor.tags as tag}
-								<li>{tag}</li>
+								<li>{tag ?? 'Unknown'}</li>
 							{/each}
 						</ul>
 					</dd>
@@ -205,7 +214,7 @@
 				</details>
 			{/if}
 
-			{#if 'averageGasPrice' in actor || 'preferredGasLimit' in actor}
+			{#if ('averageGasPrice' in actor && actor.averageGasPrice) || ('preferredGasLimit' in actor && actor.preferredGasLimit)}
 				<details>
 					<summary><h3>Transaction Patterns</h3></summary>
 					<dl>
@@ -240,7 +249,7 @@
 					<dd><a href="/transaction/{actor.creationTransaction}">{actor.creationTransaction}</a></dd>
 				{/if}
 
-				{#if 'creationBlock' in actor && actor.creationBlock && actor.creationBlock !== null}
+				{#if 'creationBlock' in actor && actor.creationBlock !== undefined && actor.creationBlock !== null}
 					<dt>Creation Block</dt>
 					<dd><a href="/block/{actor.creationBlock}">{actor.creationBlock?.toLocaleString()}</a></dd>
 				{/if}
@@ -250,7 +259,7 @@
 					<dd>{actor.isVerified ? 'Yes' : 'No'}</dd>
 				{/if}
 
-				{#if 'bytecodeSize' in actor && actor.bytecodeSize && actor.bytecodeSize !== null}
+				{#if 'bytecodeSize' in actor && actor.bytecodeSize !== undefined && actor.bytecodeSize !== null}
 					<dt>Bytecode Size</dt>
 					<dd>{actor.bytecodeSize?.toLocaleString()} bytes</dd>
 				{/if}
@@ -260,7 +269,7 @@
 					<dd>{actor.hasSource ? 'Yes' : 'No'}</dd>
 				{/if}
 
-				{#if 'verificationDate' in actor && actor.verificationDate}
+				{#if 'verificationDate' in actor && actor.verificationDate !== undefined && actor.verificationDate !== null}
 					<dt>Verification Date</dt>
 					<dd>
 						<time datetime={new Date(actor.verificationDate * 1000).toISOString()}>
@@ -280,7 +289,7 @@
 					<summary><h3>Contract Tags ({actor.tags.length})</h3></summary>
 					<ul>
 						{#each actor.tags as tag}
-							<li>{tag}</li>
+							<li>{tag ?? 'Unknown'}</li>
 						{/each}
 					</ul>
 				</details>
@@ -291,7 +300,7 @@
 					<summary><h3>Contract Standards ({actor.standards.length})</h3></summary>
 					<ul>
 						{#each actor.standards as standard}
-							<li>{standard}</li>
+							<li>{standard ?? 'Unknown'}</li>
 						{/each}
 					</ul>
 				</details>
@@ -315,11 +324,25 @@
 								<ul>
 									{#each actor.upgradeHistory as upgrade}
 										<li>
-											<time datetime={new Date(upgrade.timestamp * 1000).toISOString()}>
-												{new Date(upgrade.timestamp * 1000)?.toLocaleString()}
-											</time>
-											- From <a href="/address/{upgrade.oldImplementation}">{upgrade.oldImplementation}</a>
-											to <a href="/address/{upgrade.newImplementation}">{upgrade.newImplementation}</a>
+											{#if upgrade.timestamp !== undefined && upgrade.timestamp !== null}
+												<time datetime={new Date(upgrade.timestamp * 1000).toISOString()}>
+													{new Date(upgrade.timestamp * 1000)?.toLocaleString()}
+												</time>
+											{:else}
+												Unknown time
+											{/if}
+											- From 
+											{#if upgrade.oldImplementation}
+												<a href="/address/{upgrade.oldImplementation}">{upgrade.oldImplementation}</a>
+											{:else}
+												N/A
+											{/if}
+											to 
+											{#if upgrade.newImplementation}
+												<a href="/address/{upgrade.newImplementation}">{upgrade.newImplementation}</a>
+											{:else}
+												N/A
+											{/if}
 										</li>
 									{/each}
 								</ul>
@@ -362,13 +385,19 @@
 						<dd>
 							<ul>
 								{#each actor.signers as signer}
-									<li><a href="/address/{signer}">{signer}</a></li>
+									<li>
+										{#if signer}
+											<a href="/address/{signer}">{signer}</a>
+										{:else}
+											N/A
+										{/if}
+									</li>
 								{/each}
 							</ul>
 						</dd>
 					{/if}
 
-					{#if 'threshold' in actor && actor.threshold}
+					{#if 'threshold' in actor && actor.threshold !== undefined && actor.threshold !== null}
 						<dt>Threshold</dt>
 						<dd>{actor.threshold}</dd>
 					{/if}
@@ -392,7 +421,7 @@
 						<dd>{actor.deploymentPattern}</dd>
 					{/if}
 
-					{#if 'deploymentsCount' in actor && actor.deploymentsCount && actor.deploymentsCount !== null}
+					{#if 'deploymentsCount' in actor && actor.deploymentsCount !== undefined && actor.deploymentsCount !== null}
 						<dt>Deployments Count</dt>
 						<dd>{actor.deploymentsCount?.toLocaleString()}</dd>
 					{/if}
@@ -458,8 +487,8 @@
 					{#if 'feeStructure' in actor && actor.feeStructure}
 						<dt>Fee Structure</dt>
 						<dd>
-							Trading Fee: {actor.feeStructure.tradingFee}%,
-							Protocol Fee: {actor.feeStructure.protocolFee}%
+							Trading Fee: {actor.feeStructure.tradingFee ?? 'N/A'}%,
+							Protocol Fee: {actor.feeStructure.protocolFee ?? 'N/A'}%
 						</dd>
 					{/if}
 				</dl>
@@ -482,7 +511,7 @@
 						<dd>
 							<ul>
 								{#each actor.sourceChains as chainId}
-									<li>Chain {chainId}</li>
+									<li>Chain {chainId ?? 'Unknown'}</li>
 								{/each}
 							</ul>
 						</dd>
@@ -493,7 +522,7 @@
 						<dd>
 							<ul>
 								{#each actor.targetChains as chainId}
-									<li>Chain {chainId}</li>
+									<li>Chain {chainId ?? 'Unknown'}</li>
 								{/each}
 							</ul>
 						</dd>
@@ -528,13 +557,13 @@
 						<dd>
 							<ul>
 								{#each actor.dataFeeds as feed}
-									<li>{feed}</li>
+									<li>{feed ?? 'Unknown'}</li>
 								{/each}
 							</ul>
 						</dd>
 					{/if}
 
-					{#if 'updateFrequency' in actor && actor.updateFrequency}
+					{#if 'updateFrequency' in actor && actor.updateFrequency !== undefined && actor.updateFrequency !== null}
 						<dt>Update Frequency</dt>
 						<dd>{actor.updateFrequency} seconds</dd>
 					{/if}
@@ -558,7 +587,13 @@
 				<summary><h3>Related Contracts ({actor._relatedContracts.length})</h3></summary>
 				<ul>
 					{#each actor._relatedContracts as contract}
-						<li><a href="/address/{contract.address}">{contract.address}</a></li>
+						<li>
+							{#if contract.address}
+								<a href="/address/{contract.address}">{contract.address}</a>
+							{:else}
+								N/A
+							{/if}
+						</li>
 					{/each}
 				</ul>
 			</details>
@@ -569,7 +604,13 @@
 				<summary><h3>Created Contracts ({actor._createdContracts.length})</h3></summary>
 				<ul>
 					{#each actor._createdContracts as contract}
-						<li><a href="/address/{contract.address}">{contract.address}</a></li>
+						<li>
+							{#if contract.address}
+								<a href="/address/{contract.address}">{contract.address}</a>
+							{:else}
+								N/A
+							{/if}
+						</li>
 					{/each}
 				</ul>
 			</details>
@@ -578,7 +619,11 @@
 		{#if actor._controlledBy}
 			<details>
 				<summary><h3>Controlled By</h3></summary>
-				<a href="/address/{actor._controlledBy.address}">{actor._controlledBy.address}</a>
+				{#if actor._controlledBy.address}
+					<a href="/address/{actor._controlledBy.address}">{actor._controlledBy.address}</a>
+				{:else}
+					N/A
+				{/if}
 			</details>
 		{/if}
 
@@ -587,7 +632,13 @@
 				<summary><h3>Controls ({actor._controls.length})</h3></summary>
 				<ul>
 					{#each actor._controls as controlled}
-						<li><a href="/address/{controlled.address}">{controlled.address}</a></li>
+						<li>
+							{#if controlled.address}
+								<a href="/address/{controlled.address}">{controlled.address}</a>
+							{:else}
+								N/A
+							{/if}
+						</li>
 					{/each}
 				</ul>
 			</details>
@@ -596,28 +647,44 @@
 		{#if actor._creator}
 			<details>
 				<summary><h3>Creator</h3></summary>
-				<a href="/address/{actor._creator.address}">{actor._creator.address}</a>
+				{#if actor._creator.address}
+					<a href="/address/{actor._creator.address}">{actor._creator.address}</a>
+				{:else}
+					N/A
+				{/if}
 			</details>
 		{/if}
 
 		{#if actor._implementation}
 			<details>
 				<summary><h3>Implementation</h3></summary>
-				<a href="/address/{actor._implementation.address}">{actor._implementation.address}</a>
+				{#if actor._implementation.address}
+					<a href="/address/{actor._implementation.address}">{actor._implementation.address}</a>
+				{:else}
+					N/A
+				{/if}
 			</details>
 		{/if}
 
 		{#if actor._admin}
 			<details>
 				<summary><h3>Admin</h3></summary>
-				<a href="/address/{actor._admin.address}">{actor._admin.address}</a>
+				{#if actor._admin.address}
+					<a href="/address/{actor._admin.address}">{actor._admin.address}</a>
+				{:else}
+					N/A
+				{/if}
 			</details>
 		{/if}
 
 		{#if actor._templateContract}
 			<details>
 				<summary><h3>Template Contract</h3></summary>
-				<a href="/address/{actor._templateContract.address}">{actor._templateContract.address}</a>
+				{#if actor._templateContract.address}
+					<a href="/address/{actor._templateContract.address}">{actor._templateContract.address}</a>
+				{:else}
+					N/A
+				{/if}
 			</details>
 		{/if}
 
@@ -626,7 +693,13 @@
 				<summary><h3>Recent Transactions ({actor._transactions.length})</h3></summary>
 				<ul>
 					{#each actor._transactions.slice(0, 10) as transaction}
-						<li><a href="/transaction/{transaction.id}">{transaction.id}</a></li>
+						<li>
+							{#if transaction.id}
+								<a href="/transaction/{transaction.id}">{transaction.id}</a>
+							{:else}
+								N/A
+							{/if}
+						</li>
 					{/each}
 					{#if actor._transactions.length > 10}
 						<li>... and {actor._transactions.length - 10} more</li>

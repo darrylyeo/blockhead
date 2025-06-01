@@ -1,4 +1,30 @@
 import { DataSource } from '$/data'
+import { selectedDatasource } from '$/state/datasource.svelte'
+
+// Helper function to recursively convert BigInt values to strings
+const convertBigIntToString = (obj: any): any => {
+	if (obj === null || obj === undefined) {
+		return obj
+	}
+	
+	if (typeof obj === 'bigint') {
+		return obj.toString()
+	}
+	
+	if (Array.isArray(obj)) {
+		return obj.map(convertBigIntToString)
+	}
+	
+	if (typeof obj === 'object') {
+		const converted: any = {}
+		for (const [key, value] of Object.entries(obj)) {
+			converted[key] = convertBigIntToString(value)
+		}
+		return converted
+	}
+	
+	return obj
+}
 
 export const fetch = async (
 	input: RequestInfo | URL,
@@ -8,7 +34,10 @@ export const fetch = async (
 		return fetch(input, init)
 
 	const { operationName, variables } = JSON.parse(init!.body as string)
-	const { datasource = DataSource.Blockscout, ...otherVariables } = variables
+	// Use selected datasource from store, fallback to variables, then default to Blockscout
+	const datasource = selectedDatasource.current ?? variables.datasource ?? DataSource.Blockscout
+	const otherVariables = { ...variables, datasource }
+	delete otherVariables.datasource
 
 	try {
 		const result = await (async () => {
@@ -295,15 +324,13 @@ export const fetch = async (
 							const result = await fetch(otherVariables)
 							const actor = normalize(result, otherVariables)
 
-							console.log('actor', {actor})
-
 							return {
 								data: {
 									actor: {
 										...actor,
 										__typename: {
-											[ActorType.Contract]: 'ContractActor',
-											[ActorType.Eoa]: 'EoaActor'
+											[ActorType.Contract]: 'Actor_Contract',
+											[ActorType.Eoa]: 'Actor_Eoa'
 										}[actor.type]
 									}
 								}
@@ -322,11 +349,11 @@ export const fetch = async (
 									balance: {
 										...balance,
 										__typename: {
-											[TokenStandard.Native]: 'NativeBalance',
-											[TokenStandard.Erc20]: 'Erc20Balance',
-											[TokenStandard.Erc721]: 'Erc20Balance',
-											[TokenStandard.Erc1155]: 'Erc20Balance',
-											[TokenStandard.Erc4626]: 'Erc20Balance'
+											[TokenStandard.Native]: 'Balance_Native',
+											[TokenStandard.Erc20]: 'Balance_Erc20',
+											[TokenStandard.Erc721]: 'Balance_Erc721',
+											[TokenStandard.Erc1155]: 'Balance_Erc1155',
+											[TokenStandard.Erc4626]: 'Balance_Erc20'
 										}[balance.standard]
 									}
 								}
@@ -377,19 +404,19 @@ export const fetch = async (
 									event: {
 										...event,
 										__typename: {
-											[EventCategory.Transfer]: 'TransferEvent',
-											[EventCategory.Swap]: 'SwapEvent',
-											[EventCategory.Approval]: 'ApprovalEvent',
-											[EventCategory.Mint]: 'Event',
-											[EventCategory.Burn]: 'Event',
-											[EventCategory.Liquidity]: 'Event',
-											[EventCategory.Lending]: 'Event',
-											[EventCategory.Staking]: 'Event',
-											[EventCategory.Governance]: 'Event',
-											[EventCategory.Bridge]: 'Event',
-											[EventCategory.Oracle]: 'Event',
-											[EventCategory.System]: 'Event',
-											[EventCategory.Custom]: 'Event'
+											[EventCategory.Transfer]: 'Event_Transfer',
+											[EventCategory.Swap]: 'Event_Swap',
+											[EventCategory.Approval]: 'Event_Approval',
+											[EventCategory.Mint]: 'Event_Custom',
+											[EventCategory.Burn]: 'Event_Custom',
+											[EventCategory.Liquidity]: 'Event_Custom',
+											[EventCategory.Lending]: 'Event_Custom',
+											[EventCategory.Staking]: 'Event_Custom',
+											[EventCategory.Governance]: 'Event_Custom',
+											[EventCategory.Bridge]: 'Event_Custom',
+											[EventCategory.Oracle]: 'Event_Custom',
+											[EventCategory.System]: 'Event_Custom',
+											[EventCategory.Custom]: 'Event_Custom'
 										}[event.category]
 									}
 								}
@@ -419,17 +446,20 @@ export const fetch = async (
 							const result = await fetch(otherVariables)
 							const token = normalize(result, otherVariables)
 
+							// Create type mapping with proper typing
+							const typeMapping: Record<string, string> = {
+								[TokenStandard.Native]: 'Token_Native',
+								[TokenStandard.Erc20]: 'Token_Erc20',
+								[TokenStandard.Erc721]: 'Token_Erc721',
+								[TokenStandard.Erc1155]: 'Token_Erc1155',
+								[TokenStandard.Erc4626]: 'Token_Erc20'
+							}
+
 							return {
 								data: {
 									token: {
 										...token,
-										__typename: {
-											[TokenStandard.Native]: 'NativeToken',
-											[TokenStandard.Erc20]: 'Erc20Token',
-											[TokenStandard.Erc721]: 'Erc20Token',
-											[TokenStandard.Erc1155]: 'Erc20Token',
-											[TokenStandard.Erc4626]: 'Erc20Token'
-										}[token.standard]
+										__typename: typeMapping[token.standard] || 'Token_Erc20'
 									}
 								}
 							}
@@ -490,8 +520,13 @@ export const fetch = async (
 			}
 		})()
 
+		console.log('fetch', { operationName, variables }, {result})
+
+		// Convert BigInt values to strings before serializing
+		const serializedResult = convertBigIntToString(result)
+
 		return new Response(
-			JSON.stringify(result),
+			JSON.stringify(serializedResult),
 			{
 				status: 200,
 				headers: { 'Content-Type': 'application/json' }
