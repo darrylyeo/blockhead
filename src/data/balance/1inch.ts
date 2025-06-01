@@ -4,7 +4,7 @@ import type { Balance } from '$/entities/balance'
 import { BalanceType, BalanceCategory } from '$/entities/balance'
 import { TokenStandard } from '$/entities/token'
 import { getChainNativeCurrency } from '$/data/networks'
-import { parseUsdPrice, calculateUsdValue } from '../index'
+import { parseUsdPrice, calculateUsdValue } from '../utils'
 
 // 1inch supported chains mapping
 const SUPPORTED_CHAINS = new Set([1, 137, 42161, 501])

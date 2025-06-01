@@ -2,7 +2,7 @@ import type { Hash } from '$/entities/scalars'
 import type { ChainId } from '$/entities/network'
 import type { Transfer } from '$/entities/transfer'
 import { TransferStandard, TransferCategory } from '$/entities/transfer'
-import { getSupportedChains } from '$/data/index'
+import { getSupportedChains } from '$/data/utils'
 
 export const fetch = async (chainId: ChainId, transactionHash: Hash) => {
 	if (!getSupportedChains('1inch').includes(chainId)) {

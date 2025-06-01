@@ -2,7 +2,7 @@ import type { Address } from '$/entities/scalars'
 import type { ChainId } from '$/entities/network'
 import type { Token } from '$/entities/token'
 import { TokenStandard, TokenType } from '$/entities/token'
-import { parseUsdPrice } from '../index'
+import { parseUsdPrice } from '../utils'
 
 export const fetch = async (chainId: ChainId, tokenAddress: Address) => {
 	const { SUPPORTED_CHAINS } = await import('$/api/1inch/index')
