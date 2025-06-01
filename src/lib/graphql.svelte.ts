@@ -25,7 +25,5 @@ export const query = <
 		)
 	)
 
-	const result = $derived(wrappedResult.current)
-
-	return result
+	return wrappedResult.current
 }
