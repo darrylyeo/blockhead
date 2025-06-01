@@ -32,13 +32,13 @@ export const graphql = initGraphQLTada<{
 import { createClient, fetchExchange, type Exchange } from '@urql/svelte'
 import schema from './schema.json'
 import { cacheExchange, type KeyGenerator } from '@urql/exchange-graphcache'
-import { devtoolsExchange } from '@urql/devtools'
+// import { devtoolsExchange } from '@urql/devtools'
 
 export const client = createClient({
 	url: 'local:',
 	exchanges: (
 		[
-			dev && devtoolsExchange,
+			// dev && devtoolsExchange,
 			cacheExchange({
 				schema,
 				keys: {
