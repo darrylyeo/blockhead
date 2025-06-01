@@ -14,7 +14,12 @@ export const fetch = async ({
 	transactionLimit?: number
 	transactionOffset?: number
 }) => {
-	const { createClient, graphql } = await import('$/api/blockscout/graphql/index')
+	const { createClient, graphql, networks } = await import('$/api/blockscout/graphql/index')
+
+	// Check if chain is supported
+	if (!(chainId in networks)) {
+		throw new Error(`Chain ${chainId} is not supported by Blockscout. Supported chains: ${Object.keys(networks).join(', ')}`)
+	}
 
 	try {
 		return (
@@ -59,6 +64,9 @@ export const fetch = async ({
 			if (error.message.includes('404')) {
 				throw new Error(`Address ${address} not found on chain ${chainId}`)
 			}
+			if (error.message === 'Address not found') {
+				throw new Error(`Address ${address} has no activity on chain ${chainId}. This address may not exist on this network, or hasn't been used yet.`)
+			}
 		}
 		throw new Error(`Blockscout API error: ${error instanceof Error ? error.message : 'Unknown error'}`)
 	}
@@ -76,39 +84,60 @@ export const normalize = (
 ): Actor => {
 	const isContract = Boolean(result.contractCode && result.contractCode !== '0x')
 	
-	return {
+	const actor: any = {
 		type: isContract ? ActorType.Contract : ActorType.Eoa,
 		address: result.hash as Address,
 		chainId,
-		...result.fetchedCoinBalance && { balance: BigInt(result.fetchedCoinBalance) },
-		...result.transactionsCount && { transactionCount: result.transactionsCount },
-		...result.fetchedCoinBalanceBlockNumber && { 
-			firstSeenAt: result.fetchedCoinBalanceBlockNumber,
-			lastActiveAt: result.fetchedCoinBalanceBlockNumber 
-		},
-		...isContract && {
-			...result.contractCode && { 
-				bytecode: result.contractCode,
-				bytecodeSize: (result.contractCode.length - 2) / 2 
-			},
-			...result.smartContract?.name && { 
-				name: result.smartContract.name,
-				isVerified: Boolean(result.smartContract.verifiedViaSourcify || result.smartContract.verifiedViaEthBytecodeDb),
-			},
-			...result.smartContract?.name?.toLowerCase().includes('proxy') && {
-				isUpgradable: true,
-			},
-			...result.smartContract?.name && {
-				tags: [
-					...(result.smartContract.name.toLowerCase().includes('token') ? [ContractTag.Token] : []),
-					...(result.smartContract.name.toLowerCase().includes('multisig') ? [ContractTag.Multisig] : []),
-					...(result.smartContract.name.toLowerCase().includes('factory') ? [ContractTag.Factory] : []),
-					...(result.smartContract.name.toLowerCase().includes('proxy') ? [ContractTag.Proxy] : []),
-					...(result.smartContract.name.toLowerCase().includes('router') ? [ContractTag.Router] : []),
-					...(result.smartContract.name.toLowerCase().includes('vault') ? [ContractTag.Vault] : []),
-				].filter(Boolean)
-			},
-		},
-		...result.nonce !== undefined && !isContract && { nonce: result.nonce },
 	}
+
+	// Add common optional fields
+	if (result.fetchedCoinBalance) {
+		actor.balance = BigInt(result.fetchedCoinBalance)
+	}
+	
+	if (result.transactionsCount) {
+		actor.transactionCount = result.transactionsCount
+	}
+	
+	if (result.fetchedCoinBalanceBlockNumber) {
+		actor.firstSeenAt = result.fetchedCoinBalanceBlockNumber
+		actor.lastActiveAt = result.fetchedCoinBalanceBlockNumber
+	}
+
+	// Add contract-specific fields
+	if (isContract) {
+		if (result.contractCode) {
+			actor.bytecode = result.contractCode
+			actor.bytecodeSize = (result.contractCode.length - 2) / 2
+		}
+		
+		if (result.smartContract?.name) {
+			actor.name = result.smartContract.name
+			actor.isVerified = Boolean(result.smartContract.verifiedViaSourcify || result.smartContract.verifiedViaEthBytecodeDb)
+			
+			if (result.smartContract.name.toLowerCase().includes('proxy')) {
+				actor.isUpgradable = true
+			}
+			
+			const tags = [
+				...(result.smartContract.name.toLowerCase().includes('token') ? [ContractTag.Token] : []),
+				...(result.smartContract.name.toLowerCase().includes('multisig') ? [ContractTag.Multisig] : []),
+				...(result.smartContract.name.toLowerCase().includes('factory') ? [ContractTag.Factory] : []),
+				...(result.smartContract.name.toLowerCase().includes('proxy') ? [ContractTag.Proxy] : []),
+				...(result.smartContract.name.toLowerCase().includes('router') ? [ContractTag.Router] : []),
+				...(result.smartContract.name.toLowerCase().includes('vault') ? [ContractTag.Vault] : []),
+			].filter((tag): tag is ContractTag => tag !== undefined)
+			
+			if (tags.length > 0) {
+				actor.tags = tags
+			}
+		}
+	} else {
+		// Add EOA-specific fields
+		if (result.nonce !== undefined) {
+			actor.nonce = result.nonce
+		}
+	}
+
+	return actor as Actor
 }

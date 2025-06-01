@@ -7,139 +7,327 @@
 
 <script lang="ts">
 	import { goto } from '$app/navigation'
-</script>
 
+	// Sample data for feature examples
+	const chainExamples: Record<string, { name: string; sampleAddress: string; sampleTx: string; sampleBlock: string }> = {
+		'1': { 
+			name: 'Ethereum', 
+			sampleAddress: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
+			sampleTx: '0x5c504ed432cb51138bcf09aa5e8a410dd4a1e204ef84bfed1be16dfba1b22060',
+			sampleBlock: 'latest'
+		},
+		'137': { 
+			name: 'Polygon', 
+			sampleAddress: '0x7ceb23fd6f0a6bd3c51e11e3b6c2c4be4e2b6432',
+			sampleTx: '0x4b8c9ea7e0d8a234c6789def123456789abcdef123456789abcdef123456789ab',
+			sampleBlock: 'latest'
+		},
+		'42161': { 
+			name: 'Arbitrum', 
+			sampleAddress: '0x912ce59144191c1204e64559fe8253a0e49e6548',
+			sampleTx: '0x3a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456',
+			sampleBlock: 'latest'
+		},
+		'10': { 
+			name: 'Optimism', 
+			sampleAddress: '0xa0b86a33e624000cc6634c05c6648e8151c8f50e62',
+			sampleTx: '0x7d8e9f0123456789abcdef1234567890abcdef1234567890abcdef1234567890',
+			sampleBlock: 'latest'
+		},
+		'8453': { 
+			name: 'Base', 
+			sampleAddress: '0x4200000000000000000000000000000000000010',
+			sampleTx: '0x9a8b7c6d5e4f3210987654321098765432109876543210987654321098765432',
+			sampleBlock: 'latest'
+		}
+	}
+
+	const features = [
+		{
+			title: '🌌 3D Blockchain Visualization',
+			description: 'Real-time 3D visualization of blockchain activity with interactive timeline',
+			details: [
+				'Real-time blockchain activity',
+				'Interactive 3D environment',
+				'Multiple chain support',
+				'Entity relationship mapping'
+			],
+			action: () => goto('/timeline'),
+			buttonText: 'View Timeline →',
+			highlight: true
+		},
+		{
+			title: '🔍 Multi-Chain Explorer',
+			description: 'Comprehensive blockchain exploration across 8+ networks',
+			details: [
+				'Ethereum, Polygon, Arbitrum, Optimism',
+				'Base, BSC, Avalanche, Fantom',
+				'Blocks, transactions, addresses',
+				'Smart contracts & token analysis'
+			],
+			action: () => goto('/1/block/latest'),
+			buttonText: 'Explore Blocks →'
+		},
+		{
+			title: '👤 Address & Contract Inspector',
+			description: 'Deep analysis of addresses, contracts, and their interactions',
+			details: [
+				'EOA and contract detection',
+				'Balance & transaction history',
+				'Token holdings & transfers',
+				'Contract verification & ABI'
+			],
+			action: () => goto(`/1/address/${chainExamples['1'].sampleAddress}`),
+			buttonText: 'Inspect Address →'
+		},
+		{
+			title: '🔄 Transaction & Trace Analysis',
+			description: 'Detailed transaction analysis with execution traces',
+			details: [
+				'Transaction details & status',
+				'Internal transaction traces',
+				'Event logs & transfers',
+				'Gas analysis & MEV data'
+			],
+			action: () => goto('/1/transaction/0x5c504ed432cb51138bcf09aa5e8a410dd4a1e204ef84bfed1be16dfba1b22060'),
+			buttonText: 'Analyze Transactions →'
+		},
+		{
+			title: '🪙 Token & DeFi Analytics',
+			description: 'Comprehensive token analysis with DeFi integration',
+			details: [
+				'ERC20/721/1155 token support',
+				'1inch DEX integration',
+				'Real-time price data',
+				'Swap quotes & execution'
+			],
+			action: () => goto('/1/token/0xA0b86a33E724000bf6768e3e00a8F69d'),
+			buttonText: 'Explore Tokens →'
+		},
+		{
+			title: '⚡ Multi-Source Data',
+			description: 'Unified access to multiple blockchain data sources',
+			details: [
+				'Blockscout API integration',
+				'Direct JSON-RPC via Viem',
+				'1inch DeFi protocols',
+				'Fallback data sources'
+			],
+			action: () => goto('/1'),
+			buttonText: 'View Data Sources →'
+		}
+	]
+
+	const quickActions = [
+		{ label: 'Latest Block', path: '/1/block/latest' },
+		{ label: 'Timeline View', path: '/timeline' },
+		{ label: 'Ethereum Chain', path: '/1' },
+		{ label: 'Polygon Chain', path: '/137' },
+		{ label: 'Arbitrum Chain', path: '/42161' },
+		{ label: 'Base Chain', path: '/8453' }
+	]
+</script>
 
 <div class="home">
 	<header>
 		<h1>Blockhead Vision</h1>
-		<p>Explore blockchain data with powerful visualizations and insights</p>
-		<p class="subtitle">✨ Live blockchain activity visualization above ✨</p>
+		<p>Advanced blockchain exploration with 3D visualization and multi-chain analytics</p>
+		<p class="subtitle">✨ Live 3D blockchain visualization above — toggle with 🌌 button ✨</p>
+		
+		<div class="hero-actions">
+			<button class="primary-cta" onclick={() => goto('/timeline')}>
+				Explore Timeline
+			</button>
+			<button class="secondary-cta" onclick={() => goto('/1/block/latest')}>
+				Latest Blocks
+			</button>
+		</div>
 	</header>
+
+	<section class="chain-showcase">
+		<h2>Supported Networks</h2>
+		<div class="chains-grid">
+			{#each Object.entries(chainExamples) as [chainId, chain]}
+				<div class="chain-card">
+					<h3>{chain.name}</h3>
+					<div class="chain-actions">
+						<a href="/{chainId}" class="chain-link">Chain Overview</a>
+						<a href="/{chainId}/block/{chain.sampleBlock}" class="chain-link">Latest Block</a>
+						<a href="/{chainId}/address/{chain.sampleAddress}" class="chain-link">Sample Address</a>
+					</div>
+				</div>
+			{/each}
+		</div>
+	</section>
 	
 	<section class="features">
-		<button class="feature-card" onclick={() => goto('/1/block/latest')}>
-			<h2>🔍 Block Explorer</h2>
-			<p>Deep dive into blocks, transactions, and addresses</p>
-			<div class="feature-details">
-				<ul>
-					<li>Comprehensive entity views</li>
-					<li>Transaction traces and events</li>
-					<li>Token transfers and balances</li>
-					<li>Smart contract interactions</li>
-				</ul>
-			</div>
-			<span class="cta">Explore Blocks →</span>
-		</button>
-		
-		<button class="feature-card" onclick={() => goto('/1/address/0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045')}>
-			<h2>👤 Address Inspector</h2>
-			<p>Analyze addresses, contracts, and their activities</p>
-			<div class="feature-details">
-				<ul>
-					<li>EOA and contract details</li>
-					<li>Balance history</li>
-					<li>Transaction history</li>
-					<li>Token holdings</li>
-				</ul>
-			</div>
-			<span class="cta">View Addresses →</span>
-		</button>
-		
-		<button class="feature-card" onclick={() => goto('/network/1')}>
-			<h2>🌐 Networks & Chains</h2>
-			<p>Explore different blockchain networks and their configurations</p>
-			<div class="feature-details">
-				<ul>
-					<li>Network parameters</li>
-					<li>RPC endpoints</li>
-					<li>System contracts</li>
-					<li>Network statistics</li>
-				</ul>
-			</div>
-			<span class="cta">View Networks →</span>
-		</button>
+		{#each features as feature}
+			<button 
+				class="feature-card {feature.highlight ? 'highlight' : ''}" 
+				onclick={feature.action}
+			>
+				<h2>{feature.title}</h2>
+				<p>{feature.description}</p>
+				<div class="feature-details">
+					<ul>
+						{#each feature.details as detail}
+							<li>{detail}</li>
+						{/each}
+					</ul>
+				</div>
+				<span class="cta">{feature.buttonText}</span>
+			</button>
+		{/each}
 	</section>
 	
 	<section class="quick-links">
-		<h2>Quick Links</h2>
+		<h2>Quick Actions</h2>
 		<div class="links-grid">
-			<a href="/nft">NFTs</a>
-			<a href="/ens">ENS Domains</a>
-			<a href="/validator">Validators</a>
-			<a href="/network">Networks</a>
-			<a href="/datasource">Data Sources</a>
+			{#each quickActions as action}
+				<a href={action.path} class="quick-link">{action.label}</a>
+			{/each}
+		</div>
+	</section>
+
+	<section class="data-sources">
+		<h2>Data Integration</h2>
+		<div class="sources-grid">
+			<div class="source-card">
+				<h3>🏗️ Blockscout</h3>
+				<p>Primary blockchain explorer API with comprehensive entity data</p>
+			</div>
+			<div class="source-card">
+				<h3>⚡ Viem/JSON-RPC</h3>
+				<p>Direct blockchain access for real-time data and contract interactions</p>
+			</div>
+			<div class="source-card">
+				<h3>🔄 1inch Protocol</h3>
+				<p>DeFi integration for token swaps, prices, and liquidity data</p>
+			</div>
 		</div>
 	</section>
 </div>
 
-
 <style>
 	.home {
-		max-width: 1200px;
+		max-width: 1400px;
 		margin: 0 auto;
 		padding: 2rem;
 	}
 	
 	header {
 		text-align: center;
-		margin-bottom: 3rem;
+		margin-bottom: 4rem;
 	}
 	
 	header h1 {
-		font-size: 3rem;
+		font-size: 3.5rem;
 		margin-bottom: 1rem;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #00d4ff 100%);
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-clip: text;
+		font-weight: 900;
 	}
 	
 	header p {
 		font-size: 1.25rem;
 		color: #666;
+		margin-bottom: 0.5rem;
 	}
 	
 	.subtitle {
 		font-size: 1rem !important;
 		color: #999 !important;
-		margin-top: 0.5rem;
+		margin-top: 0.5rem !important;
 		font-style: italic;
+	}
+
+	.hero-actions {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+		margin-top: 2rem;
+	}
+
+	.primary-cta, .secondary-cta {
+		padding: 1rem 2rem;
+		border: none;
+		border-radius: 8px;
+		font-size: 1.125rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		text-decoration: none;
+		display: inline-block;
+	}
+
+	.primary-cta {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+	}
+
+	.secondary-cta {
+		background: transparent;
+		color: #667eea;
+		border: 2px solid #667eea;
+	}
+
+	.primary-cta:hover, .secondary-cta:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
 	}
 	
 	.features {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
 		gap: 2rem;
-		margin-bottom: 3rem;
+		margin-bottom: 4rem;
 	}
 	
 	.feature-card {
 		background: #fff;
-		border-radius: 12px;
+		border-radius: 16px;
 		padding: 2rem;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 		transition: all 0.3s ease;
 		cursor: pointer;
 		border: none;
 		text-align: left;
 		width: 100%;
 		font-family: inherit;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.feature-card.highlight {
+		background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.03) 100%);
+		border: 2px solid rgba(102, 126, 234, 0.2);
+	}
+
+	.feature-card.highlight::before {
+		content: '⭐';
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		font-size: 1.5rem;
 	}
 	
 	.feature-card:hover {
-		transform: translateY(-4px);
-		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+		transform: translateY(-6px);
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 	}
 	
 	.feature-card h2 {
 		font-size: 1.5rem;
-		margin-bottom: 0.5rem;
+		margin-bottom: 0.75rem;
+		color: #333;
 	}
 	
 	.feature-card > p {
 		color: #666;
-		margin-bottom: 1rem;
+		margin-bottom: 1.25rem;
+		line-height: 1.5;
 	}
 	
 	.feature-details {
@@ -153,7 +341,7 @@
 	}
 	
 	.feature-details li {
-		padding: 0.25rem 0;
+		padding: 0.4rem 0;
 		color: #555;
 		font-size: 0.9rem;
 		padding-left: 1.5rem;
@@ -165,6 +353,7 @@
 		position: absolute;
 		left: 0;
 		color: #4CAF50;
+		font-weight: bold;
 	}
 	
 	.cta {
@@ -173,8 +362,9 @@
 		color: white;
 		border: none;
 		padding: 0.75rem 1.5rem;
-		border-radius: 6px;
+		border-radius: 8px;
 		font-size: 1rem;
+		font-weight: 600;
 		cursor: pointer;
 		transition: opacity 0.2s;
 	}
@@ -182,13 +372,69 @@
 	.cta:hover {
 		opacity: 0.9;
 	}
+
+	.chain-showcase {
+		margin-bottom: 4rem;
+	}
+
+	.chain-showcase h2 {
+		text-align: center;
+		margin-bottom: 2rem;
+		font-size: 2rem;
+		color: #333;
+	}
+
+	.chains-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 1.5rem;
+	}
+
+	.chain-card {
+		background: #f8f9fa;
+		border-radius: 12px;
+		padding: 1.5rem;
+		text-align: center;
+		border: 1px solid #e9ecef;
+	}
+
+	.chain-card h3 {
+		margin-bottom: 1rem;
+		color: #333;
+		font-size: 1.25rem;
+	}
+
+	.chain-actions {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.chain-link {
+		padding: 0.5rem 1rem;
+		background: #fff;
+		border: 1px solid #dee2e6;
+		border-radius: 6px;
+		text-decoration: none;
+		color: #495057;
+		font-size: 0.875rem;
+		transition: all 0.2s;
+	}
+
+	.chain-link:hover {
+		background: #e9ecef;
+		border-color: #adb5bd;
+	}
 	
 	.quick-links {
 		text-align: center;
+		margin-bottom: 4rem;
 	}
 	
 	.quick-links h2 {
 		margin-bottom: 1.5rem;
+		font-size: 2rem;
+		color: #333;
 	}
 	
 	.links-grid {
@@ -198,18 +444,54 @@
 		flex-wrap: wrap;
 	}
 	
-	.links-grid a {
-		padding: 0.5rem 1rem;
+	.quick-link {
+		padding: 0.75rem 1.25rem;
 		background: #f5f5f5;
-		border-radius: 6px;
+		border-radius: 8px;
 		text-decoration: none;
 		color: #333;
 		transition: all 0.2s;
+		font-weight: 500;
 	}
 	
-	.links-grid a:hover {
+	.quick-link:hover {
 		background: #e0e0e0;
 		transform: translateY(-2px);
+	}
+
+	.data-sources {
+		text-align: center;
+	}
+
+	.data-sources h2 {
+		margin-bottom: 2rem;
+		font-size: 2rem;
+		color: #333;
+	}
+
+	.sources-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 1.5rem;
+	}
+
+	.source-card {
+		background: #fff;
+		border: 1px solid #e9ecef;
+		border-radius: 12px;
+		padding: 2rem;
+		text-align: center;
+	}
+
+	.source-card h3 {
+		margin-bottom: 1rem;
+		font-size: 1.25rem;
+		color: #333;
+	}
+
+	.source-card p {
+		color: #666;
+		line-height: 1.5;
 	}
 	
 	@media (max-width: 768px) {
@@ -217,19 +499,29 @@
 			grid-template-columns: 1fr;
 		}
 		
+		.chains-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.hero-actions {
+			flex-direction: column;
+			align-items: center;
+		}
+		
 		header h1 {
-			font-size: 2rem;
+			font-size: 2.5rem;
 		}
 	}
 	
 	/* Dark mode support */
 	@media (prefers-color-scheme: dark) {
-		.feature-card {
+		.feature-card, .chain-card, .source-card {
 			background: #222;
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+			border-color: #444;
+			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 		}
 		
-		.feature-card > p {
+		.feature-card > p, .chain-card h3, .source-card h3, .source-card p {
 			color: #aaa;
 		}
 		
@@ -237,13 +529,18 @@
 			color: #bbb;
 		}
 		
-		.links-grid a {
+		.quick-link, .chain-link {
 			background: #333;
 			color: #ddd;
+			border-color: #555;
 		}
 		
-		.links-grid a:hover {
+		.quick-link:hover, .chain-link:hover {
 			background: #444;
+		}
+
+		.feature-card h2, .chain-showcase h2, .quick-links h2, .data-sources h2 {
+			color: #fff;
 		}
 	}
 </style>

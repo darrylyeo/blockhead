@@ -28,6 +28,22 @@ export enum TransferCategory {
 	Refund = 'Refund' // Refund transaction
 }
 
+export enum TransferClassification {
+	Internal = 'Internal',
+	External = 'External',
+	Contract = 'Contract',
+	SelfTransfer = 'SelfTransfer'
+}
+
+export enum TransferContext {
+	Dex = 'Dex',
+	Bridge = 'Bridge',
+	Lending = 'Lending',
+	Gaming = 'Gaming',
+	Marketplace = 'Marketplace',
+	Staking = 'Staking'
+}
+
 export type Transfer<
 	_Standard extends TransferStandard = TransferStandard,
 	_Category extends TransferCategory = TransferCategory

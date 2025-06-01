@@ -1,953 +1,1055 @@
 <script lang="ts">
 	// Types/constants
-	import type { AnyBlock } from '$/entities/block'
+	import type { Block } from '$/entities/block'
+	import { BlockRole, BlockStatus, ConsensusType } from '$/entities/block'
 	import { EntityType } from '$/entities'
-
 
 	// Components
 	import Entity from '$/components/Entity.svelte'
 	import EntitySection from '$/components/EntitySection.svelte'
 
-
 	// Props
-	let { block }: { block: AnyBlock } = $props()
+	let { block }: { block: Block } = $props()
 </script>
-
 
 <Entity
 	type={EntityType.Block}
-	id={block.id}
-	title={`Block #${block.number}`}
-	annotation={`${block.type} Block`}
+	id={`${block.chainId}:${block.blockNumber ?? block.blockHash}`}
+	title={`Block #${block.blockNumber ?? block.blockHash}`}
+	annotation={`${block.role} Block`}
 >
 	<EntitySection title="Basic Information" entityType="block-basic">
 		<dl>
-			<dt>Number</dt>
-			<dd><a href="/block/{block.number}">{block.number}</a></dd>
-			
-			<dt>ID</dt>
-			<dd>{block.id}</dd>
-			
-			<dt>Hash</dt>
-			<dd>{block.hash}</dd>
-			
+			<dt>Block Number</dt>
+			<dd>
+				{#if block.blockNumber}
+					<a href="/block/{block.blockNumber}">{block.blockNumber.toLocaleString()}</a>
+				{:else}
+					N/A
+				{/if}
+			</dd>
+
+			<dt>Block Hash</dt>
+			<dd><a href="/block/{block.blockHash}">{block.blockHash}</a></dd>
+
 			<dt>Chain ID</dt>
 			<dd>{block.chainId}</dd>
-			
-			<dt>Type</dt>
-			<dd>{block.type}</dd>
-			
+
+			<dt>Role</dt>
+			<dd class="role {block.role.toLowerCase()}">{block.role}</dd>
+
 			<dt>Status</dt>
-			<dd>{block.status}</dd>
-			
-			<dt>Consensus</dt>
-			<dd>{block.consensus}</dd>
-			
+			<dd class="status {block.status.toLowerCase()}">{block.status}</dd>
+
+			<dt>Consensus Type</dt>
+			<dd>{block.consensusType}</dd>
+
 			<dt>Size</dt>
-			<dd>{block.size} bytes</dd>
+			<dd>{block.size.toLocaleString()} bytes</dd>
+
+			<dt>Parent Hash</dt>
+			<dd><a href="/block/{block.parentHash}">{block.parentHash}</a></dd>
+
+			<dt>State Root</dt>
+			<dd>{block.stateRoot}</dd>
+
+			<dt>Transactions Root</dt>
+			<dd>{block.transactionsRoot}</dd>
+
+			<dt>Receipts Root</dt>
+			<dd>{block.receiptsRoot}</dd>
+
+			{#if block.extraData}
+				<dt>Extra Data</dt>
+				<dd><code>{block.extraData}</code></dd>
+			{/if}
 		</dl>
 	</EntitySection>
 
 	<EntitySection title="Timing" entityType="block-timing">
-		{#snippet children()}
-			<dl>
-				<dt>Timestamp</dt>
-				<dd><time datetime={new Date(block.timestamp * 1000).toISOString()}>{new Date(block.timestamp * 1000).toLocaleString()}</time></dd>
-				
-				{#if block.blockTime}
-					<dt>Block Time</dt>
-					<dd>{block.blockTime}s</dd>
-				{/if}
-				
-				{#if block.processingTime}
-					<dt>Processing Time</dt>
-					<dd>{block.processingTime}ms</dd>
-				{/if}
-				
-				{#if block.propagationTime}
-					<dt>Propagation Time</dt>
-					<dd>{block.propagationTime}ms</dd>
-				{/if}
-			</dl>
-		{/snippet}
+		<dl>
+			<dt>Timestamp</dt>
+			<dd>
+				<time datetime={new Date(block.timestamp * 1000).toISOString()}>
+					{new Date(block.timestamp * 1000).toLocaleString()}
+				</time>
+			</dd>
+
+			<dt>Mined At</dt>
+			<dd>
+				<time datetime={new Date(block.minedAt * 1000).toISOString()}>
+					{new Date(block.minedAt * 1000).toLocaleString()}
+				</time>
+			</dd>
+
+			{#if block.receivedAt}
+				<dt>Received At</dt>
+				<dd>
+					<time datetime={new Date(block.receivedAt * 1000).toISOString()}>
+						{new Date(block.receivedAt * 1000).toLocaleString()}
+					</time>
+				</dd>
+			{/if}
+
+			{#if block.propagationTime}
+				<dt>Propagation Time</dt>
+				<dd>{block.propagationTime}ms</dd>
+			{/if}
+		</dl>
 	</EntitySection>
 
-	<EntitySection title="Structure" entityType="block-structure">
-		{#snippet children()}
-			<dl>
-				<dt>Parent Hash</dt>
-				<dd><a href="/block/{block.parentHash}">{block.parentHash}</a></dd>
-				
-				{#if block.transactionsRoot}
-					<dt>Transactions Root</dt>
-					<dd>{block.transactionsRoot}</dd>
-				{/if}
-				
-				{#if block.stateRoot}
-					<dt>State Root</dt>
-					<dd>{block.stateRoot}</dd>
-				{/if}
-				
-				{#if block.receiptsRoot}
-					<dt>Receipts Root</dt>
-					<dd>{block.receiptsRoot}</dd>
-				{/if}
-				
-				{#if block.withdrawalsRoot}
-					<dt>Withdrawals Root</dt>
-					<dd>{block.withdrawalsRoot}</dd>
-				{/if}
-				
-				{#if block.extraData}
-					<dt>Extra Data</dt>
-					<dd><code>{block.extraData}</code></dd>
-				{/if}
-				
-				{#if block.logsBloom}
-					<dt>Logs Bloom</dt>
-					<dd><code>{block.logsBloom}</code></dd>
-				{/if}
-			</dl>
-		{/snippet}
-	</EntitySection>
+	<EntitySection title="Gas & Economics" entityType="block-gas">
+		<dl>
+			<dt>Gas Limit</dt>
+			<dd>{block.gasLimit.toLocaleString()}</dd>
 
-	<EntitySection title="Gas & Fees" entityType="block-gas">
-		{#snippet children()}
-			<dl>
-				<dt>Gas Limit</dt>
-				<dd>{block.gasLimit}</dd>
-				
-				<dt>Gas Used</dt>
-				<dd>{block.gasUsed}</dd>
-				
-				<dt>Gas Utilization</dt>
-				<dd>{block.gasUtilization}%</dd>
-				
-				{#if block.baseFeePerGas}
-					<dt>Base Fee Per Gas</dt>
-					<dd>{block.baseFeePerGas} wei</dd>
-				{/if}
-				
-				{#if block.blobGasUsed}
-					<dt>Blob Gas Used</dt>
-					<dd>{block.blobGasUsed}</dd>
-				{/if}
-				
-				{#if block.excessBlobGas}
-					<dt>Excess Blob Gas</dt>
-					<dd>{block.excessBlobGas}</dd>
-				{/if}
-			</dl>
-		{/snippet}
+			<dt>Gas Used</dt>
+			<dd>{block.gasUsed.toLocaleString()}</dd>
+
+			<dt>Gas Used Percentage</dt>
+			<dd>{block.gasUsedPercentage.toFixed(2)}%</dd>
+
+			{#if block.baseFeePerGas}
+				<dt>Base Fee Per Gas</dt>
+				<dd>{block.baseFeePerGas} wei</dd>
+			{/if}
+
+			{#if block.burntFees}
+				<dt>Burnt Fees</dt>
+				<dd>{block.burntFees}</dd>
+			{/if}
+
+			{#if block.minerReward}
+				<dt>Miner Reward</dt>
+				<dd>{block.minerReward}</dd>
+			{/if}
+		</dl>
 	</EntitySection>
 
 	<EntitySection title="Transactions" entityType="block-transactions">
-		{#snippet children()}
-			<dl>
-				<dt>Transaction Count</dt>
-				<dd>{block.transactionCount}</dd>
-			</dl>
-		{/snippet}
-	</EntitySection>
+		<dl>
+			<dt>Transaction Count</dt>
+			<dd>{block.transactionCount.toLocaleString()}</dd>
 
-	<EntitySection title="Network Context" entityType="block-network">
-		{#snippet children()}
-			<dl>
-				{#if block.networkDifficulty}
-					<dt>Network Difficulty</dt>
-					<dd>{block.networkDifficulty}</dd>
-				{/if}
-				
-				{#if block.networkHashRate}
-					<dt>Network Hash Rate</dt>
-					<dd>{block.networkHashRate}</dd>
-				{/if}
-				
-				{#if block.orphanRisk}
-					<dt>Orphan Risk</dt>
-					<dd>{block.orphanRisk}%</dd>
-				{/if}
-			</dl>
-		{/snippet}
-	</EntitySection>
+			{#if block.internalTransactionCount !== undefined}
+				<dt>Internal Transaction Count</dt>
+				<dd>{block.internalTransactionCount.toLocaleString()}</dd>
+			{/if}
+		</dl>
 
-	<!-- Genesis Block specific fields -->
-	{#if block.type === 'Genesis' && 'genesisData' in block}
-		<EntitySection title="Genesis Block Data" entityType="block-genesis">
-			{#snippet children()}
-				<dl>
-					<dt>Chain ID</dt>
-					<dd>{block.genesisData.chainId}</dd>
-					
-					<dt>Network Name</dt>
-					<dd>{block.genesisData.networkName}</dd>
-					
-					<dt>Genesis Time</dt>
-					<dd><time datetime={new Date(block.genesisData.genesisTime * 1000).toISOString()}>{new Date(block.genesisData.genesisTime * 1000).toLocaleString()}</time></dd>
-					
-					{#if block.genesisData.initialDifficulty}
-						<dt>Initial Difficulty</dt>
-						<dd>{block.genesisData.initialDifficulty}</dd>
-					{/if}
-					
-					<dt>Gas Limit</dt>
-					<dd>{block.genesisData.gasLimit}</dd>
-				</dl>
-				
-				{#if block.genesisData.preAllocations && block.genesisData.preAllocations.length > 0}
-					<details>
-						<summary><h3>Pre-allocations</h3></summary>
-						<ul>
-							{#each block.genesisData.preAllocations as allocation}
-								<li>
-									<a href="/actor/{allocation.address}">{allocation.address}</a>
-									- {allocation.balance} Wei
-									{#if allocation.nonce}
-										(Nonce: {allocation.nonce})
+		{#if block.transactions && block.transactions.length > 0}
+			<details>
+				<summary><h3>Transaction Details ({block.transactions.length})</h3></summary>
+				<table>
+					<thead>
+						<tr>
+							<th>Hash</th>
+							<th>From</th>
+							<th>To</th>
+							<th>Value</th>
+							<th>Type</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						{#each block.transactions as tx}
+							<tr>
+								<td><a href="/transaction/{tx.hash}">{tx.hash}</a></td>
+								<td><a href="/address/{tx.from}">{tx.from}</a></td>
+								<td>
+									{#if tx.to}
+										<a href="/address/{tx.to}">{tx.to}</a>
+									{:else}
+										<em>Contract Creation</em>
 									{/if}
-								</li>
-							{/each}
-						</ul>
-					</details>
+								</td>
+								<td>{tx.value}</td>
+								<td>{tx.type}</td>
+								<td class="status {tx.status ? 'success' : 'failed'}">
+									{tx.status ? 'Success' : 'Failed'}
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</details>
+		{/if}
+	</EntitySection>
+
+	{#if block.difficulty || block.totalDifficulty || block.nonce}
+		<EntitySection title="Consensus Data" entityType="block-consensus">
+			<dl>
+				{#if block.difficulty}
+					<dt>Difficulty</dt>
+					<dd>{block.difficulty}</dd>
 				{/if}
-				
-				{#if block.genesisData.networkConfig}
-					<details>
-						<summary><h3>Network Configuration</h3></summary>
-						<dl>
-							{#if block.genesisData.networkConfig.chainName}
-								<dt>Chain Name</dt>
-								<dd>{block.genesisData.networkConfig.chainName}</dd>
-							{/if}
-							
-							{#if block.genesisData.networkConfig.nativeCurrency}
-								<dt>Native Currency</dt>
-								<dd>{block.genesisData.networkConfig.nativeCurrency.name} ({block.genesisData.networkConfig.nativeCurrency.symbol})</dd>
-							{/if}
-							
-							{#if block.genesisData.networkConfig.rpcUrls && block.genesisData.networkConfig.rpcUrls.length > 0}
-								<dt>RPC URLs</dt>
-								<dd>
-									<ul>
-										{#each block.genesisData.networkConfig.rpcUrls as url}
-											<li><a href={url} target="_blank" rel="noopener noreferrer">{url}</a></li>
-										{/each}
-									</ul>
-								</dd>
-							{/if}
-						</dl>
-					</details>
+
+				{#if block.totalDifficulty}
+					<dt>Total Difficulty</dt>
+					<dd>{block.totalDifficulty}</dd>
 				{/if}
-			{/snippet}
+
+				{#if block.nonce}
+					<dt>Nonce</dt>
+					<dd>{block.nonce}</dd>
+				{/if}
+			</dl>
 		</EntitySection>
 	{/if}
 
-	<!-- Regular Block specific fields -->
-	{#if block.type === 'Regular' && 'regularData' in block}
-		<EntitySection title="Regular Block Data" entityType="block-regular">
-			{#snippet children()}
-				<dl>
-					<dt>Unique Senders</dt>
-					<dd>{block.regularData.uniqueSenders}</dd>
-					
-					<dt>Unique Receivers</dt>
-					<dd>{block.regularData.uniqueReceivers}</dd>
-					
-					<dt>Total Value Transferred</dt>
-					<dd>{block.regularData.totalValueTransferred}</dd>
-					
-					<dt>Total Fees Paid</dt>
-					<dd>{block.regularData.totalFeesPaid}</dd>
-					
-					<dt>Average Gas Price</dt>
-					<dd>{block.regularData.averageGasPrice}</dd>
-					
-					{#if block.regularData.blockReward}
-						<dt>Block Reward</dt>
-						<dd>{block.regularData.blockReward}</dd>
-					{/if}
-					
-					<dt>Transaction Fees</dt>
-					<dd>{block.regularData.transactionFees}</dd>
-					
-					{#if block.regularData.burntFees}
-						<dt>Burnt Fees</dt>
-						<dd>{block.regularData.burntFees}</dd>
-					{/if}
-				</dl>
-				
-				{#if block.regularData.transactionTypes && Object.keys(block.regularData.transactionTypes).length > 0}
-					<details>
-						<summary><h3>Transaction Types</h3></summary>
-						<dl>
-							{#each Object.entries(block.regularData.transactionTypes) as [type, count]}
-								<dt>{type}</dt>
-								<dd>{count}</dd>
-							{/each}
-						</dl>
-					</details>
+	<EntitySection title="Block Characteristics" entityType="block-characteristics">
+		<dl>
+			<dt>Genesis Block</dt>
+			<dd>{block.characteristics.isGenesis ? 'Yes' : 'No'}</dd>
+
+			<dt>Empty Block</dt>
+			<dd>{block.characteristics.isEmpty ? 'Yes' : 'No'}</dd>
+
+			<dt>Fork Block</dt>
+			<dd>{block.characteristics.isFork ? 'Yes' : 'No'}</dd>
+
+			<dt>Merge Block</dt>
+			<dd>{block.characteristics.isMerge ? 'Yes' : 'No'}</dd>
+
+			<dt>Shanghai Block</dt>
+			<dd>{block.characteristics.isShanghai ? 'Yes' : 'No'}</dd>
+
+			<dt>Cancun Block</dt>
+			<dd>{block.characteristics.isCancun ? 'Yes' : 'No'}</dd>
+
+			<dt>Dencun Block</dt>
+			<dd>{block.characteristics.isDencun ? 'Yes' : 'No'}</dd>
+
+			<dt>Has Uncles</dt>
+			<dd>{block.characteristics.hasUncles ? 'Yes' : 'No'}</dd>
+
+			<dt>Has Reorg</dt>
+			<dd>{block.characteristics.hasReorg ? 'Yes' : 'No'}</dd>
+
+			<dt>Has Blobs</dt>
+			<dd>{block.characteristics.hasBlobs ? 'Yes' : 'No'}</dd>
+
+			<dt>Has Beacon Roots</dt>
+			<dd>{block.characteristics.hasBeaconRoots ? 'Yes' : 'No'}</dd>
+
+			<dt>Has Withdrawals</dt>
+			<dd>{block.characteristics.hasWithdrawals ? 'Yes' : 'No'}</dd>
+		</dl>
+	</EntitySection>
+
+	<!-- Role-specific sections -->
+	{#if block.role === BlockRole.Canonical && 'confirmations' in block}
+		<EntitySection title="Canonical Block Data" entityType="block-canonical">
+			<dl>
+				<dt>Confirmations</dt>
+				<dd>{block.confirmations.toLocaleString()}</dd>
+
+				<dt>Finalized</dt>
+				<dd>{block.isFinalized ? 'Yes' : 'No'}</dd>
+
+				<dt>Chain Tip Distance</dt>
+				<dd>{block.chainTipDistance}</dd>
+
+				{#if block.cumulativeGasUsed}
+					<dt>Cumulative Gas Used</dt>
+					<dd>{block.cumulativeGasUsed}</dd>
 				{/if}
-				
-				{#if block.regularData.mevData}
-					<details>
-						<summary><h3>MEV Data</h3></summary>
-						<dl>
-							<dt>Extracted Value</dt>
-							<dd>{block.regularData.mevData.extractedValue}</dd>
-							
-							<dt>MEV Blocks</dt>
-							<dd>{block.regularData.mevData.mevBlocks}</dd>
-							
-							<dt>Flashloan Volume</dt>
-							<dd>{block.regularData.mevData.flashloanVolume}</dd>
-							
-							<dt>Arbitrage Profit</dt>
-							<dd>{block.regularData.mevData.arbitrageProfit}</dd>
-							
-							<dt>Sandwich Attacks</dt>
-							<dd>{block.regularData.mevData.sandwichAttacks}</dd>
-						</dl>
-					</details>
+
+				{#if block.cumulativeDifficulty}
+					<dt>Cumulative Difficulty</dt>
+					<dd>{block.cumulativeDifficulty}</dd>
 				{/if}
-				
-				{#if block.regularData.defiActivity}
-					<details>
-						<summary><h3>DeFi Activity</h3></summary>
-						<dl>
-							<dt>DEX Volume</dt>
-							<dd>{block.regularData.defiActivity.dexVolume}</dd>
-							
-							<dt>Lending Volume</dt>
-							<dd>{block.regularData.defiActivity.lendingVolume}</dd>
-							
-							<dt>Yield Farming Rewards</dt>
-							<dd>{block.regularData.defiActivity.yieldFarmingRewards}</dd>
-							
-							<dt>Liquidations</dt>
-							<dd>{block.regularData.defiActivity.liquidations}</dd>
-							
-							<dt>New Pools</dt>
-							<dd>{block.regularData.defiActivity.newPools}</dd>
-						</dl>
-					</details>
-				{/if}
-				
-				{#if block.regularData.nftActivity}
-					<details>
-						<summary><h3>NFT Activity</h3></summary>
-						<dl>
-							<dt>Sales</dt>
-							<dd>{block.regularData.nftActivity.sales}</dd>
-							
-							<dt>Volume</dt>
-							<dd>{block.regularData.nftActivity.volume}</dd>
-							
-							<dt>Unique Collections</dt>
-							<dd>{block.regularData.nftActivity.uniqueCollections}</dd>
-							
-							<dt>Mints</dt>
-							<dd>{block.regularData.nftActivity.mints}</dd>
-							
-							<dt>Transfers</dt>
-							<dd>{block.regularData.nftActivity.transfers}</dd>
-						</dl>
-					</details>
-				{/if}
-			{/snippet}
+			</dl>
 		</EntitySection>
 	{/if}
 
-	<!-- Uncle Block specific fields -->
-	{#if block.type === 'Uncle' && 'uncleData' in block}
+	{#if block.role === BlockRole.Uncle && 'unclePosition' in block}
 		<EntitySection title="Uncle Block Data" entityType="block-uncle">
-			{#snippet children()}
-				<dl>
-					<dt>Uncle Height</dt>
-					<dd>{block.uncleData.uncleHeight}</dd>
-					
-					<dt>Uncle Reward</dt>
-					<dd>{block.uncleData.uncleReward}</dd>
-					
-					<dt>Nephew Hash</dt>
-					<dd><a href="/block/{block.uncleData.nephewHash}">{block.uncleData.nephewHash}</a></dd>
-					
-					<dt>Nephew Height</dt>
-					<dd>{block.uncleData.nephewHeight}</dd>
-					
-					<dt>Uncle Index</dt>
-					<dd>{block.uncleData.uncleIndex}</dd>
-					
-					<dt>Generation Gap</dt>
-					<dd>{block.uncleData.generationGap}</dd>
-					
-					<dt>Uncle Timestamp</dt>
-					<dd><time datetime={new Date(block.uncleData.uncleTimestamp * 1000).toISOString()}>{new Date(block.uncleData.uncleTimestamp * 1000).toLocaleString()}</time></dd>
-					
-					<dt>Time Difference</dt>
-					<dd>{block.uncleData.timeDifference}s</dd>
-					
-					<dt>Hash Rate Loss</dt>
-					<dd>{block.uncleData.hashRateLoss}%</dd>
-				</dl>
-			{/snippet}
+			<dl>
+				<dt>Uncle Position</dt>
+				<dd>{block.unclePosition}</dd>
+
+				<dt>Uncle Hash</dt>
+				<dd>{block.uncleHash}</dd>
+
+				<dt>Nephew Hash</dt>
+				<dd><a href="/block/{block.nephewHash}">{block.nephewHash}</a></dd>
+
+				<dt>Nephew Number</dt>
+				<dd><a href="/block/{block.nephewNumber}">{block.nephewNumber.toLocaleString()}</a></dd>
+
+				<dt>Uncle Miner</dt>
+				<dd><a href="/address/{block.uncleMiner}">{block.uncleMiner}</a></dd>
+
+				<dt>Uncle Reward</dt>
+				<dd>{block.uncleReward}</dd>
+
+				<dt>Uncle Height</dt>
+				<dd>{block.uncleHeight} blocks behind</dd>
+
+				<dt>Inclusion Delay</dt>
+				<dd>{block.inclusionDelay} blocks</dd>
+			</dl>
 		</EntitySection>
 	{/if}
 
-	<!-- Fork Block specific fields -->
-	{#if block.type === 'Fork' && 'forkData' in block}
-		<EntitySection title="Fork Block Data" entityType="block-fork">
-			{#snippet children()}
-				<dl>
-					<dt>Fork Type</dt>
-					<dd>{block.forkData.forkType}</dd>
-					
-					{#if block.forkData.forkName}
-						<dt>Fork Name</dt>
-						<dd>{block.forkData.forkName}</dd>
-					{/if}
-					
-					<dt>Fork Height</dt>
-					<dd>{block.forkData.forkHeight}</dd>
-					
-					{#if block.forkData.supportPercentage}
-						<dt>Support Percentage</dt>
-						<dd>{block.forkData.supportPercentage}%</dd>
-					{/if}
-					
-					{#if block.forkData.oppositionBlocks}
-						<dt>Opposition Blocks</dt>
-						<dd>{block.forkData.oppositionBlocks}</dd>
-					{/if}
-					
-					{#if block.forkData.consensusReached}
-						<dt>Consensus Reached</dt>
-						<dd>{block.forkData.consensusReached ? 'Yes' : 'No'}</dd>
-					{/if}
-				</dl>
-				
-				{#if block.forkData.protocolChanges && block.forkData.protocolChanges.length > 0}
-					<details>
-						<summary><h3>Protocol Changes</h3></summary>
-						<ul>
+	{#if block.role === BlockRole.Orphaned && 'orphanedReason' in block}
+		<EntitySection title="Orphaned Block Data" entityType="block-orphaned">
+			<dl>
+				<dt>Orphaned Reason</dt>
+				<dd>{block.orphanedReason}</dd>
+
+				{#if block.canonicalBlockHash}
+					<dt>Canonical Block Hash</dt>
+					<dd><a href="/block/{block.canonicalBlockHash}">{block.canonicalBlockHash}</a></dd>
+				{/if}
+
+				{#if block.forkLength}
+					<dt>Fork Length</dt>
+					<dd>{block.forkLength} blocks</dd>
+				{/if}
+			</dl>
+
+			{#if block.competingBlocks && block.competingBlocks.length > 0}
+				<details>
+					<summary><h3>Competing Blocks ({block.competingBlocks.length})</h3></summary>
+					<table>
+						<thead>
+							<tr>
+								<th>Hash</th>
+								<th>Miner</th>
+								<th>Total Difficulty</th>
+							</tr>
+						</thead>
+						<tbody>
+							{#each block.competingBlocks as competing}
+								<tr>
+									<td><a href="/block/{competing.hash}">{competing.hash}</a></td>
+									<td><a href="/address/{competing.miner}">{competing.miner}</a></td>
+									<td>{competing.totalDifficulty ?? 'N/A'}</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</details>
+			{/if}
+		</EntitySection>
+	{/if}
+
+	{#if block.role === BlockRole.Pending && 'estimatedConfirmationTime' in block}
+		<EntitySection title="Pending Block Data" entityType="block-pending">
+			<dl>
+				{#if block.estimatedConfirmationTime}
+					<dt>Estimated Confirmation Time</dt>
+					<dd>{block.estimatedConfirmationTime}ms</dd>
+				{/if}
+
+				{#if block.replacementRisk}
+					<dt>Replacement Risk</dt>
+					<dd>{block.replacementRisk}%</dd>
+				{/if}
+
+				{#if block.mempoolEntryTime}
+					<dt>Mempool Entry Time</dt>
+					<dd>
+						<time datetime={new Date(block.mempoolEntryTime * 1000).toISOString()}>
+							{new Date(block.mempoolEntryTime * 1000).toLocaleString()}
+						</time>
+					</dd>
+				{/if}
+
+				{#if block.priorityScore}
+					<dt>Priority Score</dt>
+					<dd>{block.priorityScore}</dd>
+				{/if}
+			</dl>
+		</EntitySection>
+	{/if}
+
+	<!-- Genesis data -->
+	{#if block.genesisData}
+		<EntitySection title="Genesis Block Data" entityType="block-genesis">
+			<dl>
+				<dt>Chain Name</dt>
+				<dd>{block.genesisData.chainName}</dd>
+
+				<dt>Chain Version</dt>
+				<dd>{block.genesisData.chainVersion}</dd>
+
+				<dt>Protocol Version</dt>
+				<dd>{block.genesisData.protocolVersion}</dd>
+
+				<dt>Initial Supply</dt>
+				<dd>{block.genesisData.initialSupply}</dd>
+
+				<dt>Genesis Time</dt>
+				<dd>
+					<time datetime={new Date(block.genesisData.genesisTime * 1000).toISOString()}>
+						{new Date(block.genesisData.genesisTime * 1000).toLocaleString()}
+					</time>
+				</dd>
+
+				<dt>Genesis Nonce</dt>
+				<dd>{block.genesisData.genesisNonce}</dd>
+
+				<dt>Genesis Difficulty</dt>
+				<dd>{block.genesisData.genesisDifficulty}</dd>
+			</dl>
+
+			{#if block.genesisData.premine && block.genesisData.premine.length > 0}
+				<details>
+					<summary><h3>Premine Allocations ({block.genesisData.premine.length})</h3></summary>
+					<table>
+						<thead>
+							<tr>
+								<th>Address</th>
+								<th>Balance</th>
+							</tr>
+						</thead>
+						<tbody>
+							{#each block.genesisData.premine as allocation}
+								<tr>
+									<td><a href="/address/{allocation.address}">{allocation.address}</a></td>
+									<td>{allocation.balance}</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</details>
+			{/if}
+
+			{#if block.genesisData.chainConfig}
+				<details>
+					<summary><h3>Chain Configuration</h3></summary>
+					<dl>
+						<dt>Chain ID</dt>
+						<dd>{block.genesisData.chainConfig.chainId}</dd>
+
+						{#if block.genesisData.chainConfig.homesteadBlock}
+							<dt>Homestead Block</dt>
+							<dd>{block.genesisData.chainConfig.homesteadBlock.toLocaleString()}</dd>
+						{/if}
+
+						{#if block.genesisData.chainConfig.daoForkBlock}
+							<dt>DAO Fork Block</dt>
+							<dd>{block.genesisData.chainConfig.daoForkBlock.toLocaleString()}</dd>
+						{/if}
+
+						{#if block.genesisData.chainConfig.eip150Block}
+							<dt>EIP-150 Block</dt>
+							<dd>{block.genesisData.chainConfig.eip150Block.toLocaleString()}</dd>
+						{/if}
+
+						{#if block.genesisData.chainConfig.eip155Block}
+							<dt>EIP-155 Block</dt>
+							<dd>{block.genesisData.chainConfig.eip155Block.toLocaleString()}</dd>
+						{/if}
+
+						{#if block.genesisData.chainConfig.byzantiumBlock}
+							<dt>Byzantium Block</dt>
+							<dd>{block.genesisData.chainConfig.byzantiumBlock.toLocaleString()}</dd>
+						{/if}
+
+						{#if block.genesisData.chainConfig.constantinopleBlock}
+							<dt>Constantinople Block</dt>
+							<dd>{block.genesisData.chainConfig.constantinopleBlock.toLocaleString()}</dd>
+						{/if}
+
+						{#if block.genesisData.chainConfig.petersburgBlock}
+							<dt>Petersburg Block</dt>
+							<dd>{block.genesisData.chainConfig.petersburgBlock.toLocaleString()}</dd>
+						{/if}
+
+						{#if block.genesisData.chainConfig.istanbulBlock}
+							<dt>Istanbul Block</dt>
+							<dd>{block.genesisData.chainConfig.istanbulBlock.toLocaleString()}</dd>
+						{/if}
+
+						{#if block.genesisData.chainConfig.berlinBlock}
+							<dt>Berlin Block</dt>
+							<dd>{block.genesisData.chainConfig.berlinBlock.toLocaleString()}</dd>
+						{/if}
+
+						{#if block.genesisData.chainConfig.londonBlock}
+							<dt>London Block</dt>
+							<dd>{block.genesisData.chainConfig.londonBlock.toLocaleString()}</dd>
+						{/if}
+
+						{#if block.genesisData.chainConfig.parisBlock}
+							<dt>Paris Block (The Merge)</dt>
+							<dd>{block.genesisData.chainConfig.parisBlock.toLocaleString()}</dd>
+						{/if}
+
+						{#if block.genesisData.chainConfig.shanghaiTime}
+							<dt>Shanghai Time</dt>
+							<dd>
+								<time datetime={new Date(block.genesisData.chainConfig.shanghaiTime * 1000).toISOString()}>
+									{new Date(block.genesisData.chainConfig.shanghaiTime * 1000).toLocaleString()}
+								</time>
+							</dd>
+						{/if}
+
+						{#if block.genesisData.chainConfig.cancunTime}
+							<dt>Cancun Time</dt>
+							<dd>
+								<time datetime={new Date(block.genesisData.chainConfig.cancunTime * 1000).toISOString()}>
+									{new Date(block.genesisData.chainConfig.cancunTime * 1000).toLocaleString()}
+								</time>
+							</dd>
+						{/if}
+					</dl>
+				</details>
+			{/if}
+		</EntitySection>
+	{/if}
+
+	<!-- Fork data -->
+	{#if block.forkData}
+		<EntitySection title="Fork Data" entityType="block-fork">
+			<dl>
+				<dt>Fork Type</dt>
+				<dd>{block.forkData.forkType}</dd>
+
+				{#if block.forkData.forkName}
+					<dt>Fork Name</dt>
+					<dd>{block.forkData.forkName}</dd>
+				{/if}
+
+				<dt>Fork Height</dt>
+				<dd>{block.forkData.forkHeight.toLocaleString()}</dd>
+
+				{#if block.forkData.activationHeight}
+					<dt>Activation Height</dt>
+					<dd>{block.forkData.activationHeight.toLocaleString()}</dd>
+				{/if}
+
+				{#if block.forkData.supportPercentage}
+					<dt>Support Percentage</dt>
+					<dd>{block.forkData.supportPercentage}%</dd>
+				{/if}
+
+				{#if block.forkData.oppositionBlocks}
+					<dt>Opposition Blocks</dt>
+					<dd>{block.forkData.oppositionBlocks}</dd>
+				{/if}
+
+				{#if block.forkData.consensusReached !== undefined}
+					<dt>Consensus Reached</dt>
+					<dd>{block.forkData.consensusReached ? 'Yes' : 'No'}</dd>
+				{/if}
+			</dl>
+
+			{#if block.forkData.protocolChanges && block.forkData.protocolChanges.length > 0}
+				<details>
+					<summary><h3>Protocol Changes ({block.forkData.protocolChanges.length})</h3></summary>
+					<table>
+						<thead>
+							<tr>
+								<th>EIP</th>
+								<th>Name</th>
+								<th>Description</th>
+								<th>Impact</th>
+							</tr>
+						</thead>
+						<tbody>
 							{#each block.forkData.protocolChanges as change}
-								<li>
-									<strong>{change.name}</strong>
-									{#if change.eip}
-										(EIP-{change.eip})
-									{/if}
-									- {change.impact}
-									<p>{change.description}</p>
-								</li>
+								<tr>
+									<td>{change.eip ?? 'N/A'}</td>
+									<td>{change.name}</td>
+									<td>{change.description}</td>
+									<td class="impact {change.impact}">{change.impact}</td>
+								</tr>
 							{/each}
-						</ul>
-					</details>
+						</tbody>
+					</table>
+				</details>
+			{/if}
+		</EntitySection>
+	{/if}
+
+	<!-- Reorg data -->
+	{#if block.reorgData}
+		<EntitySection title="Reorg Data" entityType="block-reorg">
+			<dl>
+				<dt>Reorg Depth</dt>
+				<dd>{block.reorgData.reorgDepth} blocks</dd>
+
+				<dt>Canonical Hash</dt>
+				<dd><a href="/block/{block.reorgData.canonicalHash}">{block.reorgData.canonicalHash}</a></dd>
+
+				<dt>Reorged Hash</dt>
+				<dd><a href="/block/{block.reorgData.reorgedHash}">{block.reorgData.reorgedHash}</a></dd>
+
+				<dt>Common Ancestor</dt>
+				<dd><a href="/block/{block.reorgData.commonAncestor}">{block.reorgData.commonAncestor.toLocaleString()}</a></dd>
+
+				<dt>Total Value Affected</dt>
+				<dd>{block.reorgData.totalValueAffected}</dd>
+
+				<dt>Accounts Affected</dt>
+				<dd>{block.reorgData.accountsAffected.toLocaleString()}</dd>
+
+				{#if block.reorgData.reorgCause}
+					<dt>Reorg Cause</dt>
+					<dd>{block.reorgData.reorgCause}</dd>
 				{/if}
-			{/snippet}
+			</dl>
+
+			{#if block.reorgData.droppedTransactions && block.reorgData.droppedTransactions.length > 0}
+				<details>
+					<summary><h3>Dropped Transactions ({block.reorgData.droppedTransactions.length})</h3></summary>
+					<ul>
+						{#each block.reorgData.droppedTransactions as txHash}
+							<li><a href="/transaction/{txHash}">{txHash}</a></li>
+						{/each}
+					</ul>
+				</details>
+			{/if}
+
+			{#if block.reorgData.replayedTransactions && block.reorgData.replayedTransactions.length > 0}
+				<details>
+					<summary><h3>Replayed Transactions ({block.reorgData.replayedTransactions.length})</h3></summary>
+					<ul>
+						{#each block.reorgData.replayedTransactions as txHash}
+							<li><a href="/transaction/{txHash}">{txHash}</a></li>
+						{/each}
+					</ul>
+				</details>
+			{/if}
+
+			{#if block.reorgData.minersInvolved && block.reorgData.minersInvolved.length > 0}
+				<details>
+					<summary><h3>Miners Involved ({block.reorgData.minersInvolved.length})</h3></summary>
+					<ul>
+						{#each block.reorgData.minersInvolved as miner}
+							<li><a href="/address/{miner}">{miner}</a></li>
+						{/each}
+					</ul>
+				</details>
+			{/if}
 		</EntitySection>
 	{/if}
 
-	<!-- Reorg Block specific fields -->
-	{#if block.type === 'Reorg' && 'reorgData' in block}
-		<EntitySection title="Reorganization Data" entityType="block-reorg">
-			{#snippet children()}
-				<dl>
-					<dt>Reorg Depth</dt>
-					<dd>{block.reorgData.reorgDepth}</dd>
-					
-					<dt>Reorg Type</dt>
-					<dd>{block.reorgData.reorgType}</dd>
-					
-					<dt>Previous Hash</dt>
-					<dd>{block.reorgData.previousHash}</dd>
-					
-					<dt>New Hash</dt>
-					<dd>{block.reorgData.newHash}</dd>
-					
-					<dt>Affected Transactions</dt>
-					<dd>{block.reorgData.affectedTransactions}</dd>
-					
-					<dt>Lost Value</dt>
-					<dd>{block.reorgData.lostValue}</dd>
-					
-					{#if block.reorgData.reorgCause}
-						<dt>Reorg Cause</dt>
-						<dd>{block.reorgData.reorgCause}</dd>
-					{/if}
-					
-					{#if block.reorgData.attackType}
-						<dt>Attack Type</dt>
-						<dd>{block.reorgData.attackType}</dd>
-					{/if}
-					
-					<dt>Recovery Time</dt>
-					<dd>{block.reorgData.recoveryTime}s</dd>
-					
-					<dt>Network Stability</dt>
-					<dd>{block.reorgData.networkStability}%</dd>
-				</dl>
-				
-				{#if block.reorgData.reversedTransactions && block.reorgData.reversedTransactions.length > 0}
-					<details>
-						<summary><h3>Reversed Transactions</h3></summary>
-						<ul>
-							{#each block.reorgData.reversedTransactions as tx}
-								<li><a href="/transaction/{tx}">{tx}</a></li>
-							{/each}
-						</ul>
-					</details>
+	<!-- Merge data -->
+	{#if block.mergeData}
+		<EntitySection title="Merge Transition Data" entityType="block-merge">
+			<dl>
+				<dt>Transition Type</dt>
+				<dd>{block.mergeData.transitionType}</dd>
+
+				{#if block.mergeData.executionPayload}
+					<dt>Execution Payload</dt>
+					<dd>{block.mergeData.executionPayload}</dd>
 				{/if}
-			{/snippet}
+
+				{#if block.mergeData.powDifficulty}
+					<dt>PoW Difficulty</dt>
+					<dd>{block.mergeData.powDifficulty}</dd>
+				{/if}
+
+				{#if block.mergeData.posEpoch}
+					<dt>PoS Epoch</dt>
+					<dd>{block.mergeData.posEpoch}</dd>
+				{/if}
+
+				{#if block.mergeData.validatorCount}
+					<dt>Validator Count</dt>
+					<dd>{block.mergeData.validatorCount.toLocaleString()}</dd>
+				{/if}
+
+				{#if block.mergeData.stakingRatio}
+					<dt>Staking Ratio</dt>
+					<dd>{block.mergeData.stakingRatio}%</dd>
+				{/if}
+
+				<dt>Issuance Reduction</dt>
+				<dd>{block.mergeData.issuanceReduction}%</dd>
+
+				<dt>Energy Reduction</dt>
+				<dd>{block.mergeData.energyReduction}%</dd>
+
+				<dt>Security Model</dt>
+				<dd>{block.mergeData.securityModel}</dd>
+			</dl>
 		</EntitySection>
 	{/if}
 
-	<!-- Empty Block specific fields -->
-	{#if block.type === 'Empty' && 'emptyData' in block}
-		<EntitySection title="Empty Block Data" entityType="block-empty">
-			{#snippet children()}
-				<dl>
-					<dt>Reason</dt>
-					<dd>{block.emptyData.reason}</dd>
-					
-					<dt>Empty Duration</dt>
-					<dd>{block.emptyData.emptyDuration}s</dd>
-					
-					<dt>Was Profitable</dt>
-					<dd>{block.emptyData.wasProfitable ? 'Yes' : 'No'}</dd>
-					
-					{#if block.emptyData.opportunityCost}
-						<dt>Opportunity Cost</dt>
-						<dd>{block.emptyData.opportunityCost}</dd>
-					{/if}
-					
-					<dt>Capacity Wasted</dt>
-					<dd>{block.emptyData.capacityWasted}%</dd>
-					
-					<dt>User Experience</dt>
-					<dd>{block.emptyData.userExperience}</dd>
-				</dl>
-			{/snippet}
+	<!-- MEV data -->
+	{#if block.mevData}
+		<EntitySection title="MEV Data" entityType="block-mev">
+			<dl>
+				<dt>MEV Block</dt>
+				<dd>{block.mevData.isMevBlock ? 'Yes' : 'No'}</dd>
+
+				{#if block.mevData.mevReward}
+					<dt>MEV Reward</dt>
+					<dd>{block.mevData.mevReward}</dd>
+				{/if}
+
+				{#if block.mevData.mevGasPrice}
+					<dt>MEV Gas Price</dt>
+					<dd>{block.mevData.mevGasPrice} wei</dd>
+				{/if}
+
+				{#if block.mevData.bundleCount}
+					<dt>Bundle Count</dt>
+					<dd>{block.mevData.bundleCount}</dd>
+				{/if}
+
+				{#if block.mevData.builderAddress}
+					<dt>Builder Address</dt>
+					<dd><a href="/address/{block.mevData.builderAddress}">{block.mevData.builderAddress}</a></dd>
+				{/if}
+
+				{#if block.mevData.relayName}
+					<dt>Relay Name</dt>
+					<dd>{block.mevData.relayName}</dd>
+				{/if}
+			</dl>
 		</EntitySection>
 	{/if}
 
-	<!-- Merge Block specific fields -->
-	{#if block.type === 'Merge' && 'mergeData' in block}
-		<EntitySection title="Merge Block Data" entityType="block-merge">
-			{#snippet children()}
-				<dl>
-					<dt>Transition Type</dt>
-					<dd>{block.mergeData.transitionType}</dd>
-					
-					{#if block.mergeData.executionPayload}
-						<dt>Execution Payload</dt>
-						<dd>{block.mergeData.executionPayload}</dd>
-					{/if}
-					
-					{#if block.mergeData.powDifficulty}
-						<dt>PoW Difficulty</dt>
-						<dd>{block.mergeData.powDifficulty}</dd>
-					{/if}
-					
-					{#if block.mergeData.posEpoch}
-						<dt>PoS Epoch</dt>
-						<dd>{block.mergeData.posEpoch}</dd>
-					{/if}
-					
-					{#if block.mergeData.validatorCount}
-						<dt>Validator Count</dt>
-						<dd>{block.mergeData.validatorCount}</dd>
-					{/if}
-					
-					{#if block.mergeData.stakingRatio}
-						<dt>Staking Ratio</dt>
-						<dd>{block.mergeData.stakingRatio}%</dd>
-					{/if}
-					
-					<dt>Issuance Reduction</dt>
-					<dd>{block.mergeData.issuanceReduction}%</dd>
-					
-					<dt>Energy Reduction</dt>
-					<dd>{block.mergeData.energyReduction}%</dd>
-					
-					<dt>Security Model</dt>
-					<dd>{block.mergeData.securityModel}</dd>
-				</dl>
-			{/snippet}
+	<!-- Blob data -->
+	{#if block.blobData}
+		<EntitySection title="Blob Data (EIP-4844)" entityType="block-blob">
+			<dl>
+				<dt>Blob Gas Used</dt>
+				<dd>{block.blobData.blobGasUsed}</dd>
+
+				<dt>Excess Blob Gas</dt>
+				<dd>{block.blobData.excessBlobGas}</dd>
+
+				<dt>Blob Gas Price</dt>
+				<dd>{block.blobData.blobGasPrice} wei</dd>
+
+				<dt>Blob Count</dt>
+				<dd>{block.blobData.blobCount}</dd>
+			</dl>
 		</EntitySection>
 	{/if}
 
-	<!-- Beacon Block specific fields -->
-	{#if block.type === 'Beacon' && 'beaconData' in block}
+	<!-- Beacon data -->
+	{#if block.beaconData}
 		<EntitySection title="Beacon Chain Data" entityType="block-beacon">
-			{#snippet children()}
-				<dl>
-					<dt>Slot</dt>
-					<dd>{block.beaconData.slot}</dd>
-					
-					<dt>Epoch</dt>
-					<dd>{block.beaconData.epoch}</dd>
-					
-					<dt>Proposer Index</dt>
-					<dd>{block.beaconData.proposerIndex}</dd>
-					
-					<dt>Attestation Count</dt>
-					<dd>{block.beaconData.attestationCount}</dd>
-					
-					<dt>Participation Rate</dt>
-					<dd>{block.beaconData.participationRate}%</dd>
-					
-					<dt>Slashing Count</dt>
-					<dd>{block.beaconData.slashingCount}</dd>
-					
-					<dt>Deposit Count</dt>
-					<dd>{block.beaconData.depositCount}</dd>
-					
-					<dt>Voluntary Exit Count</dt>
-					<dd>{block.beaconData.voluntaryExitCount}</dd>
-					
-					{#if block.beaconData.syncCommitteeParticipation}
-						<dt>Sync Committee Participation</dt>
-						<dd>{block.beaconData.syncCommitteeParticipation}%</dd>
-					{/if}
-					
-					{#if block.beaconData.syncCommitteeRewards}
-						<dt>Sync Committee Rewards</dt>
-						<dd>{block.beaconData.syncCommitteeRewards}</dd>
-					{/if}
-				</dl>
-				
-				{#if block.beaconData.executionPayload}
-					<details>
-						<summary><h3>Execution Payload</h3></summary>
-						<dl>
-							<dt>Block Hash</dt>
-							<dd><a href="/block/{block.beaconData.executionPayload.blockHash}">{block.beaconData.executionPayload.blockHash}</a></dd>
-							
-							<dt>Block Number</dt>
-							<dd>{block.beaconData.executionPayload.blockNumber}</dd>
-							
-							<dt>Transaction Count</dt>
-							<dd>{block.beaconData.executionPayload.transactionCount}</dd>
-							
-							<dt>Gas Used</dt>
-							<dd>{block.beaconData.executionPayload.gasUsed}</dd>
-						</dl>
-					</details>
+			<dl>
+				<dt>Slot</dt>
+				<dd>{block.beaconData.slot.toLocaleString()}</dd>
+
+				<dt>Epoch</dt>
+				<dd>{block.beaconData.epoch.toLocaleString()}</dd>
+
+				<dt>Proposer Index</dt>
+				<dd>{block.beaconData.proposerIndex.toLocaleString()}</dd>
+
+				<dt>Attestation Count</dt>
+				<dd>{block.beaconData.attestationCount.toLocaleString()}</dd>
+
+				<dt>Participation Rate</dt>
+				<dd>{block.beaconData.participationRate}%</dd>
+
+				<dt>Slashing Count</dt>
+				<dd>{block.beaconData.slashingCount.toLocaleString()}</dd>
+
+				<dt>Deposit Count</dt>
+				<dd>{block.beaconData.depositCount.toLocaleString()}</dd>
+
+				<dt>Voluntary Exit Count</dt>
+				<dd>{block.beaconData.voluntaryExitCount.toLocaleString()}</dd>
+
+				{#if block.beaconData.syncCommitteeParticipation}
+					<dt>Sync Committee Participation</dt>
+					<dd>{block.beaconData.syncCommitteeParticipation}%</dd>
 				{/if}
-			{/snippet}
+
+				{#if block.beaconData.syncCommitteeRewards}
+					<dt>Sync Committee Rewards</dt>
+					<dd>{block.beaconData.syncCommitteeRewards}</dd>
+				{/if}
+			</dl>
+
+			{#if block.beaconData.executionPayload}
+				<details>
+					<summary><h3>Execution Payload</h3></summary>
+					<dl>
+						<dt>Block Hash</dt>
+						<dd><a href="/block/{block.beaconData.executionPayload.blockHash}">{block.beaconData.executionPayload.blockHash}</a></dd>
+
+						<dt>Block Number</dt>
+						<dd><a href="/block/{block.beaconData.executionPayload.blockNumber}">{block.beaconData.executionPayload.blockNumber.toLocaleString()}</a></dd>
+
+						<dt>Transaction Count</dt>
+						<dd>{block.beaconData.executionPayload.transactionCount.toLocaleString()}</dd>
+
+						<dt>Gas Used</dt>
+						<dd>{block.beaconData.executionPayload.gasUsed}</dd>
+					</dl>
+				</details>
+			{/if}
 		</EntitySection>
 	{/if}
 
-	<!-- Related entities -->
-	{#if block.miner}
-		<EntitySection title="Miner Information" entityType="block-miner">
-			{#snippet children()}
-				<dl>
-					<dt>Miner Address</dt>
-					<dd><a href="/actor/{block.miner.address}">{block.miner.address}</a></dd>
-					
-					<dt>Miner Type</dt>
-					<dd>{block.miner.type}</dd>
-				</dl>
-			{/snippet}
-		</EntitySection>
-	{/if}
+	<!-- Uncle blocks -->
+	{#if block.uncles && block.uncles.length > 0}
+		<EntitySection title="Uncle Blocks" entityType="block-uncles">
+			<dl>
+				<dt>Uncle Count</dt>
+				<dd>{block.uncles.length}</dd>
+			</dl>
 
-	{#if block.proposer}
-		<EntitySection title="Proposer Information" entityType="block-proposer">
-			{#snippet children()}
-				<dl>
-					<dt>Proposer Address</dt>
-					<dd><a href="/actor/{block.proposer.address}">{block.proposer.address}</a></dd>
-					
-					<dt>Proposer Type</dt>
-					<dd>{block.proposer.type}</dd>
-				</dl>
-			{/snippet}
-		</EntitySection>
-	{/if}
-
-	{#if block.parentBlock}
-		<EntitySection title="Parent Block" entityType="block-parent">
-			{#snippet children()}
-				<dl>
-					<dt>Parent Number</dt>
-					<dd><a href="/block/{block.parentBlock.number}">{block.parentBlock.number}</a></dd>
-					
-					<dt>Parent Hash</dt>
-					<dd>{block.parentBlock.hash}</dd>
-					
-					<dt>Parent Timestamp</dt>
-					<dd><time datetime={new Date(block.parentBlock.timestamp * 1000).toISOString()}>{new Date(block.parentBlock.timestamp * 1000).toLocaleString()}</time></dd>
-				</dl>
-			{/snippet}
-		</EntitySection>
-	{/if}
-
-	{#if block.childBlocks && block.childBlocks.length > 0}
-		<EntitySection title="Child Blocks ({block.childBlocks.length})" entityType="block-children">
-			{#snippet children()}
+			<details>
+				<summary><h3>Uncle Block Hashes</h3></summary>
 				<ul>
-					{#each block.childBlocks as child}
+					{#each block.uncles as uncleHash}
+						<li><a href="/block/{uncleHash}">{uncleHash}</a></li>
+					{/each}
+				</ul>
+			</details>
+		</EntitySection>
+	{/if}
+
+	<!-- References section -->
+	<EntitySection title="References" entityType="block-references">
+		{#if block._miner}
+			<details>
+				<summary><h3>Miner</h3></summary>
+				<a href="/address/{block._miner.address}">{block._miner.address}</a>
+			</details>
+		{/if}
+
+		{#if block._sequencer}
+			<details>
+				<summary><h3>Sequencer (L2)</h3></summary>
+				<a href="/address/{block._sequencer.address}">{block._sequencer.address}</a>
+			</details>
+		{/if}
+
+		{#if block._parentBlock}
+			<details>
+				<summary><h3>Parent Block</h3></summary>
+				<a href="/block/{block._parentBlock.blockHash ?? block._parentBlock.blockNumber}">
+					{#if block._parentBlock.blockNumber}
+						Block #{block._parentBlock.blockNumber.toLocaleString()}
+					{:else}
+						{block._parentBlock.blockHash}
+					{/if}
+				</a>
+			</details>
+		{/if}
+
+		{#if block._childBlocks && block._childBlocks.length > 0}
+			<details>
+				<summary><h3>Child Blocks ({block._childBlocks.length})</h3></summary>
+				<ul>
+					{#each block._childBlocks as child}
 						<li>
-							<a href="/block/{child.number}">{child.number}</a>
-							- {child.hash}
-							(<time datetime={new Date(child.timestamp * 1000).toISOString()}>{new Date(child.timestamp * 1000).toLocaleString()}</time>)
+							<a href="/block/{child.blockHash ?? child.blockNumber}">
+								{#if child.blockNumber}
+									Block #{child.blockNumber.toLocaleString()}
+								{:else}
+									{child.blockHash}
+								{/if}
+							</a>
 						</li>
 					{/each}
 				</ul>
-			{/snippet}
-		</EntitySection>
-	{/if}
+			</details>
+		{/if}
 
-	{#if block.uncleBlocks && block.uncleBlocks.length > 0}
-		<EntitySection title="Uncle Blocks ({block.uncleBlocks.length})" entityType="block-uncles">
-			{#snippet children()}
+		{#if block._uncleBlocks && block._uncleBlocks.length > 0}
+			<details>
+				<summary><h3>Uncle Block References ({block._uncleBlocks.length})</h3></summary>
 				<ul>
-					{#each block.uncleBlocks as uncle}
+					{#each block._uncleBlocks as uncle}
 						<li>
-							<a href="/block/{uncle.number}">{uncle.number}</a>
-							- {uncle.hash}
-							{#if 'uncleData' in uncle}
-								(Uncle Height: {uncle.uncleData.uncleHeight})
-							{/if}
+							<a href="/block/{uncle.blockHash ?? uncle.blockNumber}">
+								{#if uncle.blockNumber}
+									Uncle Block #{uncle.blockNumber.toLocaleString()}
+								{:else}
+									{uncle.blockHash}
+								{/if}
+							</a>
 						</li>
 					{/each}
 				</ul>
-			{/snippet}
-		</EntitySection>
-	{/if}
+			</details>
+		{/if}
 
-	{#if block.transactions && block.transactions.length > 0}
-		<EntitySection title="Transactions ({block.transactions.length})" entityType="block-transactions-list">
-			{#snippet children()}
+		{#if block._transactions && block._transactions.length > 0}
+			<details>
+				<summary><h3>Block Transactions ({block._transactions.length})</h3></summary>
 				<ul>
-					{#each block.transactions as transaction}
-						<li>
-							<a href="/transaction/{transaction.transactionId}">{transaction.transactionId}</a>
-							- {transaction.type} ({transaction.status})
-							(<time datetime={new Date(transaction.timestamp * 1000).toISOString()}>{new Date(transaction.timestamp * 1000).toLocaleString()}</time>)
-						</li>
+					{#each block._transactions.slice(0, 20) as transaction}
+						<li><a href="/transaction/{transaction.id}">{transaction.id}</a></li>
 					{/each}
+					{#if block._transactions.length > 20}
+						<li>... and {block._transactions.length - 20} more transactions</li>
+					{/if}
 				</ul>
-			{/snippet}
-		</EntitySection>
-	{/if}
+			</details>
+		{/if}
 
-	{#if block.events && block.events.length > 0}
-		<EntitySection title="Events ({block.events.length})" entityType="block-events">
-			{#snippet children()}
+		{#if block._events && block._events.length > 0}
+			<details>
+				<summary><h3>Block Events ({block._events.length})</h3></summary>
 				<ul>
-					{#each block.events as event}
-						<li>
-							<a href="/event/{event.id}">{event.id}</a>
-							- {event.category}
-							(<time datetime={new Date(event.timestamp * 1000).toISOString()}>{new Date(event.timestamp * 1000).toLocaleString()}</time>)
-						</li>
+					{#each block._events.slice(0, 10) as event}
+						<li><a href="/event/{event.id}">{event.id}</a></li>
 					{/each}
+					{#if block._events.length > 10}
+						<li>... and {block._events.length - 10} more events</li>
+					{/if}
 				</ul>
-			{/snippet}
-		</EntitySection>
-	{/if}
+			</details>
+		{/if}
 
-	{#if block.transfers && block.transfers.length > 0}
-		<EntitySection title="Transfers ({block.transfers.length})" entityType="block-transfers">
-			{#snippet children()}
-				<ul>
-					{#each block.transfers as transfer}
-						<li>
-							<a href="/transfer/{transfer.id}">{transfer.id}</a>
-							- {transfer.category}
-							(<time datetime={new Date(transfer.timestamp * 1000).toISOString()}>{new Date(transfer.timestamp * 1000).toLocaleString()}</time>)
-						</li>
-					{/each}
-				</ul>
-			{/snippet}
-		</EntitySection>
-	{/if}
+		{#if block._validator}
+			<details>
+				<summary><h3>Validator/Proposer</h3></summary>
+				<a href="/validator/{block._validator.index}">Validator #{block._validator.index}</a>
+			</details>
+		{/if}
 
-	{#if block.traces && block.traces.length > 0}
-		<EntitySection title="Traces ({block.traces.length})" entityType="block-traces">
-			{#snippet children()}
-				<ul>
-					{#each block.traces as trace}
-						<li>
-							<a href="/trace/{trace.id}">{trace.id}</a>
-							- {trace.type}
-							(<time datetime={new Date(trace.timestamp * 1000).toISOString()}>{new Date(trace.timestamp * 1000).toLocaleString()}</time>)
-						</li>
-					{/each}
-				</ul>
-			{/snippet}
-		</EntitySection>
-	{/if}
+		{#if block._beaconBlock}
+			<details>
+				<summary><h3>Beacon Block</h3></summary>
+				<a href="/beacon/{block._beaconBlock.id}">{block._beaconBlock.id}</a>
+			</details>
+		{/if}
+	</EntitySection>
+</Entity>
 
-	{#if block.relatedBlocks && block.relatedBlocks.length > 0}
-		<EntitySection title="Related Blocks ({block.relatedBlocks.length})" entityType="block-related">
-			{#snippet children()}
-				<ul>
-					{#each block.relatedBlocks as related}
-						<li>
-							<a href="/block/{related.number}">{related.number}</a>
-							- {related.type} ({related.hash})
-							(<time datetime={new Date(related.timestamp * 1000).toISOString()}>{new Date(related.timestamp * 1000).toLocaleString()}</time>)
-						</li>
-					{/each}
-				</ul>
-			{/snippet}
-		</EntitySection>
-	{/if}
+<style>
+	.role {
+		padding: 2px 6px;
+		border-radius: 4px;
+		color: white;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
 
-	{#if block.rewards}
-		<EntitySection title="Economic Data" entityType="block-rewards">
-			{#snippet children()}
-				<dl>
-					<dt>Block Reward</dt>
-					<dd>{block.rewards.blockReward} wei</dd>
-					
-					{#if block.rewards.transactionFees}
-						<dt>Transaction Fees</dt>
-						<dd>{block.rewards.transactionFees} wei</dd>
-					{/if}
-					
-					{#if block.rewards.burnedFees}
-						<dt>Burned Fees</dt>
-						<dd>{block.rewards.burnedFees} wei</dd>
-					{/if}
-					
-					{#if block.rewards.totalReward}
-						<dt>Total Reward</dt>
-						<dd>{block.rewards.totalReward} wei</dd>
-					{/if}
-				</dl>
-			{/snippet}
-		</EntitySection>
-	{/if}
+	.role.canonical {
+		background-color: green;
+	}
 
-	{#if block.validation}
-		<EntitySection title="Validation Status" entityType="block-validation">
-			{#snippet children()}
-				<dl>
-					<dt>Finalized</dt>
-					<dd>{block.validation.isFinalized ? 'Yes' : 'No'}</dd>
-					
-					<dt>Canonical</dt>
-					<dd>{block.validation.isCanonical ? 'Yes' : 'No'}</dd>
-					
-					<dt>Confirmed</dt>
-					<dd>{block.validation.isConfirmed ? 'Yes' : 'No'}</dd>
-					
-					{#if block.validation.confirmations !== undefined}
-						<dt>Confirmations</dt>
-						<dd>{block.validation.confirmations}</dd>
-					{/if}
-					
-					{#if block.validation.finalizedAt}
-						<dt>Finalized At</dt>
-						<dd><time datetime={new Date(block.validation.finalizedAt * 1000).toISOString()}>{new Date(block.validation.finalizedAt * 1000).toLocaleString()}</time></dd>
-					{/if}
-				</dl>
-			{/snippet}
-		</EntitySection>
-	{/if}
+	.role.uncle {
+		background-color: orange;
+	}
 
-	{#if block.metrics}
-		<EntitySection title="Performance Metrics" entityType="block-metrics">
-			{#snippet children()}
-				<dl>
-					{#if block.metrics.tps}
-						<dt>Transactions Per Second</dt>
-						<dd>{block.metrics.tps}</dd>
-					{/if}
-					
-					{#if block.metrics.throughput}
-						<dt>Throughput</dt>
-						<dd>{block.metrics.throughput} bytes/sec</dd>
-					{/if}
-					
-					{#if block.metrics.stateSize}
-						<dt>State Size</dt>
-						<dd>{block.metrics.stateSize} bytes</dd>
-					{/if}
-					
-					{#if block.metrics.mempoolSize}
-						<dt>Mempool Size (at block time)</dt>
-						<dd>{block.metrics.mempoolSize} transactions</dd>
-					{/if}
-				</dl>
-			{/snippet}
-		</EntitySection>
-	{/if}
+	.role.orphaned {
+		background-color: red;
+	}
 
-	{#if block.metadata}
-		<EntitySection title="Block Metadata" entityType="block-metadata">
-			{#snippet children()}
-				<dl>
-					{#if block.metadata?.source}
-						<dt>Data Source</dt>
-						<dd>{block.metadata.source}</dd>
-					{/if}
-					
-					{#if block.metadata?.version}
-						<dt>Client Version</dt>
-						<dd>{block.metadata.version}</dd>
-					{/if}
-					
-					{#if block.metadata?.syncStatus}
-						<dt>Sync Status</dt>
-						<dd>{block.metadata.syncStatus}</dd>
-					{/if}
-					
-					{#if block.metadata?.indexedAt}
-						<dt>Indexed At</dt>
-						<dd><time datetime={new Date(block.metadata.indexedAt * 1000).toISOString()}>{new Date(block.metadata.indexedAt * 1000).toLocaleString()}</time></dd>
-					{/if}
-					
-					{#if block.metadata?.lastUpdated}
-						<dt>Last Updated</dt>
-						<dd><time datetime={new Date(block.metadata.lastUpdated * 1000).toISOString()}>{new Date(block.metadata.lastUpdated * 1000).toLocaleString()}</time></dd>
-					{/if}
-				</dl>
-			{/snippet}
-		</EntitySection>
-	{/if}
+	.role.pending {
+		background-color: blue;
+	}
 
-	{#if block.analysis}
-		<EntitySection title="Block Analysis" entityType="block-analysis">
-			{#snippet children()}
-				<dl>
-					{#if block.analysis.complexity}
-						<dt>Complexity Score</dt>
-						<dd>{block.analysis.complexity}</dd>
-					{/if}
-					
-					{#if block.analysis.riskScore}
-						<dt>Risk Score</dt>
-						<dd>{block.analysis.riskScore}</dd>
-					{/if}
-					
-					{#if block.analysis.patterns && block.analysis.patterns.length > 0}
-						<dt>Detected Patterns</dt>
-						<dd>
-							<ul>
-								{#each block.analysis.patterns as pattern}
-									<li>{pattern}</li>
-								{/each}
-							</ul>
-						</dd>
-					{/if}
-					
-					{#if block.analysis.anomalies && block.analysis.anomalies.length > 0}
-						<dt>Anomalies</dt>
-						<dd>
-							<ul>
-								{#each block.analysis.anomalies as anomaly}
-									<li><strong>{anomaly.type}:</strong> {anomaly.description}</li>
-								{/each}
-							</ul>
-						</dd>
-					{/if}
-				</dl>
-			{/snippet}
-		</EntitySection>
-	{/if}
-</Entity> 
+	.status {
+		padding: 2px 6px;
+		border-radius: 4px;
+		color: white;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+
+	.status.pending {
+		background-color: orange;
+	}
+
+	.status.confirmed {
+		background-color: green;
+	}
+
+	.status.finalized {
+		background-color: darkgreen;
+	}
+
+	.status.reorged {
+		background-color: red;
+	}
+
+	.status.success {
+		background-color: green;
+	}
+
+	.status.failed {
+		background-color: red;
+	}
+
+	.impact {
+		padding: 2px 6px;
+		border-radius: 4px;
+		color: white;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+
+	.impact.low {
+		background-color: green;
+	}
+
+	.impact.medium {
+		background-color: orange;
+	}
+
+	.impact.high {
+		background-color: red;
+	}
+
+	.impact.breaking {
+		background-color: darkred;
+	}
+
+	code {
+		font-family: monospace;
+		background: #f4f4f4;
+		padding: 2px 4px;
+		border-radius: 3px;
+	}
+
+	details {
+		margin: 8px 0;
+	}
+
+	summary {
+		cursor: pointer;
+		font-weight: bold;
+		margin: 4px 0;
+	}
+
+	ul {
+		margin: 8px 0;
+		padding-left: 20px;
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 8px 0;
+	}
+
+	th, td {
+		border: 1px solid #ddd;
+		padding: 8px;
+		text-align: left;
+	}
+
+	th {
+		background-color: #f5f5f5;
+		font-weight: bold;
+	}
+
+	dl {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 8px 16px;
+		margin: 8px 0;
+	}
+
+	dt {
+		font-weight: bold;
+	}
+
+	dd {
+		margin: 0;
+	}
+</style> 

@@ -147,6 +147,7 @@
 		"@urql/exchange-graphcache": "^7.2.3",
 		"@urql/svelte": "^4.2.3",
 		"gql.tada": "^1.8.10",
+		"openapi-typescript-fetch": "^2.2.0",
 		"three": "^0.177.0",
 		"viem": "^2.30.5"
 	}

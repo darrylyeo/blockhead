@@ -1,8 +1,7 @@
 import type { PartialExceptOneOf } from '../typescript/PartialExceptOneOf'
-import type { DataSource } from './DataSource'
+import type { DataSource } from '../data'
 import type { ChainId } from './network'
 import type { Address } from './scalars'
-import type { ComponentType } from 'svelte'
 
 // App configuration
 export type App = {

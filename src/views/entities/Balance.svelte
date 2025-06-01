@@ -1,7 +1,8 @@
 <script lang="ts">
 	// Types/constants
 	import type { Balance } from '$/entities/balance'
-	import { BalanceType, BalanceCategory, TokenStandard } from '$/entities/balance'
+	import { BalanceType, BalanceCategory } from '$/entities/balance'
+	import { TokenStandard } from '$/entities/token'
 	import { EntityType } from '$/entities'
 
 	// Components

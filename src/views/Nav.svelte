@@ -45,6 +45,7 @@
 	let autocompleteVisible = $state(false)
 	let autocompleteSuggestions = $state<Routes[]>([])
 	let selectedSuggestionIndex = $state(-1)
+	let chainsDropdownVisible = $state(false)
 
 	// Parse current URL into segments using the route patterns
 	const parseCurrentPath = (pathname: string): RouteSegment[] => {
@@ -415,6 +416,36 @@
 			</div>
 		{/if}
 	</div>
+
+	<div class="static-links">
+		<a href="/timeline" class="nav-link">Timeline</a>
+		
+		<div class="chains-dropdown">
+			<button 
+				class="chains-button"
+				onmouseenter={() => chainsDropdownVisible = true}
+				onmouseleave={() => chainsDropdownVisible = false}
+				onclick={() => chainsDropdownVisible = !chainsDropdownVisible}
+			>
+				Chains
+			</button>
+			{#if chainsDropdownVisible}
+				<div 
+					class="chains-menu"
+					role="menu"
+					tabindex="0"
+					onmouseenter={() => chainsDropdownVisible = true}
+					onmouseleave={() => chainsDropdownVisible = false}
+				>
+					{#each Object.entries(chainNames) as [chainId, chainName]}
+						<a href="/{chainId}" class="chain-link">
+							{chainName}
+						</a>
+					{/each}
+				</div>
+			{/if}
+		</div>
+	</div>
 </nav>
 
 
@@ -449,13 +480,16 @@
 		padding: 0.5rem;
 		border-bottom: 1px solid;
 		font-size: 0.875rem;
+		position: sticky;
+		top: 0;
+		background: white;
+		z-index: 100;
 	}
 
 	.breadcrumb-segments {
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-		flex: 1;
 	}
 
 	.segment-button {
@@ -525,5 +559,70 @@
 	.autocomplete-item:hover,
 	.autocomplete-item.selected {
 		background: rgba(0, 0, 0, 0.05);
+	}
+
+	.static-links {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+		margin-left: auto;
+	}
+
+	.nav-link {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.chains-dropdown {
+		position: relative;
+	}
+
+	.chains-button {
+		background: none;
+		border: none;
+		cursor: pointer;
+		padding: 0.25rem;
+	}
+
+	.chains-menu {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		background: white;
+		border: 1px solid;
+		border-top: none;
+		max-height: 200px;
+		overflow-y: auto;
+		z-index: 50;
+	}
+
+	.chain-link {
+		display: block;
+		width: 100%;
+		padding: 0.5rem;
+		text-align: left;
+		border: none;
+		background: none;
+		cursor: pointer;
+		font-size: 0.875rem;
+	}
+
+	.chain-link:hover {
+		background: rgba(0, 0, 0, 0.05);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.breadcrumb-nav {
+			background: #222;
+		}
+		
+		.autocomplete-dropdown {
+			background: #222;
+		}
+		
+		.autocomplete-item:hover,
+		.autocomplete-item.selected {
+			background: rgba(255, 255, 255, 0.1);
+		}
 	}
 </style> 

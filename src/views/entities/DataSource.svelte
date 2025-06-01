@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Types/constants
-	import type { DataSource } from '$/entities/datasource'
+	import type { DataSource } from '$/data'
 	import { EntityType } from '$/entities'
 
 

@@ -14,11 +14,256 @@
 		id: string
 	}
 	
+	// Mock data with all entity types
+	const mockEntities = [
+		// Blocks
+		{
+			__typename: 'Block',
+			id: '0x1234567890abcdef',
+			blockNumber: 18500000,
+			blockHash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+			timestamp: Date.now() / 1000 - 10,
+			transactionCount: 150,
+			chainId: 1,
+			featured: true
+		},
+		{
+			__typename: 'Block',
+			id: '0x2345678901bcdefg',
+			blockNumber: 18500001,
+			blockHash: '0x2345678901bcdefg2345678901bcdefg2345678901bcdefg2345678901bcdefg',
+			timestamp: Date.now() / 1000 - 22,
+			transactionCount: 89,
+			chainId: 1,
+			featured: false
+		},
+		{
+			__typename: 'Block',
+			id: '0x3456789012cdefgh',
+			blockNumber: 18500002,
+			blockHash: '0x3456789012cdefgh3456789012cdefgh3456789012cdefgh3456789012cdefgh',
+			timestamp: Date.now() / 1000 - 34,
+			transactionCount: 203,
+			chainId: 1,
+			featured: false
+		},
+
+		// Transactions
+		{
+			__typename: 'Transaction',
+			id: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
+			hash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
+			timestamp: Date.now() / 1000 - 15,
+			blockNumber: 18500000,
+			value: '1500000000000000000', // 1.5 ETH
+			status: 'success',
+			chainId: 1,
+			featured: true
+		},
+		{
+			__typename: 'Transaction',
+			id: '0xbcdef12345678901bcdef12345678901bcdef12345678901bcdef12345678901',
+			hash: '0xbcdef12345678901bcdef12345678901bcdef12345678901bcdef12345678901',
+			timestamp: Date.now() / 1000 - 27,
+			blockNumber: 18500001,
+			value: '500000000000000000', // 0.5 ETH
+			status: 'failed',
+			chainId: 1,
+			featured: false
+		},
+		{
+			__typename: 'Transaction',
+			id: '0xcdef234567890123cdef234567890123cdef234567890123cdef234567890123',
+			hash: '0xcdef234567890123cdef234567890123cdef234567890123cdef234567890123',
+			timestamp: Date.now() / 1000 - 39,
+			blockNumber: 18500002,
+			value: '250000000000000000', // 0.25 ETH
+			status: 'success',
+			chainId: 1,
+			featured: false
+		},
+
+		// Transfers
+		{
+			__typename: 'Transfer',
+			id: '0x1111111111111111111111111111111111111111111111111111111111111111',
+			timestamp: Date.now() / 1000 - 18,
+			blockNumber: 18500000,
+			value: '1000000000000000000', // 1 ETH
+			from: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
+			to: '0x742d35Cc8b557e63e85BA1b2b19bC7a8f2b2A2A2',
+			chainId: 1,
+			featured: false
+		},
+		{
+			__typename: 'Transfer',
+			id: '0x2222222222222222222222222222222222222222222222222222222222222222',
+			timestamp: Date.now() / 1000 - 30,
+			blockNumber: 18500001,
+			value: '2500000000000000000', // 2.5 ETH
+			from: '0x742d35Cc8b557e63e85BA1b2b19bC7a8f2b2A2A2',
+			to: '0x8ba1f109551bD432803012645Hac136c',
+			chainId: 1,
+			featured: true
+		},
+
+		// Contracts
+		{
+			__typename: 'Contract',
+			id: '0x3333333333333333333333333333333333333333',
+			address: '0x3333333333333333333333333333333333333333',
+			timestamp: Date.now() / 1000 - 45,
+			blockNumber: 18500000,
+			name: 'Uniswap V3 Router',
+			chainId: 1,
+			featured: false
+		},
+		{
+			__typename: 'Contract',
+			id: '0x4444444444444444444444444444444444444444',
+			address: '0x4444444444444444444444444444444444444444',
+			timestamp: Date.now() / 1000 - 67,
+			blockNumber: 18500001,
+			name: 'USDC Token Contract',
+			chainId: 1,
+			featured: false
+		},
+
+		// Tokens
+		{
+			__typename: 'Token',
+			id: '0x5555555555555555555555555555555555555555',
+			address: '0x5555555555555555555555555555555555555555',
+			timestamp: Date.now() / 1000 - 52,
+			blockNumber: 18500000,
+			symbol: 'USDC',
+			name: 'USD Coin',
+			holders: 15000,
+			chainId: 1,
+			featured: true
+		},
+		{
+			__typename: 'Token',
+			id: '0x6666666666666666666666666666666666666666',
+			address: '0x6666666666666666666666666666666666666666',
+			timestamp: Date.now() / 1000 - 74,
+			blockNumber: 18500001,
+			symbol: 'WETH',
+			name: 'Wrapped Ethereum',
+			holders: 8500,
+			chainId: 1,
+			featured: false
+		},
+		{
+			__typename: 'Token',
+			id: '0x7777777777777777777777777777777777777777',
+			address: '0x7777777777777777777777777777777777777777',
+			timestamp: Date.now() / 1000 - 86,
+			blockNumber: 18500002,
+			symbol: 'UNI',
+			name: 'Uniswap Token',
+			holders: 12000,
+			chainId: 1,
+			featured: false
+		},
+
+		// Actors
+		{
+			__typename: 'Actor',
+			id: '0x8888888888888888888888888888888888888888',
+			address: '0x8888888888888888888888888888888888888888',
+			timestamp: Date.now() / 1000 - 25,
+			blockNumber: 18500000,
+			isContract: false,
+			chainId: 1,
+			featured: false
+		},
+		{
+			__typename: 'Actor',
+			id: '0x9999999999999999999999999999999999999999',
+			address: '0x9999999999999999999999999999999999999999',
+			timestamp: Date.now() / 1000 - 58,
+			blockNumber: 18500001,
+			isContract: true,
+			chainId: 1,
+			featured: true
+		},
+
+		// Events
+		{
+			__typename: 'Event',
+			id: '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+			timestamp: Date.now() / 1000 - 35,
+			blockNumber: 18500000,
+			eventName: 'Transfer',
+			chainId: 1,
+			featured: false
+		},
+		{
+			__typename: 'Event',
+			id: '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+			timestamp: Date.now() / 1000 - 48,
+			blockNumber: 18500001,
+			eventName: 'Approval',
+			chainId: 1,
+			featured: false
+		},
+		{
+			__typename: 'Event',
+			id: '0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+			timestamp: Date.now() / 1000 - 61,
+			blockNumber: 18500002,
+			eventName: 'Swap',
+			chainId: 1,
+			featured: true
+		},
+
+		// Traces
+		{
+			__typename: 'Trace',
+			id: '0xdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
+			timestamp: Date.now() / 1000 - 42,
+			blockNumber: 18500000,
+			traceType: 'call',
+			chainId: 1,
+			featured: false
+		},
+		{
+			__typename: 'Trace',
+			id: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+			timestamp: Date.now() / 1000 - 55,
+			blockNumber: 18500001,
+			traceType: 'delegatecall',
+			chainId: 1,
+			featured: false
+		},
+
+		// Validators
+		{
+			__typename: 'Validator',
+			id: '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+			timestamp: Date.now() / 1000 - 78,
+			blockNumber: 18500001,
+			validatorIndex: 123456,
+			chainId: 1,
+			featured: false
+		},
+		{
+			__typename: 'Validator',
+			id: '0x0000000000000000000000000000000000000000000000000000000000000000',
+			timestamp: Date.now() / 1000 - 91,
+			blockNumber: 18500002,
+			validatorIndex: 789012,
+			chainId: 1,
+			featured: true
+		}
+	]
+	
 	// Props
 	let {
 		chainId = 1,
 		compact = false,
-		entities = []
+		entities = mockEntities
 	}: {
 		chainId?: number
 		compact?: boolean
