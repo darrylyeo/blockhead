@@ -434,44 +434,44 @@ export type Event<_EventCategory extends EventCategory = EventCategory> = (
 	)
 
 	& {
-		$emitter?: PartialExceptOneOf<import('./contract').Contract,
+		_emitter?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
 		>
 
-		$transaction?: PartialExceptOneOf<import('./transaction').Transaction,
+		_transaction?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'id'
 		>
 
-		$block?: PartialExceptOneOf<import('./block').Block,
+		_block?: PartialExceptOneOf<import('./block').Block,
 			| 'blockHash'
 		>
 
 		// Actor references (based on event type)
-		$fromActor?: PartialExceptOneOf<Actor,
+		_fromActor?: PartialExceptOneOf<Actor,
 			| 'address'
 		>
 
-		$toActor?: PartialExceptOneOf<Actor,
+		_toActor?: PartialExceptOneOf<Actor,
 			| 'address'
 		>
 
 		// Related events (in same transaction)
-		$relatedEvents?: PartialExceptOneOf<Event,
+		_relatedEvents?: PartialExceptOneOf<Event,
 			| 'id'
 		>[]
 
 		// Triggered events (events that this event caused)
-		$triggeredEvents?: PartialExceptOneOf<Event,
+		_triggeredEvents?: PartialExceptOneOf<Event,
 			| 'id'
 		>[]
 
 		// Token references
-		$token?: PartialExceptOneOf<import('./token').Token,
+		_token?: PartialExceptOneOf<import('./token').Token,
 			| 'address'
 		>
 
 		// NFT references
-		$nft?: PartialExceptOneOf<import('./nft').Nft,
+		_nft?: PartialExceptOneOf<import('./nft').Nft,
 			| 'tokenId'
 			| 'contractAddress'
 		>

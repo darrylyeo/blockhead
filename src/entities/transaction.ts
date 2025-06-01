@@ -119,54 +119,54 @@ export type Transaction<
 	// Network context
 	networkFee?: TokenAmount
 	priorityFee?: TokenAmount
-	tip?: TokenAmount
+	_ip?: TokenAmount
 
 	// Entity references
-	$block?: PartialExceptOneOf<import('./block').Block,
+	_block?: PartialExceptOneOf<import('./block').Block,
 		| 'blockHash'
-	>
+	_
 
 	// Transaction actors
-	$from?: PartialExceptOneOf<Actor,
-		| 'address'
+	_from?: PartialExceptOneOf<Actor,
+	_| 'address'
 	>
 
-	$to?: PartialExceptOneOf<Actor,
+	_to?: PartialExceptOneOf<Actor,
 		| 'address'
-	>
+	_
 
 	// Related transactions
-	$relatedTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
+	_relatedTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
 		| 'id'
 	>[]
-
+_
 	// Replacement transactions
-	$replacedBy?: PartialExceptOneOf<import('./transaction').Transaction,
-		| 'id'
+	_replacedBy?: PartialExceptOneOf<import('./transaction').Transaction,
+	_| 'id'
 	>
 
 	// Parent transaction (for internal transactions)
-	$parentTransaction?: PartialExceptOneOf<import('./transaction').Transaction,
-		| 'id'
+	_parentTransaction?: PartialExceptOneOf<import('./transaction').Transaction,
+	_| 'id'
 	>
 
 	// Associated events
-	$events?: PartialExceptOneOf<import('./event').Event,
-		| 'id'
+	_events?: PartialExceptOneOf<import('./event').Event,
+	_| 'id'
 	>[]
 
 	// Associated transfers
-	$transfers?: PartialExceptOneOf<import('./transfer').Transfer,
-		| 'id'
+	_transfers?: PartialExceptOneOf<import('./transfer').Transfer,
+	_| 'id'
 	>[]
 
 	// Associated traces
-	$traces?: PartialExceptOneOf<import('./trace').Trace,
+	_traces?: PartialExceptOneOf<import('./trace').Trace,
 		| 'id'
 	>[]
 
 	// For blob transactions
-	$blobs?: PartialExceptOneOf<import('./blob').Blob,
+	_blobs?: PartialExceptOneOf<import('./blob').Blob,
 		| 'id'
 	>[]
 }
@@ -275,7 +275,7 @@ export type Transaction<
 							withdrawalStatus: 'initiated' | 'proven' | 'finalized' | 'relayed'
 							challengePeriodEnd?: Timestamp
 
-							// Cross-chain context
+	_					// Cross-chain context
 							l1ClaimTransaction?: Hash
 							l1FinalizeTransaction?: Hash
 
@@ -288,12 +288,12 @@ export type Transaction<
 				: L2OperationType extends 'System' ?
 					{
 						// L2 system transaction data
-						systemData: {
+	_				systemData: {
 							systemType: 'l1-attributes' | 'user-deposit' | 'fee-vault' | 'upgrade'
 
 							// L1 attributes deposit (block info from L1)
-							l1Attributes?: {
-								l1BlockNumber: BlockNumber
+	_					l1Attributes?: {
+	_						l1BlockNumber: BlockNumber
 								l1BlockHash: Hash
 								l1Timestamp: Timestamp
 								l1BaseFee: TokenAmount
@@ -303,7 +303,7 @@ export type Transaction<
 							}
 
 							// System upgrade
-							upgradeData?: {
+	_					upgradeData?: {
 								upgradeType: 'implementation' | 'config' | 'hardfork'
 								version: string
 								activationBlock: BlockNumber
@@ -517,7 +517,7 @@ export type Transaction<
 	_TransactionTag extends TransactionTag.ContractCreation ?
 		{
 			// For contract creation
-			$createdContract?: PartialExceptOneOf<import('./contract').Contract,
+			_createdContract?: PartialExceptOneOf<import('./contract').Contract,
 				| 'address'
 			>
 
@@ -537,16 +537,16 @@ export type Transaction<
 	_TransactionTag extends TransactionTag.Bridge ?
 		{
 			// For bridge transactions
-			$bridgeContract?: PartialExceptOneOf<import('./contract').Contract,
+			_bridgeContract?: PartialExceptOneOf<import('./contract').Contract,
 				| 'address'
 			>
 
 			// Cross-chain context
-			$l1Transaction?: PartialExceptOneOf<import('./transaction').Transaction,
+			_l1Transaction?: PartialExceptOneOf<import('./transaction').Transaction,
 				| 'id'
 			>
 
-			$l2Transaction?: PartialExceptOneOf<import('./transaction').Transaction,
+			_l2Transaction?: PartialExceptOneOf<import('./transaction').Transaction,
 				| 'id'
 			>
 
@@ -565,7 +565,7 @@ export type Transaction<
 	_TransactionTag extends TransactionTag.ContractCall ?
 		{
 			// For contract interactions
-			$targetContract?: PartialExceptOneOf<import('./contract').Contract,
+			_targetContract?: PartialExceptOneOf<import('./contract').Contract,
 				| 'address'
 			>
 

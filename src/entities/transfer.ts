@@ -352,73 +352,73 @@ export type Transfer<
 	)
 
 	& {
-		$from?: PartialExceptOneOf<Actor,
+		_from?: PartialExceptOneOf<Actor,
 			| 'address'
 			| 'format'
 		>
 
-		$to?: PartialExceptOneOf<Actor,
+		_to?: PartialExceptOneOf<Actor,
 			| 'address'
 			| 'format'
 		>
 
-		$block?: PartialExceptOneOf<import('./block').Block,
+		_block?: PartialExceptOneOf<import('./block').Block,
 			| 'blockNumber'
 			| 'blockHash'
 			| 'timestamp'
 		>
 
-		$transaction?: PartialExceptOneOf<import('./transaction').Transaction,
+		_transaction?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'id'
 			| 'format'
 			| 'status'
 		>
 
 		// For token transfers
-		$tokenContract?: PartialExceptOneOf<import('./token').Token,
+		_tokenContract?: PartialExceptOneOf<import('./token').Token,
 			| 'address'
 			| 'standard'
 		>
 
 		// For NFT transfers
-		$nftCollection?: PartialExceptOneOf<import('./nft').NftCollection,
+		_nftCollection?: PartialExceptOneOf<import('./nft').NftCollection,
 			| 'contractAddress'
 			| 'name'
 			| 'category'
 		>
 
 		// For DeFi transfers
-		$protocolActor?: PartialExceptOneOf<Actor,
+		_protocolActor?: PartialExceptOneOf<Actor,
 			| 'address'
 			| 'format'
 		>
 
 		// For marketplace trades
-		$marketplaceActor?: PartialExceptOneOf<Actor,
+		_marketplaceActor?: PartialExceptOneOf<Actor,
 			| 'address'
 			| 'format'
 		>
 
 		// Related transfers
-		$relatedTransfers?: PartialExceptOneOf<Transfer,
+		_relatedTransfers?: PartialExceptOneOf<Transfer,
 			| 'id'
 			| 'category'
 			| 'timestamp'
 		>[]
 
 		// Parent transfer (for batch operations)
-		$parentTransfer?: PartialExceptOneOf<Transfer,
+		_parentTransfer?: PartialExceptOneOf<Transfer,
 			| 'id'
 		>
 
 		// Child transfers (for batch operations)
-		$childTransfers?: PartialExceptOneOf<Transfer,
+		_childTransfers?: PartialExceptOneOf<Transfer,
 			| 'id'
 			| 'category'
 		>[]
 
 		// Associated events
-		$events?: PartialExceptOneOf<import('./event').Event,
+		_events?: PartialExceptOneOf<import('./event').Event,
 			| 'id'
 			| 'category'
 			| 'timestamp'

@@ -383,49 +383,49 @@ export type Block<_BlockRole extends BlockRole = BlockRole> = {
 		}
 	}
 
-	$miner?: PartialExceptOneOf<Actor,
+	_miner?: PartialExceptOneOf<Actor,
 		| 'address'
 	>
 
 	// For L2s
-	$sequencer?: PartialExceptOneOf<Actor,
+	_sequencer?: PartialExceptOneOf<Actor,
 		| 'address'
 	>
 
 	// Parent/child blocks
-	$parentBlock?: PartialExceptOneOf<Block,
+	_parentBlock?: PartialExceptOneOf<Block,
 		| 'blockHash'
 		| 'blockNumber'
 	>
 
-	$childBlocks?: PartialExceptOneOf<Block,
+	_childBlocks?: PartialExceptOneOf<Block,
 		| 'blockHash'
 		| 'blockNumber'
 	>[]
 
 	// Uncle blocks reference
-	$uncleBlocks?: PartialExceptOneOf<Block<BlockRole.Uncle>,
+	_uncleBlocks?: PartialExceptOneOf<Block<BlockRole.Uncle>,
 		| 'blockHash'
 		| 'blockNumber'
 	>[]
 
 	// Transactions in block
-	$transactions?: PartialExceptOneOf<import('./transaction').Transaction,
+	_transactions?: PartialExceptOneOf<import('./transaction').Transaction,
 		| 'id'
 	>[]
 
 	// Events in block
-	$events?: PartialExceptOneOf<import('./event').Event,
+	_events?: PartialExceptOneOf<import('./event').Event,
 		| 'id'
 	>[]
 
 	// Validator/proposer (PoS)
-	$validator?: PartialExceptOneOf<import('./validator').Validator,
+	_validator?: PartialExceptOneOf<import('./validator').Validator,
 		| 'index'
 	>
 
 	// Beacon block reference (post-merge)
-	$beaconBlock?: PartialExceptOneOf<import('./beacon').BeaconData,
+	_beaconBlock?: PartialExceptOneOf<import('./beacon').BeaconData,
 		| 'id'
 	>
 }

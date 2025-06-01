@@ -497,59 +497,59 @@ export type Contract<
 	} : {}
 )
 & {
-	$contractActor?: PartialExceptOneOf<Actor<ActorType.Contract>,
+	_contractActor?: PartialExceptOneOf<Actor<ActorType.Contract>,
 		| 'address'
 	>
 
-	$deployer?: PartialExceptOneOf<Actor,
+	_deployer?: PartialExceptOneOf<Actor,
 		| 'address'
 	>
 
-	$owner?: PartialExceptOneOf<Actor,
+	_owner?: PartialExceptOneOf<Actor,
 		| 'address'
 	>
 
-	$admin?: PartialExceptOneOf<Actor,
+	_admin?: PartialExceptOneOf<Actor,
 		| 'address'
 	>
 
-	$implementation?: PartialExceptOneOf<Contract,
+	_implementation?: PartialExceptOneOf<Contract,
 		| 'address'
 	>
 
-	$beacon?: PartialExceptOneOf<Contract,
+	_beacon?: PartialExceptOneOf<Contract,
 		| 'address'
 	>
 
-	$factory?: PartialExceptOneOf<Actor<ActorType.Contract>,
+	_factory?: PartialExceptOneOf<Actor<ActorType.Contract>,
 		| 'address'
 	>
 
-	$createdContracts?: PartialExceptOneOf<Contract,
+	_createdContracts?: PartialExceptOneOf<Contract,
 		| 'address'
 	>[]
 
-	$relatedContracts?: PartialExceptOneOf<Contract,
+	_relatedContracts?: PartialExceptOneOf<Contract,
 		| 'address'
 	>[]
 
-	$dependsOn?: PartialExceptOneOf<Contract,
+	_dependsOn?: PartialExceptOneOf<Contract,
 		| 'address'
 	>[]
 
-	$dependents?: PartialExceptOneOf<Contract,
+	_dependents?: PartialExceptOneOf<Contract,
 		| 'address'
 	>[]
 
-	$frequentCallers?: PartialExceptOneOf<Actor,
+	_frequentCallers?: PartialExceptOneOf<Actor,
 		| 'address'
 	>[]
 
-	$recentTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
+	_recentTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
 		| 'id'
 	>[]
 
-	$events?: PartialExceptOneOf<import('./event').Event,
+	_events?: PartialExceptOneOf<import('./event').Event,
 		| 'id'
 	>[]
 } 

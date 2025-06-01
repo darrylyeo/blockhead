@@ -181,16 +181,16 @@ export type Actor<
 	: {}
 )
 & {
-	$relatedContracts?: PartialExceptOneOf<Actor<ActorType.Contract>, 'address'>[]
-	$createdContracts?: PartialExceptOneOf<Actor<ActorType.Contract>, 'address'>[]
-	$controlledBy?: PartialExceptOneOf<Actor, 'address'>
-	$controls?: PartialExceptOneOf<Actor, 'address'>[]
+	_relatedContracts?: PartialExceptOneOf<Actor<ActorType.Contract>, 'address'>[]
+	_createdContracts?: PartialExceptOneOf<Actor<ActorType.Contract>, 'address'>[]
+	_controlledBy?: PartialExceptOneOf<Actor, 'address'>
+	_controls?: PartialExceptOneOf<Actor, 'address'>[]
 
 	// For contracts
-	$creator?: PartialExceptOneOf<Actor, 'address'>
-	$implementation?: PartialExceptOneOf<Actor<ActorType.Contract>, 'address'>
-	$admin?: PartialExceptOneOf<Actor, 'address'>
-	$templateContract?: PartialExceptOneOf<Actor<ActorType.Contract>, 'address'>
+	_creator?: PartialExceptOneOf<Actor, 'address'>
+	_implementation?: PartialExceptOneOf<Actor<ActorType.Contract>, 'address'>
+	_admin?: PartialExceptOneOf<Actor, 'address'>
+	_templateContract?: PartialExceptOneOf<Actor<ActorType.Contract>, 'address'>
 }
 
 // Supporting types

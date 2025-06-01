@@ -149,52 +149,52 @@ export type Storage<_T extends StorageOperation = StorageOperation> = (
 	)
 
 	& {
-		$contract?: PartialExceptOneOf<import('./contract').Contract,
+		_contract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
 			| 'standards'
 		>
 
-		$block?: PartialExceptOneOf<import('./block').Block,
+		_block?: PartialExceptOneOf<import('./block').Block,
 			| 'blockNumber'
 			| 'blockHash'
 			| 'timestamp'
 		>
 
-		$transaction?: PartialExceptOneOf<import('./transaction').Transaction,
+		_transaction?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'id'
 			| 'format'
 			| 'status'
 		>
 
 		// Trace context
-		$trace?: PartialExceptOneOf<import('./trace').Trace,
+		_trace?: PartialExceptOneOf<import('./trace').Trace,
 			| 'id'
 			| 'format'
 			| 'traceAddress'
 		>
 
 		// Storage accessor
-		$accessor?: PartialExceptOneOf<Actor,
+		_accessor?: PartialExceptOneOf<Actor,
 			| 'address'
 			| 'format'
 		>
 
 		// Related storage operations
-		$relatedOperations?: PartialExceptOneOf<Storage,
+		_relatedOperations?: PartialExceptOneOf<Storage,
 			| 'id'
 			| 'operation'
 			| 'timestamp'
 		>[]
 
 		// Storage dependencies
-		$dependencies?: PartialExceptOneOf<Storage,
+		_dependencies?: PartialExceptOneOf<Storage,
 			| 'id'
 			| 'storageSlot'
 			| 'operation'
 		>[]
 
 		// Associated events
-		$events?: PartialExceptOneOf<import('./event').Event,
+		_events?: PartialExceptOneOf<import('./event').Event,
 			| 'id'
 			| 'category'
 			| 'timestamp'

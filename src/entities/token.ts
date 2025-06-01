@@ -317,43 +317,43 @@ export type Token<
 	)
 
 	& {
-		$contractActor?: PartialExceptOneOf<Actor<ActorType.Contract>,
+		_contractActor?: PartialExceptOneOf<Actor<ActorType.Contract>,
 			| 'address'
 		>
 
-		$creator?: PartialExceptOneOf<Actor,
+		_creator?: PartialExceptOneOf<Actor,
 			| 'address'
 		>
 
-		$owner?: PartialExceptOneOf<Actor,
+		_owner?: PartialExceptOneOf<Actor,
 			| 'address'
 		>
 
-		$deployer?: PartialExceptOneOf<Actor,
+		_deployer?: PartialExceptOneOf<Actor,
 			| 'address'
 		>
 
-		$admin?: PartialExceptOneOf<Actor,
+		_admin?: PartialExceptOneOf<Actor,
 			| 'address'
 		>
 
-		$minters?: PartialExceptOneOf<Actor,
+		_minters?: PartialExceptOneOf<Actor,
 			| 'address'
 		>[]
 
-		$burners?: PartialExceptOneOf<Actor,
+		_burners?: PartialExceptOneOf<Actor,
 			| 'address'
 		>[]
 
-		$topHolders?: PartialExceptOneOf<Actor,
+		_topHolders?: PartialExceptOneOf<Actor,
 			| 'address'
 		>[]
 
-		$recentTransfers?: PartialExceptOneOf<import('./transfer').Transfer,
+		_recentTransfers?: PartialExceptOneOf<import('./transfer').Transfer,
 			| 'id'
 		>[]
 
-		$creationTransaction?: PartialExceptOneOf<import('./transaction').Transaction,
+		_creationTransaction?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'id'
 		>
 	}

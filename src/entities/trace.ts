@@ -219,84 +219,84 @@ export type Trace<_T extends TraceType = TraceType> = (
 	)
 
 	& {
-		$block?: PartialExceptOneOf<import('./block').Block,
+		_block?: PartialExceptOneOf<import('./block').Block,
 			| 'blockNumber'
 			| 'blockHash'
 			| 'timestamp'
 		>
 
-		$transaction?: PartialExceptOneOf<import('./transaction').Transaction,
+		_transaction?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'id'
 			| 'format'
 			| 'status'
 		>
 
 		// For call traces
-		$fromActor?: PartialExceptOneOf<Actor,
+		_fromActor?: PartialExceptOneOf<Actor,
 			| 'address'
 			| 'format'
 		>
 
-		$toActor?: PartialExceptOneOf<Actor,
+		_toActor?: PartialExceptOneOf<Actor,
 			| 'address'
 			| 'format'
 		>
 
 		// For creation traces
-		$creatorActor?: PartialExceptOneOf<Actor,
+		_creatorActor?: PartialExceptOneOf<Actor,
 			| 'address'
 			| 'format'
 		>
 
-		$createdContract?: PartialExceptOneOf<import('./contract').Contract,
+		_createdContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
 			| 'standards'
 			| 'deploymentTimestamp'
 		>
 
 		// For self-destruct traces
-		$selfDestructContract?: PartialExceptOneOf<import('./contract').Contract,
+		_selfDestructContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
 			| 'standards'
 		>
 
-		$refundRecipient?: PartialExceptOneOf<Actor,
+		_refundRecipient?: PartialExceptOneOf<Actor,
 			| 'address'
 			| 'format'
 		>
 
 		// For reward traces
-		$rewardRecipient?: PartialExceptOneOf<Actor,
+		_rewardRecipient?: PartialExceptOneOf<Actor,
 			| 'address'
 			| 'format'
 		>
 
 		// Trace relationships
-		$parentTrace?: PartialExceptOneOf<Trace,
+		_parentTrace?: PartialExceptOneOf<Trace,
 			| 'id'
 			| 'format'
 		>
 
-		$childTraces?: PartialExceptOneOf<Trace,
+		_childTraces?: PartialExceptOneOf<Trace,
 			| 'id'
 			| 'format'
 			| 'traceAddress'
 		>[]
 
-		$relatedTraces?: PartialExceptOneOf<Trace,
+		_relatedTraces?: PartialExceptOneOf<Trace,
 			| 'id'
 			| 'format'
 			| 'timestamp'
 		>[]
 
 		// Associated events and transfers
-		$events?: PartialExceptOneOf<import('./event').Event,
+		_events?: PartialExceptOneOf<import('./event').Event,
 			| 'id'
 			| 'category'
 			| 'timestamp'
 		>[]
 
-		$transfers?: PartialExceptOneOf<import('./transfer').Transfer,
+		_transfers?: PartialExceptOneOf<import('./transfer').Transfer,
 			| 'id'
 			| 'category'
 			| 'timestamp'

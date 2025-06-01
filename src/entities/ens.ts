@@ -107,17 +107,17 @@ export type ENSDomain = {
 		price?: string
 	}[]
 } & {
-	$owner?: PartialExceptOneOf<Actor,
+	_owner?: PartialExceptOneOf<Actor,
 		| 'address'
 		| 'format'
 	>
 
-	$registrant?: PartialExceptOneOf<Actor,
+	_registrant?: PartialExceptOneOf<Actor,
 		| 'address'
 		| 'format'
 	>
 
-	$controller?: PartialExceptOneOf<Actor,
+	_controller?: PartialExceptOneOf<Actor,
 		| 'address'
 		| 'format'
 	>
@@ -139,7 +139,7 @@ export type ENSReverseRecord = {
 	isValid: boolean
 	validationErrors?: string[]
 } & {
-	$addressActor?: PartialExceptOneOf<Actor,
+	_addressActor?: PartialExceptOneOf<Actor,
 		| 'address'
 		| 'format'
 	>
@@ -168,12 +168,12 @@ export type ENSSubdomain = {
 		canCreateSubdomains: boolean
 	}
 } & {
-	$owner?: PartialExceptOneOf<Actor,
+	_owner?: PartialExceptOneOf<Actor,
 		| 'address'
 		| 'format'
 	>
 
-	$creator?: PartialExceptOneOf<Actor,
+	_creator?: PartialExceptOneOf<Actor,
 		| 'address'
 		| 'format'
 	>
@@ -206,12 +206,12 @@ export type ENSRegistration = {
 		data?: Record<string, any>
 	}[]
 } & {
-	$registrant?: PartialExceptOneOf<Actor,
+	_registrant?: PartialExceptOneOf<Actor,
 		| 'address'
 		| 'format'
 	>
 
-	$controller?: PartialExceptOneOf<Actor,
+	_controller?: PartialExceptOneOf<Actor,
 		| 'address'
 		| 'format'
 	>
@@ -272,12 +272,12 @@ export type ENSActivity = {
 		expiry?: Timestamp
 	}
 } & {
-	$from?: PartialExceptOneOf<Actor,
+	_from?: PartialExceptOneOf<Actor,
 		| 'address'
 		| 'format'
 	>
 
-	$to?: PartialExceptOneOf<Actor,
+	_to?: PartialExceptOneOf<Actor,
 		| 'address'
 		| 'format'
 	>

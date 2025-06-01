@@ -253,52 +253,52 @@ export type Blob<
 	)
 
 	& {
-		$block?: PartialExceptOneOf<import('./block').Block,
+		_block?: PartialExceptOneOf<import('./block').Block,
 			| 'blockNumber'
 			| 'blockHash'
 			| 'timestamp'
 		>
 
-		$transaction?: PartialExceptOneOf<import('./transaction').Transaction,
+		_transaction?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'id'
 			| 'format'
 			| 'status'
 		>
 
 		// Blob submitter
-		$submitter?: PartialExceptOneOf<Actor,
+		_submitter?: PartialExceptOneOf<Actor,
 			| 'address'
 			| 'format'
 		>
 
 		// For rollup blobs
-		$rollupOperator?: PartialExceptOneOf<Actor,
+		_rollupOperator?: PartialExceptOneOf<Actor,
 			| 'address'
 			| 'format'
 		>
 
 		// Related blobs
-		$relatedBlobs?: PartialExceptOneOf<Blob,
+		_relatedBlobs?: PartialExceptOneOf<Blob,
 			| 'id'
 			| 'format'
 			| 'timestamp'
 		>[]
 
 		// Parent blob (for blob fragments)
-		$parentBlob?: PartialExceptOneOf<Blob,
+		_parentBlob?: PartialExceptOneOf<Blob,
 			| 'id'
 			| 'blobHash'
 		>
 
 		// Child blobs (for blob bundles)
-		$childBlobs?: PartialExceptOneOf<Blob,
+		_childBlobs?: PartialExceptOneOf<Blob,
 			| 'id'
 			| 'blobHash'
 			| 'size'
 		>[]
 
 		// Associated transactions (for rollup data)
-		$includedTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
+		_includedTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'id'
 			| 'format'
 			| 'timestamp'

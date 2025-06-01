@@ -269,51 +269,51 @@ export type Balance<
 	)
 
 	& {
-		$owner?: PartialExceptOneOf<Actor,
+		_owner?: PartialExceptOneOf<Actor,
 			| 'address'
 		>
 
 		// Asset reference
-		$asset?: PartialExceptOneOf<import('./token').Token,
+		_asset?: PartialExceptOneOf<import('./token').Token,
 			| 'address'
 		>
 
 		// For DeFi balances
-		$protocol?: PartialExceptOneOf<import('./app').App,
+		_protocol?: PartialExceptOneOf<import('./app').App,
 			| 'name'
 		>
 
 		// For LP tokens
-		$liquidityPool?: PartialExceptOneOf<import('./app').LiquidityPool,
+		_liquidityPool?: PartialExceptOneOf<import('./app').LiquidityPool,
 			| 'address'
 		>
 
 		// For staked balances
-		$stakingContract?: PartialExceptOneOf<import('./contract').Contract,
+		_stakingContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
 		>
 
-		$validator?: PartialExceptOneOf<Actor,
+		_validator?: PartialExceptOneOf<Actor,
 			| 'address'
 		>
 
 		// For vesting balances
-		$vestingContract?: PartialExceptOneOf<import('./contract').Contract,
+		_vestingContract?: PartialExceptOneOf<import('./contract').Contract,
 			| 'address'
 		>
 
 		// Balance history
-		$relatedBalances?: PartialExceptOneOf<Balance,
+		_relatedBalances?: PartialExceptOneOf<Balance,
 			| 'id'
 		>[]
 
 		// Associated transactions
-		$recentTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
+		_recentTransactions?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'transactionId'
 		>[]
 
 		// Associated transfers
-		$recentTransfers?: PartialExceptOneOf<import('./transfer').Transfer,
+		_recentTransfers?: PartialExceptOneOf<import('./transfer').Transfer,
 			| 'id'
 		>[]
 	}

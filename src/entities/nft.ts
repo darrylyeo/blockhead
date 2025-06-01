@@ -240,23 +240,23 @@ export type Nft<
 
 	& {
 		// Entity references
-		$collection?: PartialExceptOneOf<NftCollection,
+		_collection?: PartialExceptOneOf<NftCollection,
 			| 'contractAddress'
 		>
 
-		$creator?: PartialExceptOneOf<import('./actor').Actor,
+		_creator?: PartialExceptOneOf<import('./actor').Actor,
 			| 'address'
 		>
 
-		$owner?: PartialExceptOneOf<import('./actor').Actor,
+		_owner?: PartialExceptOneOf<import('./actor').Actor,
 			| 'address'
 		>
 
-		$minter?: PartialExceptOneOf<import('./actor').Actor,
+		_minter?: PartialExceptOneOf<import('./actor').Actor,
 			| 'address'
 		>
 
-		$mintTransaction?: PartialExceptOneOf<import('./transaction').Transaction,
+		_mintTransaction?: PartialExceptOneOf<import('./transaction').Transaction,
 			| 'id'
 		>
 	}
@@ -300,11 +300,11 @@ export type NftCollection = {
 	tags?: string[]
 
 	// Entity references
-	$creator?: PartialExceptOneOf<import('./actor').Actor,
+	_creator?: PartialExceptOneOf<import('./actor').Actor,
 		| 'address'
 	>
 
-	$contract?: PartialExceptOneOf<import('./contract').Contract,
+	_contract?: PartialExceptOneOf<import('./contract').Contract,
 		| 'address'
 	>
 }
