@@ -143,6 +143,7 @@
 	// Components
 	import { Canvas } from '@threlte/core'
 	import Visualization from '$/views/threlte/Visualization.svelte'
+	import VisualizationOld from '$/views/threlte/VisualizationOld.svelte'
 </script>
 
 <div class="timeline-page">
@@ -177,6 +178,16 @@
 			<div class="visualization">
 				<Canvas>
 					<Visualization
+						{chainId}
+						compact={false}
+						entities={Array.isArray(entitiesResult.data?.Entities) ? entitiesResult.data.Entities : []}
+					/>
+				</Canvas>
+			</div>
+
+			<div class="visualization-old">
+				<Canvas>
+					<VisualizationOld
 						{chainId}
 						compact={false}
 						entities={Array.isArray(entitiesResult.data?.Entities) ? entitiesResult.data.Entities : []}

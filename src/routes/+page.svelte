@@ -14,7 +14,7 @@
 			name: 'Ethereum', 
 			sampleAddress: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
 			sampleTx: '0x5c504ed432cb51138bcf09aa5e8a410dd4a1e204ef84bfed1be16dfba1b22060',
-			sampleBlock: 'latest'
+			sampleBlock: 22222222
 		},
 		'137': { 
 			name: 'Polygon', 
@@ -44,21 +44,21 @@
 
 	const features = [
 		{
-			title: '🌌 3D Blockchain Visualization',
-			description: 'Real-time 3D visualization of blockchain activity with interactive timeline',
+			title: '🌌 Unified Timeline Visualization',
+			description: 'Real-time 3D visualization spanning from Genesis block to latest transactions',
 			details: [
-				'Real-time blockchain activity',
+				'Complete blockchain history access',
 				'Interactive 3D environment',
-				'Multiple chain support',
-				'Entity relationship mapping'
+				'Real-time activity updates',
+				'Cross-chain entity relationships'
 			],
 			action: () => goto('/timeline'),
-			buttonText: 'View Timeline →',
+			buttonText: 'Explore Timeline →',
 			highlight: true
 		},
 		{
 			title: '🔍 Multi-Chain Explorer',
-			description: 'Comprehensive blockchain exploration across 8+ networks',
+			description: 'Local-first block explorer with super-slick browsing experience',
 			details: [
 				'Ethereum, Polygon, Arbitrum, Optimism',
 				'Base, BSC, Avalanche, Fantom',
@@ -105,16 +105,16 @@
 			buttonText: 'Explore Tokens →'
 		},
 		{
-			title: '⚡ Multi-Source Data',
-			description: 'Unified access to multiple blockchain data sources',
+			title: '⚡ Resilient Data Architecture',
+			description: 'Modern GraphQL-powered caching with 40+ data source compatibility',
 			details: [
-				'Blockscout API integration',
-				'Direct JSON-RPC via Viem',
-				'1inch DeFi protocols',
-				'Fallback data sources'
+				'urql Graphcache unified data store',
+				'Data normalization & caching',
+				'Decoupled presentation layer',
+				'Novel cross-vertical visualizations'
 			],
 			action: () => goto('/1'),
-			buttonText: 'View Data Sources →'
+			buttonText: 'View Architecture →'
 		}
 	]
 
@@ -130,29 +130,27 @@
 
 <div class="home">
 	<header>
-		<h1>Blockhead Vision</h1>
-		<p>Advanced blockchain exploration with 3D visualization and multi-chain analytics</p>
+		<h1>Blockhead</h1>
+		<p>Modern blockchain explorer with real-time 3D visualization</p>
+		<p class="description">
+			Browse blocks, transactions, and addresses across multiple chains with unified data sources
+		</p>
 		<p class="subtitle">✨ Live 3D blockchain visualization above — toggle with 🌌 button ✨</p>
 		
 		<div class="hero-actions">
 			<button class="primary-cta" onclick={() => goto('/timeline')}>
 				Explore Timeline
 			</button>
-			<button class="secondary-cta" onclick={() => goto('/1/block/latest')}>
-				Latest Blocks
-			</button>
 		</div>
 	</header>
 
 	<section class="chain-showcase">
-		<h2>Supported Networks</h2>
 		<div class="chains-grid">
 			{#each Object.entries(chainExamples) as [chainId, chain]}
 				<div class="chain-card">
 					<h3>{chain.name}</h3>
 					<div class="chain-actions">
-						<a href="/{chainId}" class="chain-link">Chain Overview</a>
-						<a href="/{chainId}/block/{chain.sampleBlock}" class="chain-link">Latest Block</a>
+						<a href="/{chainId}/block" class="chain-link">Latest Blocks</a>
 						<a href="/{chainId}/address/{chain.sampleAddress}" class="chain-link">Sample Address</a>
 					</div>
 				</div>
@@ -190,11 +188,11 @@
 	</section>
 
 	<section class="data-sources">
-		<h2>Data Integration</h2>
+		<h2>Data Sources</h2>
 		<div class="sources-grid">
 			<div class="source-card">
 				<h3>🏗️ Blockscout</h3>
-				<p>Primary blockchain explorer API with comprehensive entity data</p>
+				<p>Blockchain explorer API with comprehensive entity data</p>
 			</div>
 			<div class="source-card">
 				<h3>⚡ Viem/JSON-RPC</h3>
@@ -203,6 +201,10 @@
 			<div class="source-card">
 				<h3>🔄 1inch Protocol</h3>
 				<p>DeFi integration for token swaps, prices, and liquidity data</p>
+			</div>
+			<div class="source-card">
+				<h3>📊 GraphQL Caching</h3>
+				<p>Unified data store with intelligent caching across multiple sources</p>
 			</div>
 		</div>
 	</section>
@@ -235,11 +237,19 @@
 		color: #666;
 		margin-bottom: 0.5rem;
 	}
+
+	.description {
+		font-size: 1.1rem !important;
+		color: #555 !important;
+		line-height: 1.4;
+		max-width: 800px;
+		margin: 1rem auto !important;
+	}
 	
 	.subtitle {
 		font-size: 1rem !important;
 		color: #999 !important;
-		margin-top: 0.5rem !important;
+		margin-top: 1rem !important;
 		font-style: italic;
 	}
 
@@ -374,51 +384,54 @@
 	}
 
 	.chain-showcase {
-		margin-bottom: 4rem;
+		margin-bottom: 3rem;
 	}
 
 	.chain-showcase h2 {
 		text-align: center;
-		margin-bottom: 2rem;
-		font-size: 2rem;
+		margin-bottom: 1.5rem;
+		font-size: 1.75rem;
 		color: #333;
 	}
 
 	.chains-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-		gap: 1.5rem;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: 1rem;
 	}
 
 	.chain-card {
 		background: #f8f9fa;
-		border-radius: 12px;
-		padding: 1.5rem;
+		border-radius: 8px;
+		padding: 1rem;
 		text-align: center;
 		border: 1px solid #e9ecef;
 	}
 
 	.chain-card h3 {
-		margin-bottom: 1rem;
+		margin-bottom: 0.75rem;
 		color: #333;
-		font-size: 1.25rem;
+		font-size: 1.125rem;
 	}
 
 	.chain-actions {
 		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
+		gap: 0.25rem;
+		flex-wrap: wrap;
+		justify-content: center;
 	}
 
 	.chain-link {
-		padding: 0.5rem 1rem;
+		padding: 0.375rem 0.75rem;
 		background: #fff;
 		border: 1px solid #dee2e6;
-		border-radius: 6px;
+		border-radius: 4px;
 		text-decoration: none;
 		color: #495057;
-		font-size: 0.875rem;
+		font-size: 0.8rem;
 		transition: all 0.2s;
+		flex: 1;
+		min-width: fit-content;
 	}
 
 	.chain-link:hover {
@@ -520,6 +533,19 @@
 			border-color: #444;
 			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 		}
+
+		.story-card {
+			background: rgba(102, 126, 234, 0.05);
+			border-color: rgba(102, 126, 234, 0.15);
+		}
+
+		.story-card h2, .story-card p {
+			color: #ddd;
+		}
+
+		.story-card strong {
+			color: #8fb3ff;
+		}
 		
 		.feature-card > p, .chain-card h3, .source-card h3, .source-card p {
 			color: #aaa;
@@ -541,6 +567,10 @@
 
 		.feature-card h2, .chain-showcase h2, .quick-links h2, .data-sources h2 {
 			color: #fff;
+		}
+
+		.description {
+			color: #bbb !important;
 		}
 	}
 </style>

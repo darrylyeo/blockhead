@@ -582,17 +582,24 @@
 		border: none;
 		cursor: pointer;
 		padding: 0.25rem;
+		font-size: 0.875rem;
+		color: inherit;
+	}
+
+	.chains-button:hover {
+		opacity: 0.7;
 	}
 
 	.chains-menu {
 		position: absolute;
 		top: 100%;
-		left: 0;
+		right: 0;
 		background: white;
-		border: 1px solid;
-		border-top: none;
-		max-height: 200px;
-		overflow-y: auto;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		min-width: 150px;
+		overflow: hidden;
 		z-index: 50;
 	}
 
@@ -605,6 +612,9 @@
 		background: none;
 		cursor: pointer;
 		font-size: 0.875rem;
+		text-decoration: none;
+		color: inherit;
+		white-space: nowrap;
 	}
 
 	.chain-link:hover {
@@ -616,12 +626,14 @@
 			background: #222;
 		}
 		
-		.autocomplete-dropdown {
+		.autocomplete-dropdown, .chains-menu {
 			background: #222;
+			border-color: #444;
 		}
 		
 		.autocomplete-item:hover,
-		.autocomplete-item.selected {
+		.autocomplete-item.selected,
+		.chain-link:hover {
 			background: rgba(255, 255, 255, 0.1);
 		}
 	}

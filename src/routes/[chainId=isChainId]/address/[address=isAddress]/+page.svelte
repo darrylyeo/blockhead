@@ -63,5 +63,23 @@
 {:else if actor.data?.actor}
 	<Actor actor={actor.data.actor} />
 {:else}
-	<div>Actor not found</div>
+	<div>
+		<h2>Address Not Found</h2>
+		<p>The address <code>{address}</code> was not found on chain {chainId}.</p>
+		<details>
+			<summary>Why might this happen?</summary>
+			<ul>
+				<li>The address hasn't been used on this network yet</li>
+				<li>The address may not exist on this specific blockchain</li>
+				<li>The address might be valid but have zero transaction history</li>
+				<li>Data for this network might not be available in Blockscout</li>
+			</ul>
+		</details>
+		<p>Try:</p>
+		<ul>
+			<li>Checking the address format is correct</li>
+			<li>Verifying you're on the right network (Chain ID: {chainId})</li>
+			<li>Looking for this address on a different network</li>
+		</ul>
+	</div>
 {/if}
