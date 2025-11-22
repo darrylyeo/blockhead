@@ -7,6 +7,13 @@ export default {
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
 
+	compilerOptions: {
+		runes: true,
+		experimental: {
+			async: true,
+		},
+	},
+
 	kit: {
 		// adapter-auto only supports some environments, see https://svelte.dev/docs/kit/adapter-auto for a list.
 		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
@@ -15,6 +22,10 @@ export default {
 
 		alias: {
 			'$': './src',
+		},
+
+		experimental: {
+			remoteFunctions: true,
 		},
 	},
 } as Config
