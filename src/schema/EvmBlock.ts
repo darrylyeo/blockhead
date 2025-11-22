@@ -1,6 +1,6 @@
 import { EntityType, type Entity } from './_Entity.ts'
-import type { EvmNetwork } from "./EvmNetwork.ts"
-import type { EvmTransaction } from "./EvmTransaction.ts"
+import type { EvmNetwork } from './EvmNetwork.ts'
+import type { EvmTransaction, GasUnitAmount } from './EvmTransaction.ts'
 
 export type EvmBlockNumber = bigint
 export type EvmBlockHash = `0x${string}`
@@ -8,9 +8,9 @@ export type EvmBlockHash = `0x${string}`
 export type EvmBlock = Entity<
 	EntityType.EvmBlock,
 	(
-        & {
-            network: EvmNetwork['$id']
-        }
+		& {
+			network: EvmNetwork['$id']
+		}
 		& (
 			| {
 				number: EvmBlockNumber
@@ -21,7 +21,7 @@ export type EvmBlock = Entity<
 		)
 	),
 	{
-
+		gasUsed: GasUnitAmount
 	},
 	{
 		transactions: EvmTransaction['$id'][]
