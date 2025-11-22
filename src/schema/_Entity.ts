@@ -61,8 +61,10 @@ export enum EntityType {
 	EvmActor = 'EvmActor',
 	EvmBlock = 'EvmBlock',
 	EvmContractPosition = 'EvmContractPosition',
+	EvmEvent = 'EvmEvent',
 	EvmNetwork = 'EvmNetwork',
 	EvmTransaction = 'EvmTransaction',
+	EvmTrace = 'EvmTrace',
 	FarcasterAccount = 'FarcasterAccount',
 	Identity = 'Identity',
 	Portfolio = 'Portfolio',
@@ -75,8 +77,10 @@ export type EntityByType = {
 	[EntityType.EvmActor]: import('./EvmActor').EvmActor
 	[EntityType.EvmBlock]: import('./EvmBlock').EvmBlock
 	[EntityType.EvmContractPosition]: import('./EvmContractPosition').EvmContractPosition
+	[EntityType.EvmEvent]: import('./EvmEvent').EvmEvent
 	[EntityType.EvmNetwork]: import('./EvmNetwork').EvmNetwork
 	[EntityType.EvmTransaction]: import('./EvmTransaction').EvmTransaction
+	[EntityType.EvmTrace]: import('./EvmTrace').EvmTrace
 	[EntityType.FarcasterAccount]: import('./FarcasterAccount').FarcasterAccount
 	[EntityType.Identity]: import('./Identity').Identity
 	[EntityType.Portfolio]: import('./Portfolio').Portfolio
