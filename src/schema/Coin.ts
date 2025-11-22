@@ -23,10 +23,10 @@ export type Coin<
 export type NativeCurrency = Entity<
 	EntityType.Coin,
 	{
-		network: EvmNetwork['$id']
+		$network: EvmNetwork['$id']
 	},
 	{
-		$type: CoinType.NativeCurrency,
+		type: CoinType.NativeCurrency,
 		symbol: string
 		decimals: number
 		icon?: string
@@ -36,7 +36,7 @@ export type NativeCurrency = Entity<
 export type Erc20Token = ExtendEntity<
 	EvmActor,
 	{
-		$type: CoinType.Erc20Token,
+		type: CoinType.Erc20Token,
 		symbol: string
 		decimals: number
 		name: string

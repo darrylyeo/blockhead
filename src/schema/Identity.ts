@@ -32,7 +32,7 @@ export type Identity = Entity<
 	{
 		links: {
 			isPrimary: boolean
-			actor: EvmActor['$id']
+			$actor: EvmActor['$id']
 		}[]
 	}
 >

@@ -8,8 +8,12 @@ export type Portfolio = Entity<
 	},
 	{
 		name: string
-	},
-	{
-		actors: EvmActor['$id'][]
+        $$actors: EvmActor['$id'][]
+
+		// stats: {
+		// 	netWorth?: number
+		// 	totalPnl?: number
+		// 	totalRoi?: number
+		// }
 	}
 >

@@ -2,7 +2,6 @@ export type Entity<
 	Type,
 	Id,
 	Fields = null,
-	Links = null
 > = (
 	& {
 		$type: Type
@@ -18,22 +17,11 @@ export type Entity<
 				)
 			}
 	)
-	& (
-		Links extends null ?
-			{}
-		:
-			{
-				$links: (
-					Partial<Links>
-				)
-			}
-	)
 )
 
 export type ExtendEntity<
 	_Entity extends Entity<any, any>,
-	Fields = null,
-	Links = null
+	Fields = null
 > = (
 	Entity<
 		_Entity['$type'],
@@ -41,10 +29,6 @@ export type ExtendEntity<
 		(
 			& (_Entity extends { $fields: infer F } ? F : {})
 			& (Fields extends null ? {} : Fields)
-		),
-		(
-			& (_Entity extends { $links: infer L } ? L : {})
-			& (Links extends null ? {} : Links)
 		)
 	>
 )
@@ -54,26 +38,17 @@ export type ExtendEntity<
 // 	Fields = null,
 // 	Links = null
 // > = (
-// 	_Entity extends Entity<infer _Type, infer _Id, infer _Fields, infer _Links> ?
+// 	_Entity extends Entity<infer _Type, infer _Id, infer _Fields> ?
 //         Entity<
 //             _Type,
 //             _Id,
 //             _Fields & Fields,
-//             _Links & Links
-//         >
-//     : _Entity extends Entity<infer _Type, infer _Id, infer _Fields> ?
-//         Entity<
-//             _Type,
-//             _Id,
-//             _Fields & Fields,
-//             Links
 //         >
 //     : _Entity extends Entity<infer _Type, infer _Id> ?
 //         Entity<
 //             _Type,
 //             _Id,
 //             Fields,
-//             Links
 //         >
 //     :
 //         never

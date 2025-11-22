@@ -11,17 +11,10 @@ export type Balance<
 > = Entity<
 	EntityType.Balance,
 	{
-		[CoinType.NativeCurrency]: (
-			{
-				network: EvmNetwork['$id']
-			}
-		)
-		[CoinType.Erc20Token]: (
-			EvmActor['$id']
-		)
-	}[_CoinType],
+		$actor: EvmActor['$id']
+		$coin: Coin<_CoinType>['$id']
+	},
 	{
-		coin: Coin<_CoinType>
 		balance: (
 			{
 				[CoinType.NativeCurrency]: NativeCurrencyAmount

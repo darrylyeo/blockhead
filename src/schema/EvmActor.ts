@@ -4,16 +4,21 @@ import type { EvmNetwork } from './EvmNetwork.ts'
 
 export type EvmAddress = `0x${string}`
 
-export type EvmActor = Entity<
+export enum EvmActorType {
+	EOA = 'EOA',
+	Contract = 'Contract',
+}
+
+export type EvmActor<
+	_EvmActorType extends EvmActorType = EvmActorType,
+> = Entity<
 	EntityType.EvmActor,
 	{
-		network: EvmNetwork['$id']
+		$network: EvmNetwork['$id']
 		address: EvmAddress
 	},
 	{
-		
-	},
-	{
-		transactions: EvmTransaction['$id'][]
+		type: _EvmActorType
+		$$transactions: EvmTransaction['$id'][]
 	}
 >
