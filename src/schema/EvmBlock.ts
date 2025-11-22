@@ -9,9 +9,9 @@ export type EvmBlockHash = `0x${string}`
 export type EvmBlock = Entity<
 	EntityType.EvmBlock,
 	(
-        & {
-            $network: EvmNetwork['$id']
-        }
+		& {
+			$network: EvmNetwork['$id']
+		}
 		& PartialExceptOneOf<
 			| {
 				number: EvmBlockNumber
@@ -23,7 +23,7 @@ export type EvmBlock = Entity<
 	),
 	{
 		gasUsed: bigint
-        $$transactions: EvmTransaction['$id'][]
-        $previousBlock: EvmBlock['$id']
+		$$transactions: EvmTransaction['$id'][]
+		$previousBlock: EvmBlock['$id']
 	}
 >

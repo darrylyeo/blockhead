@@ -3,7 +3,7 @@ import type { EvmActor } from './EvmActor.ts'
 import type { EvmTransaction } from './EvmTransaction.ts'
 import type { EvmBlock } from './EvmBlock.ts'
 import type { NativeCurrencyAmount } from './Balance.ts'
-import type { PartialExceptOneOf } from '$/typescript/PartialExceptOneOf.js'
+import type { PartialExceptOneOf } from '$/typescript/PartialExceptOneOf.ts'
 
 export type GasAmount = bigint
 
@@ -43,4 +43,3 @@ export type EvmTrace = Entity<
         $$subtraces: EvmTrace['$id'][]
     }
 >
-
