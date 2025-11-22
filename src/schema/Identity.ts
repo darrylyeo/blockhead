@@ -1,7 +1,7 @@
-import type { Entity } from './types'
-import type { EvmActor } from './EvmActor'
-import type { EnsDomain } from './EnsDomain'
-import type { FarcasterAccount } from './FarcasterAccount'
+import { EntityType, type Entity } from './_Entity.ts'
+import type { EvmActor } from './EvmActor.ts'
+import type { EnsDomain } from './EnsDomain.ts'
+import type { FarcasterAccount } from './FarcasterAccount.ts'
 
 export enum IdentityType {
     Address = 'Address',
@@ -10,6 +10,7 @@ export enum IdentityType {
 }
 
 export type Identity = Entity<
+	EntityType.Identity,
 	(
         | {
             type: IdentityType.Address

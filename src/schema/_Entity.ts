@@ -1,3 +1,43 @@
+export type Entity<
+	Type,
+	Id,
+	Fields = Record<string, unknown>,
+	Links = Record<string, unknown>
+> = {
+	$type: Type
+	$id: (
+		Id
+	)
+	$fields: (
+		Fields
+	)
+	$links: (
+		Partial<Links>
+	)
+	// $entity: (
+	// 	& Partial<Links>
+	// 	& Fields
+	// 	& Id
+	// )
+}
+
+export type ExtendEntity<
+	Type,
+	_Entity extends Entity<any, any>,
+	Fields,
+	Links = never
+> = (
+	_Entity extends Entity<infer _Id, infer _Fields, infer _Links> ?
+		Entity<
+			Type,
+			_Id,
+			_Fields & Fields,
+			_Links & Partial<Links>
+		>
+	:
+		never
+)
+
 export enum EntityType {
 	Balance = 'Balance',
 	Coin = 'Coin',
@@ -11,9 +51,7 @@ export enum EntityType {
 	Portfolio = 'Portfolio',
 }
 
-export type Entity<
-	_EntityType extends EntityType
-> = {
+export type EntityByType = {
 	[EntityType.Balance]: import('./Balance').Balance
 	[EntityType.Coin]: import('./Coin').Coin
 	[EntityType.EnsDomain]: import('./EnsDomain').EnsDomain

@@ -1,9 +1,10 @@
-import type { Entity } from './types';
-import type { NativeCurrencyAmount } from './Balance';
-import type { EvmActor } from './EvmActor';
-import type { EvmBlock } from './EvmBlock';
+import { EntityType, type Entity } from './_Entity.ts'
+import type { NativeCurrencyAmount } from './Balance.ts';
+import type { EvmActor } from './EvmActor.ts';
+import type { EvmBlock } from './EvmBlock.ts';
 
 export type EvmTransaction = Entity<
+    EntityType.EvmTransaction,
     {
         hash: `0x${string}`
     },

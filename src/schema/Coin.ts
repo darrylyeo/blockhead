@@ -1,6 +1,6 @@
-import type { Entity, ExtendEntity } from './types'
-import type { EvmActor } from './EvmActor'
-import type { EvmNetwork } from './EvmNetwork'
+import { EntityType, type Entity, type ExtendEntity } from './_Entity.ts'
+import type { EvmActor } from './EvmActor.ts'
+import type { EvmNetwork } from './EvmNetwork.ts'
 
 export enum CoinType {
 	NativeCurrency = 'NativeCurrency',
@@ -21,10 +21,12 @@ export type Coin<
 )
 
 export type NativeCurrency = Entity<
+	EntityType.Coin,
 	{
 		network: EvmNetwork['$id']
 	},
 	{
+		$type: CoinType.NativeCurrency,
 		symbol: string
 		decimals: number
 		icon?: string
@@ -32,11 +34,13 @@ export type NativeCurrency = Entity<
 >
 
 export type Erc20Token = ExtendEntity<
+	EntityType.Coin,
 	EvmActor,
 	{
 		network: EvmNetwork['$id']
 	},
 	{
+		$type: CoinType.Erc20Token,
 		symbol: string
 		decimals: number
 		name: string
