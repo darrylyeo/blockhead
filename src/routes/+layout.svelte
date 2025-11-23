@@ -41,7 +41,7 @@
 				href: '/portfolio',
 				children: (
 					portfolios.current.map(portfolio => ({
-						id: portfolio.id,
+						id: portfolio.$id.id,
 						title: portfolio.$fields.title || '[Untitled Portfolio]',
 						href: `/portfolio/${portfolio.$id.id}`,
 					}))
