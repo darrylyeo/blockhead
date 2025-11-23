@@ -4,33 +4,29 @@ import type { EnsDomain } from './EnsDomain.ts'
 import type { FarcasterAccount } from './FarcasterAccount.ts'
 
 export enum IdentityType {
-	Address = 'Address',
-	Ens = 'Ens',
-	Farcaster = 'Farcaster',
+	Actor = 'Actor',
+	EnsDomain = 'EnsDomain',
+	FarcasterAccount = 'FarcasterAccount',
 }
 
 export type Identity = Entity<
 	EntityType.Identity,
 	(
 		| {
-			type: IdentityType.Address
-			id: EvmActor['$id']
+			type: IdentityType.Actor
+			actor: EvmActor['$id']
 		}
 		| {
-			type: IdentityType.Ens
-			id: {
-				name: EnsDomain['$id']
-			}
+			type: IdentityType.EnsDomain
+			ensDomain: EnsDomain['$id']
 		}
 		| {
-			type: IdentityType.Farcaster
-			id: {
-				fid: FarcasterAccount['$id'],
-			}
+			type: IdentityType.FarcasterAccount
+			farcasterAccount: FarcasterAccount['$id'],
 		}
 	),
 	{
-		links: {
+		links?: {
 			isPrimary: boolean
 			$actor: EvmActor['$id']
 		}[]

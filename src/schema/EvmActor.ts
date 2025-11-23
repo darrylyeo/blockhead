@@ -3,6 +3,7 @@ import type { EvmTransaction } from './EvmTransaction.ts'
 import type { EvmNetwork } from './EvmNetwork.ts'
 
 export type EvmAddress = `0x${string}`
+export const evmAddressPattern = /0x[0-9a-fA-F]{40}/
 
 export enum EvmActorType {
 	EOA = 'EOA',
@@ -22,7 +23,3 @@ export type EvmActor<
 		$$transactions: EvmTransaction['$id'][]
 	}
 >
-
-export const isEvmAddress = (string: string): string is EvmAddress => (
-	/^0x[a-f0-9]{40}/i.test(string)
-)
