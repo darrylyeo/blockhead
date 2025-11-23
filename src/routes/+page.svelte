@@ -3,8 +3,8 @@
 </script>
 
 
-<main data-column="center">
-	<h2>Visualize your onchain footprint</h2>
+<main data-column="gap-8">
+	<h2>Your onchain footprint, visualized.</h2>
 
 	<div data-row="center">
 		<a
@@ -23,6 +23,11 @@
 
 
 <style>
+	main {
+		align-content: center;
+		min-height: 100vh;
+	}
+
 	h2 {
 		font-weight: 700;
 		font-size: clamp(1.5rem, 10cqi, 3rem);
