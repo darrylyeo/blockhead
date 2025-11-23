@@ -1,5 +1,5 @@
 // Types/constants
-import { EntityType } from '$/schema/_Entity'
+import { EntityType } from '$/schema/_Entity.ts'
 import type { Portfolio } from '$/schema/Portfolio.ts'
 
 
@@ -11,8 +11,8 @@ export const createDefaultPortfolio = () => (
 			id: crypto.randomUUID()
 		},
 		$fields: {
-			title: '',
-			$$actors: [],
+			title: 'My First Portfolio',
+			$$identities: [],
 		},
 	} as Portfolio
 )

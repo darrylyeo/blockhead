@@ -157,6 +157,10 @@ h6 {
 	text-wrap: balance;
 }
 
+ul {
+	padding-inline-start: 1.25em;
+}
+
 [data-text] {
 	&[data-text~="font-base"] {
 		font-family: var(--fontFamily-base);
@@ -271,6 +275,9 @@ label:has(
 		padding: 0.66em;
 	}
 
+	&[data-size="small"] {
+		font-size: 0.75em;
+	}
 	&[data-size="large"] {
 		font-size: 1em;
 	}

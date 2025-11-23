@@ -4,7 +4,7 @@ import type { EnsDomain } from './EnsDomain.ts'
 import type { FarcasterAccount } from './FarcasterAccount.ts'
 
 export enum IdentityType {
-	Actor = 'Actor',
+	EvmActor = 'EvmActor',
 	EnsDomain = 'EnsDomain',
 	FarcasterAccount = 'FarcasterAccount',
 }
@@ -13,7 +13,7 @@ export type Identity = Entity<
 	EntityType.Identity,
 	(
 		| {
-			type: IdentityType.Actor
+			type: IdentityType.EvmActor
 			actor: EvmActor['$id']
 		}
 		| {

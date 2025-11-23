@@ -1,5 +1,5 @@
 import { EntityType, type Entity } from './_Entity.ts'
-import type { EvmActor } from './EvmActor.ts'
+import type { Identity } from './Identity.ts'
 
 export type Portfolio = Entity<
 	EntityType.Portfolio,
@@ -8,7 +8,7 @@ export type Portfolio = Entity<
 	},
 	{
 		title: string
-		$$actors: EvmActor['$id'][]
+		$$identities: Identity['$id'][]
 
 		// stats: {
 		// 	netWorth?: number

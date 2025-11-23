@@ -8,7 +8,10 @@
 
 <script lang="ts">
 	// Types/constants
-	import type { Portfolio } from '$/schema/Portfolio.ts'
+	import type { Portfolio } from '$/schema/Portfolio'
+	import type { Identity } from '$/schema/Identity'
+	import { IdentityType } from '$/schema/Identity'
+	import type { EvmActor } from '$/schema/EvmActor'
 
 
 	// Props
@@ -21,18 +24,35 @@
 	} = $props()
 
 
-	// Functions
-	import { isEvmAddress } from '$/schema/EvmActor.ts'
+	// Queries
 	import { getPortfolio } from '$/data/Octav.remote'
+	import { getAddressFromEns } from '$/data/Viem.remote'
+
+	const resolveIdentityToActor = async (identity: Identity['$id']): Promise<EvmActor['$id'] | null> => {
+		if (identity.type === IdentityType.EvmActor) {
+			return identity.actor
+		}
+		if (identity.type === IdentityType.EnsDomain) {
+			const address = await getAddressFromEns({
+				ensName: identity.ensDomain.name,
+				network: { chainId: 1 },
+			})
+			return address?.$id || null
+		}
+		return null
+	}
 
 
 	// State
 	let isEditingTitle = $state(false)
-	let isAddingAddress = $state(false)
+	let isAddingIdentity = $state(false)
+	let newIdentity = $state(undefined as Identity['$id'] | undefined)
 
 
 	// Components
 	import Balance from '$/components/Balance.svelte'
+	import IdentityInput from '$/components/IdentityInput.svelte'
+	import IdentityComponent from '$/components/Identity.svelte'
 </script>
 
 
@@ -44,6 +64,7 @@
 	link?: boolean
 })}
 	{#snippet Heading()}
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<svelte:element this={`h${headingLevel}`}
 			onclick={() => {
 				if(!link)
@@ -63,6 +84,7 @@
 			{@render Heading()}
 		{/if}
 	{:else}
+		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<form
 			data-row="wrap"
 			class="title-form"
@@ -123,7 +145,7 @@
 				data-scroll-item="inline-detached"
 				data-column="gap-0"
 			>
-				<p>{portfolio.$fields.$$actors.length} account{portfolio.$fields.$$actors.length !== 1 ? 's' : ''}</p>
+				<p>{portfolio.$fields.$$identities.length} account{portfolio.$fields.$$identities.length !== 1 ? 's' : ''}</p>
 			</section>
 		</details>
 
@@ -145,10 +167,10 @@
 				open
 				ontoggle={e => {
 					if(!e.currentTarget.open)
-						isAddingAddress = false
+						isAddingIdentity = false
 				}}
 				{@attach element => {
-					if(isAddingAddress)
+					if(isAddingIdentity)
 						element.open = true
 				}}
 			>
@@ -157,13 +179,19 @@
 					data-scroll-item="inline-detached padding-match-start padding-match-end"
 				>
 					<header data-row="wrap">
-						<h2>Accounts</h2>
+						<div data-row="gap-2">
+							<h2>Accounts</h2>
 
-						{#if !isAddingAddress}
+							<div data-tag>
+								{portfolio.$fields.$$identities.length}
+							</div>
+						</div>
+
+						{#if !isAddingIdentity}
 							<button
 								type="button"
 								onclick={() => {
-									isAddingAddress = true
+									isAddingIdentity = true
 								}}
 							>Add Account</button>
 						{/if}
@@ -172,36 +200,34 @@
 
 				<div
 					data-scroll-item="inline-detached padding-match-end"
+					data-column
 				>
-					{#if isAddingAddress}
+					{#if isAddingIdentity}
+						<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 						<form
 							data-card="secondary"
 							data-row="wrap"
 							onsubmit={(e) => {
 								e.preventDefault()
 
-								const formData = new FormData(e.currentTarget)
-								const address = formData.get('address')
-
-								if(!isEvmAddress(address)){
-									e.currentTarget.reportValidity({
-										validity: {
-											customError: 'Invalid Ethereum address',
-										},
-									})
+								if (!e.currentTarget.checkValidity()) {
+									e.currentTarget.reportValidity()
 									return
 								}
 
-								portfolio.$fields.$$actors.push({
-									$network: { chainId: 1 },
-									address,
-								})
+								if (!newIdentity) {
+									return
+								}
 
-								isAddingAddress = false
+								portfolio.$fields.$$identities.push(newIdentity)
+								newIdentity = undefined
+								isAddingIdentity = false
 							}}
 							onkeydown={(e) => {
-								if(e.key === 'Escape')
-									isAddingAddress = false
+								if(e.key === 'Escape') {
+									isAddingIdentity = false
+									newIdentity = undefined
+								}
 							}}
 						>
 							<label
@@ -209,9 +235,12 @@
 								data-column="gap-2"
 							>
 								Add Account
-								<input
-									name="address"
-									placeholder="0x... / ENS Name"
+								<IdentityInput
+									name="identity"
+									bind:identity={newIdentity}
+									network={{ chainId: 1 }}
+									required
+									autofocus
 								/>
 							</label>
 
@@ -221,28 +250,30 @@
 								<button
 									type="button"
 									onclick={() => {
-										isAddingAddress = false
+										isAddingIdentity = false
+										newIdentity = undefined
 									}}
 								>Cancel</button>
 							</div>
 						</form>
 					{/if}
 
-					<ul>
-						{#each portfolio.$fields.$$actors as actor, i}
+					<ul data-column="gap-2">
+						{#each portfolio.$fields.$$identities as identity, i}
 							<li>
-								{actor.address}
+								<div data-row>
+									<IdentityComponent
+										{identity}
+									/>
 
-								<menu>
-									<li>
-										<button
-											type="button"
-											onclick={() => {
-												portfolio.$fields.$$actors.splice(i, 1)
-											}}
-										>Remove</button>
-									</li>
-								</menu>
+									<button
+										type="button"
+										data-size="small"
+										onclick={() => {
+											portfolio.$fields.$$identities.splice(i, 1)
+										}}
+									>Remove</button>
+								</div>
 							</li>
 						{/each}
 					</ul>
@@ -264,18 +295,22 @@
 					</header>
 				</summary>
 
-				{#each portfolio.$fields.$$actors as actor, i}
-					{@const balances = await getPortfolio({ actor })}
+				{#each portfolio.$fields.$$identities as identity, i}
+					{@const actor = await resolveIdentityToActor(identity)}
 
-					<ol>
-						{#each balances as balance}
-							<li>
-								<Balance
-									{balance}
-								/>
-							</li>
-						{/each}
-					</ol>
+					{#if actor}
+						{@const balances = await getPortfolio({ actor })}
+
+						<ol>
+							{#each balances as balance}
+								<li>
+									<Balance
+										{balance}
+									/>
+								</li>
+							{/each}
+						</ol>
+					{/if}
 				{/each}
 			</details>
 		</section>
