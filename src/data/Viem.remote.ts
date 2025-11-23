@@ -19,10 +19,10 @@ export const getBlock = query(
 		network: EvmNetwork['$id']
 		blockNumber: bigint
 	}) => {
-		const { getBlock } = await import('viem/actions')
+		const { getBlock: getBlockAction } = await import('viem/actions')
 		const { getViemClient } = await import('../api/Viem/api.js')
 		const client = getViemClient(network)
-		const block = await getBlock(client, { blockNumber })
+		const block = await getBlockAction(client, { blockNumber })
 
 		return {
 			$type: EntityType.EvmBlock,
@@ -32,11 +32,11 @@ export const getBlock = query(
 				hash: block.hash
 			},
 			$fields: {
-				timestamp: Number(block.timestamp),
+				timestamp: Number(block.timestamp) * 1000,
 				gasUsed: block.gasUsed,
 				gasLimit: block.gasLimit,
 				baseFeePerGas: block.baseFeePerGas ?? 0n,
-				$$transactions: [], // We're not mapping transactions here for summary
+				$$transactions: [],
 				$previousBlock: {
 					$network: network,
 					number: blockNumber - 1n
@@ -76,30 +76,14 @@ export const getLatestBlocks = query(
 		const client = getViemClient(network)
 		const latestBlockNumber = await getBlockNumber(client)
 		
-		// Chunk requests into batches of 25 to respect RPC batch size limit
-		// Use Promise.all to parallelize getBlock queries within each chunk
-		const BATCH_SIZE = 25
-		const allBlocks: EvmBlock[] = []
-		
-		for (let offset = 0; offset < count; offset += BATCH_SIZE) {
-			const batchSize = Math.min(BATCH_SIZE, count - offset)
-			const blockQueries = []
-			
-			for (let i = 0; i < batchSize; i++) {
-				const blockNumber = latestBlockNumber - BigInt(offset + i)
-				blockQueries.push(getBlock({
-					network,
-					blockNumber
-				}))
-			}
-			
-			// Each getBlock query makes a single HTTP request
-			// Process batches sequentially to avoid overwhelming the RPC
-			const batchBlocks = await Promise.all(blockQueries)
-			allBlocks.push(...batchBlocks)
+		const blockNumbers: bigint[] = []
+		for (let i = 0; i < count; i++) {
+			blockNumbers.push(latestBlockNumber - BigInt(i))
 		}
-
-		return allBlocks
+		
+		return await Promise.all(
+			blockNumbers.map(blockNumber => getBlock({ network, blockNumber }))
+		)
 	}
 )
 
@@ -236,7 +220,7 @@ export const getTransactions = query(
 				let timestamp = 0
 				if (receipt?.blockNumber) {
 					const block = await getBlock(client, { blockNumber: receipt.blockNumber })
-					timestamp = Number(block.timestamp)
+					timestamp = Number(block.timestamp) * 1000
 				}
 
 				return {
