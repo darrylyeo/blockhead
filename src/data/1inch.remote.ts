@@ -10,55 +10,56 @@ import { EvmActorType } from "../schema/EvmActor.ts"
 
 import { query } from "$app/server"
 
-export const getPortfolioValue = query(
-	'unchecked',
-	async ({
-		actor,
-	}: {
-		actor: EvmActor['$id']
-	}) => {
-		const { getPortfolioValue } = await import("../api/1inch/api.ts")
-
-		const chainId = 'chainId' in actor.$network ? actor.$network.chainId : 1
-		const result = await getPortfolioValue({
-			chainId,
-			address: actor.address
-		})
-
-		return result.result
-			.filter((item) => item.amount != null)
-			.map((item) => {
-				const isNative = item.contract_address === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
-				
-				if (isNative) {
-					const coinId = {
-						$network: actor.$network
-					}
-
-					return {
-						$type: EntityType.Balance,
-						$id: { $actor: actor, $coin: coinId },
-						$fields: {
-							balance: BigInt(item.amount ?? '0')
-						}
-					} satisfies Balance
-				} else {
-					 const coinId = {
-						$network: actor.$network,
-						address: item.contract_address as `0x${string}`
-					 }
-
-					 return {
-						$type: EntityType.Balance,
-						$id: { $actor: actor, $coin: coinId },
-						$fields: {
-							balance: BigInt(item.amount ?? '0')
-						}
-					} satisfies Balance
-				}
-			})
-	}
-)
+// TODO: Endpoint returns 404 Not Found - API may not be publicly available
+// export const getPortfolioValue = query(
+// 	'unchecked',
+// 	async ({
+// 		actor,
+// 	}: {
+// 		actor: EvmActor['$id']
+// 	}) => {
+// 		const { getPortfolioValue } = await import("../api/1inch/api.ts")
+//
+// 		const chainId = 'chainId' in actor.$network ? actor.$network.chainId : 1
+// 		const result = await getPortfolioValue({
+// 			chainId,
+// 			address: actor.address
+// 		})
+//
+// 		return result.result
+// 			.filter((item) => item.amount != null)
+// 			.map((item) => {
+// 				const isNative = item.contract_address === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
+// 				
+// 				if (isNative) {
+// 					const coinId = {
+// 						$network: actor.$network
+// 					}
+//
+// 					return {
+// 						$type: EntityType.Balance,
+// 						$id: { $actor: actor, $coin: coinId },
+// 						$fields: {
+// 							balance: BigInt(item.amount ?? '0')
+// 						}
+// 					} satisfies Balance
+// 				} else {
+// 					 const coinId = {
+// 						$network: actor.$network,
+// 						address: item.contract_address as `0x${string}`
+// 					 }
+//
+// 					 return {
+// 						$type: EntityType.Balance,
+// 						$id: { $actor: actor, $coin: coinId },
+// 						$fields: {
+// 							balance: BigInt(item.amount ?? '0')
+// 						}
+// 					} satisfies Balance
+// 				}
+// 			})
+// 	}
+// )
 
 export const getProfitAndLoss = query(
 	'unchecked',
@@ -115,142 +116,138 @@ export const getNfts = query(
 	}
 )
 
-export const getCoins = query(
-	'unchecked',
-	async ({
-		actor,
-	}: {
-		actor: EvmActor['$id']
-	}) => {
-		const { getPortfolioValue } = await import("../api/1inch/api.ts")
+// TODO: Depends on getPortfolioValue which returns 404 Not Found
+// export const getCoins = query(
+// 	'unchecked',
+// 	async ({
+// 		actor,
+// 	}: {
+// 		actor: EvmActor['$id']
+// 	}) => {
+// 		const { getPortfolioValue } = await import("../api/1inch/api.ts")
+//
+// 		const chainId = 'chainId' in actor.$network ? actor.$network.chainId : 1
+// 		const result = await getPortfolioValue({
+// 			chainId,
+// 			address: actor.address
+// 		})
+//
+// 		const nativeCurrencies: NativeCurrency[] = []
+// 		const erc20Tokens: Erc20Token[] = []
+// 		const seenCoins = new Set<string>()
+//
+// 		for (const item of result.result) {
+// 			if (!item.contract_address) continue
+// 			
+// 			const isNative = item.contract_address === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+// 			const coinKey = isNative ? `native-${chainId}` : `${chainId}-${item.contract_address.toLowerCase()}`
+//
+// 			if (seenCoins.has(coinKey)) continue
+// 			seenCoins.add(coinKey)
+//
+// 			if (isNative) {
+// 				const networkId = 'chainId' in actor.$network ? { chainId: actor.$network.chainId } : actor.$network
+// 				const nativeCurrencySymbol = chainId === 1 ? 'ETH' : chainId === 137 ? 'MATIC' : chainId === 56 ? 'BNB' : chainId === 42161 ? 'ETH' : 'ETH'
+//
+// 				nativeCurrencies.push({
+// 					$type: EntityType.Coin,
+// 					$id: {
+// 						$network: networkId
+// 					},
+// 					$fields: {
+// 						type: CoinType.NativeCurrency,
+// 						symbol: nativeCurrencySymbol,
+// 						decimals: item.decimals ?? 18,
+// 						icon: item.logo_url
+// 					}
+// 				} satisfies NativeCurrency)
+// 			} else {
+// 				erc20Tokens.push({
+// 					$type: EntityType.EvmActor,
+// 					$id: {
+// 						$network: actor.$network,
+// 						address: item.contract_address as `0x${string}`
+// 					},
+// 					$fields: {
+// 						type: CoinType.Erc20Token,
+// 						symbol: item.symbol,
+// 						decimals: item.decimals,
+// 						name: item.name,
+// 						icon: item.logo_url,
+// 						$$transactions: []
+// 					}
+// 				} as Erc20Token)
+// 			}
+// 		}
+//
+// 		return [...nativeCurrencies, ...erc20Tokens] as Coin[]
+// 	}
+// )
 
-		const chainId = 'chainId' in actor.$network ? actor.$network.chainId : 1
-		const result = await getPortfolioValue({
-			chainId,
-			address: actor.address
-		})
-
-		const nativeCurrencies: NativeCurrency[] = []
-		const erc20Tokens: Erc20Token[] = []
-		const seenCoins = new Set<string>()
-
-		for (const item of result.result) {
-			if (!item.contract_address) continue
-			
-			const isNative = item.contract_address === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
-			const coinKey = isNative ? `native-${chainId}` : `${chainId}-${item.contract_address.toLowerCase()}`
-
-			if (seenCoins.has(coinKey)) continue
-			seenCoins.add(coinKey)
-
-			if (isNative) {
-				const networkId = 'chainId' in actor.$network ? { chainId: actor.$network.chainId } : actor.$network
-				const nativeCurrencySymbol = chainId === 1 ? 'ETH' : chainId === 137 ? 'MATIC' : chainId === 56 ? 'BNB' : chainId === 42161 ? 'ETH' : 'ETH'
-
-				nativeCurrencies.push({
-					$type: EntityType.Coin,
-					$id: {
-						$network: networkId
-					},
-					$fields: {
-						type: CoinType.NativeCurrency,
-						symbol: nativeCurrencySymbol,
-						decimals: item.decimals ?? 18,
-						icon: item.logo_url
-					}
-				} satisfies NativeCurrency)
-			} else {
-				erc20Tokens.push({
-					$type: EntityType.EvmActor,
-					$id: {
-						$network: actor.$network,
-						address: item.contract_address as `0x${string}`
-					},
-					$fields: {
-						type: CoinType.Erc20Token,
-						symbol: item.symbol,
-						decimals: item.decimals,
-						name: item.name,
-						icon: item.logo_url,
-						$$transactions: []
-					}
-				} as Erc20Token)
-			}
-		}
-
-		return [...nativeCurrencies, ...erc20Tokens] as Coin[]
-	}
-)
-
-export const getDefiPositions = query(
-	'unchecked',
-	async ({
-		actor,
-	}: {
-		actor: EvmActor['$id']
-	}) => {
-		const { getDefiPositions } = await import("../api/1inch/api.ts")
-
-		const chainId = 'chainId' in actor.$network ? actor.$network.chainId : 1
-		
-		try {
-			const result = await getDefiPositions({
-				chainId,
-				address: actor.address
-			})
-
-			if (!result?.result) {
-				return []
-			}
-
-			return result.result
-				.filter(position => position.protocol)
-				.map((position) => {
-				const contractId = position.pool?.address ? {
-					$network: actor.$network,
-					address: position.pool.address as `0x${string}`,
-					type: EvmActorType.Contract
-				} : undefined
-
-				return {
-					$type: EntityType.EvmContractPosition,
-					$id: {
-						$contract: contractId
-					},
-					$fields: {
-						name: position.pool?.name ?? `${position.protocol?.name ?? 'Unknown'} Position`,
-						protocol: {
-							key: position.protocol?.key ?? '',
-							name: position.protocol?.name ?? 'Unknown',
-							logo_url: position.protocol?.logo_url
-						},
-						pool: position.pool ? {
-							address: position.pool.address as `0x${string}`,
-							name: position.pool.name
-						} : undefined,
-						value: position.net_worth ?? 0,
-						$$assets: (position.assets ?? []).filter(asset => asset.contract_address).map((asset) => {
-							const isNative = asset.contract_address === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
-							const coinId = isNative
-								? { $network: actor.$network }
-								: {
-									$network: actor.$network,
-									address: asset.contract_address as `0x${string}`
-								}
-							return {
-								$actor: actor,
-								$coin: coinId
-							}
-						})
-					}
-				} satisfies EvmContractPosition
-			})
-		} catch (error) {
-			console.error('Error fetching DeFi positions:', error)
-			return []
-		}
-	}
-)
+// TODO: Endpoint returns 404 Not Found - API may not be publicly available
+// export const getDefiPositions = query(
+// 	'unchecked',
+// 	async ({
+// 		actor,
+// 	}: {
+// 		actor: EvmActor['$id']
+// 	}) => {
+// 		const { getDefiPositions } = await import("../api/1inch/api.ts")
+//
+// 		const chainId = 'chainId' in actor.$network ? actor.$network.chainId : 1
+// 		const result = await getDefiPositions({
+// 			chainId,
+// 			address: actor.address
+// 		})
+//
+// 		if (!result?.result) {
+// 			return []
+// 		}
+//
+// 		return result.result
+// 			.filter(position => position.protocol)
+// 			.map((position) => {
+// 			const contractId = position.pool?.address ? {
+// 				$network: actor.$network,
+// 				address: position.pool.address as `0x${string}`,
+// 				type: EvmActorType.Contract
+// 			} : undefined
+//
+// 			return {
+// 				$type: EntityType.EvmContractPosition,
+// 				$id: {
+// 					$contract: contractId
+// 				},
+// 				$fields: {
+// 					name: position.pool?.name ?? `${position.protocol?.name ?? 'Unknown'} Position`,
+// 					protocol: {
+// 						key: position.protocol?.key ?? '',
+// 						name: position.protocol?.name ?? 'Unknown',
+// 						logo_url: position.protocol?.logo_url
+// 					},
+// 					pool: position.pool ? {
+// 						address: position.pool.address as `0x${string}`,
+// 						name: position.pool.name
+// 					} : undefined,
+// 					value: position.net_worth ?? 0,
+// 					$$assets: (position.assets ?? []).filter(asset => asset.contract_address).map((asset) => {
+// 						const isNative = asset.contract_address === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+// 						const coinId = isNative
+// 							? { $network: actor.$network }
+// 							: {
+// 								$network: actor.$network,
+// 								address: asset.contract_address as `0x${string}`
+// 							}
+// 						return {
+// 							$actor: actor,
+// 							$coin: coinId
+// 						}
+// 					})
+// 				}
+// 			} satisfies EvmContractPosition
+// 		})
+// 	}
+// )
 
 export const getNetworks = query(
 	'unchecked',

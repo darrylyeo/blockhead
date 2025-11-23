@@ -4,6 +4,7 @@
 	import type { EvmNetwork } from '$/schema/EvmNetwork'
 	import type { EnsName } from '$/schema/EnsDomain'
 	import { InputPattern, type TypeForInputPattern } from '$/schema/_patterns'
+	import { EntityType } from '$/schema/_Entity'
 
 
 	// Props
@@ -67,6 +68,13 @@
 			}
 		:
 			undefined
+	)
+
+	const matchedIdentityEntity = $derived(
+		matchedIdentity ? {
+			$type: EntityType.Identity,
+			$id: matchedIdentity,
+		} as Identity : null
 	)
 
 	$effect(() => {

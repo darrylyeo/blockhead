@@ -26,7 +26,7 @@
 
 	// Queries
 	import { getDefiPositions as getDefiPositionsOctav, getNetworks as getNetworksOctav, getCoins as getCoinsOctav } from '$/data/Octav.remote'
-	import { getPortfolioValue, getNfts, getDefiPositions, getHistoricalBalances, getNetworks, getCoins } from '$/data/1inch.remote'
+	import { getNfts, getHistoricalBalances, getNetworks } from '$/data/1inch.remote'
 	import { getAddressFromEns, getTransactions as getTransactionsViem, getEnsNameFromAddress } from '$/data/Viem.remote'
 	import { getFarcasterFromAddress } from '$/data/Farcaster.remote'
 	import { getProfitAndLoss } from '$/data/1inch.remote'
@@ -36,60 +36,82 @@
 	import { EntityType } from '$/schema/_Entity'
 	import { CoinType } from '$/schema/Coin'
 
-	const resolveIdentityToActor = async (identity: Identity['$id']): Promise<EvmActor['$id'] | null> => {
-		const identityEntity: Identity = {
-			$type: EntityType.Identity,
-			$id: identity,
-			$fields: {
-				links: []
-			}
-		}
-
-		const preferredTypes = [IdentityType.EvmActor]
-		const network = { chainId: 1 }
-		
-		const currentIndex = preferredTypes.indexOf(identity.type)
-		const typesToLookup = preferredTypes.slice(0, currentIndex >= 0 ? currentIndex : preferredTypes.length)
-
-		for (const result of await Promise.allSettled(
-			typesToLookup.map(async (preferredType) => {
-				try {
-					const resolver = identityResolutionMap[identity.type]?.[preferredType]
-					if (!resolver) return null
-					return await resolver(identityEntity, network)
-				} catch (error) {
-					console.error(`Failed to lookup ${preferredType}:`, error)
-					return null
-				}
-			})
-		)) {
-			if (result.status === 'fulfilled' && result.value !== null) {
-				const resolved = result.value
-				if (resolved.$id.type === IdentityType.EvmActor) {
-					return resolved.$id.actor
-				}
-			}
-		}
-
-		if (identity.type === IdentityType.EvmActor) {
-			return identity.actor
-		}
-
-		return null
-	}
-
-
 	// State
 	let isEditingTitle = $state(false)
 	let isAddingIdentity = $state(false)
 	let newIdentity = $state(undefined as Identity['$id'] | undefined)
+
+	// Derived
+	const allActors = $derived.by(async () => {
+		const defaultNetwork = { chainId: 1 }
+		const preferredTypes = [IdentityType.EvmActor]
+
+		const allIdentityEntities = await Promise.all(
+			portfolio.$fields.$$identities.map(async (identity) => {
+				const identityEntity: Identity = {
+					$type: EntityType.Identity,
+					$id: identity,
+					$fields: {
+						links: []
+					}
+				}
+
+				// If already EvmActor, return it directly
+				if (identity.type === IdentityType.EvmActor) {
+					return identityEntity
+				}
+
+				// Try to resolve to EvmActor
+				const resolvers = identityResolutionMap[identity.type] ?? {}
+				const results = await Promise.allSettled(
+					preferredTypes.map(async (preferredType) => {
+						try {
+							const resolver = resolvers[preferredType]
+							if (!resolver) return null
+							return await resolver(identity, defaultNetwork)
+						} catch (error) {
+							console.error(`Failed to lookup ${preferredType}:`, error)
+							return null
+						}
+					})
+				)
+
+				// Find first successful resolution
+				for (const result of results) {
+					if (result.status === 'fulfilled' && result.value !== null) {
+						return result.value
+					}
+				}
+
+				return identityEntity
+			})
+		)
+
+		// Extract all actors from identities
+		const actors = allIdentityEntities.flatMap(id => {
+			// If identity is EvmActor, use the actor directly
+			if (id.$id.type === IdentityType.EvmActor) {
+				return [id.$id.actor]
+			}
+			// Otherwise, extract actors from links
+			return id.$fields.links?.map(link => link.$actor) ?? []
+		})
+
+		// Deduplicate by address and chainId
+		return actors.filter((actor, index, self) => 
+			index === self.findIndex(a => 
+				a.address === actor.address && 
+				('chainId' in a.$network ? a.$network.chainId : 1) === 
+				('chainId' in actor.$network ? actor.$network.chainId : 1)
+			)
+		)
+	})
 
 
 	// Components
 	import Balance from '$/components/Balance.svelte'
 	import IdentityInput from '$/components/IdentityInput.svelte'
 	import IdentityComponent, { IdentityDisplayType } from '$/components/Identity.svelte'
-	import IdentityResolver from '$/components/IdentityResolver.svelte'
 	import DefiPosition from '$/components/DefiPosition.svelte'
 </script>
 
@@ -355,78 +377,52 @@
 						</header>
 					</summary>
 
-					{#each portfolio.$fields.$$identities as identity, i}
-						<IdentityResolver
-							{identity}
-							preferredTypes={[IdentityType.EvmActor]}
-							defaultNetwork={{ chainId: 1 }}
-						>
-							{#snippet children({ preferredIdentity, allResolvedIdentities })}
-								{@const allIdentityEntities = [preferredIdentity, ...allResolvedIdentities]}
-								
-								{@const allActors = allIdentityEntities
-									.flatMap(id => {
-										// If identity is EvmActor, use the actor directly
-										if (id.$id.type === IdentityType.EvmActor) {
-											return [id.$id.actor]
-										}
-										// Otherwise, extract actors from links
-										return id.$fields.links?.map(link => link.$actor) ?? []
-									})
-									.filter((actor, index, self) => 
-										index === self.findIndex(a => a.address === actor.address && 
-											('chainId' in a.$network ? a.$network.chainId : 1) === 
-											('chainId' in actor.$network ? actor.$network.chainId : 1))
+					{#if (await allActors).length > 0}
+						{@const actors = await allActors}
+						<div data-column="gap-2">
+							<ul data-column="gap-1">
+								{#each actors as actor}
+									<li>
+										<IdentityComponent
+											identity={{
+												type: IdentityType.EvmActor,
+												actor
+											}}
+										/>
+									</li>
+								{/each}
+							</ul>
+
+							{#each actors as actor}
+								{@const networks1inch = await getNetworks({ actor })}
+								{@const networksOctav = await getNetworksOctav({ actor })}
+								{@const allNetworks = [...networks1inch, ...networksOctav]
+									.filter((network, index, self) => 
+										index === self.findIndex(n => 
+											('chainId' in n.$id ? n.$id.chainId : 0) === 
+											('chainId' in network.$id ? network.$id.chainId : 0)
+										)
 									)}
 
-								{#if allActors.length > 0}
-									<div data-column="gap-2">
-										<ul data-column="gap-1">
-											{#each allActors as actor}
-												<li>
-													<IdentityComponent
-														identity={{
-															type: IdentityType.EvmActor,
-															actor
-														}}
-													/>
-												</li>
-											{/each}
-										</ul>
-
-										{#each allActors as actor}
-											{@const networks1inch = await getNetworks({ actor })}
-											{@const networksOctav = await getNetworksOctav({ actor })}
-											{@const allNetworks = [...networks1inch, ...networksOctav]
-												.filter((network, index, self) => 
-													index === self.findIndex(n => 
-														('chainId' in n.$id ? n.$id.chainId : 0) === 
-														('chainId' in network.$id ? network.$id.chainId : 0)
-													)
-												)}
-
-											{#if allNetworks.length > 0}
-												<ul data-column="gap-2">
-													{#each allNetworks as network}
-														<li>
-															<div data-row="wrap">
-																<span>{network.$fields.name}</span>
-																{#if network.$fields.nativeCurrency}
-																	<span data-tag="small">
-																		{network.$fields.nativeCurrency.$fields.symbol}
-																	</span>
-																{/if}
-															</div>
-														</li>
-													{/each}
-												</ul>
-											{/if}
+								{#if allNetworks.length > 0}
+									<ul data-column="gap-2">
+										{#each allNetworks as network}
+											<li>
+												<div data-row="wrap">
+													<span>{network.$fields.name}</span>
+													{#if network.$fields.nativeCurrency}
+														<span data-tag="small">
+															{network.$fields.nativeCurrency.$fields.symbol}
+														</span>
+													{/if}
+												</div>
+											</li>
 										{/each}
-									</div>
+									</ul>
 								{/if}
-							{/snippet}
-						</IdentityResolver>
-					{/each}
+							{/each}
+						</div>
+					{/if}
 				</details>
 			</section>
 
@@ -446,89 +442,62 @@
 						</header>
 					</summary>
 
-					{#each portfolio.$fields.$$identities as identity, i}
-						<IdentityResolver
-							{identity}
-							preferredTypes={[IdentityType.EvmActor]}
-							defaultNetwork={{ chainId: 1 }}
-						>
-							{#snippet children({ preferredIdentity, allResolvedIdentities })}
-								{@const allIdentityEntities = [preferredIdentity, ...allResolvedIdentities]}
-								
-								{@const allActors = allIdentityEntities
-									.flatMap(id => {
-										// If identity is EvmActor, use the actor directly
-										if (id.$id.type === IdentityType.EvmActor) {
-											return [id.$id.actor]
-										}
-										// Otherwise, extract actors from links
-										return id.$fields.links?.map(link => link.$actor) ?? []
-									})
-									.filter((actor, index, self) => 
-										index === self.findIndex(a => a.address === actor.address && 
-											('chainId' in a.$network ? a.$network.chainId : 1) === 
-											('chainId' in actor.$network ? actor.$network.chainId : 1))
-									)}
+					{#if (await allActors).length > 0}
+						{@const actors = await allActors}
+						<div data-column="gap-2">
+							<ul data-column="gap-1">
+								{#each actors as actor}
+									<li>
+										<IdentityComponent
+											identity={{
+												type: IdentityType.EvmActor,
+												actor
+											}}
+										/>
+									</li>
+								{/each}
+							</ul>
 
-								{#if allActors.length > 0}
-									<div data-column="gap-2">
-										<ul data-column="gap-1">
-											{#each allActors as actor}
-												<li>
-													<IdentityComponent
-														identity={{
-															type: IdentityType.EvmActor,
-															actor
-														}}
-													/>
-												</li>
-											{/each}
-										</ul>
+							{#each actors as actor}
+								{@const coinsOctav = await getCoinsOctav({ actor })}
+								{@const allCoins = (
+									[...coinsOctav]
+										.filter((coin, index, self) => {
+											const coinKey = 'address' in coin.$id 
+												? `${'chainId' in coin.$id.$network ? coin.$id.$network.chainId : 1}-${coin.$id.address.toLowerCase()}`
+												: `native-${'chainId' in coin.$id.$network ? coin.$id.$network.chainId : 1}`
+											return index === self.findIndex(c => {
+												const cKey = 'address' in c.$id 
+													? `${'chainId' in c.$id.$network ? c.$id.$network.chainId : 1}-${c.$id.address.toLowerCase()}`
+													: `native-${'chainId' in c.$id.$network ? c.$id.$network.chainId : 1}`
+												return cKey === coinKey
+											})
+										})
+								)}
 
-										{#each allActors as actor}
-											{@const coins1inch = await getCoins({ actor })}
-											{@const coinsOctav = await getCoinsOctav({ actor })}
-											{@const allCoins = (
-												[...coins1inch, ...coinsOctav]
-													.filter((coin, index, self) => {
-														const coinKey = 'address' in coin.$id 
-															? `${'chainId' in coin.$id.$network ? coin.$id.$network.chainId : 1}-${coin.$id.address.toLowerCase()}`
-															: `native-${'chainId' in coin.$id.$network ? coin.$id.$network.chainId : 1}`
-														return index === self.findIndex(c => {
-															const cKey = 'address' in c.$id 
-																? `${'chainId' in c.$id.$network ? c.$id.$network.chainId : 1}-${c.$id.address.toLowerCase()}`
-																: `native-${'chainId' in c.$id.$network ? c.$id.$network.chainId : 1}`
-															return cKey === coinKey
-														})
-													})
-											)}
-
-											{#if allCoins.length > 0}
-												<ul data-column="gap-2">
-													{#each allCoins as coin}
-														<li>
-															<div data-row="wrap">
-																<span>
-																	{#if coin.$fields.type === CoinType.NativeCurrency}
-																		{coin.$fields.symbol}
-																	{:else}
-																		{coin.$fields.symbol} ({coin.$fields.name})
-																	{/if}
-																</span>
-																{#if coin.$fields.icon}
-																	<img src={coin.$fields.icon} alt={coin.$fields.symbol} width="24" height="24" />
-																{/if}
-															</div>
-														</li>
-													{/each}
-												</ul>
-											{/if}
+								{#if allCoins.length > 0}
+									<ul data-column="gap-2">
+										{#each allCoins as coin}
+											<li>
+												<div data-row="wrap">
+													<span>
+														{#if coin.$fields.type === CoinType.NativeCurrency}
+															{coin.$fields.symbol}
+														{:else}
+															{coin.$fields.symbol} ({coin.$fields.name})
+														{/if}
+													</span>
+													{#if coin.$fields.icon}
+														<img src={coin.$fields.icon} alt={coin.$fields.symbol} width="24" height="24" />
+													{/if}
+												</div>
+											</li>
 										{/each}
-									</div>
+									</ul>
 								{/if}
-							{/snippet}
-						</IdentityResolver>
-					{/each}
+							{/each}
+							</div>
+					{/if}
 				</details>
 			</section>
 
@@ -548,67 +517,40 @@
 						</header>
 					</summary>
 
-					{#each portfolio.$fields.$$identities as identity, i}
-						<IdentityResolver
-							{identity}
-							preferredTypes={[IdentityType.EvmActor]}
-							defaultNetwork={{ chainId: 1 }}
-						>
-							{#snippet children({ preferredIdentity, allResolvedIdentities })}
-								{@const allIdentityEntities = [preferredIdentity, ...allResolvedIdentities]}
-								
-								{@const allActors = allIdentityEntities
-									.flatMap(id => {
-										// If identity is EvmActor, use the actor directly
-										if (id.$id.type === IdentityType.EvmActor) {
-											return [id.$id.actor]
-										}
-										// Otherwise, extract actors from links
-										return id.$fields.links?.map(link => link.$actor) ?? []
-									})
-									.filter((actor, index, self) => 
-										index === self.findIndex(a => a.address === actor.address && 
-											('chainId' in a.$network ? a.$network.chainId : 1) === 
-											('chainId' in actor.$network ? actor.$network.chainId : 1))
-									)}
+					{#if (await allActors).length > 0}
+						{@const actors = await allActors}
+						<div data-column="gap-2">
+							<ul data-column="gap-1">
+								{#each actors as actor}
+									<li>
+										<IdentityComponent
+											identity={{
+												type: IdentityType.EvmActor,
+												actor
+											}}
+										/>
+									</li>
+								{/each}
+							</ul>
 
-								{#if allActors.length > 0}
-									<div data-column="gap-2">
-										<ul data-column="gap-1">
-											{#each allActors as actor}
-												<li>
-													<IdentityComponent
-														identity={{
-															type: IdentityType.EvmActor,
-															actor
-														}}
-													/>
-												</li>
-											{/each}
-										</ul>
+							{#each actors as actor}
+								{@const defiPositionsOctav = await getDefiPositionsOctav({ actor })}
+								{@const allDefiPositions = [...defiPositionsOctav]}
 
-										{#each allActors as actor}
-											{@const defiPositions1inch = await getDefiPositions({ actor })}
-											{@const defiPositionsOctav = await getDefiPositionsOctav({ actor })}
-											{@const allDefiPositions = [...defiPositions1inch, ...defiPositionsOctav]}
-
-											{#if allDefiPositions.length > 0}
-												<ul data-column="gap-2">
-													{#each allDefiPositions as position}
-														<li>
-															<DefiPosition
-																{position}
-															/>
-														</li>
-													{/each}
-												</ul>
-											{/if}
+								{#if allDefiPositions.length > 0}
+									<ul data-column="gap-2">
+										{#each allDefiPositions as position}
+											<li>
+												<DefiPosition
+													{position}
+												/>
+											</li>
 										{/each}
-									</div>
+									</ul>
 								{/if}
-							{/snippet}
-						</IdentityResolver>
-					{/each}
+							{/each}
+						</div>
+					{/if}
 				</details>
 			</section>
 

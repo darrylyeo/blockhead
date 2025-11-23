@@ -11,7 +11,7 @@
 
 
 	// Images
-	import favicon from '$lib/assets/favicon.svg'
+	import favicon from '$/lib/assets/favicon.svg'
 
 
 	// Components
@@ -46,6 +46,11 @@
 						href: `/portfolio/${portfolio.$id.id}`,
 					}))
 				),
+			},
+			{
+				id: 'explorer',
+				title: 'Explorer',
+				href: '/explorer',
 			},
 		]}
 	/>

@@ -1,7 +1,8 @@
-<script>
+<script lang="ts">
+	// Context
 	import { page } from '$app/state'
-
 </script>
+
 
 <main data-column>
 	{#if page.error}

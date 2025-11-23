@@ -32,3 +32,8 @@ export type Identity = Entity<
 		}[]
 	}
 >
+
+export type IdentityOfType<T extends IdentityType> = Extract<
+	Identity,
+	Entity<EntityType.Identity, { type: T }, any>
+>

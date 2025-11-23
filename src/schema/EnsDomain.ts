@@ -21,6 +21,6 @@ export type EnsDomain = Entity<
 	},
 	{
 		$owner: EvmActor['$id']
-		$$addresses: EvmActor['$id'][]
+		$$actors: EvmActor['$id'][]
 	}
 >

@@ -16,22 +16,6 @@
 	// State
 	let bucketLength = $state<number>(5 * 60 * 1000) // Default: 5 minutes in milliseconds
 
-	const bucketOptions = [
-		{ value: 1 * 60 * 1000, label: '1 min' },
-		{ value: 5 * 60 * 1000, label: '5 min' },
-		{ value: 10 * 60 * 1000, label: '10 min' },
-		{ value: 30 * 60 * 1000, label: '30 min' },
-		{ value: 1 * 60 * 60 * 1000, label: '1 hour' },
-		{ value: 3 * 60 * 60 * 1000, label: '3 hours' },
-		{ value: 6 * 60 * 60 * 1000, label: '6 hours' },
-		{ value: 12 * 60 * 60 * 1000, label: '12 hours' },
-		{ value: 24 * 60 * 60 * 1000, label: '1 day' },
-		{ value: 3 * 24 * 60 * 60 * 1000, label: '3 days' },
-		{ value: 7 * 24 * 60 * 60 * 1000, label: '1 week' },
-		{ value: 14 * 24 * 60 * 60 * 1000, label: '2 weeks' },
-		{ value: 30 * 24 * 60 * 60 * 1000, label: '1 month' },
-	]
-
 
 	// Components
 	import { Line, Area, AxisX, AxisY, GridY, RuleY, BarY, binX } from 'svelteplot'

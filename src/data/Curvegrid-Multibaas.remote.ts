@@ -1,4 +1,5 @@
 import { query } from '$app/server'
+import { CURVEGRID_MULTIBAAS_DEPLOYMENT_HOSTNAME } from '$env/static/private'
 
 export const getContractEvents = query(
 	'unchecked',
@@ -8,12 +9,14 @@ export const getContractEvents = query(
 		contractLabel,
 		eventName
 	}: {
-		baseUrl: string,
+		baseUrl?: string,
 		chain: string,
 		contractLabel: string,
 		eventName: string
 	}) => {
-		const { getContractEvents } = await import('../api/Curvegrid/api.js')
+		const { getContractEvents } = await import('../api/Curvegrid/api.ts')
+
+		const resolvedBaseUrl = baseUrl ?? `https://${CURVEGRID_MULTIBAAS_DEPLOYMENT_HOSTNAME}.multibaas.com`
 
 		const result = await getContractEvents(
 			{
@@ -21,7 +24,7 @@ export const getContractEvents = query(
 				contractLabel,
 				eventName
 			},
-			{ baseUrl }
+			{ baseUrl: resolvedBaseUrl }
 		)
 
 		// TODO: Map to EvmEvent[]

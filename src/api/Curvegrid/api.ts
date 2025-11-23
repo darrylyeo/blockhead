@@ -1,28 +1,45 @@
+// Types
+import type { paths } from './Multibaas/openapi.d.ts'
+
+
+// Context
 import { CURVEGRID_MULTIBAAS_DEPLOYMENT_HOSTNAME, CURVEGRID_MULTIBAAS_API_KEY } from '$env/static/private'
 
+
+// Methods
+import { Fetcher, type FetchReturnType } from 'openapi-typescript-fetch'
+
 type ApiOptions = {
-	baseUrl: string
+	baseUrl?: string
 	apiKey?: string
 }
 
-const get = async <T>(
-	path: string,
-	searchParams: Record<string, string | number | boolean> | undefined,
-	{
-		baseUrl = `https://${CURVEGRID_MULTIBAAS_DEPLOYMENT_HOSTNAME}./api/v0`,
-		apiKey = CURVEGRID_MULTIBAAS_API_KEY
-	}: ApiOptions
-) => {
-	const response = await fetch(`${baseUrl}/${path}${searchParams ? `?${new URLSearchParams(Object.entries(searchParams).map(([k, v]) => [k, String(v)])).toString()}` : ''}`, {
-		headers: {
-			'Authorization': `Bearer ${apiKey}`,
-			'Content-Type': 'application/json'
-		}
+const getFetcher = ({
+	baseUrl = `https://${CURVEGRID_MULTIBAAS_DEPLOYMENT_HOSTNAME}.multibaas.com/api/v0`,
+	apiKey = CURVEGRID_MULTIBAAS_API_KEY
+}: ApiOptions) => {
+	const fetcher = Fetcher.for<paths>()
+
+	fetcher.configure({
+		baseUrl,
+		init: {
+			headers: new Headers({
+				'Authorization': `Bearer ${apiKey}`,
+			}),
+		},
+		use: [
+			async (url, init, next) => {
+				const response = await next(url, init)
+
+				if(!response.ok)
+					throw response
+			
+				return response.data.result as FetchReturnType<typeof next>['result']
+			},
+		],
 	})
 
-	if (!response.ok) throw response
-
-	return await response.json() as T
+	return fetcher
 }
 
 export const getContractEvents = async (
@@ -36,12 +53,15 @@ export const getContractEvents = async (
 		eventName: string
 	},
 	options: ApiOptions
-) => (
-	await get<
-		{ result: unknown[] }
-	>(
-		`api/v0/chains/${chain}/events/${contractLabel}/${eventName}`,
-		undefined,
-		options
-	)
-)
+) => {
+	const fetcher = getFetcher(options)
+	const listEvents = fetcher.path('/events').method('get').create()
+	
+	const { data } = await listEvents({
+		chain: chain as 'ethereum',
+		contract_label: contractLabel,
+		event_signature: eventName
+	})
+
+	return { result: (data?.result ?? []) as unknown[] }
+}

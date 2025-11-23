@@ -24,9 +24,14 @@
 		"api:1inch:Tokens": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/tokens-openapi.json -o ./src/api/1inch/Tokens/openapi.d.ts",
 		"api:1inch:Traces": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/traces-openapi.json -o ./src/api/1inch/Traces/openapi.d.ts",
 		"api:1inch:TxBroadcast": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/txbroadcast-openapi.json -o ./src/api/1inch/TxBroadcast/openapi.d.ts",
-		"api:1inch:Web3": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/web3-openapi.json -o ./src/api/1inch/Web3/openapi.d.ts"
+		"api:1inch:Web3": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/web3-openapi.json -o ./src/api/1inch/Web3/openapi.d.ts",
+		"api:TheGraph:Amp:auth:login": "amp auth login",
+		"api:TheGraph:Amp:auth:token": "amp auth token '3 days'"
 	},
 	"dependencies": {
+		"@edgeandnode/amp": "^0.0.51",
+		"@fontsource/ubuntu": "^5.2.8",
+		"@sqd-pipes/pipes": "^0.0.1-alpha.38",
 		"openapi-typescript": "^7.10.1",
 		"openapi-typescript-fetch": "^2.2.1",
 		"runed": "^0.36.0",

@@ -67,6 +67,7 @@ export enum EntityType {
 	EvmTrace = 'EvmTrace',
 	FarcasterAccount = 'FarcasterAccount',
 	Identity = 'Identity',
+	Nft = 'Nft',
 	Portfolio = 'Portfolio',
 }
 
@@ -83,5 +84,6 @@ export type EntityByType = {
 	[EntityType.EvmTrace]: import('./EvmTrace').EvmTrace
 	[EntityType.FarcasterAccount]: import('./FarcasterAccount').FarcasterAccount
 	[EntityType.Identity]: import('./Identity').Identity
+	[EntityType.Nft]: import('./Nft').Nft
 	[EntityType.Portfolio]: import('./Portfolio').Portfolio
 }
