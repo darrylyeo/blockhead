@@ -4,14 +4,19 @@ import type { Portfolio } from '$/schema/Portfolio.ts'
 
 
 // Functions
-export const createDefaultPortfolio = () => (
+export const createNewPortfolio = (index = 0) => (
 	{
 		$type: EntityType.Portfolio,
 		$id: {
 			id: crypto.randomUUID()
 		},
 		$fields: {
-			title: 'My First Portfolio',
+			title: (
+				index === 0 ?
+					'My First Portfolio'
+				:
+					`Portfolio ${index + 1}`
+			),
 			$$identities: [],
 		},
 	} as Portfolio
@@ -24,7 +29,7 @@ import { PersistedState } from 'runed'
 export const portfolios = new PersistedState(
 	'portfolios',
 	[
-		createDefaultPortfolio(),
+		createNewPortfolio(),
 	]
 )
 

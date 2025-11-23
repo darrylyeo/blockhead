@@ -23,10 +23,10 @@
 	/* Colors */
 	--background-primary: light-dark(#fff, #17191f);
 	--background-secondary: light-dark(#efefef, #141414);
-	--background-tertiary: light-dark(#eeeff4, #17191f);
+	--background-tertiary: light-dark(#eeeff4, #0d0e0f);
 	--accent: var(--accent-color);
-	--accent-color: light-dark(#e564bc, #e683c7);
-	--accent-backgroundColor: light-dark(#fbdcf2, #440530);
+	--accent-color: light-dark(#649ee5, #83cde6);
+	--accent-backgroundColor: light-dark(#dcf1fb, #051c44);
 	--text-primary: light-dark(#222222, #efefef);
 	--text-secondary: light-dark(#3f4046, #b1b2b9);
 	--border-color: light-dark(#cecece, #313131);
@@ -157,8 +157,14 @@ h6 {
 	text-wrap: balance;
 }
 
-ul {
+[data-list],
+ul,
+ol {
 	padding-inline-start: 1.25em;
+
+	&[data-list~='unstyled'] {
+		list-style: none;
+	}
 }
 
 [data-text] {
@@ -582,6 +588,10 @@ span svg {
 		--card-backgroundColor: var(--background-secondary);
 		border-color: var(--border-color);
 	}
+	&[data-card~='tertiary'] {
+		--card-backgroundColor: var(--background-tertiary);
+		border-color: var(--border-color);
+	}
 
 	&[data-card~='radius-1'] {
 		--card-radius: 0.125em;
@@ -674,11 +684,11 @@ span svg {
 
 [data-tag] {
 	--tag-backgroundColor: light-dark(rgba(108, 36, 224, 0.08), rgba(108, 36, 224, 0.12));
-	--tag-textColor: light-dark(var(--accent), rgb(187, 147, 255));
-	--tag-borderColor: light-dark(rgba(108, 36, 224, 0.2), rgba(108, 36, 224, 0.3));
+	--tag-textColor: light-dark(var(--accent), rgb(147, 187, 255));
+	--tag-borderColor: light-dark(rgba(36, 121, 224, 0.2), rgba(36, 142, 224, 0.3));
 	--tag-hover-backgroundColor: light-dark(rgba(108, 36, 224, 0.12), rgba(108, 36, 224, 0.16));
-	--tag-hover-textColor: light-dark(var(--accent), rgb(187, 147, 255));
-	--tag-hover-borderColor: light-dark(rgba(108, 36, 224, 0.3), rgba(108, 36, 224, 0.4));
+	--tag-hover-textColor: light-dark(var(--accent), rgb(147, 210, 255));
+	--tag-hover-borderColor: light-dark(rgba(36, 108, 224, 0.3), rgba(36, 149, 224, 0.4));
 
 	font-size: 0.66em;
 
@@ -996,12 +1006,12 @@ span svg {
 					min-width: max-content;
 				}
 
-				[data-scroll-item~='inline-detached'] {
+				/* [data-scroll-item~='inline-detached'] {
 					inline-size: auto;
 					max-inline-size: calc(100% + var(--scrollItem-paddingInlineStart) + var(--scrollItem-paddingInlineEnd));
 					margin-inline-start: calc(-1 * var(--scrollItem-paddingInlineStart));
 					margin-inline-end: calc(-1 * var(--scrollItem-paddingInlineEnd));
-				}
+				} */
 			}
 			&[data-scroll-item~='inline-attached'] {
 				display: grid;
