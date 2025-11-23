@@ -1,4 +1,9 @@
 <script lang="ts">
+	// Context
+	import { usePortfolios } from '$/state/portfolios.svelte.ts'
+	const portfolios = usePortfolios()
+
+
 	// Props
 	let {
 		children
@@ -32,9 +37,16 @@
 		navigationItems={[
 			{
 				id: 'portfolio',
-				title: 'Portfolio',
+				title: 'Portfolios',
 				href: '/portfolio',
-			}
+				children: (
+					portfolios.current.map(portfolio => ({
+						id: portfolio.id,
+						title: portfolio.$fields.title || '[Untitled Portfolio]',
+						href: `/portfolio/${portfolio.$id.id}`,
+					}))
+				),
+			},
 		]}
 	/>
 
@@ -55,8 +67,8 @@
 <style>
 	#layout {
 		/* Constants */
-		--navigation-desktop-inlineSize: 20rem;
-		--navigation-mobile-blockSize: 4.16rem;
+		--navigation-desktop-inlineSize: 16.5rem;
+		--navigation-mobile-blockSize: 4rem;
 
 		/* Rules */
 		width: 100dvw;
@@ -106,7 +118,9 @@
 
 			> main {
 				grid-area: Main;
-				padding: clamp(1rem, 6cqi, 2rem);
+
+				--sticky-paddingInlineStart: clamp(1rem, 6cqi, 2rem);
+				--sticky-paddingInlineEnd: clamp(1rem, 6cqi, 2rem);
 			}
 		}
 	}

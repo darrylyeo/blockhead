@@ -7,7 +7,7 @@ export type Portfolio = Entity<
 		id: ReturnType<typeof crypto.randomUUID>
 	},
 	{
-		name: string
+		title: string
 		$$actors: EvmActor['$id'][]
 
 		// stats: {

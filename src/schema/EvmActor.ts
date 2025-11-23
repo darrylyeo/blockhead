@@ -22,3 +22,7 @@ export type EvmActor<
 		$$transactions: EvmTransaction['$id'][]
 	}
 >
+
+export const isEvmAddress = (string: string): string is EvmAddress => (
+	/^0x[a-f0-9]{40}/i.test(string)
+)

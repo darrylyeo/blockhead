@@ -223,6 +223,7 @@ details {
 	}
 }
 
+[data-button],
 select,
 button,
 input,
@@ -236,7 +237,7 @@ label:has(
 
 	display: inline-flex;
 	align-items: center;
-	padding: 0.66em;
+	padding: 0.66em 1em;
 	gap: 0.5em;
 
 	background-color: var(--background-primary);
@@ -250,6 +251,30 @@ label:has(
 	:disabled {
 		cursor: not-allowed;
 		opacity: 0.6;
+	}
+
+	&[data-button="icon"] {
+		padding: 0.66em;
+	}
+
+	&[data-size="large"] {
+		font-size: 1em;
+	}
+}
+
+input {
+	field-sizing: content;
+
+	&:is(
+		[type='text'],
+		[type='search'],
+		[type='url'],
+		[type='tel'],
+		[type='email'],
+		[type='password'],
+		[type='number'],
+	) {
+		min-width: 100%;
 	}
 }
 
@@ -412,7 +437,7 @@ span svg {
 
 [data-row],
 [data-badge] {
-	display: inline flex;
+	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	gap: 1em;
@@ -462,6 +487,13 @@ span svg {
 	}
 	&[data-row~='gap-8'] {
 		gap: 2em;
+	}
+
+	> *,
+	[data-row-item] {
+		&[data-row-item~='grow'] {
+			flex-grow: 1;
+		}
 	}
 }
 
@@ -891,7 +923,7 @@ span svg {
 				}
 
 				> :only-child {
-					width: max-content;
+					min-width: max-content;
 				}
 
 				[data-scroll-item~='inline-detached'] {
