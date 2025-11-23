@@ -48,6 +48,7 @@
 					type="button"
 					id="theme-toggle"
 					data-stack
+					data-button="icon"
 					onclick={e => {
 						document.documentElement.style.colorScheme = (
 							document.documentElement.style.colorScheme &&
@@ -88,6 +89,7 @@
 	</footer>
 </nav>
 
+
 <style>
 	nav {
 		width: 100%;
@@ -110,12 +112,17 @@
 				text-decoration: none;
 
 				.logo {
-					font-size: 1.25em;
+					font-size: 1.1em;
+					text-transform: uppercase;
 
 					.title {
-						text-transform: uppercase;
 						letter-spacing: 0.08em;
 						font-weight: 700;
+					}
+
+					[data-tag] {
+						letter-spacing: 0.06em;
+						font-size: 0.6em;
 					}
 				}
 			}
