@@ -4,9 +4,9 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"preview": "vite preview",
+		"dev": "dotenvx run -- vite dev",
+		"build": "dotenvx run -- vite build",
+		"preview": "dotenvx run -- vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -26,9 +26,12 @@
 		"api:1inch:TxBroadcast": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/txbroadcast-openapi.json -o ./src/api/1inch/TxBroadcast/openapi.d.ts",
 		"api:1inch:Web3": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/web3-openapi.json -o ./src/api/1inch/Web3/openapi.d.ts",
 		"api:TheGraph:Amp:auth:login": "amp auth login",
-		"api:TheGraph:Amp:auth:token": "amp auth token '3 days'"
+		"api:TheGraph:Amp:auth:token": "amp auth token '3 days'",
+		"env:encrypt": "dotenvx encrypt -f .env.production",
+		"env:decrypt": "dotenvx decrypt -f .env.production"
 	},
 	"dependencies": {
+		"@dotenvx/dotenvx": "^1.51.1",
 		"@edgeandnode/amp": "^0.0.51",
 		"@fontsource/ubuntu": "^5.2.8",
 		"@sqd-pipes/pipes": "^0.0.1-alpha.38",
