@@ -1,0 +1,214 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v2.0/1/order/submit": {
+      "post": {
+        "operationId": "RelayerController_submit",
+        "summary": "Submit a limit order that resolvers will be able to fill",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignedOrderInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The gasless order has been successfully saved"
+          },
+          "400": {
+            "description": "Input data is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "enum": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "0xbad_address"
+                    },
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "Bad Request"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Relayer"
+        ]
+      }
+    },
+    "/v2.0/1/order/submit/many": {
+      "post": {
+        "operationId": "RelayerController_submitMany",
+        "summary": "Submit a list of limit orders which resolvers will be able to fill",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/SignedOrderInput"
+                },
+                "x-go-type-skip-optional-pointer": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The gasless orders has been successfully saved"
+          },
+          "400": {
+            "description": "Input data is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "enum": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "0xbad_address"
+                    },
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "Bad Request"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Relayer"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "1inch Fusion API",
+    "description": "<h2>Ethereum Network</h2>1inch Fusion Open API",
+    "version": "2.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "/relayer"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "OrderInput": {
+        "type": "object",
+        "properties": {
+          "salt": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "makerAsset": {
+            "type": "string",
+            "description": "Address of the maker asset",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "takerAsset": {
+            "type": "string",
+            "description": "Address of the taker asset",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "maker": {
+            "type": "string",
+            "description": "An address of the maker (wallet or contract address)",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "receiver": {
+            "type": "string",
+            "description": "An address of the wallet or contract who will receive filled amount ",
+            "default": "0x0000000000000000000000000000000000000000",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "makingAmount": {
+            "type": "string",
+            "description": "Order maker's token amount",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "takingAmount": {
+            "type": "string",
+            "description": "Order taker's token amount",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "makerTraits": {
+            "type": "string",
+            "description": "Includes some flags like, allow multiple fills, is partial fill allowed or not, price improvement, nonce, deadline etc",
+            "default": "0",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "salt",
+          "makerAsset",
+          "takerAsset",
+          "maker",
+          "makingAmount",
+          "takingAmount"
+        ]
+      },
+      "SignedOrderInput": {
+        "type": "object",
+        "properties": {
+          "order": {
+            "$ref": "#/components/schemas/OrderInput"
+          },
+          "signature": {
+            "type": "string",
+            "description": "Signature of the gasless order typed data (using signTypedData_v4)",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "extension": {
+            "type": "string",
+            "description": "An interaction call data. ABI encoded set of makerAssetSuffix, takerAssetSuffix, makingAmountGetter, takingAmountGetter, predicate, permit, preInteraction, postInteraction.Lowest 160 bits of the order salt must be equal to the lowest 160 bits of the extension hash",
+            "default": "0x",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "quoteId": {
+            "type": "string",
+            "description": "Quote id of the quote with presets",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "order",
+          "signature",
+          "quoteId"
+        ]
+      }
+    }
+  }
+}

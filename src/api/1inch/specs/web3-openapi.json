@@ -1,0 +1,237 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Web3 RPC API",
+    "description": "API to perform RPC calls on Web3 nodes based on blockchain chainId.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.1inch.dev",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/{chainId}": {
+      "post": {
+        "summary": "Perform RPC calls against full nodes",
+        "description": "Performs JSON-RPC calls on the blockchain identified by the given chainId. The default nodeType will be used.",
+        "parameters": [
+          {
+            "name": "chainId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the blockchain.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "JSON-RPC request payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "jsonrpc": {
+                    "type": "string",
+                    "description": "JSON-RPC version, typically \"2.0\"",
+                    "example": "2.0",
+                    "x-go-type-skip-optional-pointer": true
+                  },
+                  "method": {
+                    "type": "string",
+                    "description": "The name of the RPC method to be invoked",
+                    "example": "eth_blockNumber",
+                    "x-go-type-skip-optional-pointer": true
+                  },
+                  "params": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Parameters for the RPC method",
+                    "example": [],
+                    "x-go-type-skip-optional-pointer": true
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "An identifier established by the client",
+                    "example": "1",
+                    "x-go-type-skip-optional-pointer": true
+                  }
+                },
+                "required": [
+                  "jsonrpc",
+                  "method"
+                ],
+                "x-go-type-skip-optional-pointer": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON-RPC response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jsonrpc": {
+                      "type": "string",
+                      "description": "JSON-RPC version, typically \"2.0\"",
+                      "example": "2.0"
+                    },
+                    "result": {
+                      "type": "string",
+                      "description": "The result of the RPC method call",
+                      "example": "0x10"
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "An identifier established by the client",
+                      "example": "1"
+                    }
+                  },
+                  "required": [
+                    "jsonrpc",
+                    "id"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request format"
+          },
+          "404": {
+            "description": "ChainId not found"
+          }
+        }
+      }
+    },
+    "/{chainId}/{nodeType}": {
+      "post": {
+        "summary": "Perform RPC calls",
+        "description": "Performs JSON-RPC calls on the blockchain identified by the given chainId. If nodeType is not provided, a default nodeType will be used.",
+        "parameters": [
+          {
+            "name": "chainId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier for the blockchain.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nodeType",
+            "in": "path",
+            "required": true,
+            "description": "The node type you require for your call. If not provided, 'full' will be used as the default value.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "full",
+                "archive"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "JSON-RPC request payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "jsonrpc": {
+                    "type": "string",
+                    "description": "JSON-RPC version, typically \"2.0\"",
+                    "example": "2.0",
+                    "x-go-type-skip-optional-pointer": true
+                  },
+                  "method": {
+                    "type": "string",
+                    "description": "The name of the RPC method to be invoked",
+                    "example": "eth_blockNumber",
+                    "x-go-type-skip-optional-pointer": true
+                  },
+                  "params": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Parameters for the RPC method",
+                    "example": [],
+                    "x-go-type-skip-optional-pointer": true
+                  },
+                  "id": {
+                    "type": "integer",
+                    "description": "An identifier established by the client",
+                    "example": 1,
+                    "x-go-type-skip-optional-pointer": true
+                  }
+                },
+                "x-go-type-skip-optional-pointer": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON-RPC response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "jsonrpc": {
+                      "type": "string",
+                      "description": "JSON-RPC version, typically \"2.0\"",
+                      "example": "2.0"
+                    },
+                    "result": {
+                      "type": "string",
+                      "description": "The result of the RPC method call",
+                      "example": "0x10"
+                    },
+                    "id": {
+                      "type": "integer",
+                      "description": "An identifier mirroring the one from the request",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request format"
+          },
+          "404": {
+            "description": "ChainId not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-KEY"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ]
+}

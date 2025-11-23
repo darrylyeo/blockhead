@@ -1,0 +1,120 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1.1/1/broadcast": {
+      "post": {
+        "operationId": "TxProcessorApiController_broadcastTransaction",
+        "summary": "Broadcast public transaction",
+        "description": "Takes the raw transaction data as input and returns the transaction hash",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BroadcastRequest",
+                "x-go-type-skip-optional-pointer": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The transaction was successfully broadcasted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BroadcastResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided input data is invalid"
+          }
+        },
+        "tags": [
+          "Transactions"
+        ]
+      }
+    },
+    "/v1.1/1/flashbots": {
+      "post": {
+        "operationId": "TxProcessorApiController_broadcastFlashbotsTransaction",
+        "summary": "Broadcast private transaction",
+        "description": "Takes the raw transaction data as input and broadcasts it privately, only available for Ethereum network",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "The raw transaction data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BroadcastRequest",
+                "x-go-type-skip-optional-pointer": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The transaction was successfully broadcasted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BroadcastResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided input data is invalid"
+          }
+        },
+        "tags": [
+          "Transactions"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "1inch Transaction Gateway API",
+    "description": "<h2>Ethereum Network</h2>1inch Transaction Gateway Open API",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "BroadcastRequest": {
+        "type": "object",
+        "properties": {
+          "rawTransaction": {
+            "type": "string",
+            "description": "The raw transaction data",
+            "example": "0xf86...",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "rawTransaction"
+        ]
+      },
+      "BroadcastResponse": {
+        "type": "object",
+        "properties": {
+          "transactionHash": {
+            "type": "string",
+            "description": "The transaction hash",
+            "example": "0x123...",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "transactionHash"
+        ]
+      }
+    }
+  }
+}

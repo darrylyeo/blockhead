@@ -1,0 +1,270 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v2.0/1/order/active": {
+      "get": {
+        "operationId": "OrderApiController_getActiveOrders",
+        "summary": "Get gasless swap active orders",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Pagination step, default: 1 (page = offset / limit)",
+            "example": 1,
+            "schema": {
+              "type": "number",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of active orders to receive (default: 100, max: 500)",
+            "example": 100,
+            "schema": {
+              "type": "number",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of queried active orders"
+          },
+          "400": {
+            "description": "Input data is invalid"
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetActiveOrdersOutput"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Orders"
+        ]
+      }
+    },
+    "/v2.0/1/order/settlement": {
+      "get": {
+        "operationId": "OrderApiController_getSettlementContract",
+        "summary": "Get actual settlement contract address",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SettlementAddressOutput"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Orders"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "1inch Fusion API",
+    "description": "<h2>Ethereum Network</h2>1inch Fusion Open API",
+    "version": "2.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "/orders"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Meta": {
+        "type": "object",
+        "properties": {
+          "totalItems": {
+            "type": "number",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "itemsPerPage": {
+            "type": "number",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "totalPages": {
+            "type": "number",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "currentPage": {
+            "type": "number",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "totalItems",
+          "itemsPerPage",
+          "totalPages",
+          "currentPage"
+        ]
+      },
+      "FusionOrderV4": {
+        "type": "object",
+        "properties": {
+          "salt": {
+            "type": "string",
+            "description": "Some unique value. It is necessary to be able to create limit orders with the same parameters (so that they have a different hash), Lowest 160 bits of the order salt must be equal to the lowest 160 bits of the extension hash",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "maker": {
+            "type": "string",
+            "description": "Address of the account creating the order (maker).",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "receiver": {
+            "type": "string",
+            "description": "Address of the account receiving the assets (receiver), if different from maker.",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "makerAsset": {
+            "type": "string",
+            "description": "Identifier of the asset being offered by the maker.",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "takerAsset": {
+            "type": "string",
+            "description": "Identifier of the asset being requested by the maker in exchange.",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "makingAmount": {
+            "type": "string",
+            "description": "Amount of the makerAsset being offered by the maker.",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "takingAmount": {
+            "type": "string",
+            "description": "Amount of the takerAsset being requested by the maker.",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "makerTraits": {
+            "type": "string",
+            "description": "Includes some flags like, allow multiple fills, is partial fill allowed or not, price improvement, nonce, deadline etc.",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "salt",
+          "maker",
+          "receiver",
+          "makerAsset",
+          "takerAsset",
+          "makingAmount",
+          "takingAmount",
+          "makerTraits"
+        ]
+      },
+      "ActiveOrdersOutput": {
+        "type": "object",
+        "properties": {
+          "orderHash": {
+            "type": "string",
+            "description": "i.e 0x806039f5149065924ad52de616b50abff488c986716d052e9c160887bc09e559",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "signature": {
+            "type": "string",
+            "description": "i.e 0x38de7c8c406c8668eec947d59679028c068735e56c8a41bcc5b3dc2d2229dec258424e0f06b189d2b87f9f3d9cdd9edcb7b3be4108bd8605d052c20c84e65ad61c",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "deadline": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Deadline by which the order must be filled.",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "auctionStartDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Start date of the auction for this order.",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "auctionEndDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "End date of the auction for this order.",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "quoteId": {
+            "type": "string",
+            "description": "Identifier of the quote associated with this order.",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "remainingMakerAmount": {
+            "type": "string",
+            "description": "Remaining amount of the maker asset that can still be filled.",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "extension": {
+            "type": "string",
+            "description": "An interaction call data. ABI encoded set of makerAssetSuffix, takerAssetSuffix, makingAmountGetter, takingAmountGetter, predicate, permit, preInteraction, postInteraction.If extension exists then lowest 160 bits of the order salt must be equal to the lowest 160 bits of the extension hash",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "order": {
+            "$ref": "#/components/schemas/FusionOrderV4"
+          }
+        },
+        "required": [
+          "orderHash",
+          "signature",
+          "deadline",
+          "auctionStartDate",
+          "auctionEndDate",
+          "quoteId",
+          "remainingMakerAmount",
+          "extension",
+          "order"
+        ]
+      },
+      "GetActiveOrdersOutput": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActiveOrdersOutput"
+            },
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "meta",
+          "items"
+        ]
+      },
+      "SettlementAddressOutput": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "actual settlement contract address",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "address"
+        ]
+      }
+    }
+  }
+}

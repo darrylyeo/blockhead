@@ -1,0 +1,442 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v3.0/1": {
+      "post": {
+        "operationId": "LimitOrderV3SubscribedApiController_createLimitOrder",
+        "summary": "Include a limit order to the 1inch limit orders database",
+        "description": "You can send your limit orders to the 1inch database and then your order will participate in the 1inch aggregation protocol.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LimitOrderV3Request",
+                "x-go-type-skip-optional-pointer": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The limit order has been successfully saved"
+          },
+          "400": {
+            "description": "Input data is invalid"
+          },
+          "403": {
+            "description": "Max valid orders per user: 100. Cancel previous orders to create new ones"
+          }
+        },
+        "tags": [
+          "Limit Order V3"
+        ]
+      }
+    },
+    "/v3.0/1/address/{address}": {
+      "get": {
+        "operationId": "LimitOrderV3SubscribedApiController_getLimitOrder",
+        "summary": "Get limit orders belonging to the specified address",
+        "parameters": [
+          {
+            "name": "address",
+            "required": true,
+            "in": "path",
+            "description": "Address of limit orders creator",
+            "example": "0x0000000000000000000000000000000000000000",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Pagination step, default: 1 (page = offset / limit)",
+            "example": 1,
+            "schema": {
+              "type": "number",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of limit orders to receive (default: 100, max: 500)",
+            "example": 100,
+            "schema": {
+              "type": "number",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "statuses",
+            "required": false,
+            "in": "query",
+            "description": "JSON an array of statuses by which limit orders will be filtered: 1 - valid limit orders, 2 - temporary invalid limit orders, 3 - invalid limit orders",
+            "example": "[1,2,3]",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "createDateTime",
+                "takerRate",
+                "makerRate",
+                "makerAmount",
+                "takerAmount"
+              ],
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "takerAsset",
+            "required": false,
+            "in": "query",
+            "description": "Address of the taker asset",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "makerAsset",
+            "required": false,
+            "in": "query",
+            "description": "Address of the maker asset",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of queried limit orders"
+          },
+          "400": {
+            "description": "Input data is invalid or address is not provided"
+          }
+        },
+        "tags": [
+          "Limit Order V3"
+        ]
+      }
+    },
+    "/v3.0/1/all": {
+      "get": {
+        "operationId": "LimitOrderV3SubscribedApiController_getAllLimitOrders",
+        "summary": "Get all limit orders",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Pagination step, default: 1 (page = offset / limit)",
+            "example": 1,
+            "schema": {
+              "type": "number",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of limit orders to receive (default: 100, max: 500)",
+            "example": 100,
+            "schema": {
+              "type": "number",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "statuses",
+            "required": false,
+            "in": "query",
+            "description": "JSON an array of statuses by which limit orders will be filtered: 1 - valid limit orders, 2 - temporary invalid limit orders, 3 - invalid limit orders",
+            "example": "[1,2,3]",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "createDateTime",
+                "takerRate",
+                "makerRate",
+                "makerAmount",
+                "takerAmount"
+              ],
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "takerAsset",
+            "required": false,
+            "in": "query",
+            "description": "Address of the maker asset",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "makerAsset",
+            "required": false,
+            "in": "query",
+            "description": "Address of the maker asset",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of queried limit orders"
+          },
+          "400": {
+            "description": "Input data is invalid"
+          }
+        },
+        "tags": [
+          "Limit Order V3"
+        ]
+      }
+    },
+    "/v3.0/1/count": {
+      "get": {
+        "operationId": "LimitOrderV3SubscribedApiController_getAllOrdersCount",
+        "parameters": [
+          {
+            "name": "statuses",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Limit Order V3"
+        ]
+      }
+    },
+    "/v3.0/1/events/{orderHash}": {
+      "get": {
+        "operationId": "LimitOrderV3SubscribedApiController_getEventsOrderHash",
+        "parameters": [
+          {
+            "name": "orderHash",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Limit Order V3"
+        ]
+      }
+    },
+    "/v3.0/1/events": {
+      "get": {
+        "operationId": "LimitOrderV3SubscribedApiController_getEvents",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Limit Order V3"
+        ]
+      }
+    },
+    "/v3.0/1/has-active-orders-with-permit/{walletAddress}/{token}": {
+      "get": {
+        "operationId": "LimitOrderV3SubscribedApiController_hasActiveOrders",
+        "parameters": [
+          {
+            "name": "walletAddress",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "token",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Limit Order V3"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "1inch Orderbook API",
+    "description": "<h2>Ethereum Network</h2><br>API for post and select limit orders to the <b>1inch limit orders database.</b><br>The database acts as a source of liquidity for the <a href=\"https://1inch.io/aggregation-protocol/\" target=\"_blank\">1inch Aggregation Protocol</a>.<br><br>Read more in the offical documentation <a href=\"https://docs.1inch.io/limit-order-protocol-utils/\" target=\"_blank\">https://docs.1inch.io/limit-order-protocol-utils</a>",
+    "version": "v3.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "LimitOrderV3Data": {
+        "type": "object",
+        "properties": {
+          "makerAsset": {
+            "type": "string",
+            "description": "Address of the maker asset",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "takerAsset": {
+            "type": "string",
+            "description": "Address of the taker asset",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "maker": {
+            "type": "string",
+            "description": "An address of the maker (wallet or contract address)",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "allowedSender": {
+            "type": "string",
+            "description": "An address of the wallet or contract who will be able to fill this order (equals to Zero address on public orders)",
+            "default": "0x0000000000000000000000000000000000000000",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "receiver": {
+            "type": "string",
+            "description": "An address of the wallet or contract who will receive filled amount (equals to Zero address for receiver == makerAddress)",
+            "default": "0x0000000000000000000000000000000000000000",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "makingAmount": {
+            "type": "string",
+            "description": "Order maker's token amount",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "takingAmount": {
+            "type": "string",
+            "description": "Order taker's token amount",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "salt": {
+            "type": "string",
+            "description": "Some unique value. It is necessary to be able to create limit orders with the same parameters (so that they have a different hash)",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "offsets": {
+            "type": "string",
+            "description": "An interaction call data. ABI encoded set of makerAssetData, takerAssetData, getMakingAmount, getTakingAmount, predicate, permit, preInteraction, postInteraction",
+            "default": "0x",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "interactions": {
+            "type": "string",
+            "description": "Merged offsets of each field in interactions",
+            "default": "0",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "makerAsset",
+          "takerAsset",
+          "maker",
+          "makingAmount",
+          "takingAmount",
+          "salt"
+        ]
+      },
+      "LimitOrderV3Request": {
+        "type": "object",
+        "properties": {
+          "orderHash": {
+            "type": "string",
+            "description": "Hash of the limit order typed data",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "signature": {
+            "type": "string",
+            "description": "Signature of the limit order typed data (using signTypedData_v4)",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/LimitOrderV3Data",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "orderHash",
+          "signature",
+          "data"
+        ]
+      }
+    }
+  }
+}

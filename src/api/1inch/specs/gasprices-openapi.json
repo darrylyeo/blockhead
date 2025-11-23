@@ -1,0 +1,87 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1.5/1": {
+      "get": {
+        "operationId": "getGasPrices",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "GasPrice",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Eip1559GasPriceResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Gas Price"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "1inch Gas Price API",
+    "description": "<h2>Ethereum Network</h2> Using 1inch Gas Price API, you can get optimize gas price from network.\n",
+    "version": "1.4",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "Eip1559GasValueResponse": {
+        "type": "object",
+        "properties": {
+          "maxPriorityFeePerGas": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "maxFeePerGas": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "maxPriorityFeePerGas",
+          "maxFeePerGas"
+        ]
+      },
+      "Eip1559GasPriceResponse": {
+        "type": "object",
+        "properties": {
+          "baseFee": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "low": {
+            "$ref": "#/components/schemas/Eip1559GasValueResponse",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "medium": {
+            "$ref": "#/components/schemas/Eip1559GasValueResponse",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "high": {
+            "$ref": "#/components/schemas/Eip1559GasValueResponse",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "instant": {
+            "$ref": "#/components/schemas/Eip1559GasValueResponse",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "baseFee",
+          "low",
+          "medium",
+          "high",
+          "instant"
+        ]
+      }
+    }
+  }
+}

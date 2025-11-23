@@ -1,0 +1,1126 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1.0/chain/{chain}/synced-interval": {
+      "get": {
+        "operationId": "SyncedIntervalRestApiController_readSyncedInterval",
+        "summary": "Get synced interval",
+        "parameters": [
+          {
+            "name": "chain",
+            "required": true,
+            "in": "path",
+            "example": "1",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadSyncedIntervalResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        },
+        "tags": [
+          "Synced Interval"
+        ]
+      }
+    },
+    "/v1.0/chain/{chain}/block-trace/{blockNumber}": {
+      "get": {
+        "operationId": "BlockTraceRestApiController_blockTraceByNumber",
+        "summary": "Get block trace by number",
+        "parameters": [
+          {
+            "name": "chain",
+            "required": true,
+            "in": "path",
+            "example": "1",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "blockNumber",
+            "required": true,
+            "in": "path",
+            "example": "15000000",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/CoreBuiltinBlockTracesDto"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CoreCustomBlockTraceDto"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        },
+        "tags": [
+          "Trace"
+        ]
+      }
+    },
+    "/v1.0/chain/{chain}/block-trace/{blockNumber}/tx-hash/{txHash}": {
+      "get": {
+        "operationId": "BlockTraceRestApiController_transactionTraceByBlockNumberAndTxHash",
+        "summary": "Get transaction trace by block number and transaction hash",
+        "parameters": [
+          {
+            "name": "chain",
+            "required": true,
+            "in": "path",
+            "example": "1",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "blockNumber",
+            "required": true,
+            "in": "path",
+            "example": "17378177",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "txHash",
+            "required": true,
+            "in": "path",
+            "example": "0x16897e492b2e023d8f07be9e925f2c15a91000ef11a01fc71e70f75050f1e03c",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlainTransactionTraceWithTypeDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        },
+        "tags": [
+          "Trace"
+        ]
+      }
+    },
+    "/v1.0/chain/{chain}/block-trace/{blockNumber}/offset/{offset}": {
+      "get": {
+        "operationId": "BlockTraceRestApiController_transactionTraceByBlockNumberAndOffset",
+        "summary": "Get transaction trace by block number and offset of transaction in block",
+        "parameters": [
+          {
+            "name": "chain",
+            "required": true,
+            "in": "path",
+            "example": "1",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "blockNumber",
+            "required": true,
+            "in": "path",
+            "example": "17378177",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "offset",
+            "required": true,
+            "in": "path",
+            "example": "1",
+            "schema": {
+              "type": "number",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlainTransactionTraceWithTypeDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        },
+        "tags": [
+          "Trace"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Transaction Traces Indexer",
+    "description": "Indexer for transaction traces based on debug_traceBlockByNumber and debug_traceTransaction JSON-RPC methods",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "https://transaction-traces-indexer.1inch.io",
+      "description": "prod"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "ReadSyncedIntervalResponseDto": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "number",
+            "example": 1,
+            "x-go-type-skip-optional-pointer": true
+          },
+          "to": {
+            "type": "number",
+            "example": 14913951,
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "from",
+          "to"
+        ]
+      },
+      "CoreBuiltinCallTraceDto": {
+        "type": "object",
+        "properties": {
+          "isParentHasError": {
+            "type": "boolean",
+            "example": true,
+            "x-go-type-skip-optional-pointer": true
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "SELFDESTRUCT",
+              "CREATE",
+              "CREATE2",
+              "CALL",
+              "CALLCODE",
+              "DELEGATECALL",
+              "STATICCALL",
+              "TRANSFER_ETHER",
+              "INVALID",
+              "STOP"
+            ],
+            "example": "CALL",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "from": {
+            "type": "string",
+            "example": "0x71dad91e069861350c2ba882fd86762a5efe8792",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "to": {
+            "type": "string",
+            "example": "0x71dad91e069861350c2ba882fd86762a5efe8792",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "value": {
+            "type": "string",
+            "example": "0x5f68e8131ecf80000",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gas": {
+            "type": "string",
+            "example": "0x3e48f",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasUsed": {
+            "type": "number",
+            "example": "0x5da9",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "input": {
+            "type": "string",
+            "example": "0xd0e30db0",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "output": {
+            "type": "string",
+            "example": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "error": {
+            "type": "string",
+            "example": "error",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "calls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CoreBuiltinCallTraceDto"
+            },
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "isParentHasError",
+          "type",
+          "from",
+          "to",
+          "value",
+          "gas",
+          "gasUsed",
+          "input",
+          "output",
+          "error",
+          "calls"
+        ]
+      },
+      "CoreBuiltinTraceLogDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "example": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "topics": {
+            "example": [
+              "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925",
+              "0x00000000000000000000000059eb67ecbb7e68ee94114b2f77d91074404504be",
+              "0x000000000000000000000000a5e0829caced8ffdd4de3c43696c57f7d7a678ff"
+            ],
+            "type": "array",
+            "items": {
+              "type": "array"
+            },
+            "x-go-type-skip-optional-pointer": true
+          },
+          "contract": {
+            "type": "string",
+            "example": "0x0000000000000000000000000000000000001010",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "data",
+          "topics",
+          "contract"
+        ]
+      },
+      "CoreBuiltinTransactionRootSuccessTraceDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "SELFDESTRUCT",
+              "CREATE",
+              "CREATE2",
+              "CALL",
+              "CALLCODE",
+              "DELEGATECALL",
+              "STATICCALL",
+              "TRANSFER_ETHER",
+              "INVALID",
+              "STOP"
+            ],
+            "example": "CALL",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "from": {
+            "type": "string",
+            "example": "0x71dad91e069861350c2ba882fd86762a5efe8792",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "to": {
+            "type": "string",
+            "example": "0x71dad91e069861350c2ba882fd86762a5efe8792",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "value": {
+            "type": "string",
+            "example": "0x5f68e8131ecf80000",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gas": {
+            "type": "string",
+            "example": "0x3e48f",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasUsed": {
+            "type": "number",
+            "example": "0x5da9",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "input": {
+            "type": "string",
+            "example": "0xd0e30db0",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "output": {
+            "type": "string",
+            "example": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "calls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CoreBuiltinCallTraceDto"
+            },
+            "x-go-type-skip-optional-pointer": true
+          },
+          "txHash": {
+            "type": "string",
+            "example": "0xbf424a717932e4868644f69e8f297ce51d5f4596089635312b2ad9c610cc0018",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "nonce": {
+            "type": "string",
+            "example": "0x1",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "error": {
+            "type": "string",
+            "example": "error",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "revertReason": {
+            "type": "string",
+            "example": "error",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasPrice": {
+            "type": "string",
+            "example": "0x123",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "maxFeePerGas": {
+            "type": "string",
+            "example": "0x345",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "maxPriorityFeePerGas": {
+            "type": "string",
+            "example": "0x123",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasHex": {
+            "type": "string",
+            "example": "0x35b60",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CoreBuiltinTraceLogDto"
+            },
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "chainId",
+          "type",
+          "from",
+          "to",
+          "value",
+          "gas",
+          "gasUsed",
+          "input",
+          "output",
+          "calls",
+          "txHash",
+          "nonce",
+          "error",
+          "revertReason",
+          "gasPrice",
+          "maxFeePerGas",
+          "maxPriorityFeePerGas",
+          "gasHex",
+          "events"
+        ]
+      },
+      "CoreBuiltinBlockTracesDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "BUILTIN",
+            "enum": [
+              "CUSTOM",
+              "CUSTOM_WITHOUT_STORE",
+              "BUILTIN",
+              "CUSTOM_GO",
+              "OLD_ARBITRUM_RAW_TRACE"
+            ],
+            "x-go-type-skip-optional-pointer": true
+          },
+          "version": {
+            "type": "string",
+            "example": "v1.2.3",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "blockNumber": {
+            "type": "number",
+            "example": "16123123",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "blockHash": {
+            "type": "string",
+            "example": "0xb80490b1bed7a31536b888de977f92b5c03707bf8c69ab3d066a2eef3dc2e26c",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "blockTimestamp": {
+            "type": "string",
+            "example": "0x64bf5cde",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "traces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CoreBuiltinTransactionRootSuccessTraceDto"
+            },
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "type",
+          "version",
+          "number",
+          "blockHash",
+          "blockTimestamp",
+          "traces"
+        ]
+      },
+      "CoreCustomBlockTraceDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "CUSTOM",
+            "enum": [
+              "CUSTOM",
+              "CUSTOM_WITHOUT_STORE",
+              "BUILTIN",
+              "CUSTOM_GO",
+              "OLD_ARBITRUM_RAW_TRACE"
+            ],
+            "x-go-type-skip-optional-pointer": true
+          },
+          "version": {
+            "type": "string",
+            "example": "v1.2.3",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "number": {
+            "type": "number",
+            "example": 17123123,
+            "x-go-type-skip-optional-pointer": true
+          },
+          "blockHash": {
+            "type": "string",
+            "example": "0xb80490b1bed7a31536b888de977f92b5c03707bf8c69ab3d066a2eef3dc2e26c",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "blockTimestamp": {
+            "type": "string",
+            "example": "0x64bf5cde",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "traces": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/CoreCustomErrorTransactionTraceDto"
+                },
+                {
+                  "$ref": "#/components/schemas/CoreCustomRootTxEventCallstackTraceFullDto"
+                }
+              ]
+            },
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "type",
+          "version",
+          "number",
+          "blockHash",
+          "blockTimestamp",
+          "traces"
+        ]
+      },
+      "CoreCustomErrorTransactionTraceDto": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "error",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "txHash": {
+            "type": "string",
+            "example": "0xbf424a717932e4868644f69e8f297ce51d5f4596089635312b2ad9c610cc0018",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "nonce": {
+            "type": "string",
+            "example": "0x1",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasPrice": {
+            "type": "string",
+            "example": "0x3e48f",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "maxFeePerGas": {
+            "type": "string",
+            "example": "0x3e48f",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "maxPriorityFeePerGas": {
+            "type": "string",
+            "example": "0x3e48f",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasHex": {
+            "type": "string",
+            "example": "0x3e48f",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "error",
+          "txHash",
+          "nonce",
+          "gasPrice",
+          "maxFeePerGas",
+          "maxPriorityFeePerGas",
+          "gasHex"
+        ]
+      },
+      "CoreCustomTraceLogDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "example": "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "topics": {
+            "type": "array",
+            "items": {
+              "type": "array"
+            },
+            "x-go-type-skip-optional-pointer": true
+          },
+          "contract": {
+            "type": "string",
+            "example": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "data",
+          "topics",
+          "contract"
+        ]
+      },
+      "CustomStorageDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "load",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "key": {
+            "type": "string",
+            "example": "8",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "value": {
+            "type": "string",
+            "example": "63780c770000000000008255bfdbaa0269330000000000000b9057fb86bca9b0",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "type",
+          "key",
+          "value"
+        ]
+      },
+      "CoreCustomTxEventCallstackTraceDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "TRANSFER_ETHER",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "from": {
+            "type": "string",
+            "example": "0x71dad91e069861350c2ba882fd86762a5efe8792",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "to": {
+            "type": "string",
+            "example": "0x71dad91e069861350c2ba882fd86762a5efe8792",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "value": {
+            "type": "string",
+            "example": "0x5f68e8131ecf80000",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasLimit": {
+            "type": "number",
+            "example": 123,
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasUsed": {
+            "type": "number",
+            "example": 123,
+            "x-go-type-skip-optional-pointer": true
+          },
+          "input": {
+            "type": "string",
+            "example": "0xd0e30db0",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "output": {
+            "type": "string",
+            "example": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "time": {
+            "type": "string",
+            "example": "781ns",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "calls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CoreCustomTxEventCallstackTraceDto"
+            },
+            "x-go-type-skip-optional-pointer": true
+          },
+          "logs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CoreCustomTraceLogDto"
+            },
+            "x-go-type-skip-optional-pointer": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REVERTED",
+              "INVALID_OPCODE",
+              "RETURNED",
+              "STOPPED",
+              "ERROR",
+              "NO_CONTRACT",
+              "OUT_OF_GAS",
+              "SELFDESTRUCTED",
+              "ERROR_UNWIND"
+            ],
+            "example": "RETURNED",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "success": {
+            "type": "number",
+            "example": "1",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "res": {
+            "type": "string",
+            "example": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "depth": {
+            "type": "number",
+            "example": "1",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "destructAddress": {
+            "type": "string",
+            "example": "0x71dad91e069861350c2ba882fd86762a5efe8792",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "errorDetails": {
+            "type": "string",
+            "example": "error",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "storage": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomStorageDto"
+            },
+            "x-go-type-skip-optional-pointer": true
+          },
+          "prevGasLimit": {
+            "type": "number",
+            "example": "123",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gas": {
+            "type": "string",
+            "example": "0x3e48f",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasCost": {
+            "type": "number",
+            "example": "0x3e48f",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "address": {
+            "type": "string",
+            "example": "0x71dad91e069861350c2ba882fd86762a5efe8792",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "type",
+          "from",
+          "to",
+          "value",
+          "gasLimit",
+          "gasUsed",
+          "input",
+          "output",
+          "time",
+          "calls",
+          "logs",
+          "status",
+          "success",
+          "res",
+          "depth",
+          "destructAddress",
+          "errorDetails",
+          "storage",
+          "prevGasLimit",
+          "gas",
+          "gasCost",
+          "address"
+        ]
+      },
+      "CoreCustomRootTxEventCallstackTraceFullDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "CALL",
+            "enum": [
+              "SELFDESTRUCT",
+              "CREATE",
+              "CREATE2",
+              "CALL",
+              "CALLCODE",
+              "DELEGATECALL",
+              "STATICCALL",
+              "TRANSFER_ETHER",
+              "INVALID",
+              "STOP"
+            ],
+            "x-go-type-skip-optional-pointer": true
+          },
+          "from": {
+            "type": "string",
+            "example": "0x71dad91e069861350c2ba882fd86762a5efe8792",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "to": {
+            "type": "string",
+            "example": "0x71dad91e069861350c2ba882fd86762a5efe8792",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "value": {
+            "type": "string",
+            "example": "0x5f68e8131ecf80000",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasLimit": {
+            "type": "number",
+            "example": "123",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasUsed": {
+            "type": "number",
+            "example": 123,
+            "x-go-type-skip-optional-pointer": true
+          },
+          "input": {
+            "type": "string",
+            "example": "0xd0e30db0",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "output": {
+            "type": "string",
+            "example": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "time": {
+            "type": "string",
+            "example": "781ns",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "calls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CoreCustomTxEventCallstackTraceDto"
+            },
+            "x-go-type-skip-optional-pointer": true
+          },
+          "logs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CoreCustomTraceLogDto"
+            },
+            "x-go-type-skip-optional-pointer": true
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "REVERTED",
+              "INVALID_OPCODE",
+              "RETURNED",
+              "STOPPED",
+              "ERROR",
+              "NO_CONTRACT",
+              "OUT_OF_GAS",
+              "SELFDESTRUCTED",
+              "ERROR_UNWIND"
+            ],
+            "example": "REVERTED",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "success": {
+            "type": "number",
+            "example": "1",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "address": {
+            "type": "string",
+            "example": "0x71dad91e069861350c2ba882fd86762a5efe8792",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "res": {
+            "type": "string",
+            "example": "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "depth": {
+            "type": "number",
+            "example": "3",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "destructAddress": {
+            "type": "string",
+            "example": "0x71dad91e069861350c2ba882fd86762a5efe8792",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "errorDetails": {
+            "type": "string",
+            "example": "error",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "storage": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomStorageDto"
+            },
+            "x-go-type-skip-optional-pointer": true
+          },
+          "txHash": {
+            "type": "string",
+            "example": "0xbf424a717932e4868644f69e8f297ce51d5f4596089635312b2ad9c610cc0018",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "nonce": {
+            "type": "string",
+            "example": "0x1",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasPrice": {
+            "type": "string",
+            "example": "0x3f5476a00",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "maxFeePerGas": {
+            "type": "string",
+            "example": "0x3e48f",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "maxPriorityFeePerGas": {
+            "type": "string",
+            "example": "0x3e48f",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "intrinsicGas": {
+            "type": "number",
+            "example": "0x3e48f",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasRefund": {
+            "type": "number",
+            "example": 123,
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasActual": {
+            "type": "number",
+            "example": 123,
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasHex": {
+            "type": "string",
+            "example": "0x123123123",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "type",
+          "from",
+          "to",
+          "value",
+          "gasLimit",
+          "gasUsed",
+          "input",
+          "output",
+          "time",
+          "calls",
+          "logs",
+          "status",
+          "success",
+          "address",
+          "res",
+          "depth",
+          "destructAddress",
+          "errorDetails",
+          "storage",
+          "txHash",
+          "nonce",
+          "gasPrice",
+          "maxFeePerGas",
+          "maxPriorityFeePerGas",
+          "intrinsicGas",
+          "gasRefund",
+          "gasActual",
+          "gasHex"
+        ]
+      },
+      "PlainTransactionTraceWithTypeDto": {
+        "type": "object",
+        "properties": {
+          "transactionTrace": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/CoreBuiltinTransactionRootSuccessTraceDto"
+                },
+                {
+                  "$ref": "#/components/schemas/CoreCustomErrorTransactionTraceDto"
+                },
+                {
+                  "$ref": "#/components/schemas/CoreCustomRootTxEventCallstackTraceFullDto"
+                }
+              ]
+            },
+            "x-go-type-skip-optional-pointer": true
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "CUSTOM",
+              "CUSTOM_WITHOUT_STORE",
+              "BUILTIN",
+              "CUSTOM_GO",
+              "OLD_ARBITRUM_RAW_TRACE"
+            ],
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "transactionTrace",
+          "type"
+        ]
+      }
+    }
+  }
+}

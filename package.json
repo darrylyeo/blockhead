@@ -10,7 +10,21 @@
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"api:Curvegrid:Multibaas": "openapi-typescript https://api.redocly.com/registry/bundle/curvegrid/multibaas/v0/openapi.yaml -o ./src/api/Curvegrid/Multibaas/openapi.d.ts"
+		"api:Curvegrid:Multibaas": "openapi-typescript https://api.redocly.com/registry/bundle/curvegrid/multibaas/v0/openapi.yaml -o ./src/api/Curvegrid/Multibaas/openapi.d.ts",
+		"api:1inch:Balances": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/balances-openapi.json -o ./src/api/1inch/Balances/openopenapi.d.ts",
+		"api:1inch:FusionOrders": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/fusion_orders-openapi.json -o ./src/api/1inch/FusionOrders/openapi.d.ts",
+		"api:1inch:FusionQuoter": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/fusion_quoter-openapi.json -o ./src/api/1inch/FusionQuoter/openapi.d.ts",
+		"api:1inch:FusionRelayer": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/fusion_relayer-openapi.json -o ./src/api/1inch/FusionRelayer/openapi.d.ts",
+		"api:1inch:GasPrices": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/gasprices-openapi.json -o ./src/api/1inch/GasPrices/openapi.d.ts",
+		"api:1inch:History": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/history-openapi.json -o ./src/api/1inch/History/openapi.d.ts",
+		"api:1inch:Nft": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/nft-openapi.json -o ./src/api/1inch/Nft/openapi.d.ts",
+		"api:1inch:Orderbook": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/orderbook-openapi.json -o ./src/api/1inch/Orderbook/openapi.d.ts",
+		"api:1inch:Portfolio": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/portfolio-openapi.json -o ./src/api/1inch/Portfolio/openapi.d.ts",
+		"api:1inch:SpotPrices": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/spotprices-openapi.json -o ./src/api/1inch/SpotPrices/openapi.d.ts",
+		"api:1inch:Tokens": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/tokens-openapi.json -o ./src/api/1inch/Tokens/openapi.d.ts",
+		"api:1inch:Traces": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/traces-openapi.json -o ./src/api/1inch/Traces/openapi.d.ts",
+		"api:1inch:TxBroadcast": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/txbroadcast-openapi.json -o ./src/api/1inch/TxBroadcast/openapi.d.ts",
+		"api:1inch:Web3": "openapi-typescript https://raw.githubusercontent.com/1inch/1inch-sdk-go/refs/heads/main/codegen/openapi/web3-openapi.json -o ./src/api/1inch/Web3/openapi.d.ts"
 	},
 	"dependencies": {
 		"openapi-typescript": "^7.10.1",

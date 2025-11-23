@@ -1,0 +1,708 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Portfolio API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/portfolio/v4/overview/protocols/current_value": {
+      "get": {
+        "tags": [
+          "portfolio"
+        ],
+        "summary": "Protocols current value",
+        "description": "Returns the current value for all supported protocols. Data is grouped by chains and addresses.",
+        "operationId": "get_current_value_portfolio_v4_overview_protocols_current_value_get",
+        "parameters": [
+          {
+            "name": "addresses",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 42,
+                "maxLength": 42
+              },
+              "description": "Addresses",
+              "title": "Addresses",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Addresses"
+          },
+          {
+            "name": "chain_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Chain id or nothing",
+              "title": "Chain Id",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Chain id or nothing"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolio/v4/overview/protocols/profit_and_loss": {
+      "get": {
+        "tags": [
+          "portfolio"
+        ],
+        "summary": "Protocols profit and loss",
+        "description": "Returns the PnL (Profit and Loss) and ROI (Return on Investment), aggregated across all supported protocols. Data is organized by chains.",
+        "operationId": "get_profit_and_loss_portfolio_v4_overview_protocols_profit_and_loss_get",
+        "parameters": [
+          {
+            "name": "addresses",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 42,
+                "maxLength": 42
+              },
+              "description": "Addresses",
+              "title": "Addresses",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Addresses"
+          },
+          {
+            "name": "chain_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Chain id or nothing",
+              "title": "Chain Id",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Chain id or nothing"
+          },
+          {
+            "name": "timerange",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/TimeRange"
+            },
+            "description": "Timerange"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolio/v4/overview/protocols/details": {
+      "get": {
+        "tags": [
+          "portfolio"
+        ],
+        "summary": "Protocols details",
+        "description": "Provides general information for each protocol's statistics (underlying tokens, current_value, etc.) and protocol-specific metrics (ROI, APR, unclaimed_fees, claimed_fees, etc.). It may include closed positions.",
+        "operationId": "get_details_portfolio_v4_overview_protocols_details_get",
+        "parameters": [
+          {
+            "name": "addresses",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 42,
+                "maxLength": 42
+              },
+              "description": "Addresses",
+              "title": "Addresses",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Addresses"
+          },
+          {
+            "name": "chain_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Chain id or nothing",
+              "title": "Chain Id",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Chain id or nothing"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolio/v4/overview/erc20/current_value": {
+      "get": {
+        "tags": [
+          "portfolio"
+        ],
+        "summary": "Tokens current value",
+        "description": "Returns the current value for supported tokens. Data is grouped by chains and addresses.",
+        "operationId": "get_current_value_portfolio_v4_overview_erc20_current_value_get",
+        "parameters": [
+          {
+            "name": "addresses",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 42,
+                "maxLength": 42
+              },
+              "description": "Addresses",
+              "title": "Addresses",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Addresses"
+          },
+          {
+            "name": "chain_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Chain id or nothing",
+              "title": "Chain Id",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Chain id or nothing"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolio/v4/overview/erc20/profit_and_loss": {
+      "get": {
+        "tags": [
+          "portfolio"
+        ],
+        "summary": "Tokens profit and loss",
+        "description": "Returns the PnL (Profit and Loss) and ROI (Return on Investment), aggregated across all supported tokens. Data is organized by chains.",
+        "operationId": "get_profit_and_loss_portfolio_v4_overview_erc20_profit_and_loss_get",
+        "parameters": [
+          {
+            "name": "addresses",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 42,
+                "maxLength": 42
+              },
+              "description": "Addresses",
+              "title": "Addresses",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Addresses"
+          },
+          {
+            "name": "chain_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Chain id or nothing",
+              "title": "Chain Id",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Chain id or nothing"
+          },
+          {
+            "name": "timerange",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/TimeRange"
+            },
+            "description": "Timerange"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolio/v4/overview/erc20/details": {
+      "get": {
+        "tags": [
+          "portfolio"
+        ],
+        "summary": "Tokens details",
+        "description": "Provides general information for each token's statistics, including ROI (Return on Investment) and PnL (Profit and Loss). It may include closed positions.",
+        "operationId": "get_details_portfolio_v4_overview_erc20_details_get",
+        "parameters": [
+          {
+            "name": "addresses",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 42,
+                "maxLength": 42
+              },
+              "description": "Addresses",
+              "title": "Addresses",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Addresses"
+          },
+          {
+            "name": "chain_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Chain id or nothing",
+              "title": "Chain Id",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Chain id or nothing"
+          },
+          {
+            "name": "timerange",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/TimeRange"
+            },
+            "description": "Timerange"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolio/v4/general/is_available": {
+      "get": {
+        "tags": [
+          "portfolio"
+        ],
+        "summary": "Is available",
+        "description": "Check if the service is available.",
+        "operationId": "get_is_available_portfolio_v4_general_is_available_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolio/v4/general/supported_chains": {
+      "get": {
+        "tags": [
+          "portfolio"
+        ],
+        "summary": "Supported chains",
+        "description": "Returns list of supported chains.",
+        "operationId": "get_supported_chains_portfolio_v4_general_supported_chains_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolio/v4/general/current_value": {
+      "get": {
+        "tags": [
+          "portfolio"
+        ],
+        "summary": "General current value",
+        "description": "Returns the current value for all supported protocols and tokens. Data is grouped by chains and addresses.",
+        "operationId": "get_current_value_portfolio_v4_general_current_value_get",
+        "parameters": [
+          {
+            "name": "addresses",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 42,
+                "maxLength": 42
+              },
+              "description": "Addresses",
+              "title": "Addresses",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Addresses"
+          },
+          {
+            "name": "chain_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Chain id or nothing",
+              "title": "Chain Id",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Chain id or nothing"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolio/v4/general/profit_and_loss": {
+      "get": {
+        "tags": [
+          "portfolio"
+        ],
+        "summary": "General profit and loss",
+        "description": "Returns the PnL (Profit and Loss) and ROI (Return on Investment), aggregated across all supported protocols and tokens. Data is organized by chains.",
+        "operationId": "get_profit_and_loss_portfolio_v4_general_profit_and_loss_get",
+        "parameters": [
+          {
+            "name": "addresses",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 42,
+                "maxLength": 42
+              },
+              "description": "Addresses",
+              "title": "Addresses",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Addresses"
+          },
+          {
+            "name": "chain_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Chain id or nothing",
+              "title": "Chain Id",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Chain id or nothing"
+          },
+          {
+            "name": "timerange",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/TimeRange"
+            },
+            "description": "Timerange"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolio/v4/general/value_chart": {
+      "get": {
+        "tags": [
+          "portfolio"
+        ],
+        "summary": "General value chart",
+        "description": "Returns value chart for all supported protocols and tokens.",
+        "operationId": "get_value_chart_portfolio_v4_general_value_chart_get",
+        "parameters": [
+          {
+            "name": "addresses",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 42,
+                "maxLength": 42
+              },
+              "description": "Addresses",
+              "title": "Addresses",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Addresses"
+          },
+          {
+            "name": "chain_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Chain id or nothing",
+              "title": "Chain Id",
+              "x-go-type-skip-optional-pointer": true
+            },
+            "description": "Chain id or nothing"
+          },
+          {
+            "name": "timerange",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/TimeRange"
+            },
+            "description": "Timerange"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "TimeRange": {
+        "type": "string",
+        "enum": [
+          "1day",
+          "1week",
+          "1month",
+          "1year",
+          "3years"
+        ],
+        "title": "TimeRange"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

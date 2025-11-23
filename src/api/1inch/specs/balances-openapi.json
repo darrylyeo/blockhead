@@ -1,0 +1,583 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1.2/1/aggregatedBalancesAndAllowances/{spender}": {
+      "get": {
+        "operationId": "getAggregatedBalancesAndAllowances",
+        "summary": "Get balances and allowances by spender for list of wallets addresses",
+        "parameters": [
+          {
+            "name": "spender",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "wallets",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "filterEmpty",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Aggregated balances and allowances by tokens",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AggregatedBalancesAndAllowancesResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Balances Endpoints"
+        ]
+      }
+    },
+    "/v1.2/1/balances/{walletAddress}": {
+      "get": {
+        "operationId": "ChainV1_2Controller_getBalances",
+        "summary": "Get balances of tokens for walletAddress",
+        "parameters": [
+          {
+            "name": "walletAddress",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get address balances",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "example": {
+                    "0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd": "0",
+                    "0x04fa0d235c4abf4bcf4787af4cf447de572ef828": "0"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided input data is invalid"
+          }
+        },
+        "tags": [
+          "Balances Endpoints"
+        ]
+      },
+      "post": {
+        "operationId": "ChainV1_2Controller_getCustomBalances",
+        "summary": "Get balances of custom tokens for walletAddress",
+        "description": "Takes wallet address and provided tokens and provides balance of each token",
+        "parameters": [
+          {
+            "name": "walletAddress",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomTokensRequest",
+                "x-go-type-skip-optional-pointer": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Get address balances by provided tokens",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "example": {
+                    "0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd": "0",
+                    "0x04fa0d235c4abf4bcf4787af4cf447de572ef828": "0"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided input data is invalid"
+          }
+        },
+        "tags": [
+          "Balances Endpoints"
+        ]
+      }
+    },
+    "/v1.2/1/balances/multiple/walletsAndTokens": {
+      "post": {
+        "operationId": "ChainV1_2Controller_getBalancesByMultipleWallets",
+        "summary": "Get balances of custom tokens for list of wallets addresses",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomTokensAndWalletsRequest",
+                "x-go-type-skip-optional-pointer": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Get address balances by provided tokens",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "example": {
+                      "0xdac17f958d2ee523a2206206994597c13d831ec7": "0",
+                      "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee": "245195401939103866"
+                    }
+                  },
+                  "example": {
+                    "0x7A1294A7fc85635B79BCd1C45089A0ddde05C7C9": {
+                      "0xdac17f958d2ee523a2206206994597c13d831ec7": "0",
+                      "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee": "245195401939103866"
+                    },
+                    "0x39CCDb88b6EDC4465cC226b108b6335E223353BD": {
+                      "0xdac17f958d2ee523a2206206994597c13d831ec7": "0",
+                      "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee": "16511342538023646"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided input data is invalid"
+          }
+        },
+        "tags": [
+          "Balances Endpoints"
+        ]
+      }
+    },
+    "/v1.2/1/allowancesAndBalances/{spender}/{walletAddress}": {
+      "get": {
+        "operationId": "ChainV1_2Controller_getAllowancesAndBalances",
+        "summary": "Get balances and allowances of tokens by spender for walletAddress",
+        "parameters": [
+          {
+            "name": "spender",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "walletAddress",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get address balances and allowances",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "balance": {
+                        "type": "string"
+                      },
+                      "allowance": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd": {
+                      "balance": "0",
+                      "allowance": "0"
+                    },
+                    "0x04fa0d235c4abf4bcf4787af4cf447de572ef828": {
+                      "balance": "0",
+                      "allowance": "0"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided input data is invalid"
+          }
+        },
+        "tags": [
+          "Balances Endpoints"
+        ]
+      },
+      "post": {
+        "operationId": "ChainV1_2Controller_getCustomAllowancesAndBalances",
+        "summary": "Get balances and allowances of custom tokens by spender for walletAddress",
+        "parameters": [
+          {
+            "name": "spender",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "walletAddress",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomTokensRequest",
+                "x-go-type-skip-optional-pointer": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Get address balances and allowances",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "balance": {
+                        "type": "string"
+                      },
+                      "allowance": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd": {
+                      "balance": "0",
+                      "allowance": "0"
+                    },
+                    "0x04fa0d235c4abf4bcf4787af4cf447de572ef828": {
+                      "balance": "0",
+                      "allowance": "0"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided input data is invalid"
+          }
+        },
+        "tags": [
+          "Balances Endpoints"
+        ]
+      }
+    },
+    "/v1.2/1/allowances/{spender}/{walletAddress}": {
+      "get": {
+        "operationId": "ChainV1_2Controller_getAllowances",
+        "summary": "Get allowances of tokens by spender for walletAddress",
+        "parameters": [
+          {
+            "name": "spender",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "walletAddress",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get address balances",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "example": {
+                    "0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd": "0",
+                    "0x04fa0d235c4abf4bcf4787af4cf447de572ef828": "0"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Balances Endpoints"
+        ]
+      },
+      "post": {
+        "operationId": "ChainV1_2Controller_getCustomAllowances",
+        "summary": "Get allowances of custom tokens by spender for walletAddress",
+        "parameters": [
+          {
+            "name": "spender",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "walletAddress",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomTokensRequest",
+                "x-go-type-skip-optional-pointer": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Get address balances",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "example": {
+                    "0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd": "0",
+                    "0x04fa0d235c4abf4bcf4787af4cf447de572ef828": "0"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Balances Endpoints"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "1inch Balance API",
+    "description": "<h2>Ethereum Network</h2>",
+    "version": "1.2",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "AggregatedBalancesAndAllowancesResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "decimals": {
+              "type": "integer",
+              "description": "Number of decimal places for the token"
+            },
+            "symbol": {
+              "type": "string",
+              "description": "Symbol of the token"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Additional tags for the token"
+            },
+            "address": {
+              "type": "string",
+              "format": "address",
+              "description": "Token contract address"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the token"
+            },
+            "logoURI": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to the token logo image"
+            },
+            "isCustom": {
+              "type": "boolean",
+              "description": "Indicates if the token is custom or not"
+            },
+            "wallets": {
+              "type": "object",
+              "description": "Token balances and allowances for specific wallets",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "balance": {
+                    "type": "string",
+                    "description": "Balance of the token for the wallet"
+                  },
+                  "allowance": {
+                    "type": "string",
+                    "description": "Allowance of the token for the wallet"
+                  }
+                }
+              }
+            },
+            "type": {
+              "type": "string",
+              "description": "Type of token (e.g., 'ethereum', 'token')"
+            },
+            "tracked": {
+              "type": "boolean",
+              "description": "Indicates if the token is tracked or not"
+            }
+          }
+        }
+      },
+      "CustomTokensRequest": {
+        "type": "object",
+        "properties": {
+          "tokens": {
+            "description": "List of custom tokens",
+            "example": [
+              "0xdac17f958d2ee523a2206206994597c13d831ec7"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "tokens"
+        ]
+      },
+      "CustomTokensAndWalletsRequest": {
+        "type": "object",
+        "properties": {
+          "tokens": {
+            "description": "List of custom tokens",
+            "example": [
+              "0xdac17f958d2ee523a2206206994597c13d831ec7"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-go-type-skip-optional-pointer": true
+          },
+          "wallets": {
+            "description": "List of wallets",
+            "example": [
+              "0x7A1284A7fc85635B79BCd1C45089A0ddde05C7C0"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "tokens",
+          "wallets"
+        ]
+      }
+    }
+  }
+}

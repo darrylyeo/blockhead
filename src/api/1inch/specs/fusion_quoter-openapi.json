@@ -1,0 +1,518 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v2.0/1/quote/receive": {
+      "get": {
+        "operationId": "QuoterController_getQuote",
+        "summary": "Get quote details based on input data",
+        "parameters": [
+          {
+            "name": "fromTokenAddress",
+            "required": true,
+            "in": "query",
+            "description": "Address of \"FROM\" token",
+            "example": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "toTokenAddress",
+            "required": true,
+            "in": "query",
+            "description": "Address of \"TO\" token",
+            "example": "0x6b175474e89094c44da98b954eedeac495271d0f",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "required": true,
+            "in": "query",
+            "description": "Amount to take from \"FROM\" token to get \"TO\" token",
+            "example": "100000",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "walletAddress",
+            "required": true,
+            "in": "query",
+            "description": "An address of the wallet or contract who will create Fusion order",
+            "example": "0x0000000000000000000000000000000000000000",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "enableEstimate",
+            "required": true,
+            "in": "query",
+            "description": "if enabled then get estimation from 1inch swap builder and generates quoteId, by default is false",
+            "example": "false",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "fee",
+            "required": false,
+            "in": "query",
+            "description": "fee in bps format, 1% is equal to 100bps",
+            "example": "100",
+            "schema": {
+              "type": "number",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "isPermit2",
+            "required": false,
+            "in": "query",
+            "description": "permit2 allowance transfer encoded call",
+            "example": "0x",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "isLedgerLive",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "permit",
+            "required": false,
+            "in": "query",
+            "description": "permit, user approval sign",
+            "example": "0x",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns presets with slippage and quoteId"
+          },
+          "400": {
+            "description": "Input data is invalid"
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQuoteOutput"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "QuoterController_getQuoteWithCustomPresets",
+        "summary": "Get quote with custom preset details",
+        "parameters": [
+          {
+            "name": "fromTokenAddress",
+            "required": true,
+            "in": "query",
+            "description": "Address of \"FROM\" token",
+            "example": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "toTokenAddress",
+            "required": true,
+            "in": "query",
+            "description": "Address of \"TO\" token",
+            "example": "0x6b175474e89094c44da98b954eedeac495271d0f",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "required": true,
+            "in": "query",
+            "description": "Amount to take from \"FROM\" token to get \"TO\" token",
+            "example": "100000",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "walletAddress",
+            "required": true,
+            "in": "query",
+            "description": "An address of the wallet or contract who will create Fusion order",
+            "example": "0x0000000000000000000000000000000000000000",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "enableEstimate",
+            "required": true,
+            "in": "query",
+            "description": "if enabled then get estimation from 1inch swap builder and generates quoteId, by default is false",
+            "example": "false",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "fee",
+            "required": false,
+            "in": "query",
+            "description": "fee in bps format, 1% is equal to 100bps",
+            "example": "100",
+            "schema": {
+              "type": "number",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "isPermit2",
+            "required": false,
+            "in": "query",
+            "description": "permit2 allowance transfer encoded call",
+            "example": "0x",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          },
+          {
+            "name": "permit",
+            "required": false,
+            "in": "query",
+            "description": "permit, user approval sign",
+            "example": "0x",
+            "schema": {
+              "type": "string",
+              "x-go-type-skip-optional-pointer": true
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomPresetInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns slippage, quoteId and presets with custom preset details as well"
+          },
+          "400": {
+            "description": "Input data is invalid"
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQuoteOutput"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "1inch Fusion API",
+    "description": "<h2>Ethereum Network</h2>1inch Fusion Open API",
+    "version": "2.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "/quoter"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "AuctionPointClass": {
+        "type": "object",
+        "properties": {
+          "delay": {
+            "type": "number",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "coefficient": {
+            "type": "number",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "delay",
+          "coefficient"
+        ]
+      },
+      "GasCostConfigClass": {
+        "type": "object",
+        "properties": {
+          "gasBumpEstimate": {
+            "type": "number",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasPriceEstimate": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "gasBumpEstimate",
+          "gasPriceEstimate"
+        ]
+      },
+      "PresetClass": {
+        "type": "object",
+        "properties": {
+          "bankFee": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "auctionDuration": {
+            "type": "number",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "startAuctionIn": {
+            "type": "number",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "initialRateBump": {
+            "type": "number",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "auctionStartAmount": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "auctionEndAmount": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "exclusiveResolver": {
+            "type": "object",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "tokenFee": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "estP": {
+            "type": "number",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuctionPointClass"
+            },
+            "x-go-type-skip-optional-pointer": true
+          },
+          "allowPartialFills": {
+            "type": "boolean",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "allowMultipleFills": {
+            "type": "boolean",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "gasCost": {
+            "$ref": "#/components/schemas/GasCostConfigClass"
+          }
+        },
+        "required": [
+          "bankFee",
+          "auctionDuration",
+          "startAuctionIn",
+          "initialRateBump",
+          "auctionStartAmount",
+          "auctionEndAmount",
+          "exclusiveResolver",
+          "tokenFee",
+          "estP",
+          "points",
+          "allowPartialFills",
+          "allowMultipleFills",
+          "gasCost"
+        ]
+      },
+      "QuotePresetsClass": {
+        "type": "object",
+        "properties": {
+          "fast": {
+            "$ref": "#/components/schemas/PresetClass"
+          },
+          "medium": {
+            "$ref": "#/components/schemas/PresetClass"
+          },
+          "slow": {
+            "$ref": "#/components/schemas/PresetClass"
+          },
+          "custom": {
+            "$ref": "#/components/schemas/PresetClass"
+          }
+        },
+        "required": [
+          "fast",
+          "medium",
+          "slow"
+        ]
+      },
+      "PairCurrencyValue": {
+        "type": "object",
+        "properties": {
+          "fromToken": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "toToken": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "fromToken",
+          "toToken"
+        ]
+      },
+      "TokenPairValue": {
+        "type": "object",
+        "properties": {
+          "usd": {
+            "$ref": "#/components/schemas/PairCurrencyValue"
+          }
+        },
+        "required": [
+          "usd"
+        ]
+      },
+      "GetQuoteOutput": {
+        "type": "object",
+        "properties": {
+          "quoteId": {
+            "type": "object",
+            "description": "Current generated quote id, should be passed with order",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "fromTokenAmount": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "toTokenAmount": {
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "feeToken": {
+            "type": "string",
+            "description": "Destination token address",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "presets": {
+            "$ref": "#/components/schemas/QuotePresetsClass"
+          },
+          "settlementAddress": {
+            "type": "string",
+            "description": "settlement contract address",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "whitelist": {
+            "description": "current executors whitelist addresses",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-go-type-skip-optional-pointer": true
+          },
+          "recommended_preset": {
+            "type": "string",
+            "description": "suggested to use this preset",
+            "enum": [
+              "fast",
+              "medium",
+              "slow",
+              "custom"
+            ],
+            "x-go-type-skip-optional-pointer": true
+          },
+          "suggested": {
+            "type": "boolean",
+            "description": "is it suggested to use Fusion",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "prices": {
+            "$ref": "#/components/schemas/TokenPairValue"
+          },
+          "volume": {
+            "$ref": "#/components/schemas/TokenPairValue"
+          }
+        },
+        "required": [
+          "quoteId",
+          "fromTokenAmount",
+          "toTokenAmount",
+          "feeToken",
+          "presets",
+          "settlementAddress",
+          "whitelist",
+          "recommended_preset",
+          "suggested",
+          "prices",
+          "volume"
+        ]
+      },
+      "CustomPresetInput": {
+        "type": "object",
+        "properties": {
+          "auctionDuration": {
+            "type": "number",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "auctionStartAmount": {
+            "format": "int64",
+            "type": "integer",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "auctionEndAmount": {
+            "format": "int64",
+            "type": "integer",
+            "x-go-type-skip-optional-pointer": true
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-go-type-skip-optional-pointer": true
+          }
+        },
+        "required": [
+          "auctionDuration",
+          "auctionStartAmount",
+          "auctionEndAmount"
+        ]
+      }
+    }
+  }
+}
