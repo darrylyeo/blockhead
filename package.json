@@ -15,7 +15,8 @@
 	"dependencies": {
 		"openapi-typescript": "^7.10.1",
 		"openapi-typescript-fetch": "^2.2.1",
-		"runed": "^0.36.0"
+		"runed": "^0.36.0",
+		"viem": "^2.39.3"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^7.0.0",
