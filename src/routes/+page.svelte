@@ -346,7 +346,7 @@
 			<p><strong>Blockhead</strong> • created by <a href="https://darryl-yeo.com/blockhead">Darryl Yeo</a> • 2020 – 2025</p>
 			<p><small><a href="https://warpcast.com/~/channel/blockhead" target="_blank">Farcaster</a> • <a href="https://twitter.com/0xBlockhead" target="_blank">Twitter</a></small></p>
 			<br>
-			<p><small>Donate: <a href="/explorer/ethereum/blockhead.eth" target="_blank"><output>blockhead.eth</output></a></small></p>
+			<!-- <p><small>Donate: <a href="/explorer/ethereum/" target="_blank"><output></output></a></small></p> -->
 			<!-- <img src="/Blockhead-Logo.svg" alt="Blockhead Logo" width="40" /> -->
 		</footer>
 
